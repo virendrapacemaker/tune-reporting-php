@@ -1,0 +1,61 @@
+\hypertarget{classTune_1_1TuneAutoloader}{\section{Tune\textbackslash{}Tune\-Autoloader Class Reference}
+\label{classTune_1_1TuneAutoloader}\index{Tune\textbackslash{}\-Tune\-Autoloader@{Tune\textbackslash{}\-Tune\-Autoloader}}
+}
+
+
+\hyperlink{namespaceTune}{Tune} S\-D\-K Autoloader Class.  
+
+
+
+
+Collaboration diagram for Tune\textbackslash{}Tune\-Autoloader\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{classTune_1_1TuneAutoloader__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1TuneAutoloader_ac5c45726c43d381e2972209924591a27}{\-\_\-\-\_\-construct} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{namespaceTune}{Tune} S\-D\-K Autoloader Class. 
+
+
+
+Definition at line 47 of file Tune\-Autoloader.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1TuneAutoloader_ac5c45726c43d381e2972209924591a27}{\index{Tune\-::\-Tune\-Autoloader@{Tune\-::\-Tune\-Autoloader}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::TuneAutoloader@{Tune\-::\-Tune\-Autoloader}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Tune\-Autoloader\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1TuneAutoloader_ac5c45726c43d381e2972209924591a27}
+
+
+Constructor. 
+
+When using spl\-\_\-autoload\-\_\-register() with class methods, it might seem that it can use only public methods, though it can use private/protected methods as well, if registered from inside the class. 
+
+Definition at line 57 of file Tune\-Autoloader.\-php.
+
+
+\begin{DoxyCode}
+58     \{
+59         spl\_autoload\_register(array($this, \textcolor{stringliteral}{'autoloadTuneSdk'}));
+60     \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\hyperlink{TuneAutoloader_8php}{Tune\-Autoloader.\-php}\end{DoxyCompactItemize}

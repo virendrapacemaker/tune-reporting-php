@@ -1,0 +1,243 @@
+\hypertarget{classTune_1_1Management_1_1Api_1_1Export}{\section{Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Export Class Reference}
+\label{classTune_1_1Management_1_1Api_1_1Export}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export@{Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Export\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Api_1_1Export__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Export\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Api_1_1Export__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Export_ae0da76d04bd273a61ee783f175a20b4c}{\-\_\-\-\_\-construct} (\$api\-\_\-key)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Export_abb9910e7ee3bdc27a6539c43df751345}{download} (\$job\-\_\-id)
+\begin{DoxyCompactList}\small\item\em Action 'download' for polling export queue for status information on request report to be exported. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Export_a74e0a671e80521e1cdc85f56c9aa7b21}{fetch} (\$job\-\_\-id, \$report\-\_\-format, \$verbose=false, \$sleep=10)
+\begin{DoxyCompactList}\small\item\em Helper function for fetching report upon completion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classTune_1_1Management_1_1Api_1_1Export_a5c7222ff46e3011908de6ad5e511ce4a}{parse\-Response\-Url} (\$response)
+\begin{DoxyCompactList}\small\item\em Helper function for parsing export status response to gather report url. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Examples\-: ]\par
+\hyperlink{ExampleClicks_8php-example}{Example\-Clicks.\-php}, \hyperlink{ExampleEventItems_8php-example}{Example\-Event\-Items.\-php}, \hyperlink{ExampleEvents_8php-example}{Example\-Events.\-php}, \hyperlink{ExampleInstalls_8php-example}{Example\-Installs.\-php}, \hyperlink{ExamplePostbackUrls_8php-example}{Example\-Postback\-Urls.\-php}, and \hyperlink{ExampleUpdates_8php-example}{Example\-Updates.\-php}.\end{Desc}
+
+
+Definition at line 51 of file Export.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Export_ae0da76d04bd273a61ee783f175a20b4c}{\index{Tune\-::\-Management\-::\-Api\-::\-Export@{Tune\-::\-Management\-::\-Api\-::\-Export}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Api::Export@{Tune\-::\-Management\-::\-Api\-::\-Export}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$api\-\_\-key}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Export_ae0da76d04bd273a61ee783f175a20b4c}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$api\-\_\-key} & Mobile\-App\-Tracking A\-P\-I Key \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file Export.\-php.
+
+
+\begin{DoxyCode}
+60       \{
+61         \textcolor{comment}{// api key}
+62         \textcolor{keywordflow}{if} (!is\_string(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key})) \{
+63             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'api\_key' is not defined."});
+64         \}
+65 
+66         parent::\_\_construct(
+67             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller} = \textcolor{stringliteral}{"export"},
+68             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key},
+69             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode} = \textcolor{keyword}{false},
+70             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id} = \textcolor{keyword}{false}
+71         );
+72     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Export_abb9910e7ee3bdc27a6539c43df751345}{\index{Tune\-::\-Management\-::\-Api\-::\-Export@{Tune\-::\-Management\-::\-Api\-::\-Export}!download@{download}}
+\index{download@{download}!Tune::Management::Api::Export@{Tune\-::\-Management\-::\-Api\-::\-Export}}
+\subsubsection[{download}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export\-::download (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Export_abb9910e7ee3bdc27a6539c43df751345}
+
+
+Action 'download' for polling export queue for status information on request report to be exported. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$job\-\_\-id} & Job identifier assigned for report export.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+object 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Invalid\-Argument\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 82 of file Export.\-php.
+
+
+\begin{DoxyCode}
+84       \{
+85         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
+86             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+87         \}
+88 
+89         \textcolor{keywordflow}{return} parent::call(
+90             $action = \textcolor{stringliteral}{"download"},
+91             $query\_string\_dict = array (
+92                 \textcolor{stringliteral}{'job\_id'} => $job\_id
+93             )
+94         );
+95     \}
+\end{DoxyCode}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Export_a74e0a671e80521e1cdc85f56c9aa7b21}{\index{Tune\-::\-Management\-::\-Api\-::\-Export@{Tune\-::\-Management\-::\-Api\-::\-Export}!fetch@{fetch}}
+\index{fetch@{fetch}!Tune::Management::Api::Export@{Tune\-::\-Management\-::\-Api\-::\-Export}}
+\subsubsection[{fetch}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export\-::fetch (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\-\_\-id, }
+\item[{}]{\$report\-\_\-format, }
+\item[{}]{\$verbose = {\ttfamily false}, }
+\item[{}]{\$sleep = {\ttfamily 10}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Export_a74e0a671e80521e1cdc85f56c9aa7b21}
+
+
+Helper function for fetching report upon completion. 
+
+Starts worker thread for polling export queue.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$job\-\_\-id} & Job identifier assigned for report export. \\
+\hline
+string & {\em \$report\-\_\-format} & Report export content format expectation\-: csv, json \\
+\hline
+bool & {\em \$verbose} & For debug purposes to monitor job export completion status. \\
+\hline
+int & {\em \$sleep} & Polling delay for checking job completion status.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+null 
+\end{DoxyReturn}
+
+
+Definition at line 108 of file Export.\-php.
+
+
+\begin{DoxyCode}
+113       \{
+114         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
+115             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+116         \}
+117 
+118         \textcolor{keywordflow}{return} parent::fetchRecords(
+119             $mod\_export\_class       = \_\_CLASS\_\_,
+120             $mod\_export\_function    = \textcolor{stringliteral}{"download"},
+121             $job\_id,
+122             $report\_format,
+123             $verbose,
+124             $sleep
+125         );
+126     \}
+\end{DoxyCode}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Export_a5c7222ff46e3011908de6ad5e511ce4a}{\index{Tune\-::\-Management\-::\-Api\-::\-Export@{Tune\-::\-Management\-::\-Api\-::\-Export}!parse\-Response\-Url@{parse\-Response\-Url}}
+\index{parse\-Response\-Url@{parse\-Response\-Url}!Tune::Management::Api::Export@{Tune\-::\-Management\-::\-Api\-::\-Export}}
+\subsubsection[{parse\-Response\-Url}]{\setlength{\rightskip}{0pt plus 5cm}static Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Export\-::parse\-Response\-Url (
+\begin{DoxyParamCaption}
+\item[{}]{\$response}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classTune_1_1Management_1_1Api_1_1Export_a5c7222ff46e3011908de6ad5e511ce4a}
+
+
+Helper function for parsing export status response to gather report url. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$response} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+mixed 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Invalid\-Argument\-Exception} & \\
+\hline
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Service\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 137 of file Export.\-php.
+
+
+\begin{DoxyCode}
+139       \{
+140         \textcolor{keywordflow}{if} (is\_null($response)) \{
+141             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'response' is not defined."});
+142         \}
+143         \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
+144             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Report request failed to get export data."});
+145         \}
+146         \textcolor{keywordflow}{if} (!array\_key\_exists(\textcolor{stringliteral}{"data"}, $response->getData())) \{
+147             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Export response does not contain 'data'."});
+148         \}
+149         \textcolor{keywordflow}{if} (is\_null($response->getData()[\textcolor{stringliteral}{"data"}])) \{
+150             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Export data response does not contain 'data'."});
+151         \}
+152         \textcolor{keywordflow}{if} (!array\_key\_exists(\textcolor{stringliteral}{"url"}, $response->getData()[\textcolor{stringliteral}{"data"}])) \{
+153             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Export response 'data' does not contain 'url'."});
+154         \}
+155 
+156         $report\_url = $response->getData()[\textcolor{stringliteral}{"data"}][\textcolor{stringliteral}{"url"}];
+157 
+158         \textcolor{keywordflow}{return} $report\_url;
+159     \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Api/\hyperlink{Export_8php}{Export.\-php}\end{DoxyCompactItemize}

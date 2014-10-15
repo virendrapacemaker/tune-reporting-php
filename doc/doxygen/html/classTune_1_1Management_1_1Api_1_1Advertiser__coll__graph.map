@@ -1,0 +1,3 @@
+<map id="Tune\Management\Api\Advertiser" name="Tune\Management\Api\Advertiser">
+<area shape="rect" id="node2" href="$classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html" title="{Tune\\Management\\Endpoints\l\\TuneManagementBase\n|# $controller\l# $api_key\l# $fields\l# $validate\l# $model_name\l|+ __construct()\l+ getController()\l+ getApiKey()\l+ define()\l+ getFields()\l+ getModelName()\l+ validateFields()\l+ validateGroup()\l+ validateSort()\l+ validateFilter()\l+ toString()\l+ validateDateTime()\l# call()\l}" alt="" coords="5,238,195,698"/>
+</map>

@@ -1,0 +1,422 @@
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase}{\section{Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Base Class Reference}
+\label{classTune_1_1Management_1_1Reports_1_1ReportsBase}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base@{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Reports_1_1ReportsBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a09c4290191dba390e46ba730ce564cee}{\-\_\-\-\_\-construct} (\$controller, \$api\-\_\-key, \$filter\-\_\-debug\-\_\-mode, \$filter\-\_\-test\-\_\-profile\-\_\-id, \$validate=false)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a5cebfc222eef4019fcf3a428de5adcfe}{parse\-Report\-Status} (\$report\-\_\-url, \$report\-\_\-format)
+\begin{DoxyCompactList}\small\item\em Helper function for fetching report document given provided job identifier. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_aecd8c7a22f4740abab9bd0feabc15387}{call\-Records} (\$action, \$query\-\_\-string\-\_\-dict)
+\begin{DoxyCompactList}\small\item\em Prepare action with provided query string parameters, then call \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I service. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_ac6c3a238e99b0dfb88a83fc70924493b}{fetch\-Records} (\$mod\-\_\-export\-\_\-class, \$mod\-\_\-export\-\_\-function, \$job\-\_\-id, \$report\-\_\-format, \$verbose=false, \$sleep=60)
+\begin{DoxyCompactList}\small\item\em Helper function for fetching report document given provided job identifier. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{\$filter\-\_\-debug\-\_\-mode} = false
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{\$filter\-\_\-test\-\_\-profile\-\_\-id} = false
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 49 of file Reports\-Base.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_a09c4290191dba390e46ba730ce564cee}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$controller, }
+\item[{}]{\$api\-\_\-key, }
+\item[{}]{\$filter\-\_\-debug\-\_\-mode, }
+\item[{}]{\$filter\-\_\-test\-\_\-profile\-\_\-id, }
+\item[{}]{\$validate = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_a09c4290191dba390e46ba730ce564cee}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$controller} & \hyperlink{namespaceTune}{Tune} \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I endpoint name. \\
+\hline
+string & {\em \$api\-\_\-key} & Mobile\-App\-Tracking A\-P\-I Key. \\
+\hline
+bool & {\em \$filter\-\_\-debug\-\_\-mode} & Remove debug mode information from results. \\
+\hline
+bool & {\em \$filter\-\_\-test\-\_\-profile\-\_\-id} & Remove test profile information from results. \\
+\hline
+bool & {\em \$validate} & Validate fields used by actions' parameters. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file Reports\-Base.\-php.
+
+
+\begin{DoxyCode}
+77       \{
+78         \textcolor{comment}{// controller}
+79         \textcolor{keywordflow}{if} (!is\_string(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller})) \{
+80             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'controller' is not defined."});
+81         \}
+82         \textcolor{comment}{// api\_key}
+83         \textcolor{keywordflow}{if} (!is\_string(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key})) \{
+84             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'api\_key' is not defined."});
+85         \}
+86         \textcolor{comment}{// filter\_debug\_mode}
+87         \textcolor{keywordflow}{if} (!is\_bool(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate})) \{
+88             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'validate' is not defined as a bool."});
+89         \}
+90         \textcolor{comment}{// filter\_debug\_mode}
+91         \textcolor{keywordflow}{if} (!is\_bool(\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode})) \{
+92             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'filter\_debug\_mode' is not defined as a bool."});
+93         \}
+94         \textcolor{comment}{// filter\_test\_profile\_id}
+95         \textcolor{keywordflow}{if} (!is\_bool(\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id})) \{
+96             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'filter\_test\_profile\_id' is not defined as a
+       bool."});
+97         \}
+98 
+99         $this->filter\_debug\_mode = \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode};
+100         $this->filter\_test\_profile\_id = \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id};
+101 
+102         parent::\_\_construct(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller}, \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key}, \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate});
+103     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_aecd8c7a22f4740abab9bd0feabc15387}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!call\-Records@{call\-Records}}
+\index{call\-Records@{call\-Records}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{call\-Records}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::call\-Records (
+\begin{DoxyParamCaption}
+\item[{}]{\$action, }
+\item[{}]{\$query\-\_\-string\-\_\-dict}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_aecd8c7a22f4740abab9bd0feabc15387}
+
+
+Prepare action with provided query string parameters, then call \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I service. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$action} & Endpoint action to be called. \\
+\hline
+dict & {\em \$query\-\_\-string\-\_\-dict} & Query string parameters for this action.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Invalid\-Argument\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 114 of file Reports\-Base.\-php.
+
+
+\begin{DoxyCode}
+117       \{
+118         \textcolor{comment}{// action}
+119         \textcolor{keywordflow}{if} (!is\_string($action) || empty($action)) \{
+120             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'action' is not defined."});
+121         \}
+122         \textcolor{keywordflow}{if} (is\_null($query\_string\_dict) && !is\_array($query\_string\_dict)) \{
+123             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'query\_string\_dict' is not defined as
+       associative array."});
+124         \}
+125 
+126         $sdk\_filter = null;
+127 
+128         \textcolor{keywordflow}{if} ($this->filter\_debug\_mode or $this->filter\_test\_profile\_id) \{
+129             $sdk\_filter = null;
+130             \textcolor{keywordflow}{if} ($this->filter\_debug\_mode) \{
+131                 $sdk\_filter = \textcolor{stringliteral}{"(debug\_mode=0 OR debug\_mode is NULL)"};
+132             \}
+133 
+134             \textcolor{keywordflow}{if} ($this->filter\_test\_profile\_id) \{
+135                 \textcolor{keywordflow}{if} (!is\_null($sdk\_filter) && is\_string($sdk\_filter) && !empty($sdk\_filter)) \{
+136                     $sdk\_filter .= \textcolor{stringliteral}{" AND "};
+137                 \}
+138 
+139                 $sdk\_filter = \textcolor{stringliteral}{"(test\_profile\_id=0 OR test\_profile\_id IS NULL)"};
+140             \}
+141         \}
+142 
+143         \textcolor{keywordflow}{if} (!is\_null($sdk\_filter) && is\_string($sdk\_filter) && !empty($sdk\_filter)) \{
+144             \textcolor{keywordflow}{if} (array\_key\_exists(\textcolor{stringliteral}{'filter'}, $query\_string\_dict)) \{
+145                 \textcolor{keywordflow}{if} (!is\_null($query\_string\_dict[\textcolor{stringliteral}{'filter'}])
+146                     && is\_string($query\_string\_dict[\textcolor{stringliteral}{'filter'}])
+147                     && !empty($query\_string\_dict[\textcolor{stringliteral}{'filter'}])) \{
+148                     $query\_string\_dict[\textcolor{stringliteral}{'filter'}] = \textcolor{stringliteral}{"("} . $query\_string\_dict[\textcolor{stringliteral}{'filter'}] . \textcolor{stringliteral}{") AND "} . 
+      $sdk\_filter;
+149                 \} \textcolor{keywordflow}{else} \{
+150                     $query\_string\_dict[\textcolor{stringliteral}{'filter'}] = $sdk\_filter;
+151                 \}
+152             \} \textcolor{keywordflow}{else} \{
+153                 $query\_string\_dict[\textcolor{stringliteral}{'filter'}] = $sdk\_filter;
+154             \}
+155         \}
+156 
+157         \textcolor{keywordflow}{if} (array\_key\_exists(\textcolor{stringliteral}{'filter'}, $query\_string\_dict)) \{
+158             \textcolor{keywordflow}{if} (!is\_null($query\_string\_dict[\textcolor{stringliteral}{'filter'}])
+159                 && is\_string($query\_string\_dict[\textcolor{stringliteral}{'filter'}])
+160                 && !empty($query\_string\_dict[\textcolor{stringliteral}{'filter'}])) \{
+161                 $query\_string\_dict[\textcolor{stringliteral}{'filter'}] = \textcolor{stringliteral}{"("} . $query\_string\_dict[\textcolor{stringliteral}{'filter'}] . \textcolor{stringliteral}{")"};
+162             \}
+163         \}
+164 
+165         \textcolor{keywordflow}{return} parent::call($action, $query\_string\_dict);
+166     \}
+\end{DoxyCode}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_ac6c3a238e99b0dfb88a83fc70924493b}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!fetch\-Records@{fetch\-Records}}
+\index{fetch\-Records@{fetch\-Records}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{fetch\-Records}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::fetch\-Records (
+\begin{DoxyParamCaption}
+\item[{}]{\$mod\-\_\-export\-\_\-class, }
+\item[{}]{\$mod\-\_\-export\-\_\-function, }
+\item[{}]{\$job\-\_\-id, }
+\item[{}]{\$report\-\_\-format, }
+\item[{}]{\$verbose = {\ttfamily false}, }
+\item[{}]{\$sleep = {\ttfamily 60}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_ac6c3a238e99b0dfb88a83fc70924493b}
+
+
+Helper function for fetching report document given provided job identifier. 
+
+Requesting for report url is not the same for all report endpoints.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$mod\-\_\-export\-\_\-class} & Report class. \\
+\hline
+string & {\em \$mod\-\_\-export\-\_\-function} & Report function performing status request. \\
+\hline
+string & {\em \$job\-\_\-id} & Job Identifier of report on queue. \\
+\hline
+string & {\em \$report\-\_\-format} & Requested document format\-: csv, json \\
+\hline
+bool & {\em \$verbose} & For debugging purposes only. \\
+\hline
+int & {\em \$sleep} & How long thread should sleep before next status request.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+object Report reader 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Invalid\-Argument\-Exception} & \\
+\hline
+{\em Tune\-Service\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 185 of file Reports\-Base.\-php.
+
+
+\begin{DoxyCode}
+192       \{
+193         \textcolor{keywordflow}{if} (!is\_string($mod\_export\_class) || empty($mod\_export\_class)) \{
+194             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'mod\_export\_class' is not defined."});
+195         \}
+196         \textcolor{keywordflow}{if} (!is\_string($mod\_export\_function) || empty($mod\_export\_function)) \{
+197             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'mod\_export\_function' is not defined."});
+198         \}
+199         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
+200             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+201         \}
+202         \textcolor{keywordflow}{if} (!is\_string($report\_format) || empty($report\_format)) \{
+203             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+204         \}
+205         \textcolor{keywordflow}{if} (!is\_string(parent::getApiKey()) || empty(parent::getApiKey())) \{
+206             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'api\_key' is not defined."});
+207         \}
+208 
+209         $export\_worker = \textcolor{keyword}{new} ReportExportWorker(
+210             $mod\_export\_class,
+211             $mod\_export\_function,
+212             $this->api\_key,
+213             $job\_id,
+214             $verbose,
+215             $sleep
+216         );
+217 
+218         \textcolor{keywordflow}{if} ($verbose) \{
+219             echo \textcolor{stringliteral}{"Starting thread..."} . PHP\_EOL;
+220         \}
+221         $export\_worker->start();
+222         \textcolor{keywordflow}{if} ($verbose) \{
+223             echo \textcolor{stringliteral}{"Waiting..."} . PHP\_EOL;
+224         \}
+225         \textcolor{comment}{// Calling context to wait for the referenced Thread to finish executing}
+226         $success = $export\_worker->join();
+227 
+228         \textcolor{keywordflow}{if} ($verbose && $success) \{
+229             echo \textcolor{stringliteral}{"Thread completed successfully."} . PHP\_EOL;
+230         \}
+231 
+232         $response = $export\_worker->getResponse();
+233 
+234         \textcolor{keywordflow}{if} (!$success) \{
+235             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Thread failed to complete successfully: "} + print\_r($response, \textcolor{keyword}{true}
+      ) . PHP\_EOL);
+236         \}
+237 
+238         \textcolor{keywordflow}{if} (is\_null($response)
+239             || $response->getHttpCode() != 200
+240             || $response->getData()[\textcolor{stringliteral}{"status"}] == \textcolor{stringliteral}{"fail"}
+241         ) \{
+242             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Report request failed: "} + print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL);
+243         \}
+244 
+245         $report\_url = $mod\_export\_class::parseResponseUrl($response);
+246 
+247         \textcolor{keywordflow}{if} (!is\_string($report\_url) || empty($report\_url)) \{
+248             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Failed to get report Url from response."});
+249         \}
+250 
+251         \textcolor{keywordflow}{if} ($verbose) \{
+252             echo \textcolor{stringliteral}{"Completed report request: "} + print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+253         \}
+254 
+255         \textcolor{keywordflow}{return} $this->\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a5cebfc222eef4019fcf3a428de5adcfe}{parseReportStatus}($report\_url, $report\_format);
+256     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsBase_ac6c3a238e99b0dfb88a83fc70924493b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_a5cebfc222eef4019fcf3a428de5adcfe}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!parse\-Report\-Status@{parse\-Report\-Status}}
+\index{parse\-Report\-Status@{parse\-Report\-Status}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{parse\-Report\-Status}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::parse\-Report\-Status (
+\begin{DoxyParamCaption}
+\item[{}]{\$report\-\_\-url, }
+\item[{}]{\$report\-\_\-format}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_a5cebfc222eef4019fcf3a428de5adcfe}
+
+
+Helper function for fetching report document given provided job identifier. 
+
+Response is not the same for all report endpoints.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$report\-\_\-url} & Report url provided upon completing of export processing. \\
+\hline
+string & {\em \$report\-\_\-format} & Expected format of exported report.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+null 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Tune\-Sdk\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 269 of file Reports\-Base.\-php.
+
+
+\begin{DoxyCode}
+272       \{
+273         $report\_reader = null;
+274         \textcolor{keywordflow}{try} \{
+275             \textcolor{keywordflow}{if} ($report\_format == \textcolor{stringliteral}{"csv"}) \{
+276                 $report\_reader = \textcolor{keyword}{new} ReportReaderCSV(
+277                     $report\_url
+278                 );
+279             \} elseif ($report\_format == \textcolor{stringliteral}{"json"}) \{
+280                 $report\_reader = \textcolor{keyword}{new} ReportReaderJSON(
+281                     $report\_url
+282                 );
+283             \}
+284         \} \textcolor{keywordflow}{catch} (\hyperlink{classException}{Exception} $ex) \{
+285             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(
+286                 \textcolor{stringliteral}{"Failed to create reader provided by url \{$report\_url\}: "} + print\_r($ex, \textcolor{keyword}{true}) . PHP\_EOL
+287             );
+288         \}
+289 
+290         \textcolor{keywordflow}{return} $report\_reader;
+291     \}
+\end{DoxyCode}
+
+
+Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsBase_a5cebfc222eef4019fcf3a428de5adcfe_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Field Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!\$filter\-\_\-debug\-\_\-mode@{\$filter\-\_\-debug\-\_\-mode}}
+\index{\$filter\-\_\-debug\-\_\-mode@{\$filter\-\_\-debug\-\_\-mode}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{\$filter\-\_\-debug\-\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::\$filter\-\_\-debug\-\_\-mode = false\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}
+
+
+Definition at line 55 of file Reports\-Base.\-php.
+
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}!\$filter\-\_\-test\-\_\-profile\-\_\-id@{\$filter\-\_\-test\-\_\-profile\-\_\-id}}
+\index{\$filter\-\_\-test\-\_\-profile\-\_\-id@{\$filter\-\_\-test\-\_\-profile\-\_\-id}!Tune::Management::Reports::ReportsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Base}}
+\subsubsection[{\$filter\-\_\-test\-\_\-profile\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Base\-::\$filter\-\_\-test\-\_\-profile\-\_\-id = false\hspace{0.3cm}{\ttfamily [protected]}}}\label{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}
+
+
+Definition at line 60 of file Reports\-Base.\-php.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Reports/\hyperlink{ReportsBase_8php}{Reports\-Base.\-php}\end{DoxyCompactItemize}

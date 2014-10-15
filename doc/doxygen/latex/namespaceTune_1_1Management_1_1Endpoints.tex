@@ -1,0 +1,275 @@
+\hypertarget{namespaceTune_1_1Management_1_1Endpoints}{\section{Tune\textbackslash{}Management\textbackslash{}Endpoints Namespace Reference}
+\label{namespaceTune_1_1Management_1_1Endpoints}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Endpoints@{Tune\textbackslash{}\-Management\textbackslash{}\-Endpoints}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase}{Tune\-Management\-Base}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe}{validate\-Filter\-Array} (\$fields, \$filter\-\_\-operations, \$filter\-\_\-conjunctions, \$filter)
+\begin{DoxyCompactList}\small\item\em Validate provided filter string is properly formatted query. \end{DoxyCompactList}\item 
+\hyperlink{namespaceTune_1_1Management_1_1Endpoints_a8a3f8f7bc986da92a05b19f9ca804e2d}{validate\-Filter\-String} (\$fields, \$filter\-\_\-operations, \$filter\-\_\-conjunctions, \$filter)
+\begin{DoxyCompactList}\small\item\em Validate provided filter string is properly formatted query. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe}{\index{Tune\-::\-Management\-::\-Endpoints@{Tune\-::\-Management\-::\-Endpoints}!validate\-Filter\-Array@{validate\-Filter\-Array}}
+\index{validate\-Filter\-Array@{validate\-Filter\-Array}!Tune::Management::Endpoints@{Tune\-::\-Management\-::\-Endpoints}}
+\subsubsection[{validate\-Filter\-Array}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Endpoints\textbackslash{}validate\-Filter\-Array (
+\begin{DoxyParamCaption}
+\item[{}]{\$fields, }
+\item[{}]{\$filter\-\_\-operations, }
+\item[{}]{\$filter\-\_\-conjunctions, }
+\item[{}]{\$filter}
+\end{DoxyParamCaption}
+)}}\label{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe}
+
+
+Validate provided filter string is properly formatted query. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$fields} & \\
+\hline
+array & {\em \$filter\-\_\-operations} & \\
+\hline
+array & {\em \$filter\-\_\-conjunctions} & \\
+\hline
+array & {\em \$filter} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string$\vert$void 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Sdk\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 507 of file Tune\-Management\-Base.\-php.
+
+
+\begin{DoxyCode}
+508 \{
+509     \textcolor{keywordflow}{if} (!is\_array($filter)) \{
+510         \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Parameter 'filter' expects array."});
+511     \}
+512 
+513     $expression = \textcolor{stringliteral}{""};
+514 
+515     \textcolor{keywordflow}{foreach} ($filter as $key => $value) \{
+516         \textcolor{keywordflow}{if} (is\_int($key)) \{
+517             \textcolor{keywordflow}{if} (is\_array($value)) \{
+518                 $sub\_expression = \hyperlink{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe}{validateFilterArray}($fields, $filter\_operations, 
+      $filter\_conjunctions, $value);
+519                 \textcolor{keywordflow}{if} (!empty($expression)) \{
+520                     $expression = sprintf(\textcolor{stringliteral}{"%s %s"}, $expression, $sub\_expression);
+521                 \} \textcolor{keywordflow}{else} \{
+522                     $expression = $sub\_expression;
+523                 \}
+524             \} elseif (is\_string($value)) \{
+525                 $filter\_conjunction = trim($value);
+526                 \textcolor{keywordflow}{if} (\hyperlink{Helper_8php_ab83bcc4e2fd231ef49158704ecaa2480}{isEven}($key)) \{
+527                     \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid placement of conjunction in filter parameter:
+       '\{$key\}'."});
+528                 \}
+529                 \textcolor{keywordflow}{if} (!in\_array($filter\_conjunction, $filter\_conjunctions)) \{
+530                     \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid conjunction in filter parameter:
+       '\{$filter\_conjunction\}'."});
+531                 \}
+532                 \textcolor{keywordflow}{if} (!empty($expression)) \{
+533                     $expression = sprintf(\textcolor{stringliteral}{"%s %s"}, $expression, $filter\_conjunction);
+534                 \} \textcolor{keywordflow}{else} \{
+535                     $expression = $filter\_conjunction;
+536                 \}
+537             \}
+538         \} elseif (is\_string($key)) \{
+539             \textcolor{keywordflow}{if} (array\_key\_exists(\textcolor{stringliteral}{"column"}, $filter) && array\_key\_exists(\textcolor{stringliteral}{"operator"}, $filter)) \{
+540                 $field = trim($filter[\textcolor{stringliteral}{"column"}]);
+541                 $operator = trim($filter[\textcolor{stringliteral}{"operator"}]);
+542                 \textcolor{keywordflow}{if} (!is\_null($fields) && is\_array($fields) && !in\_array($field, $fields)) \{
+543                     \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid field in filter parameter: '\{$field\}'."});
+544                 \}
+545                 \textcolor{keywordflow}{if} (!in\_array($operator, $filter\_operations)) \{
+546                     \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid operator in filter parameter: '\{$operator\}'."});
+547                 \}
+548                 $expression = sprintf(\textcolor{stringliteral}{"%s %s"}, $field, trim($filter[\textcolor{stringliteral}{"operator"}]));
+549                 \textcolor{keywordflow}{if} (array\_key\_exists(\textcolor{stringliteral}{"value"}, $filter)) \{
+550                     \textcolor{keywordflow}{if} (is\_array($filter[\textcolor{stringliteral}{"value"}])) \{
+551 
+552                         $expression = sprintf(\textcolor{stringliteral}{"%s (%s)"}, $expression, 
+      \hyperlink{Helper_8php_a00993022db8be1601bf88f890d76e420}{implodeQuotes}(\textcolor{stringliteral}{","}, $filter[\textcolor{stringliteral}{"value"}]));
+553 
+554                     \} \textcolor{keywordflow}{else} \{
+555                         $expression = sprintf(\textcolor{stringliteral}{"%s '%s'"}, $expression, $filter[\textcolor{stringliteral}{"value"}]);
+556                     \}
+557                 \}
+558                 \textcolor{keywordflow}{break};
+559             \}
+560         \}
+561     \}
+562 
+563     $expression = sprintf(\textcolor{stringliteral}{"(%s)"}, $expression);
+564 
+565     \textcolor{keywordflow}{return} $expression;
+566 \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceTune_1_1Management_1_1Endpoints_ae2d0d6742ce18cb5d94c1e0fb5ebdabe_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{namespaceTune_1_1Management_1_1Endpoints_a8a3f8f7bc986da92a05b19f9ca804e2d}{\index{Tune\-::\-Management\-::\-Endpoints@{Tune\-::\-Management\-::\-Endpoints}!validate\-Filter\-String@{validate\-Filter\-String}}
+\index{validate\-Filter\-String@{validate\-Filter\-String}!Tune::Management::Endpoints@{Tune\-::\-Management\-::\-Endpoints}}
+\subsubsection[{validate\-Filter\-String}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Endpoints\textbackslash{}validate\-Filter\-String (
+\begin{DoxyParamCaption}
+\item[{}]{\$fields, }
+\item[{}]{\$filter\-\_\-operations, }
+\item[{}]{\$filter\-\_\-conjunctions, }
+\item[{}]{\$filter}
+\end{DoxyParamCaption}
+)}}\label{namespaceTune_1_1Management_1_1Endpoints_a8a3f8f7bc986da92a05b19f9ca804e2d}
+
+
+Validate provided filter string is properly formatted query. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$fields} & \\
+\hline
+array & {\em \$filter\-\_\-operations} & \\
+\hline
+array & {\em \$filter\-\_\-conjunctions} & \\
+\hline
+string & {\em \$filter} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Sdk\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 579 of file Tune\-Management\-Base.\-php.
+
+
+\begin{DoxyCode}
+580 \{
+581     $filter\_expr = array();
+582 
+583     \textcolor{keywordflow}{if} (!is\_string($filter)) \{
+584         \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Parameter 'filter' expects string."});
+585     \}
+586 
+587     $pp = \textcolor{keyword}{new} ParenthesesParser();
+588 
+589     $filter\_parts = $pp->parse($filter);
+590 
+591     \textcolor{keywordflow}{foreach} ($filter\_parts as $key => $filter\_part) \{
+592         \textcolor{keywordflow}{if} (is\_string($filter\_part)) \{
+593 
+594             $filter\_conjunction = trim($filter\_part);
+595             \textcolor{keywordflow}{if} (\hyperlink{Helper_8php_ab83bcc4e2fd231ef49158704ecaa2480}{isEven}($key)) \{
+596                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid placement of conjunction in filter parameter: '\{$key\}'.
+      "});
+597             \}
+598             \textcolor{keywordflow}{if} (!in\_array($filter\_conjunction, $filter\_conjunctions)) \{
+599                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid conjunction in filter parameter:
+       '\{$filter\_conjunction\}'."});
+600             \}
+601 
+602             $filter\_expr[] = $filter\_conjunction;
+603         \} elseif (is\_array($filter\_part)) \{
+604             $sub\_expr\_part = $filter\_part[0];
+605             $sub\_filter\_expr\_parts = explode(\textcolor{stringliteral}{" "}, $sub\_expr\_part);
+606 
+607             $field = array\_shift($sub\_filter\_expr\_parts);
+608             \textcolor{keywordflow}{if} (!is\_null($fields) && is\_array($fields) && !in\_array($field, $fields)) \{
+609                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid field in filter parameter: '\{$field\}'."});
+610             \}
+611             $sub\_filter\_expr\_part\_end = trim(end($sub\_filter\_expr\_parts));
+612             $sub\_filter\_expr\_part\_end\_no\_quotes = trim($sub\_filter\_expr\_part\_end, \textcolor{stringliteral}{"'"});
+613 
+614             $sub\_filter\_expr\_value = null;
+615             \textcolor{keywordflow}{if} ($sub\_filter\_expr\_part\_end\_no\_quotes != $sub\_filter\_expr\_part\_end) \{
+616                 $sub\_filter\_expr\_value = array\_pop($sub\_filter\_expr\_parts);
+617             \}
+618             $sub\_filter\_expr\_operator = implode(\textcolor{stringliteral}{" "}, $sub\_filter\_expr\_parts);
+619             $sub\_filter\_expr\_operator = trim($sub\_filter\_expr\_operator);
+620             \textcolor{keywordflow}{if} (!in\_array($sub\_filter\_expr\_operator, $filter\_operations)) \{
+621                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Invalid operator in filter parameter '\{$filter\}':
+       '\{$sub\_filter\_expr\_operator\}'."});
+622             \}
+623 
+624             \textcolor{keywordflow}{if} (count($filter\_part) == 2) \{
+625                 $sub\_filter\_expr\_value =  $filter\_part[1];
+626             \}
+627 
+628             $sub\_filter = array (
+629                 \textcolor{stringliteral}{"column"} => $field,
+630                 \textcolor{stringliteral}{"operator"} => $sub\_filter\_expr\_operator
+631             );
+632 
+633             \textcolor{keywordflow}{if} ($sub\_filter\_expr\_value) \{
+634                 $sub\_filter[\textcolor{stringliteral}{"value"}] = $sub\_filter\_expr\_part\_end;
+635             \}
+636 
+637             $filter\_expr[] = $sub\_filter;
+638         \}
+639     \}
+640 
+641     \textcolor{keywordflow}{return} $filter\_expr;
+642 \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{namespaceTune_1_1Management_1_1Endpoints_a8a3f8f7bc986da92a05b19f9ca804e2d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceTune_1_1Management_1_1Endpoints_a8a3f8f7bc986da92a05b19f9ca804e2d_icgraph}
+\end{center}
+\end{figure}
+
+

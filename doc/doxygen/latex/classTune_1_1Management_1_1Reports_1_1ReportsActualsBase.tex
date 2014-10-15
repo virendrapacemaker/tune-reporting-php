@@ -1,0 +1,400 @@
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase}{\section{Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Actuals\-Base Class Reference}
+\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base@{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Actuals\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Reports\-Actuals\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a7081bd92319b21582ab740fbfc1e9e8c}{\-\_\-\-\_\-construct} (\$controller, \$api\-\_\-key, \$filter\-\_\-debug\-\_\-mode, \$filter\-\_\-test\-\_\-profile\-\_\-id, \$validate=false)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a5a8067390a27e402555e878e28e4c54d}{count} (\$start\-\_\-date=null, \$end\-\_\-date=null, \$group=null, \$filter=null, \$response\-\_\-timezone=null)
+\begin{DoxyCompactList}\small\item\em Counts all existing records that match filter criteria and returns an array of found model data. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_ace658fea56b4819168acdc7dc2a2fc84}{find} (\$start\-\_\-date=null, \$end\-\_\-date=null, \$group=null, \$filter=null, \$fields=null, \$limit=null, \$page=null, \$sort=null, \$timestamp=null, \$response\-\_\-timezone=null)
+\begin{DoxyCompactList}\small\item\em Finds all existing records that match filter criteria and returns an array of found model data. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_aec0b383e43285612314c8ee141c0ebbf}{export} (\$start\-\_\-date=null, \$end\-\_\-date=null, \$group=null, \$filter=null, \$fields=null, \$timestamp=null, \$format=null, \$response\-\_\-timezone=null)
+\begin{DoxyCompactList}\small\item\em Places a job into a queue to generate a report that will contain records that match provided filter criteria, and it returns a job identifier to be provided to action /export/download.json to download completed report. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a88e430144127cf06384eaaac59111bfc}{\$timestamps}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 45 of file Reports\-Actuals\-Base.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a7081bd92319b21582ab740fbfc1e9e8c}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Reports::ReportsActualsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$controller, }
+\item[{}]{\$api\-\_\-key, }
+\item[{}]{\$filter\-\_\-debug\-\_\-mode, }
+\item[{}]{\$filter\-\_\-test\-\_\-profile\-\_\-id, }
+\item[{}]{\$validate = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a7081bd92319b21582ab740fbfc1e9e8c}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$controller} & \hyperlink{namespaceTune}{Tune} \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I endpoint name. \\
+\hline
+string & {\em \$api\-\_\-key} & \hyperlink{namespaceTune}{Tune} Mobile\-App\-Tracking A\-P\-I Key. \\
+\hline
+bool & {\em \$filter\-\_\-debug\-\_\-mode} & Remove debug mode information from results. \\
+\hline
+bool & {\em \$filter\-\_\-test\-\_\-profile\-\_\-id} & Remove test profile information from results. \\
+\hline
+bool & {\em \$validate} & Validate fields used by actions' parameters. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file Reports\-Actuals\-Base.\-php.
+
+
+\begin{DoxyCode}
+74       \{
+75         parent::\_\_construct(
+76             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller},
+77             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key},
+78             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode},
+79             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id},
+80             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate}
+81         );
+82     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a5a8067390a27e402555e878e28e4c54d}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}!count@{count}}
+\index{count@{count}!Tune::Management::Reports::ReportsActualsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base\-::count (
+\begin{DoxyParamCaption}
+\item[{}]{\$start\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$end\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$group = {\ttfamily null}, }
+\item[{}]{\$filter = {\ttfamily null}, }
+\item[{}]{\$response\-\_\-timezone = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a5a8067390a27e402555e878e28e4c54d}
+
+
+Counts all existing records that match filter criteria and returns an array of found model data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$start\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$end\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$group} & Group by one of more field names \\
+\hline
+string & {\em \$filter} & Filter the results and apply conditions that must be met for records to be included in data. \\
+\hline
+string & {\em \$response\-\_\-timezone} & Setting expected time for data \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file Reports\-Actuals\-Base.\-php.
+
+
+\begin{DoxyCode}
+102       \{
+103         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+104             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+      $start\_date);
+105         \}
+106         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+107             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+      ;
+108         \}
+109         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+110             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+111         \}
+112         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+113             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+114         \}
+115 
+116         \textcolor{keywordflow}{return} parent::callRecords(
+117             $action = \textcolor{stringliteral}{"count"},
+118             $query\_string\_dict = array (
+119                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+120                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+121                 \textcolor{stringliteral}{'group'} => $group,
+122                 \textcolor{stringliteral}{'filter'} => $filter,
+123                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+124             )
+125         );
+126     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a5a8067390a27e402555e878e28e4c54d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_aec0b383e43285612314c8ee141c0ebbf}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}!export@{export}}
+\index{export@{export}!Tune::Management::Reports::ReportsActualsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}}
+\subsubsection[{export}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base\-::export (
+\begin{DoxyParamCaption}
+\item[{}]{\$start\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$end\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$group = {\ttfamily null}, }
+\item[{}]{\$filter = {\ttfamily null}, }
+\item[{}]{\$fields = {\ttfamily null}, }
+\item[{}]{\$timestamp = {\ttfamily null}, }
+\item[{}]{\$format = {\ttfamily null}, }
+\item[{}]{\$response\-\_\-timezone = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_aec0b383e43285612314c8ee141c0ebbf}
+
+
+Places a job into a queue to generate a report that will contain records that match provided filter criteria, and it returns a job identifier to be provided to action /export/download.json to download completed report. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$start\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$end\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$filter} & Filter the results and apply conditions that must be met for records to be included in data. \\
+\hline
+string & {\em \$fields} & No value returns default fields, \char`\"{}$\ast$\char`\"{} returns all available fields, or provide specific fields. \\
+\hline
+string & {\em \$timestamp} & Set to breakdown stats by timestamp choices\-: hour, datehour, date, week, month. \\
+\hline
+string & {\em \$format} & Export format for downloaded report\-: json, csv. \\
+\hline
+string & {\em \$response\-\_\-timezone} & Setting expected timezone for data. Default is set by account.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+object 
+\end{DoxyReturn}
+
+
+Definition at line 214 of file Reports\-Actuals\-Base.\-php.
+
+
+\begin{DoxyCode}
+223       \{
+224         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+225             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+      $start\_date);
+226         \}
+227         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+228             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+      ;
+229         \}
+230         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+231             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+232         \}
+233         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+234             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+235         \}
+236 
+237         \textcolor{comment}{// timestamp}
+238         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
+239             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
+240         \}
+241 
+242         \textcolor{keywordflow}{if} (!in\_array($format, self::$report\_export\_formats)) \{
+243             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'format' is invalid: '\{$format\}'."});
+244         \}
+245 
+246         \textcolor{keywordflow}{if} ((\textcolor{stringliteral}{"csv"} == $format) && (is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}))) \{
+247             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'fields' needs to be defined if report format is
+       'csv'."});
+248         \}
+249 
+250         \textcolor{keywordflow}{return} parent::callRecords(
+251             $action = \textcolor{stringliteral}{"find\_export\_queue"},
+252             $query\_string\_dict = array (
+253                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+254                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+255                 \textcolor{stringliteral}{'group'} => $group,
+256                 \textcolor{stringliteral}{'filter'} => $filter,
+257                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+258                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
+259                 \textcolor{stringliteral}{'format'} => $format,
+260                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+261             )
+262         );
+263     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_aec0b383e43285612314c8ee141c0ebbf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_ace658fea56b4819168acdc7dc2a2fc84}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}!find@{find}}
+\index{find@{find}!Tune::Management::Reports::ReportsActualsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base\-::find (
+\begin{DoxyParamCaption}
+\item[{}]{\$start\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$end\-\_\-date = {\ttfamily null}, }
+\item[{}]{\$group = {\ttfamily null}, }
+\item[{}]{\$filter = {\ttfamily null}, }
+\item[{}]{\$fields = {\ttfamily null}, }
+\item[{}]{\$limit = {\ttfamily null}, }
+\item[{}]{\$page = {\ttfamily null}, }
+\item[{}]{\$sort = {\ttfamily null}, }
+\item[{}]{\$timestamp = {\ttfamily null}, }
+\item[{}]{\$response\-\_\-timezone = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_ace658fea56b4819168acdc7dc2a2fc84}
+
+
+Finds all existing records that match filter criteria and returns an array of found model data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$start\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$end\-\_\-date} & Y\-Y\-Y\-Y-\/\-M\-M-\/\-D\-D H\-H\-:\-M\-M\-:S\-S \\
+\hline
+string & {\em \$filter} & Filter the results and apply conditions that must be met for records to be included in data. \\
+\hline
+string & {\em \$fields} & No value returns default fields, \char`\"{}$\ast$\char`\"{} returns all available fields, or provide specific fields. \\
+\hline
+integer & {\em \$limit} & Limit number of results, default 10, 0 shows all. \\
+\hline
+integer & {\em \$page} & Pagination, default 1. \\
+\hline
+array & {\em \$sort} & Sort by field name, A\-S\-C (default) or D\-E\-S\-C \\
+\hline
+string & {\em \$timestamp} & Set to breakdown stats by timestamp choices\-: hour, datehour, date, week, month. \\
+\hline
+string & {\em \$response\-\_\-timezone} & Setting expected timezone for data. Default is set by account.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+object 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file Reports\-Actuals\-Base.\-php.
+
+
+\begin{DoxyCode}
+157       \{
+158         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+159             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+      $start\_date);
+160         \}
+161         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+162             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+      ;
+163         \}
+164         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+165             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+166         \}
+167         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+168             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+169         \}
+170         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
+171             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
+172         \}
+173 
+174         \textcolor{comment}{// timestamp}
+175         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
+176             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
+177         \}
+178 
+179         \textcolor{keywordflow}{return} parent::callRecords(
+180             $action = \textcolor{stringliteral}{"find"},
+181             $query\_string\_dict = array (
+182                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+183                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+184                 \textcolor{stringliteral}{'group'} => $group,
+185                 \textcolor{stringliteral}{'filter'} => $filter,
+186                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+187                 \textcolor{stringliteral}{'limit'} => $limit,
+188                 \textcolor{stringliteral}{'page'} => $page,
+189                 \textcolor{stringliteral}{'sort'} => $sort,
+190                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
+191                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+192             )
+193         );
+194     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_ace658fea56b4819168acdc7dc2a2fc84_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Field Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a88e430144127cf06384eaaac59111bfc}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}!\$timestamps@{\$timestamps}}
+\index{\$timestamps@{\$timestamps}!Tune::Management::Reports::ReportsActualsBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Actuals\-Base}}
+\subsubsection[{\$timestamps}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Reports\-Actuals\-Base\-::\$timestamps\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a88e430144127cf06384eaaac59111bfc}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= array(
+            \textcolor{stringliteral}{"hour"},
+            \textcolor{stringliteral}{"datehour"},
+            \textcolor{stringliteral}{"date"},
+            \textcolor{stringliteral}{"week"},
+            \textcolor{stringliteral}{"month"}
+        )
+\end{DoxyCode}
+
+
+Definition at line 51 of file Reports\-Actuals\-Base.\-php.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Reports/\hyperlink{ReportsActualsBase_8php}{Reports\-Actuals\-Base.\-php}\end{DoxyCompactItemize}
