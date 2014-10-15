@@ -1,0 +1,219 @@
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportExportWorker}{\section{Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Export\-Worker Class Reference}
+\label{classTune_1_1Management_1_1Reports_1_1ReportExportWorker}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Export\-Worker@{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Export\-Worker}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Export\-Worker\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classTune_1_1Management_1_1Reports_1_1ReportExportWorker__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Export\-Worker\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classTune_1_1Management_1_1Reports_1_1ReportExportWorker__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_aa5311f1c14052f030ab7026e39e45f24}{\-\_\-\-\_\-construct} (\$mod\-\_\-export\-\_\-class, \$mod\-\_\-export\-\_\-function, \$api\-\_\-key, \$job\-\_\-id, \$verbose=false, \$sleep=60)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_af686be7659c034935eca1fd7ef073530}{run} ()
+\begin{DoxyCompactList}\small\item\em Poll export status and upon completion gather download U\-R\-L referencing requested report. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_a5c573a695b7fa6a660d4e7d9d3c02ff6}{get\-Response} ()
+\begin{DoxyCompactList}\small\item\em Property that will hold completed report downloaded from \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I service. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 48 of file Report\-Export\-Worker.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_aa5311f1c14052f030ab7026e39e45f24}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Reports::ReportExportWorker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Export\-Worker\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$mod\-\_\-export\-\_\-class, }
+\item[{}]{\$mod\-\_\-export\-\_\-function, }
+\item[{}]{\$api\-\_\-key, }
+\item[{}]{\$job\-\_\-id, }
+\item[{}]{\$verbose = {\ttfamily false}, }
+\item[{}]{\$sleep = {\ttfamily 60}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_aa5311f1c14052f030ab7026e39e45f24}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$mod\-\_\-export\-\_\-class} & Reference class name for worker to perform download status query. \\
+\hline
+string & {\em \$mod\-\_\-export\-\_\-function} & Reference class function name for worker to perform download status query. \\
+\hline
+string & {\em \$api\-\_\-key} & Mobile\-App\-Tracking A\-P\-I Key \\
+\hline
+string & {\em \$job\-\_\-id} & Provided Job Identifier to reference requested report on export queue. \\
+\hline
+bool & {\em \$verbose} & Debug purposes only to view progress of job on export queue. \\
+\hline
+int & {\em \$sleep} & Polling delay between querying job status on export queue. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file Report\-Export\-Worker.\-php.
+
+
+\begin{DoxyCode}
+94       \{
+95         \textcolor{keywordflow}{if} (!is\_string($mod\_export\_class) || empty($mod\_export\_class)) \{
+96             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'mod\_export\_class' is not defined."});
+97         \}
+98         \textcolor{keywordflow}{if} (!is\_string($mod\_export\_function) || empty($mod\_export\_function)) \{
+99             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'mod\_export\_function' is not defined."});
+100         \}
+101         \textcolor{keywordflow}{if} (!is\_string($api\_key) || empty($api\_key)) \{
+102             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'api\_key' is not defined."});
+103         \}
+104         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
+105             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+106         \}
+107 
+108         $instance = \textcolor{keyword}{new} $mod\_export\_class($api\_key);
+109 
+110         $this->mod\_export\_class = $mod\_export\_class;
+111         $this->mod\_export\_function = $mod\_export\_function;
+112 
+113         $this->api\_key = $api\_key;
+114         $this->job\_id = $job\_id;
+115         $this->sleep = $sleep;
+116 
+117         $this->verbose = $verbose;
+118         $this->class\_export = $instance;
+119         $this->response = null;
+120 
+121     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_a5c573a695b7fa6a660d4e7d9d3c02ff6}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}!get\-Response@{get\-Response}}
+\index{get\-Response@{get\-Response}!Tune::Management::Reports::ReportExportWorker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}}
+\subsubsection[{get\-Response}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Export\-Worker\-::get\-Response (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_a5c573a695b7fa6a660d4e7d9d3c02ff6}
+
+
+Property that will hold completed report downloaded from \hyperlink{namespaceTune_1_1Management}{Management} A\-P\-I service. 
+
+\begin{DoxyReturn}{Returns}
+object 
+\end{DoxyReturn}
+
+
+Definition at line 190 of file Report\-Export\-Worker.\-php.
+
+
+\begin{DoxyCode}
+191     \{
+192         \textcolor{keywordflow}{return} $this->response;
+193     \}
+\end{DoxyCode}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_af686be7659c034935eca1fd7ef073530}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}!run@{run}}
+\index{run@{run}!Tune::Management::Reports::ReportExportWorker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Export\-Worker\-::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_af686be7659c034935eca1fd7ef073530}
+
+
+Poll export status and upon completion gather download U\-R\-L referencing requested report. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Sdk\-Exception} & \\
+\hline
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Service\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 129 of file Report\-Export\-Worker.\-php.
+
+
+\begin{DoxyCode}
+130     \{
+131         $percent\_complete = 0;
+132         $status = null;
+133         $response = null;
+134         $attempt = 0;
+135 
+136         \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
+137 
+138             $mod\_export\_function = $this->mod\_export\_function;
+139             $response = $this->class\_export->$mod\_export\_function($this->job\_id);
+140 
+141             \textcolor{keywordflow}{if} (is\_null($response)) \{
+142                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"No response returned from export request."});
+143             \}
+144 
+145             $request\_url = $response->getRequestUrl();
+146             $response\_http\_code = $response->getHttpCode();
+147 
+148             \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
+149                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(
+150                     \textcolor{stringliteral}{"No response data returned from export. Request URL: '\{$request\_url\}'"}
+151                 );
+152             \}
+153 
+154             \textcolor{keywordflow}{if} ($response\_http\_code != 200) \{
+155                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
+156                     \textcolor{stringliteral}{"Service failed request: \{$response\_http\_code\}. Request URL: '\{$request\_url\}'"}
+157                 );
+158             \}
+159 
+160             $status = $response->getData()[\textcolor{stringliteral}{"status"}];
+161             \textcolor{keywordflow}{if} ($status == \textcolor{stringliteral}{"fail"} || $status == \textcolor{stringliteral}{"complete"}) \{
+162                 \textcolor{keywordflow}{break};
+163             \}
+164 
+165             $attempt += 1;
+166             \textcolor{keywordflow}{if} ($this->verbose) \{
+167                 echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+168             \}
+169             sleep($this->sleep);
+170         \}
+171 
+172         \textcolor{keywordflow}{if} ($status != \textcolor{stringliteral}{"complete"}) \{
+173             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
+174                 \textcolor{stringliteral}{"Export request '\{$status\}':, response: "} . print\_r($response, \textcolor{keyword}{true})
+175             );
+176         \}
+177 
+178         \textcolor{keywordflow}{if} ($this->verbose) \{
+179             echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+180         \}
+181 
+182         $this->response = $response;
+183     \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Reports/\hyperlink{ReportExportWorker_8php}{Report\-Export\-Worker.\-php}\end{DoxyCompactItemize}

@@ -1,0 +1,25 @@
+<phpunit bootstrap="bootstrap.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailure="false">
+
+    <filter>
+        <blacklist>
+        </blacklist>
+    </filter>
+
+    <testsuites>
+        <testsuite name="lib">
+            <file>Tune/Unittests/Management/Service/UnittestClient.php</file>
+            <file>Tune/Unittests/Management/Api/Account/UnittestUsers.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestClicks.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestEventItems.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestEvents.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestInstalls.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestPostbacks.php</file>
+            <file>Tune/Unittests/Management/Api/Advertiser/Reports/Logs/UnittestUpdates.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

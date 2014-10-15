@@ -1,0 +1,5 @@
+<map id="Tune\Management\Api\Advertiser\Stats\Events" name="Tune\Management\Api\Advertiser\Stats\Events">
+<area shape="rect" id="node2" href="$classTune_1_1Management_1_1Reports_1_1ReportsLogsBase.html" title="{Tune\\Management\\Reports\l\\ReportsLogsBase\n||+ __construct()\l+ count()\l+ find()\l+ export()\l}" alt="" coords="11,1006,189,1189"/>
+<area shape="rect" id="node4" href="$classTune_1_1Management_1_1Reports_1_1ReportsBase.html" title="{Tune\\Management\\Reports\l\\ReportsBase\n|# $filter_debug_mode\l# $filter_test_profile_id\l|+ __construct()\l+ parseReportStatus()\l# callRecords()\l# fetchRecords()\l}" alt="" coords="11,750,189,954"/>
+<area shape="rect" id="node6" href="$classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html" title="{Tune\\Management\\Endpoints\l\\TuneManagementBase\n|# $controller\l# $api_key\l# $fields\l# $validate\l# $model_name\l|+ __construct()\l+ getController()\l+ getApiKey()\l+ define()\l+ getFields()\l+ getModelName()\l+ validateFields()\l+ validateGroup()\l+ validateSort()\l+ validateFilter()\l+ toString()\l+ validateDateTime()\l# call()\l}" alt="" coords="5,238,195,698"/>
+</map>

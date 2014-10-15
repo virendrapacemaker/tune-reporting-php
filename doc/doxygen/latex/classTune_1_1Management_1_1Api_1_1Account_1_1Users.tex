@@ -1,0 +1,215 @@
+\hypertarget{classTune_1_1Management_1_1Api_1_1Account_1_1Users}{\section{Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Account\textbackslash{}Users Class Reference}
+\label{classTune_1_1Management_1_1Api_1_1Account_1_1Users}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Account\textbackslash{}\-Users@{Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Account\textbackslash{}\-Users}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Account\textbackslash{}Users\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Api_1_1Account_1_1Users__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Api\textbackslash{}Account\textbackslash{}Users\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classTune_1_1Management_1_1Api_1_1Account_1_1Users__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Account_1_1Users_aab63a7d580ddd0c159012d5a58a2f11d}{\-\_\-\-\_\-construct} (\$api\-\_\-key, \$validate=false)
+\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Account_1_1Users_ae6a4659b5a7c92cf892184cf6050fb61}{count} (\$filter=null)
+\begin{DoxyCompactList}\small\item\em Count users with current account based upon provided constraints. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Api_1_1Account_1_1Users_a446332cba1c724bbd2fbbb4be3a89f24}{find} (\$fields=null, \$filter=null, \$limit=null, \$page=null, \$sort=null)
+\begin{DoxyCompactList}\small\item\em Find users with current account based upon provided constraints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Examples\-: ]\par
+\hyperlink{ExampleUsers_8php-example}{Example\-Users.\-php}.\end{Desc}
+
+
+Definition at line 54 of file Users.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Account_1_1Users_aab63a7d580ddd0c159012d5a58a2f11d}{\index{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Api::Account::Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Account\textbackslash{}\-Users\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$api\-\_\-key, }
+\item[{}]{\$validate = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Account_1_1Users_aab63a7d580ddd0c159012d5a58a2f11d}
+
+\begin{DoxyParams}{Parameters}
+{\em \$api\-\_\-key} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file Users.\-php.
+
+
+\begin{DoxyCode}
+62       \{
+63         parent::\_\_construct(
+64             \textcolor{stringliteral}{"account/users"},
+65             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key},
+66             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate}
+67         );
+68     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Api_1_1Account_1_1Users_ae6a4659b5a7c92cf892184cf6050fb61}{\index{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}!count@{count}}
+\index{count@{count}!Tune::Management::Api::Account::Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Account\textbackslash{}\-Users\-::count (
+\begin{DoxyParamCaption}
+\item[{}]{\$filter = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Account_1_1Users_ae6a4659b5a7c92cf892184cf6050fb61}
+
+
+Count users with current account based upon provided constraints. 
+
+
+\begin{DoxyCode}
+$filter\_array = array(
+     array(
+         \textcolor{stringliteral}{"column"} => \textcolor{stringliteral}{"first\_name"},
+         \textcolor{stringliteral}{"operator"} => \textcolor{stringliteral}{"LIKE"},
+         \textcolor{stringliteral}{"value"} => \textcolor{stringliteral}{"%a%"}
+     ),
+     \textcolor{stringliteral}{"AND"},
+     array(
+         \textcolor{stringliteral}{"column"} => \textcolor{stringliteral}{"phone"},
+         \textcolor{stringliteral}{"operator"} => \textcolor{stringliteral}{"IS NOT NULL"}
+     )
+);
+$response = $account\_users->count($filter\_array);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+null | string | array & {\em \$filter} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 92 of file Users.\-php.
+
+
+\begin{DoxyCode}
+94       \{
+95         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+96             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+97         \}
+98 
+99         \textcolor{keywordflow}{return} parent::call(
+100             \textcolor{stringliteral}{"count"},
+101             $query\_string\_dict = array (
+102                 \textcolor{stringliteral}{'filter'} => $filter
+103             )
+104         );
+105     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Api_1_1Account_1_1Users_ae6a4659b5a7c92cf892184cf6050fb61_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classTune_1_1Management_1_1Api_1_1Account_1_1Users_a446332cba1c724bbd2fbbb4be3a89f24}{\index{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}!find@{find}}
+\index{find@{find}!Tune::Management::Api::Account::Users@{Tune\-::\-Management\-::\-Api\-::\-Account\-::\-Users}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Api\textbackslash{}\-Account\textbackslash{}\-Users\-::find (
+\begin{DoxyParamCaption}
+\item[{}]{\$fields = {\ttfamily null}, }
+\item[{}]{\$filter = {\ttfamily null}, }
+\item[{}]{\$limit = {\ttfamily null}, }
+\item[{}]{\$page = {\ttfamily null}, }
+\item[{}]{\$sort = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Api_1_1Account_1_1Users_a446332cba1c724bbd2fbbb4be3a89f24}
+
+
+Find users with current account based upon provided constraints. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+null | string | array & {\em \$fields} & \\
+\hline
+null | string | array & {\em \$filter} & \\
+\hline
+null | int & {\em \$limit} & \\
+\hline
+null | int & {\em \$page} & \\
+\hline
+null | array & {\em \$sort} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 116 of file Users.\-php.
+
+
+\begin{DoxyCode}
+122       \{
+123         \textcolor{keywordflow}{if} (!is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields})) \{
+124             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields} = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_acae456ae93947fb477bea4a847d127a7}{validateFields}(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields});
+125         \}
+126         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+127             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+128         \}
+129         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
+130             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
+131         \}
+132 
+133         \textcolor{keywordflow}{return} parent::call(
+134             \textcolor{stringliteral}{"find"},
+135             $query\_string\_dict = array (
+136                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+137                 \textcolor{stringliteral}{'filter'} => $filter,
+138                 \textcolor{stringliteral}{'limit'} => $limit,
+139                 \textcolor{stringliteral}{'page'} => $page,
+140                 \textcolor{stringliteral}{'sort'} => $sort
+141             )
+142         );
+143     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Api_1_1Account_1_1Users_a446332cba1c724bbd2fbbb4be3a89f24_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Api/\-Account/\hyperlink{Users_8php}{Users.\-php}\end{DoxyCompactItemize}

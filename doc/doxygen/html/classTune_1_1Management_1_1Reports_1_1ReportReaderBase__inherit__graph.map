@@ -1,0 +1,4 @@
+<map id="Tune\Management\Reports\ReportReaderBase" name="Tune\Management\Reports\ReportReaderBase">
+<area shape="rect" id="node3" href="$classTune_1_1Management_1_1Reports_1_1ReportReaderCSV.html" title="{Tune\\Management\\Reports\l\\ReportReaderCSV\n||+ __construct()\l+ read()\l+ prettyPrint()\l}" alt="" coords="5,387,184,549"/>
+<area shape="rect" id="node5" href="$classTune_1_1Management_1_1Reports_1_1ReportReaderJSON.html" title="{Tune\\Management\\Reports\l\\ReportReaderJSON\n||+ __construct()\l+ read()\l+ prettyPrint()\l}" alt="" coords="208,387,387,549"/>
+</map>

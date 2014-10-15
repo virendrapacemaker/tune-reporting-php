@@ -1,0 +1,180 @@
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON}{\section{Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Reader\-J\-S\-O\-N Class Reference}
+\label{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON}\index{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Reader\-J\-S\-O\-N@{Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Reader\-J\-S\-O\-N}}
+}
+
+
+Inheritance diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Reader\-J\-S\-O\-N\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Tune\textbackslash{}Management\textbackslash{}Reports\textbackslash{}Report\-Reader\-J\-S\-O\-N\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a8d6da48e523415c0b9ae6ef2d2d8df01}{\-\_\-\-\_\-construct} (\$report\-\_\-url)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a2ce2eb7e18962638877a96c06ebed908}{read} ()
+\begin{DoxyCompactList}\small\item\em Using provided report download U\-R\-L, extract contents appropriate to the content's format. \end{DoxyCompactList}\item 
+\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a139f36223334e99aa1e0b55184681741}{pretty\-Print} (\$limit=0)
+\begin{DoxyCompactList}\small\item\em Using report data pulled from remote file referenced by download U\-R\-L, provide a pretty print of it's contents. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 45 of file Report\-Reader\-J\-S\-O\-N.\-php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a8d6da48e523415c0b9ae6ef2d2d8df01}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!Tune::Management::Reports::ReportReaderJSON@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Reader\-J\-S\-O\-N\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$report\-\_\-url}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a8d6da48e523415c0b9ae6ef2d2d8df01}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$report\-\_\-url} & Download report U\-R\-L of requested report to be exported. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 52 of file Report\-Reader\-J\-S\-O\-N.\-php.
+
+
+\begin{DoxyCode}
+53     \{
+54         parent::\_\_construct(\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderBase_a90591d693700efd4d05f2b43ac08b552}{$report\_url});
+55     \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a139f36223334e99aa1e0b55184681741}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}!pretty\-Print@{pretty\-Print}}
+\index{pretty\-Print@{pretty\-Print}!Tune::Management::Reports::ReportReaderJSON@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}}
+\subsubsection[{pretty\-Print}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Reader\-J\-S\-O\-N\-::pretty\-Print (
+\begin{DoxyParamCaption}
+\item[{}]{\$limit = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a139f36223334e99aa1e0b55184681741}
+
+
+Using report data pulled from remote file referenced by download U\-R\-L, provide a pretty print of it's contents. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+int & {\em \$limit} & Limit the number of rows to print.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+mixed 
+\end{DoxyReturn}
+
+
+Definition at line 91 of file Report\-Reader\-J\-S\-O\-N.\-php.
+
+
+\begin{DoxyCode}
+92     \{
+93         echo \textcolor{stringliteral}{"Report REPORT\_URL: "} . $this->report\_url . PHP\_EOL;
+94         echo \textcolor{stringliteral}{"Report total row count: "} . count($this->report\_data) . PHP\_EOL;
+95         echo \textcolor{stringliteral}{"Report data size: "} . count($this->report\_data\_size) . PHP\_EOL;
+96 
+97         \textcolor{keywordflow}{if} (count($this->report\_data) > 0) \{
+98             echo \textcolor{stringliteral}{"------------------"} . PHP\_EOL;
+99             $row\_index = 1;
+100             \textcolor{keywordflow}{foreach} ($this->report\_data as $row) \{
+101                 $json\_string = json\_encode($row, JSON\_PRETTY\_PRINT);
+102                 $json\_row = str\_replace(array(\textcolor{stringliteral}{"\(\backslash\)r"}, \textcolor{stringliteral}{"\(\backslash\)n"}), \textcolor{stringliteral}{" "}, $json\_string);
+103                 echo \textcolor{stringliteral}{"\{$row\_index\}. \{$json\_row\}"} . PHP\_EOL;
+104                 $row\_index++;
+105                 \textcolor{keywordflow}{if} (($limit > 0) && ($row\_index > $limit)) \{
+106                     \textcolor{keywordflow}{break};
+107                 \}
+108             \}
+109             echo \textcolor{stringliteral}{"------------------"} . PHP\_EOL;
+110         \}
+111     \}
+\end{DoxyCode}
+\hypertarget{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a2ce2eb7e18962638877a96c06ebed908}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}!read@{read}}
+\index{read@{read}!Tune::Management::Reports::ReportReaderJSON@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Reader\-J\-S\-O\-N}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}Tune\textbackslash{}\-Management\textbackslash{}\-Reports\textbackslash{}\-Report\-Reader\-J\-S\-O\-N\-::read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a2ce2eb7e18962638877a96c06ebed908}
+
+
+Using provided report download U\-R\-L, extract contents appropriate to the content's format. 
+
+\begin{DoxyReturn}{Returns}
+bool$\vert$mixed 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \textbackslash{}\-Tune\textbackslash{}\-Common\textbackslash{}\-Tune\-Sdk\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 63 of file Report\-Reader\-J\-S\-O\-N.\-php.
+
+
+\begin{DoxyCode}
+64     \{
+65 
+66         $success = \textcolor{keyword}{false};
+67 
+68         \textcolor{keywordflow}{try} \{
+69             $this->\hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderBase_aa0e1e91f3872905d85a9d3fa8964a5b8}{retrieveRemoteFileSize}();
+70 
+71             ini\_set(\textcolor{stringliteral}{'memory\_limit'}, \textcolor{stringliteral}{'1024M'}); \textcolor{comment}{// or you could use 1G}
+72 
+73             $content=file\_get\_contents($this->report\_url);
+74             $this->report\_data=json\_decode($content);
+75 
+76             $success = \textcolor{keyword}{true};
+77         \} \textcolor{keywordflow}{catch} (\hyperlink{classException}{Exception} $ex) \{
+78             \textcolor{keywordflow}{throw} new \(\backslash\)Tune\(\backslash\)Common\(\backslash\)TuneSdkException(\textcolor{stringliteral}{"Failed to process request."}, $ex->getCode(), $ex);
+79         \}
+80 
+81         \textcolor{keywordflow}{return} $success;
+82     \}
+\end{DoxyCode}
+
+
+Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classTune_1_1Management_1_1Reports_1_1ReportReaderJSON_a2ce2eb7e18962638877a96c06ebed908_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+lib/\-Tune/\-Management/\-Reports/\hyperlink{ReportReaderJSON_8php}{Report\-Reader\-J\-S\-O\-N.\-php}\end{DoxyCompactItemize}
