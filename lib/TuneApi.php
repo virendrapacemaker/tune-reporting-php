@@ -1,6 +1,6 @@
 <?php
 /**
- * TuneAutoloader.php
+ * TuneApi.php
  *
  * Autoloading class file locations hierarchy by supplying it with
  * a function to run.
@@ -44,7 +44,7 @@ namespace Tune;
  * Tune SDK Autoloader Class
  *
  */
-class TuneAutoloader
+class TuneApi
 {
 
     /**
@@ -85,4 +85,4 @@ class TuneAutoloader
     }
 }
 
-$autoloader = new TuneAutoloader();
+$autoloader = new TuneApi();

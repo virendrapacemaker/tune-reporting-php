@@ -43,7 +43,7 @@ static \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsActualsBase_a88e4
 \subsection{Detailed Description}
 
 
-Definition at line 45 of file Reports\-Actuals\-Base.\-php.
+Definition at line 47 of file Reports\-Actuals\-Base.\-php.
 
 
 
@@ -78,19 +78,19 @@ bool & {\em \$validate} & Validate fields used by actions' parameters. \\
 \end{DoxyParams}
 
 
-Definition at line 68 of file Reports\-Actuals\-Base.\-php.
+Definition at line 70 of file Reports\-Actuals\-Base.\-php.
 
 
 \begin{DoxyCode}
-74       \{
-75         parent::\_\_construct(
-76             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller},
-77             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key},
-78             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode},
-79             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id},
-80             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate}
-81         );
-82     \}
+76       \{
+77         parent::\_\_construct(
+78             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a8a73dbafcc91b04d7f1a7e2aaa9b486a}{$controller},
+79             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_ac53649b4bc72055e1d55e53e0b6f244e}{$api\_key},
+80             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a6dde408a407042ce3f665e9f16f386b1}{$filter\_debug\_mode},
+81             \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportsBase_a2a621a3704fdccb98094c2f94bc6180e}{$filter\_test\_profile\_id},
+82             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a264eed27b0a1c963808fc7eab6da98bc}{$validate}
+83         );
+84     \}
 \end{DoxyCode}
 
 
@@ -125,37 +125,37 @@ string & {\em \$response\-\_\-timezone} & Setting expected time for data \\
 \end{DoxyParams}
 
 
-Definition at line 96 of file Reports\-Actuals\-Base.\-php.
+Definition at line 98 of file Reports\-Actuals\-Base.\-php.
 
 
 \begin{DoxyCode}
-102       \{
-103         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
-104             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+104       \{
+105         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+106             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
       $start\_date);
-105         \}
-106         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
-107             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+107         \}
+108         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+109             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
       ;
-108         \}
-109         \textcolor{keywordflow}{if} (!is\_null($group)) \{
-110             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-111         \}
-112         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
-113             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-114         \}
-115 
-116         \textcolor{keywordflow}{return} parent::callRecords(
-117             $action = \textcolor{stringliteral}{"count"},
-118             $query\_string\_dict = array (
-119                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-120                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-121                 \textcolor{stringliteral}{'group'} => $group,
-122                 \textcolor{stringliteral}{'filter'} => $filter,
-123                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-124             )
-125         );
-126     \}
+110         \}
+111         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+112             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+113         \}
+114         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+115             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+116         \}
+117 
+118         \textcolor{keywordflow}{return} parent::callRecords(
+119             $action = \textcolor{stringliteral}{"count"},
+120             $query\_string\_dict = array (
+121                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+122                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+123                 \textcolor{stringliteral}{'group'} => $group,
+124                 \textcolor{stringliteral}{'filter'} => $filter,
+125                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+126             )
+127         );
+128     \}
 \end{DoxyCode}
 
 
@@ -209,54 +209,54 @@ object
 \end{DoxyReturn}
 
 
-Definition at line 214 of file Reports\-Actuals\-Base.\-php.
+Definition at line 216 of file Reports\-Actuals\-Base.\-php.
 
 
 \begin{DoxyCode}
-223       \{
-224         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
-225             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+225       \{
+226         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+227             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
       $start\_date);
-226         \}
-227         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
-228             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+228         \}
+229         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+230             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
       ;
-229         \}
-230         \textcolor{keywordflow}{if} (!is\_null($group)) \{
-231             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-232         \}
-233         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
-234             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-235         \}
-236 
-237         \textcolor{comment}{// timestamp}
-238         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
-239             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
-240         \}
-241 
-242         \textcolor{keywordflow}{if} (!in\_array($format, self::$report\_export\_formats)) \{
-243             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'format' is invalid: '\{$format\}'."});
-244         \}
-245 
-246         \textcolor{keywordflow}{if} ((\textcolor{stringliteral}{"csv"} == $format) && (is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}))) \{
-247             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'fields' needs to be defined if report format is
+231         \}
+232         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+233             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+234         \}
+235         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+236             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+237         \}
+238 
+239         \textcolor{comment}{// timestamp}
+240         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
+241             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
+242         \}
+243 
+244         \textcolor{keywordflow}{if} (!in\_array($format, self::$report\_export\_formats)) \{
+245             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'format' is invalid: '\{$format\}'."});
+246         \}
+247 
+248         \textcolor{keywordflow}{if} ((\textcolor{stringliteral}{"csv"} == $format) && (is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}) || empty(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields}))) \{
+249             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'fields' needs to be defined if report format is
        'csv'."});
-248         \}
-249 
-250         \textcolor{keywordflow}{return} parent::callRecords(
-251             $action = \textcolor{stringliteral}{"find\_export\_queue"},
-252             $query\_string\_dict = array (
-253                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-254                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-255                 \textcolor{stringliteral}{'group'} => $group,
-256                 \textcolor{stringliteral}{'filter'} => $filter,
-257                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
-258                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
-259                 \textcolor{stringliteral}{'format'} => $format,
-260                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-261             )
-262         );
-263     \}
+250         \}
+251 
+252         \textcolor{keywordflow}{return} parent::callRecords(
+253             $action = \textcolor{stringliteral}{"find\_export\_queue"},
+254             $query\_string\_dict = array (
+255                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+256                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+257                 \textcolor{stringliteral}{'group'} => $group,
+258                 \textcolor{stringliteral}{'filter'} => $filter,
+259                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+260                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
+261                 \textcolor{stringliteral}{'format'} => $format,
+262                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+263             )
+264         );
+265     \}
 \end{DoxyCode}
 
 
@@ -316,50 +316,50 @@ object
 \end{DoxyReturn}
 
 
-Definition at line 146 of file Reports\-Actuals\-Base.\-php.
+Definition at line 148 of file Reports\-Actuals\-Base.\-php.
 
 
 \begin{DoxyCode}
-157       \{
-158         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
-159             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
+159       \{
+160         \textcolor{keywordflow}{if} (!is\_null($start\_date)) \{
+161             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, 
       $start\_date);
-160         \}
-161         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
-162             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
+162         \}
+163         \textcolor{keywordflow}{if} (!is\_null($end\_date)) \{
+164             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date)
       ;
-163         \}
-164         \textcolor{keywordflow}{if} (!is\_null($group)) \{
-165             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-166         \}
-167         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
-168             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-169         \}
-170         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
-171             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
-172         \}
-173 
-174         \textcolor{comment}{// timestamp}
-175         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
-176             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
-177         \}
-178 
-179         \textcolor{keywordflow}{return} parent::callRecords(
-180             $action = \textcolor{stringliteral}{"find"},
-181             $query\_string\_dict = array (
-182                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-183                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-184                 \textcolor{stringliteral}{'group'} => $group,
-185                 \textcolor{stringliteral}{'filter'} => $filter,
-186                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
-187                 \textcolor{stringliteral}{'limit'} => $limit,
-188                 \textcolor{stringliteral}{'page'} => $page,
-189                 \textcolor{stringliteral}{'sort'} => $sort,
-190                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
-191                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-192             )
-193         );
-194     \}
+165         \}
+166         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+167             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+168         \}
+169         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+170             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+171         \}
+172         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
+173             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
+174         \}
+175 
+176         \textcolor{comment}{// timestamp}
+177         \textcolor{keywordflow}{if} (is\_string($timestamp) && !in\_array($timestamp, self::$timestamps)) \{
+178             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'timestamp' is invalid: '\{$timestamp\}'."});
+179         \}
+180 
+181         \textcolor{keywordflow}{return} parent::callRecords(
+182             $action = \textcolor{stringliteral}{"find"},
+183             $query\_string\_dict = array (
+184                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+185                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+186                 \textcolor{stringliteral}{'group'} => $group,
+187                 \textcolor{stringliteral}{'filter'} => $filter,
+188                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+189                 \textcolor{stringliteral}{'limit'} => $limit,
+190                 \textcolor{stringliteral}{'page'} => $page,
+191                 \textcolor{stringliteral}{'sort'} => $sort,
+192                 \textcolor{stringliteral}{'timestamp'} => $timestamp,
+193                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+194             )
+195         );
+196     \}
 \end{DoxyCode}
 
 
@@ -391,7 +391,7 @@ Here is the call graph for this function\-:
 \end{DoxyCode}
 
 
-Definition at line 51 of file Reports\-Actuals\-Base.\-php.
+Definition at line 53 of file Reports\-Actuals\-Base.\-php.
 
 
 

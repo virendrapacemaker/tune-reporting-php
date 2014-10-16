@@ -18,7 +18,7 @@ dependencies.
 Once you download the library, move the tune-api-php folder to your project
 directory and then include the library file:
 
-    require '/path/to/tune-api-php/lib/TuneAutoloader.php';
+    require '/path/to/tune-api-php/lib/TuneApi.php';
 
 and you're good to go!
 

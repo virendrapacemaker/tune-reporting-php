@@ -37,8 +37,8 @@
 
 namespace Tune\Management\Reports;
 
-use Tune\Common\TuneSdkException;
 use Tune\Common\TuneServiceException;
+use Tune\Common\TuneSdkException;
 
 /**
  * "Threaded worker for handle polling of report request on export queue.
@@ -128,7 +128,6 @@ class ReportExportWorker extends \Thread
      */
     public function run()
     {
-        $percent_complete = 0;
         $status = null;
         $response = null;
         $attempt = 0;

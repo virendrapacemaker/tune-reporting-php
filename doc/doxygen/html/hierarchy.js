@@ -16,7 +16,7 @@ var hierarchy =
     [ "Thread", "classThread.html", [
       [ "Tune\\Management\\Reports\\ReportExportWorker", "classTune_1_1Management_1_1Reports_1_1ReportExportWorker.html", null ]
     ] ],
-    [ "Tune\\TuneAutoloader", "classTune_1_1TuneAutoloader.html", null ],
+    [ "Tune\\TuneApi", "classTune_1_1TuneApi.html", null ],
     [ "Tune\\Management\\Endpoints\\TuneManagementBase", "classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html", [
       [ "Tune\\Management\\Api\\Account", "classTune_1_1Management_1_1Api_1_1Account.html", null ],
       [ "Tune\\Management\\Api\\Account\\Users", "classTune_1_1Management_1_1Api_1_1Account_1_1Users.html", null ],

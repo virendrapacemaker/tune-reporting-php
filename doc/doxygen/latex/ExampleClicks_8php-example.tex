@@ -43,6 +43,7 @@
 
 use \hyperlink{classTune_1_1Management_1_1Api_1_1Advertiser_1_1Stats_1_1Clicks}{Tune\(\backslash\)Management\(\backslash\)Api\(\backslash\)Advertiser\(\backslash\)Stats\(\backslash\)Clicks};
 use \hyperlink{classTune_1_1Management_1_1Api_1_1Export}{Tune\(\backslash\)Management\(\backslash\)Api\(\backslash\)Export};
+use \hyperlink{classTune_1_1Management_1_1Reports_1_1ReportReaderCSV}{Tune\(\backslash\)Management\(\backslash\)Reports\(\backslash\)ReportReaderCSV};
 \textcolor{comment}{}
 \textcolor{comment}{/**}
 \textcolor{comment}{ * Class ExampleClicks}
@@ -166,11 +167,53 @@ use \hyperlink{classTune_1_1Management_1_1Api_1_1Export}{Tune\(\backslash\)Manag
 
             $export = \textcolor{keyword}{new} Export($api\_key);
 
-            $csv\_report\_reader = $export->fetch(
-                $job\_id,
-                $report\_format = \textcolor{stringliteral}{"csv"},
-                $verbose = \textcolor{keyword}{true},
-                $sleep = 10
+            $status = null;
+            $response = null;
+            $attempt = 0;
+
+            \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
+
+                $response = $export->download($job\_id);
+
+                \textcolor{keywordflow}{if} (is\_null($response)) \{
+                    \textcolor{keywordflow}{throw} new \(\backslash\)Exception(\textcolor{stringliteral}{"No response returned from export request."});
+                \}
+
+                $request\_url = $response->getRequestUrl();
+                $response\_http\_code = $response->getHttpCode();
+
+                \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
+                    \textcolor{keywordflow}{throw} new \(\backslash\)Exception(
+                        \textcolor{stringliteral}{"No response data returned from export. Request URL: '\{$request\_url\}'"}
+                    );
+                \}
+
+                \textcolor{keywordflow}{if} ($response\_http\_code != 200) \{
+                    \textcolor{keywordflow}{throw} new \(\backslash\)Exception(
+                        \textcolor{stringliteral}{"Service failed request: \{$response\_http\_code\}. Request URL: '\{$request\_url\}'"}
+                    );
+                \}
+
+                $status = $response->getData()[\textcolor{stringliteral}{"status"}];
+                \textcolor{keywordflow}{if} ($status == \textcolor{stringliteral}{"fail"} || $status == \textcolor{stringliteral}{"complete"}) \{
+                    \textcolor{keywordflow}{break};
+                \}
+
+                $attempt += 1;
+                echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+                sleep(10);
+            \}
+
+            \textcolor{keywordflow}{if} ($status != \textcolor{stringliteral}{"complete"}) \{
+                \textcolor{keywordflow}{throw} new \(\backslash\)Exception(
+                    \textcolor{stringliteral}{"Export request '\{$status\}':, response: "} . print\_r($response, \textcolor{keyword}{true})
+                );
+            \}
+
+            $report\_url = $response->getData()[\textcolor{stringliteral}{"data"}][\textcolor{stringliteral}{"url"}];
+
+            $csv\_report\_reader = \textcolor{keyword}{new} ReportReaderCSV(
+                $report\_url
             );
 
             $csv\_report\_reader->read();
