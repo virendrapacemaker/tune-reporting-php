@@ -1,0 +1,5 @@
+# PHPStorm project files
+.idea/
+
+# Composer vendors
+Vendors
