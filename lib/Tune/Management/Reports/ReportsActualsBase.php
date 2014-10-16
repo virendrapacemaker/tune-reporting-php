@@ -37,6 +37,8 @@
 
 namespace Tune\Management\Reports;
 
+use Tune\Management\Endpoints\TuneManagementBase;
+
 /**
  * Base class intended for gathering from Advertiser Stats actuals.
  *
@@ -107,7 +109,7 @@ abstract class ReportsActualsBase extends ReportsBase
             TuneManagementBase::validateDateTime('end_date', $end_date);
         }
         if (!is_null($group)) {
-            $filter = $this->validateGroup($group);
+            $group = $this->validateGroup($group);
         }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
@@ -162,7 +164,7 @@ abstract class ReportsActualsBase extends ReportsBase
             TuneManagementBase::validateDateTime('end_date', $end_date);
         }
         if (!is_null($group)) {
-            $filter = $this->validateGroup($group);
+            $group = $this->validateGroup($group);
         }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
@@ -228,7 +230,7 @@ abstract class ReportsActualsBase extends ReportsBase
             TuneManagementBase::validateDateTime('end_date', $end_date);
         }
         if (!is_null($group)) {
-            $filter = $this->validateGroup($group);
+            $group = $this->validateGroup($group);
         }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);

@@ -19,12 +19,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-PHP Version 5.3
-
-@category  Tune
-@package   Tune_PHP_SDK
-@author    Jeff Tanner <jefft@tune.com>
-@copyright 2014 Tune (http://www.tune.com)
-@license   http://opensource.org/licenses/MIT The MIT License (MIT)
-@version   0.9.1
-@link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+License   http://opensource.org/licenses/MIT The MIT License (MIT)

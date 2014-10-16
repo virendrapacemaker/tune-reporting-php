@@ -133,6 +133,7 @@ $(document).ready(function(){initNavTree('ExampleClicks_8php-example.html','');}
 <div class="line"></div>
 <div class="line">use <a name="_a0"></a><a class="code" href="classTune_1_1Management_1_1Api_1_1Advertiser_1_1Stats_1_1Clicks.html">Tune\Management\Api\Advertiser\Stats\Clicks</a>;</div>
 <div class="line">use <a name="_a1"></a><a class="code" href="classTune_1_1Management_1_1Api_1_1Export.html">Tune\Management\Api\Export</a>;</div>
+<div class="line">use <a name="_a2"></a><a class="code" href="classTune_1_1Management_1_1Reports_1_1ReportReaderCSV.html">Tune\Management\Reports\ReportReaderCSV</a>;</div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">/**</span></div>
 <div class="line"><span class="comment"> * Class ExampleClicks</span></div>
@@ -256,11 +257,53 @@ $(document).ready(function(){initNavTree('ExampleClicks_8php-example.html','');}
 <div class="line"></div>
 <div class="line">            $export = <span class="keyword">new</span> Export($api_key);</div>
 <div class="line"></div>
-<div class="line">            $csv_report_reader = $export-&gt;fetch(</div>
-<div class="line">                $job_id,</div>
-<div class="line">                $report_format = <span class="stringliteral">&quot;csv&quot;</span>,</div>
-<div class="line">                $verbose = <span class="keyword">true</span>,</div>
-<div class="line">                $sleep = 10</div>
+<div class="line">            $status = null;</div>
+<div class="line">            $response = null;</div>
+<div class="line">            $attempt = 0;</div>
+<div class="line"></div>
+<div class="line">            <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"></div>
+<div class="line">                $response = $export-&gt;download($job_id);</div>
+<div class="line"></div>
+<div class="line">                <span class="keywordflow">if</span> (is_null($response)) {</div>
+<div class="line">                    <span class="keywordflow">throw</span> new \Exception(<span class="stringliteral">&quot;No response returned from export request.&quot;</span>);</div>
+<div class="line">                }</div>
+<div class="line"></div>
+<div class="line">                $request_url = $response-&gt;getRequestUrl();</div>
+<div class="line">                $response_http_code = $response-&gt;getHttpCode();</div>
+<div class="line"></div>
+<div class="line">                <span class="keywordflow">if</span> (is_null($response-&gt;getData())) {</div>
+<div class="line">                    <span class="keywordflow">throw</span> new \Exception(</div>
+<div class="line">                        <span class="stringliteral">&quot;No response data returned from export. Request URL: &#39;{$request_url}&#39;&quot;</span></div>
+<div class="line">                    );</div>
+<div class="line">                }</div>
+<div class="line"></div>
+<div class="line">                <span class="keywordflow">if</span> ($response_http_code != 200) {</div>
+<div class="line">                    <span class="keywordflow">throw</span> new \Exception(</div>
+<div class="line">                        <span class="stringliteral">&quot;Service failed request: {$response_http_code}. Request URL: &#39;{$request_url}&#39;&quot;</span></div>
+<div class="line">                    );</div>
+<div class="line">                }</div>
+<div class="line"></div>
+<div class="line">                $status = $response-&gt;getData()[<span class="stringliteral">&quot;status&quot;</span>];</div>
+<div class="line">                <span class="keywordflow">if</span> ($status == <span class="stringliteral">&quot;fail&quot;</span> || $status == <span class="stringliteral">&quot;complete&quot;</span>) {</div>
+<div class="line">                    <span class="keywordflow">break</span>;</div>
+<div class="line">                }</div>
+<div class="line"></div>
+<div class="line">                $attempt += 1;</div>
+<div class="line">                echo <span class="stringliteral">&quot;= attempt: {$attempt}, response: &quot;</span> . print_r($response, <span class="keyword">true</span>) . PHP_EOL;</div>
+<div class="line">                sleep(10);</div>
+<div class="line">            }</div>
+<div class="line"></div>
+<div class="line">            <span class="keywordflow">if</span> ($status != <span class="stringliteral">&quot;complete&quot;</span>) {</div>
+<div class="line">                <span class="keywordflow">throw</span> new \Exception(</div>
+<div class="line">                    <span class="stringliteral">&quot;Export request &#39;{$status}&#39;:, response: &quot;</span> . print_r($response, <span class="keyword">true</span>)</div>
+<div class="line">                );</div>
+<div class="line">            }</div>
+<div class="line"></div>
+<div class="line">            $report_url = $response-&gt;getData()[<span class="stringliteral">&quot;data&quot;</span>][<span class="stringliteral">&quot;url&quot;</span>];</div>
+<div class="line"></div>
+<div class="line">            $csv_report_reader = <span class="keyword">new</span> ReportReaderCSV(</div>
+<div class="line">                $report_url</div>
 <div class="line">            );</div>
 <div class="line"></div>
 <div class="line">            $csv_report_reader-&gt;read();</div>
@@ -303,7 +346,7 @@ $(document).ready(function(){initNavTree('ExampleClicks_8php-example.html','');}
 <div class="line">            $json_report_reader-&gt;read();</div>
 <div class="line">            $json_report_reader-&gt;prettyPrint($limit = 5);</div>
 <div class="line"></div>
-<div class="line">        } <span class="keywordflow">catch</span> (\<a name="_a2"></a><a class="code" href="classException.html">Exception</a> $ex) {</div>
+<div class="line">        } <span class="keywordflow">catch</span> (\<a name="_a3"></a><a class="code" href="classException.html">Exception</a> $ex) {</div>
 <div class="line">            <span class="keywordflow">throw</span> $ex;</div>
 <div class="line">        }</div>
 <div class="line">    }</div>
@@ -313,7 +356,7 @@ $(document).ready(function(){initNavTree('ExampleClicks_8php-example.html','');}
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Oct 15 2014 16:30:21 for Tune Management SDK - PHP by
+    <li class="footer">Generated on Thu Oct 16 2014 07:30:10 for Tune Management SDK - PHP by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

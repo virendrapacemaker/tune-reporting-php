@@ -125,13 +125,13 @@ object
 \end{DoxyReturn}
 
 
-Definition at line 190 of file Report\-Export\-Worker.\-php.
+Definition at line 189 of file Report\-Export\-Worker.\-php.
 
 
 \begin{DoxyCode}
-191     \{
-192         \textcolor{keywordflow}{return} $this->response;
-193     \}
+190     \{
+191         \textcolor{keywordflow}{return} $this->response;
+192     \}
 \end{DoxyCode}
 \hypertarget{classTune_1_1Management_1_1Reports_1_1ReportExportWorker_af686be7659c034935eca1fd7ef073530}{\index{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}!run@{run}}
 \index{run@{run}!Tune::Management::Reports::ReportExportWorker@{Tune\-::\-Management\-::\-Reports\-::\-Report\-Export\-Worker}}
@@ -158,59 +158,58 @@ Definition at line 129 of file Report\-Export\-Worker.\-php.
 
 \begin{DoxyCode}
 130     \{
-131         $percent\_complete = 0;
-132         $status = null;
-133         $response = null;
-134         $attempt = 0;
-135 
-136         \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
-137 
-138             $mod\_export\_function = $this->mod\_export\_function;
-139             $response = $this->class\_export->$mod\_export\_function($this->job\_id);
-140 
-141             \textcolor{keywordflow}{if} (is\_null($response)) \{
-142                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"No response returned from export request."});
-143             \}
-144 
-145             $request\_url = $response->getRequestUrl();
-146             $response\_http\_code = $response->getHttpCode();
-147 
-148             \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
-149                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(
-150                     \textcolor{stringliteral}{"No response data returned from export. Request URL: '\{$request\_url\}'"}
-151                 );
-152             \}
-153 
-154             \textcolor{keywordflow}{if} ($response\_http\_code != 200) \{
-155                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
-156                     \textcolor{stringliteral}{"Service failed request: \{$response\_http\_code\}. Request URL: '\{$request\_url\}'"}
-157                 );
-158             \}
-159 
-160             $status = $response->getData()[\textcolor{stringliteral}{"status"}];
-161             \textcolor{keywordflow}{if} ($status == \textcolor{stringliteral}{"fail"} || $status == \textcolor{stringliteral}{"complete"}) \{
-162                 \textcolor{keywordflow}{break};
-163             \}
-164 
-165             $attempt += 1;
-166             \textcolor{keywordflow}{if} ($this->verbose) \{
-167                 echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
-168             \}
-169             sleep($this->sleep);
-170         \}
-171 
-172         \textcolor{keywordflow}{if} ($status != \textcolor{stringliteral}{"complete"}) \{
-173             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
-174                 \textcolor{stringliteral}{"Export request '\{$status\}':, response: "} . print\_r($response, \textcolor{keyword}{true})
-175             );
-176         \}
-177 
-178         \textcolor{keywordflow}{if} ($this->verbose) \{
-179             echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
-180         \}
-181 
-182         $this->response = $response;
-183     \}
+131         $status = null;
+132         $response = null;
+133         $attempt = 0;
+134 
+135         \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
+136 
+137             $mod\_export\_function = $this->mod\_export\_function;
+138             $response = $this->class\_export->$mod\_export\_function($this->job\_id);
+139 
+140             \textcolor{keywordflow}{if} (is\_null($response)) \{
+141                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"No response returned from export request."});
+142             \}
+143 
+144             $request\_url = $response->getRequestUrl();
+145             $response\_http\_code = $response->getHttpCode();
+146 
+147             \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
+148                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(
+149                     \textcolor{stringliteral}{"No response data returned from export. Request URL: '\{$request\_url\}'"}
+150                 );
+151             \}
+152 
+153             \textcolor{keywordflow}{if} ($response\_http\_code != 200) \{
+154                 \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
+155                     \textcolor{stringliteral}{"Service failed request: \{$response\_http\_code\}. Request URL: '\{$request\_url\}'"}
+156                 );
+157             \}
+158 
+159             $status = $response->getData()[\textcolor{stringliteral}{"status"}];
+160             \textcolor{keywordflow}{if} ($status == \textcolor{stringliteral}{"fail"} || $status == \textcolor{stringliteral}{"complete"}) \{
+161                 \textcolor{keywordflow}{break};
+162             \}
+163 
+164             $attempt += 1;
+165             \textcolor{keywordflow}{if} ($this->verbose) \{
+166                 echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+167             \}
+168             sleep($this->sleep);
+169         \}
+170 
+171         \textcolor{keywordflow}{if} ($status != \textcolor{stringliteral}{"complete"}) \{
+172             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(
+173                 \textcolor{stringliteral}{"Export request '\{$status\}':, response: "} . print\_r($response, \textcolor{keyword}{true})
+174             );
+175         \}
+176 
+177         \textcolor{keywordflow}{if} ($this->verbose) \{
+178             echo \textcolor{stringliteral}{"= attempt: \{$attempt\}, response: "} . print\_r($response, \textcolor{keyword}{true}) . PHP\_EOL;
+179         \}
+180 
+181         $this->response = $response;
+182     \}
 \end{DoxyCode}
 
 

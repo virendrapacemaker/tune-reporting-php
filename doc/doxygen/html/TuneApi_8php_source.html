@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>Tune Management SDK - PHP: lib/TuneAutoloader.php Source File</title>
+<title>Tune Management SDK - PHP: lib/TuneApi.php Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('TuneAutoloader_8php_source.html','');});
+$(document).ready(function(){initNavTree('TuneApi_8php_source.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -89,12 +89,12 @@ $(document).ready(function(){initNavTree('TuneAutoloader_8php_source.html','');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">TuneAutoloader.php</div>  </div>
+<div class="title">TuneApi.php</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="TuneAutoloader_8php.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&lt;?php<span class="comment"></span></div>
+<a href="TuneApi_8php.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;&lt;?php<span class="comment"></span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * TuneAutoloader.php</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * TuneApi.php</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * Autoloading class file locations hierarchy by supplying it with</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * a function to run.</span></div>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('TuneAutoloader_8php_source.html','');}
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> * Tune SDK Autoloader Class</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classTune_1_1TuneAutoloader.html">   47</a></span>&#160;<span class="keyword">class </span><a class="code" href="classTune_1_1TuneAutoloader.html">TuneAutoloader</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classTune_1_1TuneApi.html">   47</a></span>&#160;<span class="keyword">class </span><a class="code" href="classTune_1_1TuneApi.html">TuneApi</a></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"></span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">    /**</span></div>
@@ -148,7 +148,7 @@ $(document).ready(function(){initNavTree('TuneAutoloader_8php_source.html','');}
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">     * that it can use only public methods, though it can use private/protected</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">     * methods as well, if registered from inside the class.</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classTune_1_1TuneAutoloader.html#ac5c45726c43d381e2972209924591a27">   57</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classTune_1_1TuneAutoloader.html#ac5c45726c43d381e2972209924591a27">__construct</a>()</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classTune_1_1TuneApi.html#a791d5db2d5d8dc835c4e1f3cfc7319b1">   57</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classTune_1_1TuneApi.html#a791d5db2d5d8dc835c4e1f3cfc7319b1">__construct</a>()</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        spl_autoload_register(array($this, <span class="stringliteral">&#39;autoloadTuneSdk&#39;</span>));</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
@@ -179,17 +179,17 @@ $(document).ready(function(){initNavTree('TuneAutoloader_8php_source.html','');}
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">   88</a></span>&#160;<a class="code" href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">$autoloader</a> = <span class="keyword">new</span> <a class="code" href="classTune_1_1TuneAutoloader.html">TuneAutoloader</a>();</div>
-<div class="ttc" id="classTune_1_1TuneAutoloader_html_ac5c45726c43d381e2972209924591a27"><div class="ttname"><a href="classTune_1_1TuneAutoloader.html#ac5c45726c43d381e2972209924591a27">Tune\TuneAutoloader\__construct</a></div><div class="ttdeci">__construct()</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="TuneAutoloader_8php_source.html#l00057">TuneAutoloader.php:57</a></div></div>
-<div class="ttc" id="classTune_1_1TuneAutoloader_html"><div class="ttname"><a href="classTune_1_1TuneAutoloader.html">Tune\TuneAutoloader</a></div><div class="ttdoc">Tune SDK Autoloader Class. </div><div class="ttdef"><b>Definition:</b> <a href="TuneAutoloader_8php_source.html#l00047">TuneAutoloader.php:47</a></div></div>
-<div class="ttc" id="namespaceTune_html_a45833c84db9823c05fccd9d72c991286"><div class="ttname"><a href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">Tune\$autoloader</a></div><div class="ttdeci">$autoloader</div><div class="ttdef"><b>Definition:</b> <a href="TuneAutoloader_8php_source.html#l00088">TuneAutoloader.php:88</a></div></div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">   88</a></span>&#160;<a class="code" href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">$autoloader</a> = <span class="keyword">new</span> <a class="code" href="classTune_1_1TuneApi.html">TuneApi</a>();</div>
+<div class="ttc" id="classTune_1_1TuneApi_html_a791d5db2d5d8dc835c4e1f3cfc7319b1"><div class="ttname"><a href="classTune_1_1TuneApi.html#a791d5db2d5d8dc835c4e1f3cfc7319b1">Tune\TuneApi\__construct</a></div><div class="ttdeci">__construct()</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="TuneApi_8php_source.html#l00057">TuneApi.php:57</a></div></div>
+<div class="ttc" id="classTune_1_1TuneApi_html"><div class="ttname"><a href="classTune_1_1TuneApi.html">Tune\TuneApi</a></div><div class="ttdoc">Tune SDK Autoloader Class. </div><div class="ttdef"><b>Definition:</b> <a href="TuneApi_8php_source.html#l00047">TuneApi.php:47</a></div></div>
+<div class="ttc" id="namespaceTune_html_a45833c84db9823c05fccd9d72c991286"><div class="ttname"><a href="namespaceTune.html#a45833c84db9823c05fccd9d72c991286">Tune\$autoloader</a></div><div class="ttdeci">$autoloader</div><div class="ttdef"><b>Definition:</b> <a href="TuneApi_8php_source.html#l00088">TuneApi.php:88</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_3a8d94a30580e381f73d26ec5d1158d2.html">lib</a></li><li class="navelem"><a class="el" href="TuneAutoloader_8php.html">TuneAutoloader.php</a></li>
-    <li class="footer">Generated on Wed Oct 15 2014 16:30:21 for Tune Management SDK - PHP by
+    <li class="navelem"><a class="el" href="dir_3a8d94a30580e381f73d26ec5d1158d2.html">lib</a></li><li class="navelem"><a class="el" href="TuneApi_8php.html">TuneApi.php</a></li>
+    <li class="footer">Generated on Thu Oct 16 2014 07:30:10 for Tune Management SDK - PHP by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

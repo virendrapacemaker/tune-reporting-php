@@ -39,6 +39,7 @@ namespace Tune\Examples\Management\Api\Advertiser\Reports\Logs;
 
 use Tune\Management\Api\Advertiser\Stats\Clicks;
 use Tune\Management\Api\Export;
+use Tune\Management\Reports\ReportReaderCSV;
 
 /**
  * Class ExampleClicks
@@ -162,11 +163,53 @@ class ExampleClicks
 
             $export = new Export($api_key);
 
-            $csv_report_reader = $export->fetch(
-                $job_id,
-                $report_format = "csv",
-                $verbose = true,
-                $sleep = 10
+            $status = null;
+            $response = null;
+            $attempt = 0;
+
+            while (true) {
+
+                $response = $export->download($job_id);
+
+                if (is_null($response)) {
+                    throw new \Exception("No response returned from export request.");
+                }
+
+                $request_url = $response->getRequestUrl();
+                $response_http_code = $response->getHttpCode();
+
+                if (is_null($response->getData())) {
+                    throw new \Exception(
+                        "No response data returned from export. Request URL: '{$request_url}'"
+                    );
+                }
+
+                if ($response_http_code != 200) {
+                    throw new \Exception(
+                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
+                    );
+                }
+
+                $status = $response->getData()["status"];
+                if ($status == "fail" || $status == "complete") {
+                    break;
+                }
+
+                $attempt += 1;
+                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
+                sleep(10);
+            }
+
+            if ($status != "complete") {
+                throw new \Exception(
+                    "Export request '{$status}':, response: " . print_r($response, true)
+                );
+            }
+
+            $report_url = $response->getData()["data"]["url"];
+
+            $csv_report_reader = new ReportReaderCSV(
+                $report_url
             );
 
             $csv_report_reader->read();

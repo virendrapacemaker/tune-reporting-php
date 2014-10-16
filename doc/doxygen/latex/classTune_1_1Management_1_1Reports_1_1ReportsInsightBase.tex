@@ -168,21 +168,22 @@ Definition at line 116 of file Reports\-Insight\-Base.\-php.
 133         \}
 134 
 135         $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-136         $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-137 
-138         \textcolor{keywordflow}{return} parent::callRecords(
-139             $action = \textcolor{stringliteral}{"count"},
-140             $query\_string\_dict = array (
-141                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-142                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-143                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
-144                 \textcolor{stringliteral}{'group'} => $group,
-145                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
-146                 \textcolor{stringliteral}{'filter'} => $filter,
-147                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-148             )
-149         );
-150     \}
+136         \textcolor{keywordflow}{if} (!is\_null($filter))
+137             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+138 
+139         \textcolor{keywordflow}{return} parent::callRecords(
+140             $action = \textcolor{stringliteral}{"count"},
+141             $query\_string\_dict = array (
+142                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+143                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+144                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
+145                 \textcolor{stringliteral}{'group'} => $group,
+146                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
+147                 \textcolor{stringliteral}{'filter'} => $filter,
+148                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+149             )
+150         );
+151     \}
 \end{DoxyCode}
 
 
@@ -246,60 +247,60 @@ object
 \end{DoxyExceptions}
 
 
-Definition at line 268 of file Reports\-Insight\-Base.\-php.
+Definition at line 269 of file Reports\-Insight\-Base.\-php.
 
 
 \begin{DoxyCode}
-278       \{
-279         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, $start\_date)
+279       \{
+280         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, $start\_date)
       ;
-280         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date);
-281 
-282         \textcolor{keywordflow}{if} (!is\_string($cohort\_type) || empty($cohort\_type) || !in\_array($cohort\_type, self::$cohort\_types)
+281         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date);
+282 
+283         \textcolor{keywordflow}{if} (!is\_string($cohort\_type) || empty($cohort\_type) || !in\_array($cohort\_type, self::$cohort\_types)
       ) \{
-283             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'cohort\_type' is invalid: '\{$cohort\_type\}'."});
-284         \}
-285         \textcolor{keywordflow}{if} (!is\_string($aggregation\_type)
-286             || empty($aggregation\_type)
-287             || !in\_array($aggregation\_type, self::$aggregation\_types)
-288         ) \{
-289             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'aggregation\_type' is invalid:
+284             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'cohort\_type' is invalid: '\{$cohort\_type\}'."});
+285         \}
+286         \textcolor{keywordflow}{if} (!is\_string($aggregation\_type)
+287             || empty($aggregation\_type)
+288             || !in\_array($aggregation\_type, self::$aggregation\_types)
+289         ) \{
+290             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'aggregation\_type' is invalid:
        '\{aggregation\_type\}'."});
-290         \}
-291 
-292         \textcolor{keywordflow}{if} (!is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields})) \{
-293             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields} = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_acae456ae93947fb477bea4a847d127a7}{validateFields}(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields});
-294         \}
-295         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
-296             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-297         \}
-298         \textcolor{keywordflow}{if} (!is\_null($group)) \{
-299             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-300         \}
-301 
-302         \textcolor{keywordflow}{if} (!is\_null($cohort\_interval)) \{
-303             \textcolor{keywordflow}{if} (!is\_string($cohort\_interval) || empty($cohort\_interval) || !in\_array($cohort\_interval, 
+291         \}
+292 
+293         \textcolor{keywordflow}{if} (!is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields})) \{
+294             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields} = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_acae456ae93947fb477bea4a847d127a7}{validateFields}(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields});
+295         \}
+296         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+297             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+298         \}
+299         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+300             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+301         \}
+302 
+303         \textcolor{keywordflow}{if} (!is\_null($cohort\_interval)) \{
+304             \textcolor{keywordflow}{if} (!is\_string($cohort\_interval) || empty($cohort\_interval) || !in\_array($cohort\_interval, 
       self::$cohort\_intervals)) \{
-304                 \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'.
+305                 \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'.
       "});
-305             \}
-306         \}
-307 
-308         \textcolor{keywordflow}{return} parent::callRecords(
-309             $action = \textcolor{stringliteral}{"export"},
-310             $query\_string\_dict = array (
-311                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-312                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-313                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
-314                 \textcolor{stringliteral}{'aggregation\_type'} => $aggregation\_type,
-315                 \textcolor{stringliteral}{'group'} => $group,
-316                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
-317                 \textcolor{stringliteral}{'filter'} => $filter,
-318                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
-319                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-320             )
-321         );
-322     \}
+306             \}
+307         \}
+308 
+309         \textcolor{keywordflow}{return} parent::callRecords(
+310             $action = \textcolor{stringliteral}{"export"},
+311             $query\_string\_dict = array (
+312                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+313                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+314                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
+315                 \textcolor{stringliteral}{'aggregation\_type'} => $aggregation\_type,
+316                 \textcolor{stringliteral}{'group'} => $group,
+317                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
+318                 \textcolor{stringliteral}{'filter'} => $filter,
+319                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+320                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+321             )
+322         );
+323     \}
 \end{DoxyCode}
 
 
@@ -348,20 +349,20 @@ null
 \end{DoxyReturn}
 
 
-Definition at line 357 of file Reports\-Insight\-Base.\-php.
+Definition at line 358 of file Reports\-Insight\-Base.\-php.
 
 
 \begin{DoxyCode}
-363       \{
-364         \textcolor{keywordflow}{return} parent::fetchRecords(
-365             $mod\_export\_class,
-366             $mod\_export\_function = \textcolor{stringliteral}{"status"},
-367             $job\_id,
-368             $report\_format,
-369             $verbose,
-370             $sleep
-371         );
-372     \}
+364       \{
+365         \textcolor{keywordflow}{return} parent::fetchRecords(
+366             $mod\_export\_class,
+367             $mod\_export\_function = \textcolor{stringliteral}{"status"},
+368             $job\_id,
+369             $report\_format,
+370             $verbose,
+371             $sleep
+372         );
+373     \}
 \end{DoxyCode}
 \hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsInsightBase_a1cb8a128711b32efb903194dd84e8af6}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base}!find@{find}}
 \index{find@{find}!Tune::Management::Reports::ReportsInsightBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base}}
@@ -420,72 +421,72 @@ object
 \end{DoxyReturn}
 
 
-Definition at line 174 of file Reports\-Insight\-Base.\-php.
+Definition at line 175 of file Reports\-Insight\-Base.\-php.
 
 
 \begin{DoxyCode}
-188       \{
-189         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, $start\_date)
+189       \{
+190         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'start\_date'}, $start\_date)
       ;
-190         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date);
-191 
-192         \textcolor{keywordflow}{if} (!is\_string($cohort\_type) || empty($cohort\_type) || !in\_array($cohort\_type, self::$cohort\_types)
+191         \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a6a2939da467d84804f36b2e398516b8d}{TuneManagementBase::validateDateTime}(\textcolor{stringliteral}{'end\_date'}, $end\_date);
+192 
+193         \textcolor{keywordflow}{if} (!is\_string($cohort\_type) || empty($cohort\_type) || !in\_array($cohort\_type, self::$cohort\_types)
       ) \{
-193             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'cohort\_type' is invalid: '\{$cohort\_type\}'."});
-194         \}
-195         \textcolor{keywordflow}{if} (is\_string($cohort\_interval) && !in\_array($cohort\_interval, self::$cohort\_intervals)) \{
-196             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'."});
-197         \}
-198         \textcolor{keywordflow}{if} (!is\_string($aggregation\_type)
-199             || empty($aggregation\_type)
-200             || !in\_array($aggregation\_type, self::$aggregation\_types)
-201         ) \{
-202             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'aggregation\_type' is invalid:
+194             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'cohort\_type' is invalid: '\{$cohort\_type\}'."});
+195         \}
+196         \textcolor{keywordflow}{if} (is\_string($cohort\_interval) && !in\_array($cohort\_interval, self::$cohort\_intervals)) \{
+197             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'."});
+198         \}
+199         \textcolor{keywordflow}{if} (!is\_string($aggregation\_type)
+200             || empty($aggregation\_type)
+201             || !in\_array($aggregation\_type, self::$aggregation\_types)
+202         ) \{
+203             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'aggregation\_type' is invalid:
        '\{aggregation\_type\}'."});
-203         \}
-204 
-205         \textcolor{keywordflow}{if} (!is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields})) \{
-206             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields} = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_acae456ae93947fb477bea4a847d127a7}{validateFields}(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields});
-207         \}
-208         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
-209             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
-210         \}
-211         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
-212             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
-213         \}
-214         \textcolor{keywordflow}{if} (!is\_null($group)) \{
-215             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
-216         \}
-217 
-218         \textcolor{keywordflow}{if} (!is\_null($cohort\_interval)) \{
-219             \textcolor{keywordflow}{if} (!is\_string($cohort\_interval)
-220                 || empty($cohort\_interval)
-221                 || !in\_array($cohort\_interval, self::$cohort\_intervals)
-222             ) \{
-223                 \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'.
+204         \}
+205 
+206         \textcolor{keywordflow}{if} (!is\_null(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields})) \{
+207             \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields} = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_acae456ae93947fb477bea4a847d127a7}{validateFields}(\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields});
+208         \}
+209         \textcolor{keywordflow}{if} (!is\_null($filter)) \{
+210             $filter = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a98d644de253513032083a5504fc2f412}{validateFilter}($filter);
+211         \}
+212         \textcolor{keywordflow}{if} (!is\_null($sort)) \{
+213             $sort = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_aa81ef05c1abaf189a0fedb49af9df1bd}{validateSort}($sort);
+214         \}
+215         \textcolor{keywordflow}{if} (!is\_null($group)) \{
+216             $group = $this->\hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a54b33f72379846b3c8f8f277bda4bd5f}{validateGroup}($group);
+217         \}
+218 
+219         \textcolor{keywordflow}{if} (!is\_null($cohort\_interval)) \{
+220             \textcolor{keywordflow}{if} (!is\_string($cohort\_interval)
+221                 || empty($cohort\_interval)
+222                 || !in\_array($cohort\_interval, self::$cohort\_intervals)
+223             ) \{
+224                 \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'interval' is invalid: '\{$cohort\_interval\}'.
       "});
-224             \}
-225         \}
-226 
-227         \textcolor{keywordflow}{return} parent::callRecords(
-228             $action = \textcolor{stringliteral}{"find"},
-229             $query\_string\_dict = array (
-230                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
-231                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
-232                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
-233                 \textcolor{stringliteral}{'aggregation\_type'} => $aggregation\_type,
-234                 \textcolor{stringliteral}{'group'} => $group,
-235                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
-236                 \textcolor{stringliteral}{'filter'} => $filter,
-237                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
-238                 \textcolor{stringliteral}{'limit'} => $limit,
-239                 \textcolor{stringliteral}{'page'} => $page,
-240                 \textcolor{stringliteral}{'sort'} => $sort,
-241                 \textcolor{stringliteral}{'format'} => $format,
-242                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
-243             )
-244         );
-245     \}
+225             \}
+226         \}
+227 
+228         \textcolor{keywordflow}{return} parent::callRecords(
+229             $action = \textcolor{stringliteral}{"find"},
+230             $query\_string\_dict = array (
+231                 \textcolor{stringliteral}{'start\_date'} => $start\_date,
+232                 \textcolor{stringliteral}{'end\_date'} => $end\_date,
+233                 \textcolor{stringliteral}{'cohort\_type'} => $cohort\_type,
+234                 \textcolor{stringliteral}{'aggregation\_type'} => $aggregation\_type,
+235                 \textcolor{stringliteral}{'group'} => $group,
+236                 \textcolor{stringliteral}{'interval'} => $cohort\_interval,
+237                 \textcolor{stringliteral}{'filter'} => $filter,
+238                 \textcolor{stringliteral}{'fields'} => \hyperlink{classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_a215be5184c46eee7b2b3febaba85f91b}{$fields},
+239                 \textcolor{stringliteral}{'limit'} => $limit,
+240                 \textcolor{stringliteral}{'page'} => $page,
+241                 \textcolor{stringliteral}{'sort'} => $sort,
+242                 \textcolor{stringliteral}{'format'} => $format,
+243                 \textcolor{stringliteral}{'response\_timezone'} => $response\_timezone
+244             )
+245         );
+246     \}
 \end{DoxyCode}
 
 
@@ -527,27 +528,27 @@ mixed
 \end{DoxyExceptions}
 
 
-Definition at line 383 of file Reports\-Insight\-Base.\-php.
+Definition at line 384 of file Reports\-Insight\-Base.\-php.
 
 
 \begin{DoxyCode}
-385       \{
-386         \textcolor{keywordflow}{if} (is\_null($response)) \{
-387             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'response' is not defined."});
-388         \}
-389 
-390         \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
-391             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Report request failed to get export data."});
-392         \}
-393 
-394         \textcolor{keywordflow}{if} (!array\_key\_exists(\textcolor{stringliteral}{"url"}, $response->getData())) \{
-395             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Export data does not contain report url for download."});
-396         \}
-397 
-398         $report\_url = $response->getData()[\textcolor{stringliteral}{"url"}];
-399 
-400         \textcolor{keywordflow}{return} $report\_url;
-401     \}
+386       \{
+387         \textcolor{keywordflow}{if} (is\_null($response)) \{
+388             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'response' is not defined."});
+389         \}
+390 
+391         \textcolor{keywordflow}{if} (is\_null($response->getData())) \{
+392             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneServiceException(\textcolor{stringliteral}{"Report request failed to get export data."});
+393         \}
+394 
+395         \textcolor{keywordflow}{if} (!array\_key\_exists(\textcolor{stringliteral}{"url"}, $response->getData())) \{
+396             \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TuneSdkException(\textcolor{stringliteral}{"Export data does not contain report url for download."});
+397         \}
+398 
+399         $report\_url = $response->getData()[\textcolor{stringliteral}{"url"}];
+400 
+401         \textcolor{keywordflow}{return} $report\_url;
+402     \}
 \end{DoxyCode}
 \hypertarget{classTune_1_1Management_1_1Reports_1_1ReportsInsightBase_aaae96a8b5716cb100ed34e37004a70ca}{\index{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base}!status@{status}}
 \index{status@{status}!Tune::Management::Reports::ReportsInsightBase@{Tune\-::\-Management\-::\-Reports\-::\-Reports\-Insight\-Base}}
@@ -569,22 +570,22 @@ string & {\em \$job\-\_\-id} & Provided Job Identifier to reference requested re
 \end{DoxyParams}
 
 
-Definition at line 330 of file Reports\-Insight\-Base.\-php.
+Definition at line 331 of file Reports\-Insight\-Base.\-php.
 
 
 \begin{DoxyCode}
-332       \{
-333         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
-334             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
-335         \}
-336 
-337         \textcolor{keywordflow}{return} parent::call(
-338             $action = \textcolor{stringliteral}{"status"},
-339             $query\_string\_dict = array (
-340                 \textcolor{stringliteral}{'job\_id'} => $job\_id
-341             )
-342         );
-343     \}
+333       \{
+334         \textcolor{keywordflow}{if} (!is\_string($job\_id) || empty($job\_id)) \{
+335             \textcolor{keywordflow}{throw} new \(\backslash\)InvalidArgumentException(\textcolor{stringliteral}{"Parameter 'job\_id' is not defined."});
+336         \}
+337 
+338         \textcolor{keywordflow}{return} parent::call(
+339             $action = \textcolor{stringliteral}{"status"},
+340             $query\_string\_dict = array (
+341                 \textcolor{stringliteral}{'job\_id'} => $job\_id
+342             )
+343         );
+344     \}
 \end{DoxyCode}
 
 

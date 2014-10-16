@@ -133,7 +133,8 @@ abstract class ReportsInsightBase extends ReportsBase
         }
 
         $group = $this->validateGroup($group);
-        $filter = $this->validateFilter($filter);
+        if (!is_null($filter))
+            $filter = $this->validateFilter($filter);
 
         return parent::callRecords(
             $action = "count",

@@ -37,7 +37,7 @@
 
 namespace Tune\Unittests\Management\Api\Account;
 
-require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . "/lib/TuneAutoloader.php";
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . "/lib/TuneApi.php";
 
 use \Tune\Management\Api\Account\Users;
 

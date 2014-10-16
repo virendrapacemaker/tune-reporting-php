@@ -392,21 +392,22 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        $group = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">validateGroup</a>($group);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            $action = <span class="stringliteral">&quot;count&quot;</span>,</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            $query_string_dict = array (</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            )</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        );</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">if</span> (!is_null($filter))</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            $action = <span class="stringliteral">&quot;count&quot;</span>,</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            $query_string_dict = array (</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            )</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        );</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a98d644de253513032083a5504fc2f412"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">Tune\Management\Endpoints\TuneManagementBase\validateFilter</a></div><div class="ttdeci">validateFilter($filter)</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00442">TuneManagementBase.php:442</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a54b33f72379846b3c8f8f277bda4bd5f"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">Tune\Management\Endpoints\TuneManagementBase\validateGroup</a></div><div class="ttdeci">validateGroup($group)</div><div class="ttdoc">Validate query string parameter &#39;group&#39; having valid endpoint&#39;s fields. </div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00379">TuneManagementBase.php:379</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a6a2939da467d84804f36b2e398516b8d"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">Tune\Management\Endpoints\TuneManagementBase\validateDateTime</a></div><div class="ttdeci">static validateDateTime($param_name, $date_time)</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00480">TuneManagementBase.php:480</a></div></div>
@@ -511,52 +512,52 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00268">268</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;      {</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;start_date&#39;</span>, $start_date);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;end_date&#39;</span>, $end_date);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="keywordflow">if</span> (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;cohort_type&#39; is invalid: &#39;{$cohort_type}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        }</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="keywordflow">if</span> (!is_string($aggregation_type)</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            || empty($aggregation_type)</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            || !in_array($aggregation_type, self::$aggregation_types)</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        ) {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;aggregation_type&#39; is invalid: &#39;{aggregation_type}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        }</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        <span class="keywordflow">if</span> (!is_null(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>)) {</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a> = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#acae456ae93947fb477bea4a847d127a7">validateFields</a>(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        }</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keywordflow">if</span> (!is_null($filter)) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        }</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">if</span> (!is_null($group)) {</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            $group = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">validateGroup</a>($group);</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">if</span> (!is_null($cohort_interval)) {</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            <span class="keywordflow">if</span> (!is_string($cohort_interval) || empty($cohort_interval) || !in_array($cohort_interval, self::$cohort_intervals)) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            }</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        }</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            $action = <span class="stringliteral">&quot;export&quot;</span>,</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            $query_string_dict = array (</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="stringliteral">&#39;aggregation_type&#39;</span> =&gt; $aggregation_type,</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                <span class="stringliteral">&#39;fields&#39;</span> =&gt; <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>,</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            )</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        );</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    }</div>
+<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00269">269</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
+<div class="fragment"><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;      {</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;start_date&#39;</span>, $start_date);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;end_date&#39;</span>, $end_date);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keywordflow">if</span> (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;cohort_type&#39; is invalid: &#39;{$cohort_type}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        }</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="keywordflow">if</span> (!is_string($aggregation_type)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            || empty($aggregation_type)</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            || !in_array($aggregation_type, self::$aggregation_types)</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        ) {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;aggregation_type&#39; is invalid: &#39;{aggregation_type}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        }</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keywordflow">if</span> (!is_null(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>)) {</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a> = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#acae456ae93947fb477bea4a847d127a7">validateFields</a>(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>);</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">if</span> (!is_null($filter)) {</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">if</span> (!is_null($group)) {</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            $group = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">validateGroup</a>($group);</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        }</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordflow">if</span> (!is_null($cohort_interval)) {</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <span class="keywordflow">if</span> (!is_string($cohort_interval) || empty($cohort_interval) || !in_array($cohort_interval, self::$cohort_intervals)) {</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            }</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        }</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            $action = <span class="stringliteral">&quot;export&quot;</span>,</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            $query_string_dict = array (</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                <span class="stringliteral">&#39;aggregation_type&#39;</span> =&gt; $aggregation_type,</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                <span class="stringliteral">&#39;fields&#39;</span> =&gt; <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>,</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            )</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        );</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a98d644de253513032083a5504fc2f412"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">Tune\Management\Endpoints\TuneManagementBase\validateFilter</a></div><div class="ttdeci">validateFilter($filter)</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00442">TuneManagementBase.php:442</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a54b33f72379846b3c8f8f277bda4bd5f"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">Tune\Management\Endpoints\TuneManagementBase\validateGroup</a></div><div class="ttdeci">validateGroup($group)</div><div class="ttdoc">Validate query string parameter &#39;group&#39; having valid endpoint&#39;s fields. </div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00379">TuneManagementBase.php:379</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a215be5184c46eee7b2b3febaba85f91b"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">Tune\Management\Endpoints\TuneManagementBase\$fields</a></div><div class="ttdeci">$fields</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00069">TuneManagementBase.php:69</a></div></div>
@@ -638,17 +639,17 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>null </dd></dl>
 
-<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00357">357</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      {</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <span class="keywordflow">return</span> parent::fetchRecords(</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            $mod_export_class,</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            $mod_export_function = <span class="stringliteral">&quot;status&quot;</span>,</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            $job_id,</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            $report_format,</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            $verbose,</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            $sleep</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        );</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    }</div>
+<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00358">358</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
+<div class="fragment"><div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;      {</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        <span class="keywordflow">return</span> parent::fetchRecords(</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            $mod_export_class,</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            $mod_export_function = <span class="stringliteral">&quot;status&quot;</span>,</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            $job_id,</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            $report_format,</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            $verbose,</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            $sleep</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        );</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -763,65 +764,65 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>object </dd></dl>
 
-<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00174">174</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;start_date&#39;</span>, $start_date);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;end_date&#39;</span>, $end_date);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordflow">if</span> (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;cohort_type&#39; is invalid: &#39;{$cohort_type}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        }</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        <span class="keywordflow">if</span> (is_string($cohort_interval) &amp;&amp; !in_array($cohort_interval, self::$cohort_intervals)) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">if</span> (!is_string($aggregation_type)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            || empty($aggregation_type)</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            || !in_array($aggregation_type, self::$aggregation_types)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        ) {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;aggregation_type&#39; is invalid: &#39;{aggregation_type}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        }</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordflow">if</span> (!is_null(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>)) {</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a> = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#acae456ae93947fb477bea4a847d127a7">validateFields</a>(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">if</span> (!is_null($filter)) {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        }</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">if</span> (!is_null($sort)) {</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            $sort = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#aa81ef05c1abaf189a0fedb49af9df1bd">validateSort</a>($sort);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">if</span> (!is_null($group)) {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            $group = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">validateGroup</a>($group);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">if</span> (!is_null($cohort_interval)) {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            <span class="keywordflow">if</span> (!is_string($cohort_interval)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                || empty($cohort_interval)</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                || !in_array($cohort_interval, self::$cohort_intervals)</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            ) {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        }</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            $action = <span class="stringliteral">&quot;find&quot;</span>,</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            $query_string_dict = array (</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="stringliteral">&#39;aggregation_type&#39;</span> =&gt; $aggregation_type,</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                <span class="stringliteral">&#39;fields&#39;</span> =&gt; <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>,</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                <span class="stringliteral">&#39;limit&#39;</span> =&gt; $limit,</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                <span class="stringliteral">&#39;page&#39;</span> =&gt; $page,</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                <span class="stringliteral">&#39;sort&#39;</span> =&gt; $sort,</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="stringliteral">&#39;format&#39;</span> =&gt; $format,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            )</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        );</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    }</div>
+<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00175">175</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
+<div class="fragment"><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;start_date&#39;</span>, $start_date);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a6a2939da467d84804f36b2e398516b8d">TuneManagementBase::validateDateTime</a>(<span class="stringliteral">&#39;end_date&#39;</span>, $end_date);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">if</span> (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;cohort_type&#39; is invalid: &#39;{$cohort_type}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">if</span> (is_string($cohort_interval) &amp;&amp; !in_array($cohort_interval, self::$cohort_intervals)) {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">if</span> (!is_string($aggregation_type)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            || empty($aggregation_type)</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            || !in_array($aggregation_type, self::$aggregation_types)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        ) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;aggregation_type&#39; is invalid: &#39;{aggregation_type}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        }</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">if</span> (!is_null(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>)) {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a> = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#acae456ae93947fb477bea4a847d127a7">validateFields</a>(<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordflow">if</span> (!is_null($filter)) {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            $filter = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">validateFilter</a>($filter);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        }</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordflow">if</span> (!is_null($sort)) {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            $sort = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#aa81ef05c1abaf189a0fedb49af9df1bd">validateSort</a>($sort);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordflow">if</span> (!is_null($group)) {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            $group = $this-&gt;<a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">validateGroup</a>($group);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        }</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">if</span> (!is_null($cohort_interval)) {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="keywordflow">if</span> (!is_string($cohort_interval)</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                || empty($cohort_interval)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                || !in_array($cohort_interval, self::$cohort_intervals)</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            ) {</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;interval&#39; is invalid: &#39;{$cohort_interval}&#39;.&quot;</span>);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            }</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">return</span> parent::callRecords(</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            $action = <span class="stringliteral">&quot;find&quot;</span>,</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            $query_string_dict = array (</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="stringliteral">&#39;start_date&#39;</span> =&gt; $start_date,</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="stringliteral">&#39;end_date&#39;</span> =&gt; $end_date,</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="stringliteral">&#39;cohort_type&#39;</span> =&gt; $cohort_type,</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                <span class="stringliteral">&#39;aggregation_type&#39;</span> =&gt; $aggregation_type,</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <span class="stringliteral">&#39;group&#39;</span> =&gt; $group,</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                <span class="stringliteral">&#39;interval&#39;</span> =&gt; $cohort_interval,</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                <span class="stringliteral">&#39;filter&#39;</span> =&gt; $filter,</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                <span class="stringliteral">&#39;fields&#39;</span> =&gt; <a class="code" href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">$fields</a>,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                <span class="stringliteral">&#39;limit&#39;</span> =&gt; $limit,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                <span class="stringliteral">&#39;page&#39;</span> =&gt; $page,</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="stringliteral">&#39;sort&#39;</span> =&gt; $sort,</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="stringliteral">&#39;format&#39;</span> =&gt; $format,</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="stringliteral">&#39;response_timezone&#39;</span> =&gt; $response_timezone</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            )</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        );</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    }</div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a98d644de253513032083a5504fc2f412"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a98d644de253513032083a5504fc2f412">Tune\Management\Endpoints\TuneManagementBase\validateFilter</a></div><div class="ttdeci">validateFilter($filter)</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00442">TuneManagementBase.php:442</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a54b33f72379846b3c8f8f277bda4bd5f"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a54b33f72379846b3c8f8f277bda4bd5f">Tune\Management\Endpoints\TuneManagementBase\validateGroup</a></div><div class="ttdeci">validateGroup($group)</div><div class="ttdoc">Validate query string parameter &#39;group&#39; having valid endpoint&#39;s fields. </div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00379">TuneManagementBase.php:379</a></div></div>
 <div class="ttc" id="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase_html_a215be5184c46eee7b2b3febaba85f91b"><div class="ttname"><a href="classTune_1_1Management_1_1Endpoints_1_1TuneManagementBase.html#a215be5184c46eee7b2b3febaba85f91b">Tune\Management\Endpoints\TuneManagementBase\$fields</a></div><div class="ttdeci">$fields</div><div class="ttdef"><b>Definition:</b> <a href="TuneManagementBase_8php_source.html#l00069">TuneManagementBase.php:69</a></div></div>
@@ -878,24 +879,24 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00383">383</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;      {</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">if</span> (is_null($response)) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;response&#39; is not defined.&quot;</span>);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        }</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> (is_null($response-&gt;getData())) {</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">throw</span> <span class="keyword">new</span> TuneServiceException(<span class="stringliteral">&quot;Report request failed to get export data.&quot;</span>);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        }</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="keywordflow">if</span> (!array_key_exists(<span class="stringliteral">&quot;url&quot;</span>, $response-&gt;getData())) {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="keywordflow">throw</span> <span class="keyword">new</span> TuneSdkException(<span class="stringliteral">&quot;Export data does not contain report url for download.&quot;</span>);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        }</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        $report_url = $response-&gt;getData()[<span class="stringliteral">&quot;url&quot;</span>];</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        <span class="keywordflow">return</span> $report_url;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    }</div>
+<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00384">384</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
+<div class="fragment"><div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;      {</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">if</span> (is_null($response)) {</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;response&#39; is not defined.&quot;</span>);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">if</span> (is_null($response-&gt;getData())) {</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="keywordflow">throw</span> <span class="keyword">new</span> TuneServiceException(<span class="stringliteral">&quot;Report request failed to get export data.&quot;</span>);</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        }</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">if</span> (!array_key_exists(<span class="stringliteral">&quot;url&quot;</span>, $response-&gt;getData())) {</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="keywordflow">throw</span> <span class="keyword">new</span> TuneSdkException(<span class="stringliteral">&quot;Export data does not contain report url for download.&quot;</span>);</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        $report_url = $response-&gt;getData()[<span class="stringliteral">&quot;url&quot;</span>];</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keywordflow">return</span> $report_url;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -922,19 +923,19 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00330">330</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
-<div class="fragment"><div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordflow">if</span> (!is_string($job_id) || empty($job_id)) {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;job_id&#39; is not defined.&quot;</span>);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        }</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">return</span> parent::call(</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            $action = <span class="stringliteral">&quot;status&quot;</span>,</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            $query_string_dict = array (</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                <span class="stringliteral">&#39;job_id&#39;</span> =&gt; $job_id</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            )</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        );</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    }</div>
+<p>Definition at line <a class="el" href="ReportsInsightBase_8php_source.html#l00331">331</a> of file <a class="el" href="ReportsInsightBase_8php_source.html">ReportsInsightBase.php</a>.</p>
+<div class="fragment"><div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      {</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">if</span> (!is_string($job_id) || empty($job_id)) {</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <span class="keywordflow">throw</span> new \InvalidArgumentException(<span class="stringliteral">&quot;Parameter &#39;job_id&#39; is not defined.&quot;</span>);</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        }</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keywordflow">return</span> parent::call(</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            $action = <span class="stringliteral">&quot;status&quot;</span>,</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            $query_string_dict = array (</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                <span class="stringliteral">&#39;job_id&#39;</span> =&gt; $job_id</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            )</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        );</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1028,7 +1029,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceTune.html">Tune</a></li><li class="navelem"><a class="el" href="namespaceTune_1_1Management.html">Management</a></li><li class="navelem"><a class="el" href="namespaceTune_1_1Management_1_1Reports.html">Reports</a></li><li class="navelem"><a class="el" href="classTune_1_1Management_1_1Reports_1_1ReportsInsightBase.html">ReportsInsightBase</a></li>
-    <li class="footer">Generated on Wed Oct 15 2014 16:30:21 for Tune Management SDK - PHP by
+    <li class="footer">Generated on Thu Oct 16 2014 07:30:11 for Tune Management SDK - PHP by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

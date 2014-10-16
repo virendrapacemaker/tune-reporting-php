@@ -42,7 +42,7 @@
 
 namespace Tune\Examples;
 
-require_once dirname(__FILE__) . "/../lib/TuneAutoloader.php";
+require_once dirname(__FILE__) . "/../lib/TuneApi.php";
 require_once dirname(__FILE__) . "/TuneExamplesAutoloader.php";
 
 global $argc, $argv;
@@ -91,7 +91,7 @@ class TuneExamples
             \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleInstalls::run($api_key);
             \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExamplePostbackUrls::run($api_key);
 
-            // \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleUpdates::run($api_key);
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleUpdates::run($api_key);
 
             \Tune\Examples\Management\Api\Advertiser\Reports\ExampleActuals::run($api_key);
             \Tune\Examples\Management\Api\Advertiser\Reports\ExampleCohort::run($api_key);
