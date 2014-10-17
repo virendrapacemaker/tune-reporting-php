@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -77,7 +77,7 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
             $end_date,
             $cohort_type         = "click",
             $group               = "ad_network_id,install_publisher_id,country_id",
-            $interval            = "year_day",
+            $cohort_interval     = "year_day",
             $filter              = null,
             $response_timezone   = "America/Los_Angeles"
         );
@@ -104,11 +104,11 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "ad_network_id,install_publisher_id,country_id",
-            $interval            = "year_day",
-            $filter              = null,
             $fields              = "installs,opens,ad_network.name"
-            . ",install_publisher.name,country.name"
-            . ",ad_network_id,install_publisher_id,country_id",
+                . ",install_publisher.name,country.name"
+                . ",ad_network_id,install_publisher_id,country_id",
+            $cohort_interval     = "year_day",
+            $filter              = null,
             $limit               = 10,
             $page                = null,
             $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
@@ -135,11 +135,11 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "ad_network_id,install_publisher_id,country_id",
-            $interval            = "year_day",
-            $filter              = null,
             $fields              = "installs,opens,ad_network.name"
-            . ",install_publisher.name,country.name"
-            . ",ad_network_id,install_publisher_id,country_id",
+                . ",install_publisher.name,country.name"
+                . ",ad_network_id,install_publisher_id,country_id",
+            $cohort_interval     = "year_day",
+            $filter              = null,
             $response_timezone   = "America/Los_Angeles"
         );
 

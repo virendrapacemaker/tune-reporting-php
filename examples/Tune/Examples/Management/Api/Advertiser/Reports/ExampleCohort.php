@@ -1,7 +1,7 @@
 <?php
 /**
  * ExampleCohort.php
- * 
+ *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -38,6 +38,7 @@
 namespace Tune\Examples\Management\Api\Advertiser\Reports;
 
 use \Tune\Management\Api\Advertiser\Stats\LTV;
+use Tune\Management\Shared\Reports\ReportReaderCSV;
 
 /**
  * Class ExampleCohort
@@ -93,7 +94,7 @@ class ExampleCohort
                 $end_date,
                 $cohort_type         = "click",
                 $group               = "site_id,campaign_id,publisher_id",
-                $interval            = "year_day",
+                $cohort_interval     = "year_day",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -116,12 +117,12 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,campaign_id,publisher_id",
-                $interval            = "year_day",
-                $filter              = "(publisher_id > 0)",
                 $fields              = "site_id,site.name,campaign_id"
-                . ",campaign.name,publisher_id,publisher.name"
-                . ",installs,events,purchases,opens,cpi,rpi,epi"
-                . ",opi,currency_code",
+                    . ",campaign.name,publisher_id,publisher.name"
+                    . ",installs,events,purchases,opens,cpi,rpi,epi"
+                    . ",opi,currency_code",
+                $cohort_interval     = "year_day",
+                $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
                 $sort                = null,
@@ -146,12 +147,12 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,campaign_id,publisher_id",
-                $interval            = "year_day",
-                $filter              = "(publisher_id > 0)",
                 $fields              = "site_id,site.name,campaign_id"
-                . ",campaign.name,publisher_id,publisher.name"
-                . ",installs,events,purchases,opens,cpi,rpi,epi"
-                . ",opi,currency_code",
+                    . ",campaign.name,publisher_id,publisher.name"
+                    . ",installs,events,purchases,opens,cpi,rpi,epi"
+                    . ",opi,currency_code",
+                $cohort_interval     = "year_day",
+                $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
                 $sort                = null,
@@ -177,12 +178,98 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,campaign_id,publisher_id",
-                $interval            = "year_day",
-                $filter              = "(publisher_id > 0)",
                 $fields              = "site_id,site.name,campaign_id"
-                . ",campaign.name,publisher_id,publisher.name"
-                . ",installs,events,purchases,opens,cpi,rpi,epi"
-                . ",opi,currency_code",
+                    . ",campaign.name,publisher_id,publisher.name"
+                    . ",installs,events,purchases,opens,cpi,rpi,epi"
+                    . ",opi,currency_code",
+                $cohort_interval     = "year_day",
+                $filter              = "(publisher_id > 0)",
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            echo "= advertiser/stats/ltv/export.json response:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
+            if ($response->getHttpCode() != 200) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                );
+            }
+            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
+
+            $job_id = $response->getData()["job_id"];
+
+            echo "======================================================" . PHP_EOL;
+
+            $status = null;
+            $response = null;
+            $attempt = 0;
+
+            while (true) {
+
+                $response = $ltv->status($job_id);
+
+                if (is_null($response)) {
+                    throw new \Exception("No response returned from export request.");
+                }
+
+                $request_url = $response->getRequestUrl();
+                $response_http_code = $response->getHttpCode();
+
+                if (is_null($response->getData())) {
+                    throw new \Exception(
+                        "No response data returned from export. Request URL: '{$request_url}'"
+                    );
+                }
+
+                if ($response_http_code != 200) {
+                    throw new \Exception(
+                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
+                    );
+                }
+
+                $status = $response->getData()["status"];
+                if ($status == "fail" || $status == "complete") {
+                    break;
+                }
+
+                $attempt += 1;
+                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
+                sleep(10);
+            }
+
+            if ($status != "complete") {
+                throw new \Exception(
+                    "Export request '{$status}':, response: " . print_r($response, true)
+                );
+            }
+
+            $report_url = $response->getData()["url"];
+
+            $csv_report_reader = new ReportReaderCSV(
+                $report_url
+            );
+
+            $csv_report_reader->read();
+            $csv_report_reader->prettyPrint($limit = 5);
+
+            echo "======================================================" . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo "= advertiser/stats/ltv/export.json request #2         =" . PHP_EOL;
+
+            $response = $ltv->export(
+                $start_date,
+                $end_date,
+                $cohort_type         = "click",
+                $aggregation_type    = "cumulative",
+                $group               = "site_id,campaign_id,publisher_id",
+                $fields              = "site_id,site.name,campaign_id"
+                    . ",campaign.name,publisher_id,publisher.name"
+                    . ",installs,events,purchases,opens,cpi,rpi,epi"
+                    . ",opi,currency_code",
+                $cohort_interval     = "year_day",
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 

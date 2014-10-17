@@ -1,6 +1,6 @@
 <?php
 /**
- * Version.php
+ * SDK Custom Exception TuneSdkException.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -35,6 +35,32 @@
  *
  */
 
-namespace Tune;
+namespace Tune\Shared;
 
-define("TUNE_SDK_VERSION", "0.9.2");
+/**
+ * TuneSdkException is thrown when the Tune SDK has detected an error within
+ * its code, regardless of any given TuneRequest.
+ */
+class TuneSdkException extends \Exception
+{
+    /**
+     * Redefine the exception so message isn't optional
+     *
+     * @param string $message
+     * @param int    $code
+     */
+    public function __construct($message, $code = 0)
+    {
+        parent::__construct($message, $code);
+    }
+
+    /**
+     * Custom string representation of object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+    }
+}

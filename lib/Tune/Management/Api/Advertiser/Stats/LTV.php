@@ -29,14 +29,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser\Stats;
 
-use Tune\Management\Reports\ReportsInsightBase;
+use Tune\Management\Shared\Reports\ReportsInsightBase;
 
 /**
  * Tune Management API controller 'advertiser/stats/ltv'
@@ -67,7 +67,7 @@ class LTV extends ReportsInsightBase
 
     /**
      * Helper function for fetching report document given provided job identifier.
-     * 
+     *
      * @param string $job_id            Job Identifier of report on queue.
      * @param string $report_format     Requested document format: csv, json
      * @param bool   $verbose           For debugging purposes only.

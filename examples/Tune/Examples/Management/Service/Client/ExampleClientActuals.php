@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -71,7 +71,7 @@ class ExampleClientActuals
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $client = new \Tune\Management\Service\TuneManagementClient(
+        $client = new \Tune\Management\Shared\Service\TuneManagementClient(
             $controller = 'advertiser/stats',
             $action = 'find.json',
             $api_key,

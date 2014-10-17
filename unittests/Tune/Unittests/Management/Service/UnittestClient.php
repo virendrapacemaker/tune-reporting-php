@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -39,7 +39,7 @@ namespace Tune\Unittests;
 
 require_once dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . "/lib/TuneApi.php";
 
-use \Tune\Management\Service\TuneManagementClient;
+use \Tune\Management\Shared\Service\TuneManagementClient;
 
 /**
  * Unittest basic functionality of TuneManagementClient

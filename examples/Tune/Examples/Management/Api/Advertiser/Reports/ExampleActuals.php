@@ -1,7 +1,7 @@
 <?php
 /**
  * ExampleActuals.php
- * 
+ *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
  *
@@ -30,14 +30,16 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports;
 
-use \Tune\Management\Api\Advertiser\Stats;
+use Tune\Management\Api\Advertiser\Stats;
+use Tune\Management\Api\Export;
+use Tune\Management\Shared\Reports\ReportReaderCSV;
 
 /**
  * Class ExampleActuals
@@ -172,13 +174,55 @@ class ExampleActuals
 
             echo "======================================================" . PHP_EOL;
 
-            $export = new \Tune\Management\Api\Export($api_key);
+            $export = new Export($api_key);
 
-            $csv_report_reader = $export->fetch(
-                $job_id,
-                $report_format = "csv",
-                $verbose = true,
-                $sleep = 10
+            $status = null;
+            $response = null;
+            $attempt = 0;
+
+            while (true) {
+
+                $response = $export->download($job_id);
+
+                if (is_null($response)) {
+                    throw new \Exception("No response returned from export request.");
+                }
+
+                $request_url = $response->getRequestUrl();
+                $response_http_code = $response->getHttpCode();
+
+                if (is_null($response->getData())) {
+                    throw new \Exception(
+                        "No response data returned from export. Request URL: '{$request_url}'"
+                    );
+                }
+
+                if ($response_http_code != 200) {
+                    throw new \Exception(
+                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
+                    );
+                }
+
+                $status = $response->getData()["status"];
+                if ($status == "fail" || $status == "complete") {
+                    break;
+                }
+
+                $attempt += 1;
+                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
+                sleep(10);
+            }
+
+            if ($status != "complete") {
+                throw new \Exception(
+                    "Export request '{$status}':, response: " . print_r($response, true)
+                );
+            }
+
+            $report_url = $response->getData()["data"]["url"];
+
+            $csv_report_reader = new ReportReaderCSV(
+                $report_url
             );
 
             $csv_report_reader->read();

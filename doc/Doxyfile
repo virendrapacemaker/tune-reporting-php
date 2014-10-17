@@ -5,10 +5,10 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Tune Management SDK - PHP"
-PROJECT_NUMBER         = 0.9.1
+PROJECT_NUMBER         = 0.9.2
 PROJECT_BRIEF          =
-PROJECT_LOGO           = /data/www/ManagementSDK/PHP/doc/tune-logo-with-dial.png
-OUTPUT_DIRECTORY       = /data/www/ManagementSDK/PHP/doc/doxygen
+PROJECT_LOGO           = /data/www/ManagementSDK/tune-api-php/doc/tune-logo-with-dial.png
+OUTPUT_DIRECTORY       = /data/www/ManagementSDK/tune-api-php/doc/doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -97,7 +97,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = /data/www/ManagementSDK/PHP/lib
+INPUT                  = /data/www/ManagementSDK/tune-api-php/lib
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.php
 RECURSIVE              = YES
@@ -105,7 +105,7 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =
-EXAMPLE_PATH           = /data/www/ManagementSDK/PHP
+EXAMPLE_PATH           = /data/www/ManagementSDK/tune-api-php
 EXAMPLE_PATTERNS       = *.php
 EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             =
