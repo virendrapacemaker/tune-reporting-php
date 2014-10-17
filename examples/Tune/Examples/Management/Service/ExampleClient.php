@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -67,9 +67,9 @@ class ExampleClient
             \Tune\Examples\Management\Service\Client\ExampleClientAccount::run($api_key);
             \Tune\Examples\Management\Service\Client\ExampleClientActuals::run($api_key);
             \Tune\Examples\Management\Service\Client\ExampleClientLogs::run($api_key);
-        } catch (\Tune\Common\TuneServiceException $ex) {
+        } catch (\Tune\Shared\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";
-        } catch (\Tune\Common\TuneSdkException $ex) {
+        } catch (\Tune\Shared\TuneSdkException $ex) {
             echo 'TuneSdkException: ' . $ex->getMessage() . "\n";
         } catch (\InvalidArgumentException $ex) {
             echo 'Invalid arguments: ' . $ex->getMessage() . "\n";

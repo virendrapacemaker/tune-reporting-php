@@ -1,4 +1,0 @@
-<map id="Exception" name="Exception">
-<area shape="rect" id="node3" href="$classTune_1_1Common_1_1TuneSdkException.html" title="TuneSdkException is thrown when the Tune SDK has detected an error within its code, regardless of any given TuneRequest. " alt="" coords="5,153,224,271"/>
-<area shape="rect" id="node5" href="$classTune_1_1Common_1_1TuneServiceException.html" title="{Tune\\Common\\TuneServiceException\n||+ __construct()\l+ __toString()\l}" alt="" coords="248,153,488,271"/>
-</map>

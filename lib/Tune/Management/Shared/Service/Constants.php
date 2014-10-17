@@ -1,6 +1,6 @@
 <?php
 /**
- * Version.php
+ * Constants.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -35,6 +35,7 @@
  *
  */
 
-namespace Tune;
+namespace Tune\Management\Shared\Service;
 
-define("TUNE_SDK_VERSION", "0.9.2");
+define("TUNE_MANAGEMENT_API_BASE_URL", "https://api.mobileapptracking.com");
+define("TUNE_MANAGEMENT_API_VERSION", "v2");

@@ -1,3 +1,0 @@
-<map id="Tune\Management\Reports\ReportReaderCSV" name="Tune\Management\Reports\ReportReaderCSV">
-<area shape="rect" id="node2" href="$classTune_1_1Management_1_1Reports_1_1ReportReaderBase.html" title="{Tune\\Management\\Reports\l\\ReportReaderBase\n|# $report_url\l# $report_data\l# $report_data_size\l|+ __construct()\l+ read()\l+ prettyPrint()\l+ getReportUrl()\l+ getReportData()\l+ getReportDataCount()\l+ getReportDataSize()\l+ retrieveRemoteFile()\l+ retrieveRemoteFileSize()\l}" alt="" coords="5,6,184,338"/>
-</map>

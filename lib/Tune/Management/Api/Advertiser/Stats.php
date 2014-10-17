@@ -1,7 +1,7 @@
 <?php
 /**
  * Stats.php
- * 
+ *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
  *
@@ -30,14 +30,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.1
+ * @version   0.9.2
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser;
 
-use Tune\Management\Reports\ReportsActualsBase;
+use Tune\Management\Shared\Reports\ReportsActualsBase;
 
 /**
  * Tune Management API endpoint '/advertiser/stats/'
@@ -50,7 +50,7 @@ class Stats extends ReportsActualsBase
 {
     /**
      * Constructor
-     * 
+     *
      * @param string $api_key MobileAppTracking API Key
      */
     public function __construct(

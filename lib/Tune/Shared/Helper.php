@@ -1,6 +1,6 @@
 <?php
 /**
- * Version.php
+ * Helper.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -35,6 +35,61 @@
  *
  */
 
-namespace Tune;
+/**
+ * @param $array
+ * @return bool
+ */
+function isAssoc($array)
+{
+    return ($array !== array_values($array));
+}
 
-define("TUNE_SDK_VERSION", "0.9.2");
+/**
+ * @param $str
+ * @return string|void
+ */
+function addQuotes($str)
+{
+    return sprintf("'%s'", $str);
+}
+
+/**
+ * @param $glue
+ * @param $array
+ * @return string|void
+ */
+function implodeQuotes($glue, $array)
+{
+    return implode($glue, array_map('addQuotes', $array));
+}
+
+/**
+ * @param int $int
+ * @return bool
+ */
+function isEven($int)
+{
+    return !( ( ( int ) $int ) & 1 );
+}
+
+/**
+ * @param string $haystack
+ * @param string $needle
+ *
+ * @return bool
+ */
+function startsWith($haystack, $needle)
+{
+    return $needle === "" || strpos($haystack, $needle) === 0;
+}
+
+/**
+ * @param string $haystack
+ * @param string $needle
+ *
+ * @return bool
+ */
+function endsWith($haystack, $needle)
+{
+    return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+}
