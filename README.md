@@ -37,7 +37,7 @@ To use SDK, it requires you to [Generate API Key](http://developers.mobileapptra
 ## Examples
 
 ```bash
-./tune_unittests.sh [API_KEY]
+./tune_examples.sh [API_KEY]
 ```
 
 ## Unittests
