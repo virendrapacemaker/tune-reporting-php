@@ -37,4 +37,4 @@
 
 namespace Tune;
 
-define("TUNE_SDK_VERSION", "0.9.2");
+define("TUNE_SDK_VERSION", "0.9.3");
