@@ -144,10 +144,9 @@ class ReportExportWorker extends \Thread
             $request_url = $response->getRequestUrl();
             $response_http_code = $response->getHttpCode();
 
-            if (is_null($response->getData())) {
-                throw new TuneSdkException(
-                    "No response data returned from export. Request URL: '{$request_url}'"
-                );
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new TuneServiceException("Report request failed to get export data.");
             }
 
             if ($response_http_code != 200) {
@@ -155,8 +154,12 @@ class ReportExportWorker extends \Thread
                     "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
                 );
             }
-
-            $status = $response->getData()["status"];
+            if (!array_key_exists("status", $data)) {
+                throw new TuneSdkException(
+                    "Export data does not contain report 'status' for download: " . print_r($data, true) . PHP_EOL
+                );
+            }
+            $status = $data["status"];
             if ($status == "fail" || $status == "complete") {
                 break;
             }

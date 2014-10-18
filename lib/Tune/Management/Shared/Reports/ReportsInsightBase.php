@@ -387,16 +387,18 @@ abstract class ReportsInsightBase extends ReportsBase
         if (is_null($response)) {
             throw new \InvalidArgumentException("Parameter 'response' is not defined.");
         }
-
-        if (is_null($response->getData())) {
-            throw new TuneServiceException("Report request failed to get export data.");
+        $data = $response->getData();
+        if (is_null($data)) {
+            throw new TuneServiceException("Report export response does not contain data.");
         }
 
-        if (!array_key_exists("url", $response->getData())) {
-            throw new TuneSdkException("Export data does not contain report url for download.");
+        if (!array_key_exists("url", $data)) {
+            throw new TuneSdkException(
+                "Report export response does not contain report 'url' for download: " . print_r($data, true) . PHP_EOL
+            );
         }
 
-        $report_url = $response->getData()["url"];
+        $report_url = $data["url"];
 
         return $report_url;
     }

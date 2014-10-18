@@ -202,8 +202,8 @@ abstract class ReportsBase extends TuneManagementBase
         if (!is_string($report_format) || empty($report_format)) {
             throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
         }
-        if (!is_string(parent::getApiKey()) || empty(parent::getApiKey())) {
-            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
+        if (!is_string($this->api_key) || empty($this->api_key)) {
+            throw new \TuneSdkException("Parameter 'api_key' is not defined.");
         }
 
         $export_worker = new ReportExportWorker(
@@ -235,11 +235,27 @@ abstract class ReportsBase extends TuneManagementBase
             throw new TuneSdkException("Thread failed to complete successfully: " + print_r($response, true) . PHP_EOL);
         }
 
-        if (is_null($response)
-            || $response->getHttpCode() != 200
-            || $response->getData()["status"] == "fail"
+        if (is_null($response)) {
+            throw new TuneServiceException("Report export request no response: " + print_r($response, true) . PHP_EOL);
+        }
+
+        $http_code = $response->getHttpCode();
+        if ($http_code != 200) {
+            throw new TuneServiceException("Report export request error: '{$http_code}'");
+        }
+
+        $data = $response->getData();
+        if (is_null($data)) {
+            throw new TuneServiceException("Report export response failed to get data.");
+        }
+        if (!array_key_exists("status", $data)) {
+            throw new TuneSdkException(
+                "Export data does not contain report 'status' for download: " . print_r($data, true) . PHP_EOL
+            );
+        }
+        if ($data["status"] == "fail"
         ) {
-            throw new TuneServiceException("Report request failed: " + print_r($response, true) . PHP_EOL);
+            throw new TuneServiceException("Report export request failed: " + print_r($response, true) . PHP_EOL);
         }
 
         $report_url = $mod_export_class::parseResponseUrl($response);

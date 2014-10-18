@@ -140,20 +140,33 @@ class Export extends ReportsBase
         if (is_null($response)) {
             throw new \InvalidArgumentException("Parameter 'response' is not defined.");
         }
-        if (is_null($response->getData())) {
+
+        $data = $response->getData();
+        if (is_null($data)) {
             throw new TuneServiceException("Report request failed to get export data.");
         }
-        if (!array_key_exists("data", $response->getData())) {
-            throw new TuneServiceException("Export response does not contain 'data'.");
+        if (!array_key_exists("data", $data)) {
+            throw new TuneSdkException(
+                "Export data does not contain report 'data' for download: " . print_r($data, true) . PHP_EOL
+            );
         }
-        if (is_null($response->getData()["data"])) {
-            throw new TuneServiceException("Export data response does not contain 'data'.");
+        if (!array_key_exists("data", $data)) {
+            throw new TuneServiceException(
+                "Export response does not contain 'data': " . print_r($data, true) . PHP_EOL
+            );
         }
-        if (!array_key_exists("url", $response->getData()["data"])) {
-            throw new TuneServiceException("Export response 'data' does not contain 'url'.");
+        if (is_null($data["data"])) {
+            throw new TuneServiceException(
+                "Export data response does not contain 'data': " . print_r($data, true) . PHP_EOL
+            );
+        }
+        if (!array_key_exists("url", $data["data"])) {
+            throw new TuneServiceException(
+                "Export response 'data' does not contain 'url': " . print_r($data, true) . PHP_EOL
+            );
         }
 
-        $report_url = $response->getData()["data"]["url"];
+        $report_url = $data["data"]["url"];
 
         return $report_url;
     }
