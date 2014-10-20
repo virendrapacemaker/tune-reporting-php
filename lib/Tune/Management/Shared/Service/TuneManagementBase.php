@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -38,6 +38,7 @@
 namespace Tune\Management\Shared\Service;
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . "/Shared/Helper.php";
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . "/Version.php";
 
 use \Tune\Shared\TuneSdkException;
 use \Tune\Shared\TuneServiceException;
@@ -150,6 +151,15 @@ class TuneManagementBase
         $api_key,
         $validate = false
     ) {
+        if (!isCurlInstalled()) {
+            throw new \Exception(
+                sprint("%s %s: requires PHP Module 'curl'",
+                        constant("TUNE_SDK_NAME"),
+                        constant("TUNE_SDK_VERSION")
+                    )
+            );
+        }
+
         // controller
         if (!is_string($controller) || empty($controller)) {
             throw new \InvalidArgumentException("Parameter 'controller' is not defined.");

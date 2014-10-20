@@ -30,12 +30,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports\Logs;
+
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))))) . "/../lib/TuneApi.php";
 
 use Tune\Management\Api\Advertiser\Stats\Installs;
 use Tune\Management\Api\Export;
@@ -85,20 +87,22 @@ class ExampleInstalls
             $installs = new Installs($api_key, $validate = true);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/installs all fields =" . PHP_EOL;
+            echo " Fields of Advertiser Logs Installs records.           " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $installs->getFields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/installs/count.json request =" . PHP_EOL;
+            echo " Count Advertiser Logs Installs records.              " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $installs->count(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved') AND (publisher_id > 0)",
+                $filter              = "(status = 'approved')",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/installs/count.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -109,22 +113,42 @@ class ExampleInstalls
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/installs/find.json request =" . PHP_EOL;
+            echo " Find Advertiser Logs Installs records.               " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $installs->find(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved') AND (publisher_id > 0)",
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",status,status_code,payout,sdk,sdk_version,package_name,app_name"
-                . ",app_version,country.name,region.name,site_id,campaign_id"
-                . ",publisher_id,agency_id,country_id,region_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",google_ad_tracking"
+                . ",ios_ifa"
+                . ",ios_ad_tracking"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through",
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/installs/find.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -133,21 +157,41 @@ class ExampleInstalls
                 );
             }
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/installs/find_export_queue.json request =" . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+            echo " Request Advertiser Logs Installs CSV report for export. " . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
             $response = $installs->export(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved') AND (publisher_id > 0)",
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",status,status_code,payout,sdk,sdk_version,package_name,app_name"
-                . ",app_version,country.name,region.name,site_id,campaign_id"
-                . ",publisher_id,agency_id,country_id,region_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",google_ad_tracking"
+                . ",ios_ifa"
+                . ",ios_ad_tracking"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/installs/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -160,7 +204,8 @@ class ExampleInstalls
             $job_id = $response->getData();
 
             echo "======================================================" . PHP_EOL;
-
+            echo "Fetching Advertiser Logs Installs report polling      " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $export = new Export($api_key);
 
             $status = null;
@@ -208,6 +253,9 @@ class ExampleInstalls
 
             $report_url = $response->getData()["data"]["url"];
 
+            echo "======================================================" . PHP_EOL;
+            echo " Read Installs CSV report and pretty print 5 lines.   " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -216,12 +264,36 @@ class ExampleInstalls
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/installs/find_export_queue.json request =" . PHP_EOL;
+            echo " Request Advertiser Installs JSON report for export.  " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+
             $response = $installs->export(
                 $start_date,
                 $end_date,
-                $filter              = null,
-                $fields              = null,
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",google_ad_tracking"
+                . ",ios_ifa"
+                . ",ios_ad_tracking"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through",
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -238,7 +310,9 @@ class ExampleInstalls
 
             $job_id = $response->getData();
 
-            echo "======================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo "Fetching Advertiser Logs Installs report threaded       " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
 
@@ -249,6 +323,9 @@ class ExampleInstalls
                 $sleep = 10
             );
 
+            echo "======================================================" . PHP_EOL;
+            echo " Read Installs JSON report and pretty print 5 lines.  " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
 
@@ -257,3 +334,15 @@ class ExampleInstalls
         }
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExampleInstalls::run($api_key);

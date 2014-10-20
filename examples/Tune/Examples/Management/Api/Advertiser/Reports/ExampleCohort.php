@@ -30,15 +30,19 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports;
 
-use \Tune\Management\Api\Advertiser\Stats\LTV;
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . "/../lib/TuneApi.php";
+
+use Tune\Management\Api\Advertiser\Stats\LTV;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+
+global $argc, $argv;
 
 /**
  * Class ExampleCohort
@@ -56,6 +60,8 @@ class ExampleCohort
     }
 
     /**
+     * Execute example
+     *
      * @param string $api_key MobileAppTracking API Key
      *
      * @throws \InvalidArgumentException
@@ -68,9 +74,9 @@ class ExampleCohort
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        echo "======================================================" . PHP_EOL;
-        echo "= Tune Management API Advertiser Reports Cohort      =" . PHP_EOL;
-        echo "======================================================" . PHP_EOL;
+        echo "=========================================================" . PHP_EOL;
+        echo "= Tune Management API Advertiser Reports Cohort         =" . PHP_EOL;
+        echo "=========================================================" . PHP_EOL;
 
         try {
             date_default_timezone_set('UTC');
@@ -83,23 +89,26 @@ class ExampleCohort
             $ltv = new LTV($api_key, $validate = true);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats all fields =" . PHP_EOL;
+            echo " Fields of Advertiser Cohort records.                 " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $ltv->getFields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/count.json request =" . PHP_EOL;
+            echo " Count Advertiser Cohort records.                     " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $ltv->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $group               = "site_id,campaign_id,publisher_id",
+                $group               = "site_id"
+                . ",publisher_id",
                 $cohort_interval     = "year_day",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/ltv/count.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -110,18 +119,22 @@ class ExampleCohort
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/find.json request csv =" . PHP_EOL;
+            echo " Find Advertiser Cohort records.                      " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $ltv->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,campaign_id,publisher_id",
-                $fields              = "site_id,site.name,campaign_id"
-                    . ",campaign.name,publisher_id,publisher.name"
-                    . ",installs,events,purchases,opens,cpi,rpi,epi"
-                    . ",opi,currency_code",
-                $cohort_interval     = "year_day",
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",rpi"
+                . ",epi",
+                $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
@@ -130,7 +143,7 @@ class ExampleCohort
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/ltv/find.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -140,18 +153,22 @@ class ExampleCohort
             }
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/find.json request json =" . PHP_EOL;
+            echo " Find Advertiser Cohort records.                      " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $ltv->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,campaign_id,publisher_id",
-                $fields              = "site_id,site.name,campaign_id"
-                    . ",campaign.name,publisher_id,publisher.name"
-                    . ",installs,events,purchases,opens,cpi,rpi,epi"
-                    . ",opi,currency_code",
-                $cohort_interval     = "year_day",
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",rpi"
+                . ",epi",
+                $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
@@ -160,7 +177,7 @@ class ExampleCohort
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/ltv/find.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -169,25 +186,28 @@ class ExampleCohort
                 );
             }
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/export.json request           =" . PHP_EOL;
-
+            echo "==========================================================" . PHP_EOL;
+            echo " Request Advertiser Cohort CSV report for export.         " . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
             $response = $ltv->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,campaign_id,publisher_id",
-                $fields              = "site_id,site.name,campaign_id"
-                    . ",campaign.name,publisher_id,publisher.name"
-                    . ",installs,events,purchases,opens,cpi,rpi,epi"
-                    . ",opi,currency_code",
-                $cohort_interval     = "year_day",
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",rpi"
+                . ",epi",
+                $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/ltv/export.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -199,7 +219,9 @@ class ExampleCohort
 
             $job_id = $response->getData()["job_id"];
 
-            echo "======================================================" . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
+            echo "Fetching Advertiser Cohort report polling              " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
 
             $status = null;
             $response = null;
@@ -246,6 +268,9 @@ class ExampleCohort
 
             $report_url = $response->getData()["url"];
 
+            echo "======================================================" . PHP_EOL;
+            echo " Read Cohort CSV report and pretty print 5 lines.     " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -254,26 +279,28 @@ class ExampleCohort
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-
+            echo " Request Advertiser Cohort JSON report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/export.json request #2         =" . PHP_EOL;
 
             $response = $ltv->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,campaign_id,publisher_id",
-                $fields              = "site_id,site.name,campaign_id"
-                    . ",campaign.name,publisher_id,publisher.name"
-                    . ",installs,events,purchases,opens,cpi,rpi,epi"
-                    . ",opi,currency_code",
-                $cohort_interval     = "year_day",
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",rpi"
+                . ",epi",
+                $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/ltv/export.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -285,8 +312,9 @@ class ExampleCohort
 
             $job_id = $response->getData()["job_id"];
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/ltv/status.json request           =" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo "Fetching Advertiser Cohort report threaded.             " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = $ltv->fetch(
                 $job_id,
@@ -295,6 +323,9 @@ class ExampleCohort
                 $sleep = 10
             );
 
+            echo "========================================================" . PHP_EOL;
+            echo " Read Cohort JSON report and pretty print 5 lines.     " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
@@ -305,3 +336,15 @@ class ExampleCohort
         }
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExampleCohort::run($api_key);

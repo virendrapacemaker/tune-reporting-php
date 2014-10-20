@@ -30,15 +30,19 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports;
 
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . "/../lib/TuneApi.php";
+
 use Tune\Management\Api\Advertiser\Stats\Retention;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+
+global $argc, $argv;
 
 /**
  * Example calling 'advertiser/stats/retention'
@@ -56,6 +60,8 @@ class ExampleRetention
     }
 
     /**
+     * Execute example
+     *
      * @param string $api_key MobileAppTracking API Key
      *
      * @throws \InvalidArgumentException
@@ -83,23 +89,26 @@ class ExampleRetention
             $retention = new Retention($api_key, $validate = true);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/retention all fields =" . PHP_EOL;
+            echo " Fields of Advertiser Retention records.              " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $retention->getFields();
             echo print_r($response, true) . PHP_EOL;
 
-            echo "==============retention========================================" . PHP_EOL;
-            echo "= advertiser/stats/retention/count.json request =" . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo " Count Advertiser Retention records.                  " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $retention->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $group               = "ad_network_id,install_publisher_id,country_id",
-                $cohort_interval     = "year_day",
-                $filter              = null,
+                $group               = "site_id"
+                . ",publisher_id",
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/retention/count.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -110,18 +119,23 @@ class ExampleRetention
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/retention/find.json request csv   =" . PHP_EOL;
+            echo " Find Advertiser Retention records.                   " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $retention->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
-                $group               = "ad_network_id,install_publisher_id,country_id",
-                $fields              = "installs,opens,ad_network.name"
-                    . ",install_publisher.name,country.name"
-                    . ",ad_network_id,install_publisher_id,country_id",
-                $cohort_interval     = "year_day",
-                $filter              = null,
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",install_publisher_id"
+                . ",install_publisher.name"
+                . ",installs"
+                . ",opens",
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
                 $limit               = 10,
                 $page                = null,
                 $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
@@ -139,18 +153,23 @@ class ExampleRetention
             }
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/retention/find.json request json  =" . PHP_EOL;
+            echo " Find Advertiser Retention records.                   " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $retention->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
-                $group               = "ad_network_id,install_publisher_id,country_id",
-                $fields              = "installs,opens,ad_network.name"
-                    . ",install_publisher.name,country.name"
-                    . ",ad_network_id,install_publisher_id,country_id",
-                $cohort_interval     = "year_day",
-                $filter              = null,
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",install_publisher_id"
+                . ",install_publisher.name"
+                . ",installs"
+                . ",opens",
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
                 $limit               = 10,
                 $page                = null,
                 $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
@@ -158,7 +177,7 @@ class ExampleRetention
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/retention/find.json json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -167,23 +186,28 @@ class ExampleRetention
                 );
             }
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/retention/export.json request     =" . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
+            echo " Request Advertiser Retention CSV report for export.      " . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
             $response = $retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
-                $group               = "ad_network_id,install_publisher_id,country_id",
-                $fields              = "installs,opens,ad_network.name"
-                    . ",install_publisher.name,country.name"
-                    . ",ad_network_id,install_publisher_id,country_id",
-                $cohort_interval     = "year_day",
-                $filter              = null,
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",install_publisher_id"
+                . ",install_publisher.name"
+                . ",installs"
+                . ",opens",
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/retention/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -195,7 +219,9 @@ class ExampleRetention
 
             $job_id = $response->getData()["job_id"];
 
-            echo "======================================================" . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
+            echo "Fetching Advertiser Retention report polling           " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
 
             $status = null;
             $response = null;
@@ -242,6 +268,9 @@ class ExampleRetention
 
             $report_url = $response->getData()["url"];
 
+            echo "======================================================" . PHP_EOL;
+            echo " Read Actuals CSV report and pretty print 5 lines.    " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -250,20 +279,25 @@ class ExampleRetention
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-
+            echo " Request Advertiser Retention JSON report for export. " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             echo "= advertiser/stats/retention/export.json request #2  =" . PHP_EOL;
             $response = $retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
-                $group               = "ad_network_id,install_publisher_id,country_id",
-                $fields              = "installs,opens,ad_network.name"
-                    . ",install_publisher.name,country.name"
-                    . ",ad_network_id,install_publisher_id,country_id",
-                $cohort_interval     = "year_day",
-                $filter              = null,
+                $group               = "site_id"
+                . ",publisher_id",
+                $fields              = "site_id"
+                . ",site.name"
+                . ",install_publisher_id"
+                . ",install_publisher.name"
+                . ",installs"
+                . ",opens",
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -279,8 +313,9 @@ class ExampleRetention
 
             $job_id = $response->getData()["job_id"];
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/retention/status.json request     =" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo "Fetching Advertiser Retention report threaded.          " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = $retention->fetch(
                 $job_id,
@@ -289,6 +324,9 @@ class ExampleRetention
                 $sleep = 10
             );
 
+            echo "========================================================" . PHP_EOL;
+            echo " Read Retention JSON report and pretty print 5 lines.   " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
@@ -299,3 +337,15 @@ class ExampleRetention
         }
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExampleRetention::run($api_key);
