@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -92,4 +92,47 @@ function startsWith($haystack, $needle)
 function endsWith($haystack, $needle)
 {
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+}
+
+
+/**
+ * Check if PHP has curl extension.
+ *
+ * @return bool
+ */
+function isCurlInstalled() {
+    if  (in_array  ('curl', get_loaded_extensions())) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Check if PHP has JSON extension.
+ *
+ * @return bool
+ */
+function isJsonInstalled() {
+    if  (in_array  ('json', get_loaded_extensions())) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Check if PHP has pthreads extension.
+ *
+ * @return bool
+ */
+function isPThreadsInstalled() {
+    if  (in_array  ('pthreads', get_loaded_extensions())) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }

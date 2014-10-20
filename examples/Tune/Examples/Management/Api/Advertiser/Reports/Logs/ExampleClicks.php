@@ -30,12 +30,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports\Logs;
+
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))))) . "/../lib/TuneApi.php";
 
 use Tune\Management\Api\Advertiser\Stats\Clicks;
 use Tune\Management\Api\Export;
@@ -71,9 +73,9 @@ class ExampleClicks
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        echo "======================================================" . PHP_EOL;
-        echo "= Tune Management API Advertiser Reports Logs Clicks =" . PHP_EOL;
-        echo "======================================================" . PHP_EOL;
+        echo "=========================================================" . PHP_EOL;
+        echo "= Tune Management API Advertiser Reports Logs Clicks    =" . PHP_EOL;
+        echo "=========================================================" . PHP_EOL;
 
         try {
             date_default_timezone_set('UTC');
@@ -85,12 +87,14 @@ class ExampleClicks
             $clicks = new Clicks($api_key, $validate = true);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/clicks all fields =" . PHP_EOL;
+            echo " Fields of Advertiser Logs Clicks records.           " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $clicks->getFields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/clicks/count.json request =" . PHP_EOL;
+            echo " Count Advertiser Logs Clicks records.                " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $clicks->count(
                 $start_date,
                 $end_date,
@@ -98,7 +102,7 @@ class ExampleClicks
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/clicks/count.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -109,22 +113,30 @@ class ExampleClicks
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/clicks/find.json request =" . PHP_EOL;
+            echo " Find Advertiser Logs Clicks records.                 " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $clicks->find(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",is_unique,publisher_ref_id,country.name,region.name"
-                . ",site_id,campaign_id,publisher_id"
-                . ",agency_id,country_id,region_id",
+                $fields              = "id"
+                . ",created"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",is_unique"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref",
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/clicks/find.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -133,21 +145,29 @@ class ExampleClicks
                 );
             }
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/clicks/find_export_queue.json request =" . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
+            echo " Request Advertiser Logs Clicks CSV report for export.    " . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
             $response = $clicks->export(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",is_unique,publisher_ref_id,country.name,region.name"
-                . ",site_id,campaign_id,publisher_id"
-                . ",agency_id,country_id,region_id",
+                $fields              = "id"
+                . ",created"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",is_unique"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/clicks/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -159,8 +179,9 @@ class ExampleClicks
 
             $job_id = $response->getData();
 
-            echo "======================================================" . PHP_EOL;
-
+            echo "=======================================================" . PHP_EOL;
+            echo "Fetching Advertiser Logs Clicks report polling         " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
             $export = new Export($api_key);
 
             $status = null;
@@ -208,6 +229,9 @@ class ExampleClicks
 
             $report_url = $response->getData()["data"]["url"];
 
+            echo "======================================================" . PHP_EOL;
+            echo " Read Clicks CSV report and pretty print 5 lines.     " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -216,17 +240,28 @@ class ExampleClicks
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/clicks/find_export_queue.json request =" . PHP_EOL;
+            echo " Request Advertiser Clicks JSON report for export.    " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $clicks->export(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = null,
+                $fields              = "id"
+                . ",created"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",is_unique"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref",
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/clicks/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -238,8 +273,9 @@ class ExampleClicks
 
             $job_id = $response->getData();
 
-            echo "======================================================" . PHP_EOL;
-
+            echo "========================================================" . PHP_EOL;
+            echo "Fetching Advertiser Logs Clicks report threaded         " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $export = new Export($api_key);
 
             $json_report_reader = $export->fetch(
@@ -249,6 +285,9 @@ class ExampleClicks
                 $sleep = 10
             );
 
+            echo "========================================================" . PHP_EOL;
+            echo " Read Clicks JSON report and pretty print 5 lines.      " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
 
@@ -257,3 +296,15 @@ class ExampleClicks
         }
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExampleClicks::run($api_key);

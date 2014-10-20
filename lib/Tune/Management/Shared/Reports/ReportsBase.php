@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.4
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -190,6 +190,15 @@ abstract class ReportsBase extends TuneManagementBase
         $verbose = false,
         $sleep = 60
     ) {
+        if (!isPThreadsInstalled()) {
+            throw new \Exception(
+                sprint("%s %s: requires PHP Module 'pthreads'",
+                        constant("TUNE_SDK_NAME"),
+                        constant("TUNE_SDK_VERSION")
+                    )
+            );
+        }
+
         if (!is_string($mod_export_class) || empty($mod_export_class)) {
             throw new \InvalidArgumentException("Parameter 'mod_export_class' is not defined.");
         }
