@@ -11,7 +11,7 @@
     </filter>
 
     <testsuites>
-        <testsuite name="lib">
+        <testsuite name="src">
             <file>UnittestClient.php</file>
             <file>UnittestClicks.php</file>
             <file>UnittestEventItems.php</file>
