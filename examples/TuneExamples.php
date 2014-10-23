@@ -35,15 +35,17 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.5
+ * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
-namespace Tune\Examples;
-
-require_once dirname(__FILE__) . "/../lib/TuneApi.php";
+require_once dirname(__FILE__) . "/../src/TuneApi.php";
 require_once dirname(__FILE__) . "/TuneExamplesAutoloader.php";
+
+
+use Tune\Shared\TuneSdkException;
+use Tune\Shared\TuneServiceException;
 
 global $argc, $argv;
 
@@ -82,17 +84,19 @@ class TuneExamples
         echo "\n";
 
         try {
-            \Tune\Examples\Management\Service\ExampleClient::run($api_key);
+            ExampleClientAccount::run($api_key);
+            ExampleClientActuals::run($api_key);
+            ExampleClientLogs::run($api_key);
 
-            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleClicks::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEventItems::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEvents::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleInstalls::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExamplePostbacks::run($api_key);
+            ExampleClicks::run($api_key);
+            ExampleEventItems::run($api_key);
+            ExampleEvents::run($api_key);
+            ExampleInstalls::run($api_key);
+            ExamplePostbacks::run($api_key);
 
-            \Tune\Examples\Management\Api\Advertiser\Reports\ExampleActuals::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\ExampleCohort::run($api_key);
-            \Tune\Examples\Management\Api\Advertiser\Reports\ExampleRetention::run($api_key);
+            ExampleActuals::run($api_key);
+            ExampleCohort::run($api_key);
+            ExampleRetention::run($api_key);
 
         } catch (\Tune\Shared\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";

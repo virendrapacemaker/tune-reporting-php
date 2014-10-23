@@ -1,10 +1,6 @@
 <?php
 /**
- * TuneExamplesAutoloader.php, autoloading class file locations hierarchy by supplying it with a function to run.
- *
- */
-
-/**
+ * ExampleClientAccount.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,55 +33,50 @@
  * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
- * Autoloader for Tune MobileAppTracking Management API files.
- *
  */
-namespace Tune\Examples;
+
+require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
 /**
- * Tune SDK Examples Autoloader Class
+ * Class ExampleClientAccount
  *
- * @package Tune\Examples
+ * @package Tune\Examples\Management\Service\Client
  */
-class TuneExamplesAutoloader
+class ExampleClientAccount
 {
+
     /**
-     * Constructor
-     *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
+     * Constructor that prevents a default instance of this class from being created.
      */
-    public function __construct()
+    private function __construct()
     {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+
     }
 
     /**
-     * This function will handle the autoloading of the Tune namespaced
-     * classes.
      *
-     * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
+     * Example of running successful requests to Tune MobileAppTracking Management API
+     * through Tune PHP SDK.
      */
-    private function autoloadTuneExamples($className)
+    public static function run($api_key)
     {
-        // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
-        if (!class_exists($className)) {
-            // The namespaces map 1-to-1 with the filepaths, so we can just so a
-            // straight conversion.
-            $dirname = dirname(__FILE__);
-            $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
-
-            // echo "file {$file}\n";
-            if (!file_exists($file)) {
-                return false;
-            }
-
-            // do the actual require now that we've converted it into a file path
-            include_once $file;
+        // api_key
+        if (!is_string($api_key) || empty($api_key)) {
+            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
+
+        $client = new \Tune\Management\Shared\Service\TuneManagementClient(
+            $controller = 'account/users',
+            $action = 'find.json',
+            $api_key,
+            $query_string_dict = array(
+                "fields" => "first_name,last_name,email",
+                "limit" => 5
+            )
+        );
+
+        $client->call();
+
+        echo $client->getResponse()->toString() . PHP_EOL;
     }
 }
-
-$autoloader = new TuneExamplesAutoloader();

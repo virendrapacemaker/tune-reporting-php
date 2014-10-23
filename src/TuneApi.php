@@ -1,10 +1,9 @@
 <?php
 /**
- * TuneExamplesAutoloader.php, autoloading class file locations hierarchy by supplying it with a function to run.
+ * TuneApi.php
  *
- */
-
-/**
+ * Autoloading class file locations hierarchy by supplying it with
+ * a function to run.
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,28 +36,26 @@
  * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
- * Autoloader for Tune MobileAppTracking Management API files.
- *
  */
-namespace Tune\Examples;
+
+namespace Tune;
 
 /**
- * Tune SDK Examples Autoloader Class
+ * Tune SDK Autoloader Class
  *
- * @package Tune\Examples
  */
-class TuneExamplesAutoloader
+class TuneApi
 {
     /**
      * Constructor
      *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
+     * When using spl_autoload_register() with class methods, it might seem
+     * that it can use only public methods, though it can use private/protected
+     * methods as well, if registered from inside the class.
      */
     public function __construct()
     {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+        spl_autoload_register(array($this, 'autoloadTuneSdk'));
     }
 
     /**
@@ -66,9 +63,8 @@ class TuneExamplesAutoloader
      * classes.
      *
      * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
      */
-    private function autoloadTuneExamples($className)
+    private function autoloadTuneSdk($className)
     {
         // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
         if (!class_exists($className)) {
@@ -88,4 +84,4 @@ class TuneExamplesAutoloader
     }
 }
 
-$autoloader = new TuneExamplesAutoloader();
+$autoloader = new TuneApi();
