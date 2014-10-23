@@ -12,8 +12,14 @@
     "require": {
     },
     "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "sebastian/diff": "*"
     },
     "autoload": {
         "classmap": ["src"]
+    },
+    "config": {
+        "vendor-dir" : "Vendors",
+        "vendor-bin" : "Vendors/bin"
     }
 }
