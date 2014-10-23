@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -40,7 +40,9 @@ namespace Tune\Examples\Management\Api\Advertiser\Reports;
 require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))) . "/../lib/TuneApi.php";
 
 use Tune\Management\Api\Advertiser\Stats\LTV;
+use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+use Tune\Management\Shared\Reports\ReportReaderJSON;
 
 global $argc, $argv;
 
@@ -101,8 +103,7 @@ class ExampleCohort
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $cohort_interval     = "year_day",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -126,8 +127,7 @@ class ExampleCohort
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $fields              = "site_id"
                 . ",site.name"
                 . ",publisher_id"
@@ -160,8 +160,7 @@ class ExampleCohort
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $fields              = "site_id"
                 . ",site.name"
                 . ",publisher_id"
@@ -194,8 +193,7 @@ class ExampleCohort
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $fields              = "site_id"
                 . ",site.name"
                 . ",publisher_id"
@@ -215,9 +213,22 @@ class ExampleCohort
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData()["job_id"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
             echo "Fetching Advertiser Cohort report polling              " . PHP_EOL;
@@ -266,11 +277,20 @@ class ExampleCohort
                 );
             }
 
-            $report_url = $response->getData()["url"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $report_url = LTV::parseResponseUrl($response);
+            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Read Cohort CSV report and pretty print 5 lines.     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -287,8 +307,7 @@ class ExampleCohort
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $fields              = "site_id"
                 . ",site.name"
                 . ",publisher_id"
@@ -308,28 +327,51 @@ class ExampleCohort
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData()["job_id"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
             echo "Fetching Advertiser Cohort report threaded.             " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $csv_report_reader = $ltv->fetch(
+            $response = $ltv->fetch(
                 $job_id,
-                $report_format = "csv",
                 $verbose = true,
                 $sleep = 10
             );
 
+            $report_url = Export::parseResponseUrl($response);
+            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+
             echo "========================================================" . PHP_EOL;
-            echo " Read Cohort JSON report and pretty print 5 lines.     " . PHP_EOL;
+            echo " Read Cohort CSV report and pretty print 5 lines.       " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
+
+            $csv_report_reader = new ReportReaderCSV(
+                $report_url
+            );
+
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
+            echo " End Example                                          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo PHP_EOL;
 
         } catch (\Exception $ex) {
             throw $ex;

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -105,7 +105,7 @@ abstract class ReportsInsightBase extends ReportsBase
      * @param string $end_date          YYYY-MM-DD HH:MM:SS
      * @param string $cohort_type       Cohort types: click, install
      * @param string $group             Group results using this endpoint's fields.
-     * @param string $cohort_interval          Cohort intervals: year_day, year_week, year_month, year
+     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
      * @param string $filter            Apply constraints based upon values associated with
      *                                  this endpoint's fields.
      * @param string $response_timezone Setting expected timezone for results,
@@ -125,11 +125,20 @@ abstract class ReportsInsightBase extends ReportsBase
         TuneManagementBase::validateDateTime('start_date', $start_date);
         TuneManagementBase::validateDateTime('end_date', $end_date);
 
-        if (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {
-            throw new \InvalidArgumentException("Parameter 'cohort_type' is invalid: '{$cohort_type}'.");
+        if (!is_string($cohort_type)
+            || empty($cohort_type)
+            || !in_array($cohort_type, self::$cohort_types)
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
+            );
         }
-        if (is_string($cohort_interval) && !in_array($cohort_interval, self::$cohort_intervals)) {
-            throw new \InvalidArgumentException("Parameter 'interval' is invalid: '{$cohort_interval}'.");
+        if (is_string($cohort_interval)
+            && !in_array($cohort_interval, self::$cohort_intervals)
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'interval' is invalid: '{$cohort_interval}'."
+            );
         }
 
         $group = $this->validateGroup($group);
@@ -160,7 +169,7 @@ abstract class ReportsInsightBase extends ReportsBase
      * @param string $aggregation_type  Aggregation types: cumulative, incremental
      * @param string $group             Group results using this endpoint's fields.
      * @param string $fields            Present results using these endpoint's fields.
-     * @param string $cohort_interval          Cohort intervals: year_day, year_week, year_month, year
+     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
      * @param string $filter            Apply constraints based upon values associated with
      *                                  this endpoint's fields.
      * @param int    $limit             Limit number of results, default 10, 0 shows all
@@ -190,17 +199,28 @@ abstract class ReportsInsightBase extends ReportsBase
         TuneManagementBase::validateDateTime('start_date', $start_date);
         TuneManagementBase::validateDateTime('end_date', $end_date);
 
-        if (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {
-            throw new \InvalidArgumentException("Parameter 'cohort_type' is invalid: '{$cohort_type}'.");
+        if (!is_string($cohort_type)
+            || empty($cohort_type)
+            || !in_array($cohort_type, self::$cohort_types)
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
+            );
         }
-        if (is_string($cohort_interval) && !in_array($cohort_interval, self::$cohort_intervals)) {
-            throw new \InvalidArgumentException("Parameter 'interval' is invalid: '{$cohort_interval}'.");
+        if (is_string($cohort_interval)
+            && !in_array($cohort_interval, self::$cohort_intervals)
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'interval' is invalid: '{$cohort_interval}'."
+            );
         }
         if (!is_string($aggregation_type)
             || empty($aggregation_type)
             || !in_array($aggregation_type, self::$aggregation_types)
         ) {
-            throw new \InvalidArgumentException("Parameter 'aggregation_type' is invalid: '{aggregation_type}'.");
+            throw new \InvalidArgumentException(
+                "Parameter 'aggregation_type' is invalid: '{aggregation_type}'."
+            );
         }
 
         if (!is_null($fields)) {
@@ -280,14 +300,21 @@ abstract class ReportsInsightBase extends ReportsBase
         TuneManagementBase::validateDateTime('start_date', $start_date);
         TuneManagementBase::validateDateTime('end_date', $end_date);
 
-        if (!is_string($cohort_type) || empty($cohort_type) || !in_array($cohort_type, self::$cohort_types)) {
-            throw new \InvalidArgumentException("Parameter 'cohort_type' is invalid: '{$cohort_type}'.");
+        if (!is_string($cohort_type)
+            || empty($cohort_type)
+            || !in_array($cohort_type, self::$cohort_types)
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
+            );
         }
         if (!is_string($aggregation_type)
             || empty($aggregation_type)
             || !in_array($aggregation_type, self::$aggregation_types)
         ) {
-            throw new \InvalidArgumentException("Parameter 'aggregation_type' is invalid: '{aggregation_type}'.");
+            throw new \InvalidArgumentException(
+                "Parameter 'aggregation_type' is invalid: '{aggregation_type}'."
+            );
         }
 
         if (!is_null($fields)) {
@@ -301,8 +328,13 @@ abstract class ReportsInsightBase extends ReportsBase
         }
 
         if (!is_null($cohort_interval)) {
-            if (!is_string($cohort_interval) || empty($cohort_interval) || !in_array($cohort_interval, self::$cohort_intervals)) {
-                throw new \InvalidArgumentException("Parameter 'interval' is invalid: '{$cohort_interval}'.");
+            if (!is_string($cohort_interval)
+                || empty($cohort_interval)
+                || !in_array($cohort_interval, self::$cohort_intervals)
+            ) {
+                throw new \InvalidArgumentException(
+                    "Parameter 'interval' is invalid: '{$cohort_interval}'."
+                    );
             }
         }
 
@@ -326,13 +358,16 @@ abstract class ReportsInsightBase extends ReportsBase
      * Query status of insight reports. Upon completion will
      * return url to download requested report.
      *
-     * @param string $job_id    Provided Job Identifier to reference requested report on export queue.
+     * @param string $job_id    Provided Job Identifier to reference
+     *                          requested report on export queue.
      */
     public function status(
         $job_id
     ) {
         if (!is_string($job_id) || empty($job_id)) {
-            throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'job_id' is not defined."
+            );
         }
 
         return parent::call(
@@ -348,17 +383,18 @@ abstract class ReportsInsightBase extends ReportsBase
      * Starts worker thread for polling export queue.
      *
      * @param string $mod_export_class      Requesting report class for this export.
-     * @param string $job_id                Provided Job Identifier to reference requested report on export queue.
-     * @param string $report_format         Expected content format of exported report.
-     * @param bool   $verbose               Debug purposes only to view progress of job on export queue.
-     * @param int    $sleep                 Polling delay between querying job status on export queue.
+     * @param string $job_id                Provided Job Identifier to reference
+     *                                      requested report on export queue.
+     * @param bool   $verbose               Debug purposes only to view progress
+     *                                      of job on export queue.
+     * @param int    $sleep                 Polling delay between querying job
+     *                                      status on export queue.
      *
      * @return null
      */
     protected function fetchRecordsInsight(
         $mod_export_class,
         $job_id,
-        $report_format = "csv",
         $verbose = false,
         $sleep = 10
     ) {
@@ -366,7 +402,6 @@ abstract class ReportsInsightBase extends ReportsBase
             $mod_export_class,
             $mod_export_function = "status",
             $job_id,
-            $report_format,
             $verbose,
             $sleep
         );
@@ -385,11 +420,15 @@ abstract class ReportsInsightBase extends ReportsBase
         $response
     ) {
         if (is_null($response)) {
-            throw new \InvalidArgumentException("Parameter 'response' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'response' is not defined."
+            );
         }
         $data = $response->getData();
         if (is_null($data)) {
-            throw new TuneServiceException("Report export response does not contain data.");
+            throw new TuneServiceException(
+                "Report export response does not contain data."
+            );
         }
 
         if (!array_key_exists("url", $data)) {

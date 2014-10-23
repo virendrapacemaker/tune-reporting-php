@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -68,7 +68,6 @@ class Retention extends ReportsInsightBase
 
     /**
      * @param        $job_id
-     * @param string $report_format
      * @param bool   $verbose
      * @param int    $sleep
      *
@@ -76,14 +75,12 @@ class Retention extends ReportsInsightBase
      */
     public function fetch(
         $job_id,
-        $report_format = "csv",
         $verbose = false,
         $sleep = 60
     ) {
         return parent::fetchRecordsInsight(
             __CLASS__,
             $job_id,
-            $report_format,
             $verbose,
             $sleep # seconds
         );

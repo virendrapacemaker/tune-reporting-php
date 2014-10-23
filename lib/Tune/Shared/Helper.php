@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -135,4 +135,37 @@ function isPThreadsInstalled() {
     else {
         return false;
     }
+}
+
+/**
+ * @param $str
+ *
+ * @return bool
+ */
+function isParenthesesBalanced($str){
+    $count = 0;
+    $length = strlen($str);
+    for($i = 0; $i < $length; $i++){
+        if($str[$i] == '(')
+            $count += 1;
+        else if($str[$i] == ')')
+            $count -= 1;
+        if($count == -1)
+            return false;
+    }
+    return $count == 0;
+}
+
+
+function arrayToString($array){
+    $str="";
+    foreach($array as $k=>$i){
+        if(is_array($i)){
+            $str.=array2string($i);
+        }
+        else{
+            $str.= " " . $i;
+        }
+    }
+    return $str;
 }
