@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -99,7 +99,6 @@ class Export extends ReportsBase
      * Starts worker thread for polling export queue.
      *
      * @param string $job_id        Job identifier assigned for report export.
-     * @param string $report_format Report export content format expectation: csv, json
      * @param bool   $verbose       For debug purposes to monitor job export completion status.
      * @param int    $sleep         Polling delay for checking job completion status.
      *
@@ -107,7 +106,6 @@ class Export extends ReportsBase
      */
     public function fetch(
         $job_id,
-        $report_format,
         $verbose = false,
         $sleep = 10
     ) {
@@ -119,7 +117,6 @@ class Export extends ReportsBase
             $mod_export_class       = __CLASS__,
             $mod_export_function    = "download",
             $job_id,
-            $report_format,
             $verbose,
             $sleep
         );

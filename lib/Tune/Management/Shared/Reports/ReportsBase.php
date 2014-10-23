@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -77,23 +77,33 @@ abstract class ReportsBase extends TuneManagementBase
     ) {
         // controller
         if (!is_string($controller) || empty($controller)) {
-            throw new \InvalidArgumentException("Parameter 'controller' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'controller' is not defined."
+            );
         }
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'api_key' is not defined."
+            );
         }
         // filter_debug_mode
         if (!is_bool($validate)) {
-            throw new \InvalidArgumentException("Parameter 'validate' is not defined as a bool.");
+            throw new \InvalidArgumentException(
+                "Parameter 'validate' is not defined as a bool."
+            );
         }
         // filter_debug_mode
         if (!is_bool($filter_debug_mode)) {
-            throw new \InvalidArgumentException("Parameter 'filter_debug_mode' is not defined as a bool.");
+            throw new \InvalidArgumentException(
+                "Parameter 'filter_debug_mode' is not defined as a bool."
+            );
         }
         // filter_test_profile_id
         if (!is_bool($filter_test_profile_id)) {
-            throw new \InvalidArgumentException("Parameter 'filter_test_profile_id' is not defined as a bool.");
+            throw new \InvalidArgumentException(
+                "Parameter 'filter_test_profile_id' is not defined as a bool."
+            );
         }
 
         $this->filter_debug_mode = $filter_debug_mode;
@@ -120,7 +130,9 @@ abstract class ReportsBase extends TuneManagementBase
             throw new \InvalidArgumentException("Parameter 'action' is not defined.");
         }
         if (is_null($query_string_dict) && !is_array($query_string_dict)) {
-            throw new \InvalidArgumentException("Parameter 'query_string_dict' is not defined as associative array.");
+            throw new \InvalidArgumentException(
+                "Parameter 'query_string_dict' is not defined as associative array."
+            );
         }
 
         $sdk_filter = null;
@@ -132,7 +144,10 @@ abstract class ReportsBase extends TuneManagementBase
             }
 
             if ($this->filter_test_profile_id) {
-                if (!is_null($sdk_filter) && is_string($sdk_filter) && !empty($sdk_filter)) {
+                if (!is_null($sdk_filter)
+                    && is_string($sdk_filter)
+                    && !empty($sdk_filter)
+                ) {
                     $sdk_filter .= " AND ";
                 }
 
@@ -145,7 +160,8 @@ abstract class ReportsBase extends TuneManagementBase
                 if (!is_null($query_string_dict['filter'])
                     && is_string($query_string_dict['filter'])
                     && !empty($query_string_dict['filter'])) {
-                    $query_string_dict['filter'] = "(" . $query_string_dict['filter'] . ") AND " . $sdk_filter;
+                    $query_string_dict['filter'] =
+                        "(" . $query_string_dict['filter'] . ") AND " . $sdk_filter;
                 } else {
                     $query_string_dict['filter'] = $sdk_filter;
                 }
@@ -173,7 +189,6 @@ abstract class ReportsBase extends TuneManagementBase
      * @param string    $mod_export_class           Report class.
      * @param string    $mod_export_function        Report function performing status request.
      * @param string    $job_id                     Job Identifier of report on queue.
-     * @param string    $report_format              Requested document format: csv, json
      * @param bool      $verbose                    For debugging purposes only.
      * @param int       $sleep                      How long thread should sleep before
      *                                              next status request.
@@ -186,20 +201,29 @@ abstract class ReportsBase extends TuneManagementBase
         $mod_export_class,
         $mod_export_function,
         $job_id,
-        $report_format,
         $verbose = false,
         $sleep = 60
     ) {
+        if (!isPThreadsInstalled()) {
+            throw new \Exception(
+                sprint("%s %s: requires PHP Module 'pthreads'",
+                        constant("TUNE_SDK_NAME"),
+                        constant("TUNE_SDK_VERSION")
+                    )
+            );
+        }
+
         if (!is_string($mod_export_class) || empty($mod_export_class)) {
-            throw new \InvalidArgumentException("Parameter 'mod_export_class' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'mod_export_class' is not defined."
+            );
         }
         if (!is_string($mod_export_function) || empty($mod_export_function)) {
-            throw new \InvalidArgumentException("Parameter 'mod_export_function' is not defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'mod_export_function' is not defined."
+            );
         }
         if (!is_string($job_id) || empty($job_id)) {
-            throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
-        }
-        if (!is_string($report_format) || empty($report_format)) {
             throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
         }
         if (!is_string($this->api_key) || empty($this->api_key)) {
@@ -232,43 +256,51 @@ abstract class ReportsBase extends TuneManagementBase
         $response = $export_worker->getResponse();
 
         if (!$success) {
-            throw new TuneSdkException("Thread failed to complete successfully: " + print_r($response, true) . PHP_EOL);
+            throw new TuneSdkException(
+                "Thread failed to complete successfully: "
+                . print_r($response, true)
+                . PHP_EOL
+            );
         }
 
         if (is_null($response)) {
-            throw new TuneServiceException("Report export request no response: " + print_r($response, true) . PHP_EOL);
+            throw new TuneServiceException(
+                "Report export request no response: "
+                . print_r($response, true)
+                . PHP_EOL
+            );
         }
 
         $http_code = $response->getHttpCode();
         if ($http_code != 200) {
-            throw new TuneServiceException("Report export request error: '{$http_code}'");
+            throw new TuneServiceException(
+                "Report export request error: '{$http_code}'"
+            );
         }
 
         $data = $response->getData();
         if (is_null($data)) {
-            throw new TuneServiceException("Report export response failed to get data.");
+            throw new TuneServiceException(
+                "Report export response failed to get data."
+            );
         }
         if (!array_key_exists("status", $data)) {
             throw new TuneSdkException(
-                "Export data does not contain report 'status' for download: " . print_r($data, true) . PHP_EOL
+                "Export data does not contain report 'status' for download: "
+                . print_r($data, true)
+                . PHP_EOL
             );
         }
         if ($data["status"] == "fail"
         ) {
-            throw new TuneServiceException("Report export request failed: " + print_r($response, true) . PHP_EOL);
+            throw new TuneServiceException(
+                "Report export request failed: "
+                . print_r($response, true)
+                . PHP_EOL
+            );
         }
 
-        $report_url = $mod_export_class::parseResponseUrl($response);
-
-        if (!is_string($report_url) || empty($report_url)) {
-            throw new TuneSdkException("Failed to get report Url from response.");
-        }
-
-        if ($verbose) {
-            echo "Completed report request: " + print_r($response, true) . PHP_EOL;
-        }
-
-        return $this->parseReportStatus($report_url, $report_format);
+        return $response;
     }
 
     /**
@@ -299,7 +331,9 @@ abstract class ReportsBase extends TuneManagementBase
             }
         } catch (Exception $ex) {
             throw new TuneSdkException(
-                "Failed to create reader provided by url {$report_url}: " + print_r($ex, true) . PHP_EOL
+                "Failed to create reader provided by url {$report_url}: "
+                . print_r($ex, true)
+                . PHP_EOL
             );
         }
 

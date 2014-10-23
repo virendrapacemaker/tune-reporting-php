@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -97,9 +97,29 @@ class UnittestEventItems extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",country.name,region.name,site_id,campaign_id,publisher_id"
-            . ",agency_id,country_id,region_id",
+                $fields = "created"
+                . ",site.name"
+                . ",campaign.name"
+                . ",site_event.name"
+                . ",site_event_item.name"
+                . ",quantity"
+                . ",value_usd"
+                . ",country.name"
+                . ",region.name"
+                . ",agency.name"
+                . ",advertiser_sub_site.name"
+                . ",advertiser_sub_campaign.name"
+                . ",site_id"
+                . ",campaign_id"
+                . ",agency_id"
+                . ",site_event_id"
+                . ",country_id"
+                . ",region_id"
+                . ",site_event_item_id"
+                . ",advertiser_sub_site_id"
+                . ",advertiser_sub_campaign_id"
+                . ",currency_code"
+                . ",value",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -122,9 +142,29 @@ class UnittestEventItems extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",country.name,region.name,site_id,campaign_id,publisher_id"
-            . ",agency_id,country_id,region_id",
+                $fields = "created"
+                . ",site.name"
+                . ",campaign.name"
+                . ",site_event.name"
+                . ",site_event_item.name"
+                . ",quantity"
+                . ",value_usd"
+                . ",country.name"
+                . ",region.name"
+                . ",agency.name"
+                . ",advertiser_sub_site.name"
+                . ",advertiser_sub_campaign.name"
+                . ",site_id"
+                . ",campaign_id"
+                . ",agency_id"
+                . ",site_event_id"
+                . ",country_id"
+                . ",region_id"
+                . ",site_event_item_id"
+                . ",advertiser_sub_site_id"
+                . ",advertiser_sub_campaign_id"
+                . ",currency_code"
+                . ",value",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

@@ -35,7 +35,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -82,16 +82,13 @@ class TuneExamples
         echo "\n";
 
         try {
-//            \Tune\Examples\Management\Service\ExampleClient::run($api_key);
-//            \Tune\Examples\Management\Api\Account\ExampleUsers::run($api_key);
-//
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleClicks::run($api_key);
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEventItems::run($api_key);
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEvents::run($api_key);
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleInstalls::run($api_key);
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExamplePostbackUrls::run($api_key);
-//
-//            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleUpdates::run($api_key);
+            \Tune\Examples\Management\Service\ExampleClient::run($api_key);
+
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleClicks::run($api_key);
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEventItems::run($api_key);
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleEvents::run($api_key);
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExampleInstalls::run($api_key);
+            \Tune\Examples\Management\Api\Advertiser\Reports\Logs\ExamplePostbacks::run($api_key);
 
             \Tune\Examples\Management\Api\Advertiser\Reports\ExampleActuals::run($api_key);
             \Tune\Examples\Management\Api\Advertiser\Reports\ExampleCohort::run($api_key);
@@ -122,9 +119,10 @@ class TuneExamples
 }
 
 /**
- * Run Tune SDK successful request examples
+ * Examples request API_KEY
  */
-if (count($argv) == 0) {
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
     exit;
 }
 

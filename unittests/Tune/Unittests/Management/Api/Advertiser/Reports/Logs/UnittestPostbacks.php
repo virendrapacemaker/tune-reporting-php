@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -97,12 +97,24 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
         $response = $postbacks->find(
             $start_date,
             $end_date,
-            $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",site_event.name,conversion_postback.comment,url,http_result"
-            . ",attributed_publisher.name,campaign_payout.id"
-            . ",site_id,campaign_id,publisher_id,attributed_publisher_id"
-            . ",site_event_id,conversion_postback_id,campaign_payout_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -124,12 +136,24 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
         $response = $postbacks->export(
             $start_date,
             $end_date,
-            $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",site_event.name,conversion_postback.comment,url,http_result"
-            . ",attributed_publisher.name,campaign_payout.id"
-            . ",site_id,campaign_id,publisher_id,attributed_publisher_id"
-            . ",site_event_id,conversion_postback_id,campaign_payout_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

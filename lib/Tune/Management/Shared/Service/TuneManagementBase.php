@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -38,12 +38,13 @@
 namespace Tune\Management\Shared\Service;
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . "/Shared/Helper.php";
+require_once dirname(dirname(dirname(dirname(__FILE__)))) . "/Version.php";
 
-use \Tune\Shared\TuneSdkException;
-use \Tune\Shared\TuneServiceException;
+use Tune\Shared\TuneSdkException;
+use Tune\Shared\TuneServiceException;
 
-use \Tune\Shared\ParenthesesParser;
-use \Tune\Management\Shared\Service\TuneManagementClient;
+use Tune\Shared\ParenthesesParser;
+use Tune\Management\Shared\Service\TuneManagementClient;
 
 /**
  * Base class for handling Tune Management API endpoints.
@@ -87,56 +88,52 @@ class TuneManagementBase
      * @var array
      */
     protected static $sort_directions
-        = array(
+    = array(
             "DESC",
             "ASC"
-        );
+    );
 
     /**
      * Parameter 'filter' expression operations.
      * @var array
-     */
+    */
     protected static $filter_operations
-        = array(
+    = array(
             "=",
             "!=",
             "<",
             "<=",
             ">",
             ">=",
-            "IS NULL",
-            "IS NOT NULL",
+            "IS",
+            "NOT",
+            "NULL",
             "IN",
-            "NOT IN",
             "LIKE",
-            "NOT LIKE",
             "RLIKE",
-            "NOT RLIKE",
             "REGEXP",
-            "NOT REGEXP",
-            "BETWEEN",
-            "NOT BETWEEN"
-        );
+            "BETWEEN"
+    );
 
     /**
      * Parameter 'filter' expression conjunctions.
      * @var array
-     */
+    */
     protected static $filter_conjunctions
-        = array(
+    = array(
             "AND",
             "OR"
-        );
+    );
 
     /**
      * Parameter 'format' for export report.
      * @var array
-     */
+    */
     protected static $report_export_formats
-        = array(
+    = array(
             "csv",
             "json"
-        );
+    );
 
     /**
      * Constructor
@@ -144,12 +141,21 @@ class TuneManagementBase
      * @param string $controller    Tune Management API Endpoint
      * @param string $api_key       MobileAppTracking API Key
      * @param bool   $validate      Validate fields used by actions' parameters.
-     */
+    */
     public function __construct(
-        $controller,
-        $api_key,
-        $validate = false
+            $controller,
+            $api_key,
+            $validate = false
     ) {
+        if (!isCurlInstalled()) {
+            throw new \Exception(
+                    sprint("%s %s: requires PHP Module 'curl'",
+                            constant("TUNE_SDK_NAME"),
+                            constant("TUNE_SDK_VERSION")
+                    )
+            );
+        }
+
         // controller
         if (!is_string($controller) || empty($controller)) {
             throw new \InvalidArgumentException("Parameter 'controller' is not defined.");
@@ -197,14 +203,14 @@ class TuneManagementBase
      * @throws TuneSdkException
      */
     protected function call(
-        $action,
-        $query_string_dict = null
+            $action,
+            $query_string_dict = null
     ) {
         $client = new TuneManagementClient(
-            $this->controller,
-            $action,
-            $this->api_key,
-            $query_string_dict
+                $this->controller,
+                $action,
+                $this->api_key,
+                $query_string_dict
         );
 
         $client->call();
@@ -230,15 +236,15 @@ class TuneManagementBase
     public function getFields()
     {
         $query_string_dict = array(
-            "controllers" => $this->controller,
-            "details" => "modelName,fields"
+                "controllers" => $this->controller,
+                "details" => "modelName,fields"
         );
 
         $client = new TuneManagementClient(
-            "apidoc",
-            "get_controllers",
-            $this->api_key,
-            $query_string_dict
+                "apidoc",
+                "get_controllers",
+                $this->api_key,
+                $query_string_dict
         );
 
         $client->call();
@@ -301,7 +307,7 @@ class TuneManagementBase
             if (($field_name != "_id") && endsWith($field_name, "_id")) {
                 $related_property = substr($field_name, 0, strlen($field_name) - 3);
                 if (array_key_exists($related_property, $related_fields)
-                    && !empty($related_fields[$related_property])
+                && !empty($related_fields[$related_property])
                 ) {
                     foreach ($related_fields[$related_property] as $related_field_name) {
                         $field_names_merged[] = "{$related_property}.{$related_field_name}";
@@ -447,19 +453,61 @@ class TuneManagementBase
             throw new TuneSdkException("Invalid parameter 'filter' provided.");
         }
 
+        if (is_array($filter)) {
+            $filter = arrayToString($filter);
+        }
+
+        $filter = trim(preg_replace('/\s+/', ' ', $filter));
+
+        if (!isParenthesesBalanced($filter)) {
+            throw new TuneSdkException("Invalid parameter 'filter' provided. {$filter}");
+        }
+
+        $filter = str_replace(array('(', ')'), " ", $filter);
+        $filter = trim(preg_replace('/\s+/', ' ', $filter));
+
+        $filter_parts = explode(" ", $filter);
+
         if ($this->validate) {
             if (is_null($this->fields)) {
                 $this->getFields();
             }
         }
 
-        if (is_array($filter)) {
-            $filter = validateFilterArray($this->fields, self::$filter_operations, self::$filter_conjunctions, $filter);
-        } elseif (is_string($filter)) {
-            validateFilterString($this->fields, self::$filter_operations, self::$filter_conjunctions, $filter);
+        foreach ($filter_parts as $filter_part) {
+            $filter_part = trim($filter_part);
+            if (is_string($filter_part) && empty($filter_part)) {
+                continue;
+            }
+            if (preg_match('#^(\').+\1$#', $filter_part) == 1) {
+                continue;
+            }
+            if (is_int($filter_part)) {
+                continue;
+            }
+            if (in_array($filter_part, self::$filter_operations)) {
+                continue;
+            }
+            if (in_array($filter_part, self::$filter_conjunctions)) {
+                continue;
+            }
+            if (is_string($filter_part)
+                && !empty($filter_part)
+                && preg_match('/[a-z0-9\.\_]+/', $filter_part)
+            ) {
+                if ($this->validate) {
+                    if (!is_null($this->fields) && is_array($this->fields) && in_array($filter_part, $this->fields)) {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
+            }
+
+            throw new TuneSdkException("Parameter 'filter' is invalid: '{$filter}'.");
         }
 
-        return $filter;
+        return "({$filter})";
     }
 
     /**
@@ -493,152 +541,4 @@ class TuneManagementBase
 
         throw new \InvalidArgumentException("Parameter '{$param_name}' is invalid: '{$date_time}'.");
     }
-}
-
-/**
- * Validate provided filter string is properly formatted query.
- *
- * @param array $fields
- * @param array $filter_operations
- * @param array $filter_conjunctions
- * @param array $filter
- *
- * @return string|void
- * @throws \Tune\Shared\TuneSdkException
- */
-function validateFilterArray($fields, $filter_operations, $filter_conjunctions, $filter)
-{
-    if (!is_array($filter)) {
-        throw new TuneSdkException("Parameter 'filter' expects array.");
-    }
-
-    $expression = "";
-
-    foreach ($filter as $key => $value) {
-        if (is_int($key)) {
-            if (is_array($value)) {
-                $sub_expression = validateFilterArray($fields, $filter_operations, $filter_conjunctions, $value);
-                if (!empty($expression)) {
-                    $expression = sprintf("%s %s", $expression, $sub_expression);
-                } else {
-                    $expression = $sub_expression;
-                }
-            } elseif (is_string($value)) {
-                $filter_conjunction = trim($value);
-                if (isEven($key)) {
-                    throw new TuneSdkException("Invalid placement of conjunction in filter parameter: '{$key}'.");
-                }
-                if (!in_array($filter_conjunction, $filter_conjunctions)) {
-                    throw new TuneSdkException("Invalid conjunction in filter parameter: '{$filter_conjunction}'.");
-                }
-                if (!empty($expression)) {
-                    $expression = sprintf("%s %s", $expression, $filter_conjunction);
-                } else {
-                    $expression = $filter_conjunction;
-                }
-            }
-        } elseif (is_string($key)) {
-            if (array_key_exists("column", $filter) && array_key_exists("operator", $filter)) {
-                $field = trim($filter["column"]);
-                $operator = trim($filter["operator"]);
-                if (!is_null($fields) && is_array($fields) && !in_array($field, $fields)) {
-                    throw new TuneSdkException("Invalid field in filter parameter: '{$field}'.");
-                }
-                if (!in_array($operator, $filter_operations)) {
-                    throw new TuneSdkException("Invalid operator in filter parameter: '{$operator}'.");
-                }
-                $expression = sprintf("%s %s", $field, trim($filter["operator"]));
-                if (array_key_exists("value", $filter)) {
-                    if (is_array($filter["value"])) {
-
-                        $expression = sprintf("%s (%s)", $expression, implodeQuotes(",", $filter["value"]));
-
-                    } else {
-                        $expression = sprintf("%s '%s'", $expression, $filter["value"]);
-                    }
-                }
-                break;
-            }
-        }
-    }
-
-    $expression = sprintf("(%s)", $expression);
-
-    return $expression;
-}
-
-/**
- * Validate provided filter string is properly formatted query.
- *
- * @param array  $fields
- * @param array  $filter_operations
- * @param array  $filter_conjunctions
- * @param string $filter
- *
- * @return array
- * @throws \Tune\Shared\TuneSdkException
- */
-function validateFilterString($fields, $filter_operations, $filter_conjunctions, $filter)
-{
-    $filter_expr = array();
-
-    if (!is_string($filter)) {
-        throw new TuneSdkException("Parameter 'filter' expects string.");
-    }
-
-    $pp = new ParenthesesParser();
-
-    $filter_parts = $pp->parse($filter);
-
-    foreach ($filter_parts as $key => $filter_part) {
-        if (is_string($filter_part)) {
-
-            $filter_conjunction = trim($filter_part);
-            if (isEven($key)) {
-                throw new TuneSdkException("Invalid placement of conjunction in filter parameter: '{$key}'.");
-            }
-            if (!in_array($filter_conjunction, $filter_conjunctions)) {
-                throw new TuneSdkException("Invalid conjunction in filter parameter: '{$filter_conjunction}'.");
-            }
-
-            $filter_expr[] = $filter_conjunction;
-        } elseif (is_array($filter_part)) {
-            $sub_expr_part = $filter_part[0];
-            $sub_filter_expr_parts = explode(" ", $sub_expr_part);
-
-            $field = array_shift($sub_filter_expr_parts);
-            if (!is_null($fields) && is_array($fields) && !in_array($field, $fields)) {
-                throw new TuneSdkException("Invalid field in filter parameter: '{$field}'.");
-            }
-            $sub_filter_expr_part_end = trim(end($sub_filter_expr_parts));
-            $sub_filter_expr_part_end_no_quotes = trim($sub_filter_expr_part_end, "'");
-
-            $sub_filter_expr_value = null;
-            if ($sub_filter_expr_part_end_no_quotes != $sub_filter_expr_part_end) {
-                $sub_filter_expr_value = array_pop($sub_filter_expr_parts);
-            }
-            $sub_filter_expr_operator = implode(" ", $sub_filter_expr_parts);
-            $sub_filter_expr_operator = trim($sub_filter_expr_operator);
-            if (!in_array($sub_filter_expr_operator, $filter_operations)) {
-                throw new TuneSdkException("Invalid operator in filter parameter '{$filter}': '{$sub_filter_expr_operator}'.");
-            }
-
-            if (count($filter_part) == 2) {
-                $sub_filter_expr_value =  $filter_part[1];
-            }
-
-            $sub_filter = array (
-                "column" => $field,
-                "operator" => $sub_filter_expr_operator
-            );
-
-            if ($sub_filter_expr_value) {
-                $sub_filter["value"] = $sub_filter_expr_part_end;
-            }
-
-            $filter_expr[] = $sub_filter;
-        }
-    }
-
-    return $filter_expr;
 }

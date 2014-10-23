@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -75,9 +75,8 @@ class UnittestActuals extends \PHPUnit_Framework_TestCase
         $response = $stats->count(
             $start_date,
             $end_date,
-            $group               = "site_id,publisher_id,campaign_id"
-            . ",site_event_id,match_type,agency_id,country_id",
-            $filter              = "(publisher_id = 0)",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -100,15 +99,25 @@ class UnittestActuals extends \PHPUnit_Framework_TestCase
         $response = $stats->find(
             $start_date,
             $end_date,
-            $group               = "site_id,publisher_id,campaign_id"
-            . ",site_event_id,match_type,agency_id,country_id",
-            $filter              = "(publisher_id = 0)",
-            $fields              = "site_id,site.name,publisher_id"
-            . ",publisher.name,campaign_id,campaign.name"
-            . ",site_event_id,site_event.name,match_type"
-            . ",agency_id,ad_clicks,ad_clicks_unique"
-            . ",installs,updates,opens,events,payouts,revenues_usd"
-            . ",country_id,country.name,currency_code",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = "site_id"
+            . ",site.name"
+            . ",publisher_id"
+            . ",publisher.name"
+            . ",ad_impressions"
+            . ",ad_impressions_unique"
+            . ",ad_clicks"
+            . ",ad_clicks_unique"
+            . ",paid_installs"
+            . ",paid_installs_assists"
+            . ",non_installs_assists"
+            . ",paid_events"
+            . ",paid_events_assists"
+            . ",non_events_assists"
+            . ",paid_opens"
+            . ",paid_opens_assists"
+            . ",non_opens_assists",
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -132,15 +141,25 @@ class UnittestActuals extends \PHPUnit_Framework_TestCase
         $response = $stats->export(
             $start_date,
             $end_date,
-            $group               = "site_id,publisher_id,campaign_id"
-            . ",site_event_id,match_type,agency_id,country_id",
-            $filter              = "(publisher_id = 0)",
-            $fields              = "site_id,site.name,publisher_id"
-            . ",publisher.name,campaign_id,campaign.name"
-            . ",site_event_id,site_event.name,match_type"
-            . ",agency_id,ad_clicks,ad_clicks_unique"
-            . ",installs,updates,opens,events,payouts,revenues_usd"
-            . ",country_id,country.name,currency_code",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = "site_id"
+            . ",site.name"
+            . ",publisher_id"
+            . ",publisher.name"
+            . ",ad_impressions"
+            . ",ad_impressions_unique"
+            . ",ad_clicks"
+            . ",ad_clicks_unique"
+            . ",paid_installs"
+            . ",paid_installs_assists"
+            . ",non_installs_assists"
+            . ",paid_events"
+            . ",paid_events_assists"
+            . ",non_events_assists"
+            . ",paid_opens"
+            . ",paid_opens_assists"
+            . ",non_opens_assists",
             $timestamp           = "datehour",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"

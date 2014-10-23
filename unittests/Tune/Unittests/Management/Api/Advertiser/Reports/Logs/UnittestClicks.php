@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -39,7 +39,8 @@ namespace Tune\Unittests\Management\Api\Advertiser\Reports\Logs;
 
 require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))))))) . "/lib/TuneApi.php";
 
-use \Tune\Management\Api\Advertiser\Stats\Clicks;
+use Tune\Management\Api\Advertiser\Stats\Clicks;
+use Tune\Shared\TuneSdkException;
 
 class UnittestClicks extends \PHPUnit_Framework_TestCase
 {
@@ -98,10 +99,17 @@ class UnittestClicks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",is_unique,publisher_ref_id,country.name,region.name"
-            . ",site_id,campaign_id,publisher_id"
-            . ",agency_id,country_id,region_id",
+            $fields              = "id"
+            . ",created"
+            . ",site_id"
+            . ",site.name"
+            . ",publisher_id"
+            . ",publisher.name"
+            . ",is_unique"
+            . ",advertiser_sub_campaign_id"
+            . ",advertiser_sub_campaign.ref"
+            . ",publisher_sub_campaign_id"
+            . ",publisher_sub_campaign.ref",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -110,6 +118,108 @@ class UnittestClicks extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * @expectedException Tune\Shared\TuneSdkException
+     */
+    public function testFindInvalidField()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $clicks = new Clicks($this->api_key, $validate = true);
+
+        $response = $clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = null,
+            $fields              = "foo",
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+    }
+
+    /**
+     * @expectedException Tune\Shared\TuneSdkException
+     */
+    public function testFindInvalidFilterField()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $clicks = new Clicks($this->api_key, $validate = true);
+
+        $response = $clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = "(foo > 0)",
+            $fields              = null,
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+    }
+
+    /**
+     * @expectedException Tune\Shared\TuneSdkException
+     */
+    public function testFindInvalidFilterOperator()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $clicks = new Clicks($this->api_key, $validate = true);
+
+        $response = $clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = "(created # 0)",
+            $fields              = null,
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+    }
+
+    /**
+     * @expectedException Tune\Shared\TuneSdkException
+     */
+    public function testFindInvalidFields()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $clicks = new Clicks($this->api_key, $validate = true);
+
+        $response = $clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = null,
+            $fields              = "id"
+                . ",created"
+                . ",site_id"
+                . ",site.name"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",foo"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref",
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
     }
 
     public function testExport()
@@ -124,10 +234,17 @@ class UnittestClicks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = "created,site.name,campaign.name,publisher.name"
-            . ",is_unique,publisher_ref_id,country.name,region.name"
-            . ",site_id,campaign_id,publisher_id"
-            . ",agency_id,country_id,region_id",
+            $fields              = "id"
+            . ",created"
+            . ",site_id"
+            . ",site.name"
+            . ",publisher_id"
+            . ",publisher.name"
+            . ",is_unique"
+            . ",advertiser_sub_campaign_id"
+            . ",advertiser_sub_campaign.ref"
+            . ",publisher_sub_campaign_id"
+            . ",publisher_sub_campaign.ref",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

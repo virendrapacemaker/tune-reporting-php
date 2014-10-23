@@ -1,6 +1,6 @@
 <?php
 /**
- * ExamplePostbackUrls.php
+ * ExamplePostbacks.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -30,23 +30,29 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.2
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
 
 namespace Tune\Examples\Management\Api\Advertiser\Reports\Logs;
 
+require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))))) . "/../lib/TuneApi.php";
+
+
 use Tune\Management\Api\Advertiser\Stats\Postbacks;
 use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+use Tune\Management\Shared\Reports\ReportReaderJSON;
+
+global $argc, $argv;
 
 /**
- * Class ExamplePostbackUrls
+ * Class ExamplePostbacks
  *
  * @package Tune\Examples\Management\Api\Advertiser\Reports\Logs
  */
-class ExamplePostbackUrls
+class ExamplePostbacks
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -57,6 +63,8 @@ class ExamplePostbackUrls
     }
 
     /**
+     * Execute example
+     *
      * @param string $api_key MobileAppTracking API Key
      *
      * @throws \InvalidArgumentException
@@ -83,12 +91,14 @@ class ExamplePostbackUrls
             $postbacks = new Postbacks($api_key, $validate = true);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/postbacks all fields =" . PHP_EOL;
+            echo " Fields of Advertiser Logs Postbacks records.         " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $postbacks->getFields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/postbacks/count.json request =" . PHP_EOL;
+            echo " Count Advertiser Logs Postbacks records.             " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $postbacks->count(
                 $start_date,
                 $end_date,
@@ -96,7 +106,7 @@ class ExamplePostbackUrls
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/postbacks/count.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -107,23 +117,36 @@ class ExamplePostbackUrls
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/postbacks/find.json request =" . PHP_EOL;
+            echo " Find Advertiser Logs Postbacks records.              " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $postbacks->find(
                 $start_date,
                 $end_date,
-                $filter              = null,
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",site_event.name,conversion_postback.comment,url,http_result"
-                . ",attributed_publisher.name,campaign_payout.id"
-                . ",site_id,campaign_id,publisher_id,attributed_publisher_id"
-                . ",site_event_id,conversion_postback_id,campaign_payout_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/postbacks/find.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -132,22 +155,35 @@ class ExamplePostbackUrls
                 );
             }
 
-            echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/postbacks/find_export_queue.json request =" . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
+            echo " Request Advertiser Logs Postbacks CSV report for export. " . PHP_EOL;
+            echo "==========================================================" . PHP_EOL;
             $response = $postbacks->export(
                 $start_date,
                 $end_date,
-                $filter              = null,
-                $fields              = "created,site.name,campaign.name,publisher.name"
-                . ",site_event.name,conversion_postback.comment,url,http_result"
-                . ",attributed_publisher.name,campaign_payout.id"
-                . ",site_id,campaign_id,publisher_id,attributed_publisher_id"
-                . ",site_event_id,conversion_postback_id,campaign_payout_id",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/postbacks/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -155,11 +191,26 @@ class ExamplePostbackUrls
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
 
-            echo "======================================================" . PHP_EOL;
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+
+            echo "=======================================================" . PHP_EOL;
+            echo "Fetching Advertiser Logs Postbacks report polling      " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
 
@@ -206,8 +257,19 @@ class ExamplePostbackUrls
                 );
             }
 
-            $report_url = $response->getData()["data"]["url"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
 
+            $report_url = Export::parseResponseUrl($response);
+            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Read Postbacks CSV report and pretty print 5 lines.  " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -216,17 +278,34 @@ class ExamplePostbackUrls
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo "= advertiser/stats/postbacks/find_export_queue.json request =" . PHP_EOL;
+            echo " Request Advertiser Postbacks JSON report for export. " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
             $response = $postbacks->export(
                 $start_date,
                 $end_date,
-                $filter              = null,
-                $fields              = null,
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= advertiser/stats/postbacks/find_export_queue.json response:" . PHP_EOL;
+            echo "= Response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -234,26 +313,66 @@ class ExamplePostbackUrls
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
 
-            echo "======================================================" . PHP_EOL;
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
 
+            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+
+            echo "========================================================" . PHP_EOL;
+            echo "Fetching Advertiser Logs Postbacks report threaded      " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $export = new Export($api_key);
 
-            $json_report_reader = $export->fetch(
+            $response = $export->fetch(
                 $job_id,
-                $report_format = "json",
                 $verbose = true,
                 $sleep = 10
             );
 
+            $report_url = Export::parseResponseUrl($response);
+            echo "= JSON Report URL: {$report_url}" . PHP_EOL;
+
+            echo "========================================================" . PHP_EOL;
+            echo " Read Postbacks JSON report and pretty print 5 lines.   " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+
+            $json_report_reader = new ReportReaderJSON(
+                $report_url
+            );
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
+
+            echo "======================================================" . PHP_EOL;
+            echo " End Example                                          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo PHP_EOL;
 
         } catch (\Exception $ex) {
             throw $ex;
         }
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExamplePostbacks::run($api_key);
