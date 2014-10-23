@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -96,12 +96,33 @@ class UnittestEvents extends \PHPUnit_Framework_TestCase
         $response = $events->find(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved') AND (publisher_id > 0)",
-            $fields              = "created,site.name,campaign.name,install_publisher.name"
-            . ",publisher.name,site_event.name,event_type,payout,revenue_usd,sdk"
-            . ",sdk_version,package_name,app_name,app_version,country.name"
-            . ",campaign_id,install_publisher_id,publisher_id,site_event_id"
-            . ",country_id,id,currency_code,revenue,site_event_items_count",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",ios_ifa"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through"
+                . ",is_reengagement",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -122,12 +143,33 @@ class UnittestEvents extends \PHPUnit_Framework_TestCase
         $response = $events->export(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved') AND (publisher_id > 0)",
-            $fields              = "created,site.name,campaign.name,install_publisher.name"
-            . ",publisher.name,site_event.name,event_type,payout,revenue_usd,sdk"
-            . ",sdk_version,package_name,app_name,app_version,country.name"
-            . ",campaign_id,install_publisher_id,publisher_id,site_event_id"
-            . ",country_id,id,currency_code,revenue,site_event_items_count",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",ios_ifa"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through"
+                . ",is_reengagement",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

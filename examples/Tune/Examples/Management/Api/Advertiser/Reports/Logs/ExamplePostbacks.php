@@ -1,6 +1,6 @@
 <?php
 /**
- * ExamplePostbackUrls.php
+ * ExamplePostbacks.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -43,13 +43,16 @@ require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(dirname(__F
 use Tune\Management\Api\Advertiser\Stats\Postbacks;
 use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+use Tune\Management\Shared\Reports\ReportReaderJSON;
+
+global $argc, $argv;
 
 /**
- * Class ExamplePostbackUrls
+ * Class ExamplePostbacks
  *
  * @package Tune\Examples\Management\Api\Advertiser\Reports\Logs
  */
-class ExamplePostbackUrls
+class ExamplePostbacks
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -188,9 +191,22 @@ class ExamplePostbackUrls
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
             echo "Fetching Advertiser Logs Postbacks report polling      " . PHP_EOL;
@@ -241,7 +257,15 @@ class ExamplePostbackUrls
                 );
             }
 
-            $report_url = $response->getData()["data"]["url"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $report_url = Export::parseResponseUrl($response);
+            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Read Postbacks CSV report and pretty print 5 lines.  " . PHP_EOL;
@@ -289,27 +313,51 @@ class ExamplePostbackUrls
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
             echo "Fetching Advertiser Logs Postbacks report threaded      " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
             $export = new Export($api_key);
 
-            $json_report_reader = $export->fetch(
+            $response = $export->fetch(
                 $job_id,
-                $report_format = "json",
                 $verbose = true,
                 $sleep = 10
             );
 
+            $report_url = Export::parseResponseUrl($response);
+            echo "= JSON Report URL: {$report_url}" . PHP_EOL;
+
             echo "========================================================" . PHP_EOL;
             echo " Read Postbacks JSON report and pretty print 5 lines.   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
+
+            $json_report_reader = new ReportReaderJSON(
+                $report_url
+            );
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
+
+            echo "======================================================" . PHP_EOL;
+            echo " End Example                                          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo PHP_EOL;
 
         } catch (\Exception $ex) {
             throw $ex;
@@ -327,4 +375,4 @@ if (count($argv) == 1) {
 
 $api_key = $argv[1];
 
-ExamplePostbackUrls::run($api_key);
+ExamplePostbacks::run($api_key);

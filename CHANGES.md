@@ -27,7 +27,8 @@ Version 0.9.3
 Internal release on October 18, 2014
 * Revised packaging
 
-Version 0.9.4
+Version 0.9.5
 --------------
 
-Initial public release on October 20, 2014
+Initial public release on October 22, 2014
+* Field validation for parameter fields, sort, filter, group

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.4
+ * @version   0.9.5
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -42,6 +42,7 @@ require_once dirname(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))
 use Tune\Management\Api\Advertiser\Stats;
 use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
+use Tune\Management\Shared\Reports\ReportReaderJSON;
 
 global $argc, $argv;
 
@@ -101,8 +102,7 @@ class ExampleActuals
             $response = $stats->count(
                 $start_date,
                 $end_date,
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -123,8 +123,7 @@ class ExampleActuals
             $response = $stats->find(
                 $start_date,
                 $end_date,
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $fields              = "site_id"
                 . ",site.name"
@@ -165,8 +164,7 @@ class ExampleActuals
             $response = $stats->export(
                 $start_date,
                 $end_date,
-                $group               = "site_id"
-                . ",publisher_id",
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $fields              = "site_id"
                 . ",site.name"
@@ -198,9 +196,22 @@ class ExampleActuals
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
             echo "Fetching Advertiser Actuals report polling             " . PHP_EOL;
@@ -251,11 +262,20 @@ class ExampleActuals
                 );
             }
 
-            $report_url = $response->getData()["data"]["url"];
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $report_url = Export::parseResponseUrl($response);
+            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Read Actuals CSV report and pretty print 5 lines.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -303,30 +323,52 @@ class ExampleActuals
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            echo "= Job ID: " . print_r($response->getData(), true) . PHP_EOL;
 
-            $job_id = $response->getData();
+            $data = $response->getData();
+            if (is_null($data)) {
+                throw new \Exception(
+                    "Failed to return data: " . print_r($response, true)
+                );
+            }
+
+            $job_id = $data;
+            if (!is_string($job_id) || empty($job_id)) {
+                throw new \Exception(
+                    "Failed to return job_id: " . print_r($response, true)
+                );
+            }
+
+            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
             echo "Fetching Advertiser Actuals report threaded.            " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $export = new \Tune\Management\Api\Export($api_key);
+            $export = new Export($api_key);
 
-            $json_report_reader = $export->fetch(
+            $response = $export->fetch(
                 $job_id,
-                $report_format = "json",
                 $verbose = true,
                 $sleep = 10
             );
 
+            $report_url = Export::parseResponseUrl($response);
+            echo "= JSON Report URL: {$report_url}" . PHP_EOL;
+
             echo "========================================================" . PHP_EOL;
             echo " Read Actuals JSON report and pretty print 5 lines.     " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
+
+            $json_report_reader = new ReportReaderJSON(
+                $report_url
+            );
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
+            echo " End Example                                          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo PHP_EOL;
 
         } catch (\Exception $ex) {
             throw $ex;
