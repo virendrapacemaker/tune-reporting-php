@@ -1,10 +1,6 @@
 <?php
 /**
- * TuneExamplesAutoloader.php, autoloading class file locations hierarchy by supplying it with a function to run.
- *
- */
-
-/**
+ * SDK Custom Exception TuneSdkException.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,55 +33,34 @@
  * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
- * Autoloader for Tune MobileAppTracking Management API files.
- *
  */
-namespace Tune\Examples;
+
+namespace Tune\Shared;
 
 /**
- * Tune SDK Examples Autoloader Class
- *
- * @package Tune\Examples
+ * TuneSdkException is thrown when the Tune SDK has detected an error within
+ * its code, regardless of any given TuneRequest.
  */
-class TuneExamplesAutoloader
+class TuneSdkException extends \Exception
 {
     /**
-     * Constructor
+     * Redefine the exception so message isn't optional
      *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
+     * @param string $message
+     * @param int    $code
      */
-    public function __construct()
+    public function __construct($message, $code = 0)
     {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+        parent::__construct($message, $code);
     }
 
     /**
-     * This function will handle the autoloading of the Tune namespaced
-     * classes.
+     * Custom string representation of object
      *
-     * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
+     * @return string
      */
-    private function autoloadTuneExamples($className)
+    public function __toString()
     {
-        // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
-        if (!class_exists($className)) {
-            // The namespaces map 1-to-1 with the filepaths, so we can just so a
-            // straight conversion.
-            $dirname = dirname(__FILE__);
-            $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
-
-            // echo "file {$file}\n";
-            if (!file_exists($file)) {
-                return false;
-            }
-
-            // do the actual require now that we've converted it into a file path
-            include_once $file;
-        }
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 }
-
-$autoloader = new TuneExamplesAutoloader();

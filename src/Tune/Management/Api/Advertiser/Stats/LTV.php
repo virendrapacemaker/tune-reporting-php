@@ -1,10 +1,5 @@
 <?php
 /**
- * TuneExamplesAutoloader.php, autoloading class file locations hierarchy by supplying it with a function to run.
- *
- */
-
-/**
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,55 +32,59 @@
  * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
- * Autoloader for Tune MobileAppTracking Management API files.
- *
  */
-namespace Tune\Examples;
+
+namespace Tune\Management\Api\Advertiser\Stats;
+
+use Tune\Management\Shared\Reports\ReportsInsightBase;
 
 /**
- * Tune SDK Examples Autoloader Class
+ * Tune Management API controller 'advertiser/stats/ltv'
  *
- * @package Tune\Examples
+ * @package Tune\Management\Api\Advertiser\Stats
+ *
+ * @example ExampleCohort.php
  */
-class TuneExamplesAutoloader
+class LTV extends ReportsInsightBase
 {
     /**
      * Constructor
      *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
+     * @param string $api_key                   Tune MobileAppTracking API Key.
+     * @param bool   $validate                  Validate fields used by actions' parameters.
      */
-    public function __construct()
-    {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+    public function __construct(
+        $api_key,
+        $validate = false
+    ) {
+        parent::__construct(
+            "advertiser/stats/ltv",
+            $api_key,
+            $filter_debug_mode = false,
+            $filter_test_profile_id = true
+        );
     }
 
     /**
-     * This function will handle the autoloading of the Tune namespaced
-     * classes.
+     * Helper function for fetching report document given provided job identifier.
      *
-     * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
+     * @param string $job_id            Job Identifier of report on queue.
+     * @param bool   $verbose           For debugging purposes only.
+     * @param int    $sleep             How long thread should sleep before
+     *                                  next status request.
+     *
+     * @return null
      */
-    private function autoloadTuneExamples($className)
-    {
-        // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
-        if (!class_exists($className)) {
-            // The namespaces map 1-to-1 with the filepaths, so we can just so a
-            // straight conversion.
-            $dirname = dirname(__FILE__);
-            $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
-
-            // echo "file {$file}\n";
-            if (!file_exists($file)) {
-                return false;
-            }
-
-            // do the actual require now that we've converted it into a file path
-            include_once $file;
-        }
+    public function fetch(
+        $job_id,
+        $verbose = false,
+        $sleep = 60
+    ) {
+        return parent::fetchRecordsInsight(
+            __CLASS__,
+            $job_id,
+            $verbose,
+            $sleep
+        );
     }
 }
-
-$autoloader = new TuneExamplesAutoloader();

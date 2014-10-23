@@ -1,0 +1,27 @@
+<phpunit bootstrap="bootstrap.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailure="false">
+
+    <filter>
+        <blacklist>
+        </blacklist>
+    </filter>
+
+    <testsuites>
+        <testsuite name="lib">
+            <file>UnittestClient.php</file>
+            <file>UnittestClicks.php</file>
+            <file>UnittestEventItems.php</file>
+            <file>UnittestEvents.php</file>
+            <file>UnittestInstalls.php</file>
+            <file>UnittestPostbacks.php</file>
+            <file>UnittestUpdates.php</file>
+            <file>UnittestActuals.php</file>
+            <file>UnittestCohort.php</file>
+            <file>UnittestRetention.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

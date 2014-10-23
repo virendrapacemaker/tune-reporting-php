@@ -1,10 +1,6 @@
 <?php
 /**
- * TuneExamplesAutoloader.php, autoloading class file locations hierarchy by supplying it with a function to run.
- *
- */
-
-/**
+ * UnittestClient.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,55 +33,66 @@
  * @version   0.9.6
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
- * Autoloader for Tune MobileAppTracking Management API files.
- *
  */
-namespace Tune\Examples;
+
+require_once dirname(__FILE__) . "/../src/TuneApi.php";
+
+use \Tune\Management\Shared\Service\TuneManagementClient;
 
 /**
- * Tune SDK Examples Autoloader Class
+ * Unittest basic functionality of TuneManagementClient
  *
- * @package Tune\Examples
+ * @package Tune\Unittests
  */
-class TuneExamplesAutoloader
+class UnittestClient extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Constructor
-     *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
+     * @ignore
      */
-    public function __construct()
+    protected $api_key = null;
+
+    /**
+     * Get API Key from environment.
+     */
+    protected function setUp()
     {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+        $this->api_key = getenv('API_KEY');
     }
 
     /**
-     * This function will handle the autoloading of the Tune namespaced
-     * classes.
-     *
-     * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
+     * Validate API Key was found from environment and is not null.
      */
-    private function autoloadTuneExamples($className)
+    public function testApiKey()
     {
-        // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
-        if (!class_exists($className)) {
-            // The namespaces map 1-to-1 with the filepaths, so we can just so a
-            // straight conversion.
-            $dirname = dirname(__FILE__);
-            $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
+        $this->assertNotNull($this->api_key);
+    }
 
-            // echo "file {$file}\n";
-            if (!file_exists($file)) {
-                return false;
-            }
+    /**
+     * Test Tune Management API client
+     */
+    public function testFind()
+    {
+        $response = null;
+        try {
+            $client = new TuneManagementClient(
+                $controller = 'account/users',
+                $action = 'find.json',
+                $this->api_key,
+                $query_string_dict = array(
+                    "fields" => "first_name,last_name,email",
+                    "limit" => 5
+                )
+            );
 
-            // do the actual require now that we've converted it into a file path
-            include_once $file;
+            $client->call();
+
+            $response = $client->getResponse();
+
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
         }
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
     }
 }
-
-$autoloader = new TuneExamplesAutoloader();
