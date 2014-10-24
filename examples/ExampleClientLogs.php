@@ -36,6 +36,11 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
+/**
+ * Class ExampleClientLogs
+ *
+ * Using TuneManagementClient to connect with 'advertiser/stats/clicks'
+ */
 class ExampleClientLogs
 {
     /**
@@ -59,7 +64,18 @@ class ExampleClientLogs
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        date_default_timezone_set('UTC');
+        $default_date_timezone = ini_get('date.timezone');
+        if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
+            echo "======================================================" . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+        } else {
+            throw new \RuntimeException(
+                "It is not safe to rely on the system's timezone settings. "
+                . "You are *required* to use the date.timezone setting or "
+                . "the date_default_timezone_set() function."
+            );
+        }
 
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
         $start_date     = "{$yesterday} 00:00:00";

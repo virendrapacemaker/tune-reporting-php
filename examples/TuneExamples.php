@@ -84,8 +84,7 @@ class TuneExamples
         echo "\n";
 
         try {
-            ExampleClientAccount::run($api_key);
-            ExampleClientActuals::run($api_key);
+            ExampleClientAccountUsers::run($api_key);
             ExampleClientLogs::run($api_key);
 
             ExampleClicks::run($api_key);

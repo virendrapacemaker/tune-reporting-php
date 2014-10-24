@@ -1,6 +1,6 @@
 <?php
 /**
- * UnittestRetention.php, Tune SDK PHPUnit Test
+ * TestPostbacks.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,9 +37,9 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
-use \Tune\Management\Api\Advertiser\Stats\Retention;
+use \Tune\Management\Api\Advertiser\Stats\Postbacks;
 
-class UnittestRetention extends \PHPUnit_Framework_TestCase
+class TestPostbacks extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -52,7 +52,15 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $default_date_timezone = ini_get('date.timezone');
+        $this->assertNotNull($default_date_timezone);
+        $this->assertInternalType('string', $default_date_timezone);
+        $this->assertNotEmpty($default_date_timezone);
+
         $this->api_key = getenv('API_KEY');
+        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
     }
 
     /**
@@ -60,23 +68,19 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
      */
     public function testCount()
     {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
+        $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
+        $postbacks = new Postbacks($this->api_key, $validate = true);
 
-        $response = $retention->getFields();
+        $response = $postbacks->getFields();
         $this->assertNotNull($response);
 
-        $response = $retention->count(
+        $response = $postbacks->count(
             $start_date,
             $end_date,
-            $cohort_type         = "click",
-            $group               = "site_id,publisher_id",
-            $cohort_interval     = "year_day",
-            $filter              = "(publisher_id > 0)",
+            $filter              = null,
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -89,31 +93,36 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
      */
     public function testFind()
     {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
+        $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
+        $postbacks = new Postbacks($this->api_key, $validate = true);
 
-        $response = $retention->find(
+        $response = $postbacks->find(
             $start_date,
             $end_date,
-            $cohort_type         = "install",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",install_publisher_id"
-            . ",install_publisher.name"
-            . ",installs"
-            . ",opens",
-            $cohort_interval     = "year_day",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 10,
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
+            $limit               = 5,
             $page                = null,
-            $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
-            $format              = "csv",
+            $sort                = array("created" => "DESC"),
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -123,27 +132,34 @@ class UnittestRetention extends \PHPUnit_Framework_TestCase
 
     public function testExport()
     {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
+        $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
+        $postbacks = new Postbacks($this->api_key, $validate = true);
 
-        $response = $retention->export(
+        $response = $postbacks->export(
             $start_date,
             $end_date,
-            $cohort_type         = "install",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",install_publisher_id"
-            . ",install_publisher.name"
-            . ",installs"
-            . ",opens",
-            $cohort_interval     = "year_day",
-            $filter              = "(publisher_id > 0)",
+                $filter              = "(status = 'approved')",
+                $fields              = "id"
+                . ",stat_install_id"
+                . ",stat_event_id"
+                . ",stat_open_id"
+                . ",created"
+                . ",status"
+                . ",site_id"
+                . ",site.name"
+                . ",site_event_id"
+                . ",site_event.name"
+                . ",site_event.type"
+                . ",publisher_id"
+                . ",publisher.name"
+                . ",attributed_publisher_id"
+                . ",attributed_publisher.name"
+                . ",url"
+                . ",http_result",
+            $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
 

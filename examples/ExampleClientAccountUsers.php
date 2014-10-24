@@ -38,13 +38,12 @@
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
 /**
- * Class ExampleClientAccount
+ * Class ExampleClientAccountUsers
  *
- * @package Tune\Examples\Management\Service\Client
+ * Using TuneManagementClient to connect with 'account/users'
  */
-class ExampleClientAccount
+class ExampleClientAccountUsers
 {
-
     /**
      * Constructor that prevents a default instance of this class from being created.
      */

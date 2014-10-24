@@ -45,9 +45,9 @@ use Tune\Management\Shared\Reports\ReportReaderJSON;
 global $argc, $argv;
 
 /**
- * Class ExampleActuals
+ * Class ExampleClicks
  *
- * @package Tune\Examples\Management\Api\Advertiser\Reports
+ * Using Tune\Management\Api\Advertiser\Stats
  */
 class ExampleActuals
 {
@@ -74,13 +74,25 @@ class ExampleActuals
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
+        $default_date_timezone = ini_get('date.timezone');
+        if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
+            echo "======================================================" . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+        } else {
+            throw new \RuntimeException(
+                "It is not safe to rely on the system's timezone settings. "
+                . "You are *required* to use the date.timezone setting or "
+                . "the date_default_timezone_set() function."
+            );
+        }
+
+        echo PHP_EOL;
         echo "=========================================================" . PHP_EOL;
         echo "= Tune Management API Advertiser Reports Actuals        =" . PHP_EOL;
         echo "=========================================================" . PHP_EOL;
 
         try {
-            date_default_timezone_set('UTC');
-
             $week_ago       = date('Y-m-d', strtotime("-8 days"));
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
             $start_date     = "{$week_ago} 00:00:00";

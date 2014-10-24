@@ -1,6 +1,6 @@
 <?php
 /**
- * UnittestActuals.php, Tune SDK PHPUnit Test
+ * TestActuals.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -39,7 +39,7 @@ require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
 use \Tune\Management\Api\Advertiser\Stats;
 
-class UnittestActuals extends \PHPUnit_Framework_TestCase
+class TestActuals extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -52,7 +52,15 @@ class UnittestActuals extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $default_date_timezone = ini_get('date.timezone');
+        $this->assertNotNull($default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
+
         $this->api_key = getenv('API_KEY');
+        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
     }
 
     /**
