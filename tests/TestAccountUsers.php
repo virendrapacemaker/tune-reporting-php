@@ -1,6 +1,6 @@
 <?php
 /**
- * UnittestClient.php, Tune SDK PHPUnit Test
+ * TestAccountUsers.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,14 +37,9 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
-use \Tune\Management\Shared\Service\TuneManagementClient;
+use \Tune\Management\Api\Account\Users;
 
-/**
- * Unittest basic functionality of TuneManagementClient
- *
- * @package Tune\Unittests
- */
-class UnittestClient extends \PHPUnit_Framework_TestCase
+class TestAccountUsers extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -57,36 +52,73 @@ class UnittestClient extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->api_key = getenv('API_KEY');
-    }
-
-    /**
-     * Validate API Key was found from environment and is not null.
-     */
-    public function testApiKey()
-    {
         $this->assertNotNull($this->api_key);
+        $this->assertInternalType('string', $this->api_key);
+        $this->assertNotEmpty($this->api_key);
     }
 
     /**
-     * Test Tune Management API client
+     * Test /account/users/count
+     */
+    public function testCount()
+    {
+        $response = null;
+        try {
+            $account_users = new Users($this->api_key, $validate = true);
+
+            $filter_array = array(
+                array(
+                    "column" => "first_name",
+                    "operator" => "LIKE",
+                    "value" => "%a%"
+                ),
+                "AND",
+                array(
+                    "column" => "phone",
+                    "operator" => "IS NOT NULL"
+                )
+            );
+            $response = $account_users->count($filter_array);
+
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
+        }
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test /account/users/find
      */
     public function testFind()
     {
         $response = null;
         try {
-            $client = new TuneManagementClient(
-                $controller = 'account/users',
-                $action = 'find.json',
-                $this->api_key,
-                $query_string_dict = array(
-                    "fields" => "first_name,last_name,email",
-                    "limit" => 5
+            $account_users = new \Tune\Management\Api\Account\Users($this->api_key, $validate = false);
+
+            $filter_array = array(
+                array(
+                    "column" => "first_name",
+                    "operator" => "LIKE",
+                    "value" => "%a%"
+                ),
+                "AND",
+                array(
+                    "column" => "phone",
+                    "operator" => "IS NOT NULL"
                 )
             );
-
-            $client->call();
-
-            $response = $client->getResponse();
+            $response = $account_users->find(
+                $fields      = null,
+                $filter      = $filter_array,
+                $limit       = 5,
+                $limit       = null,
+                $sort        = array (
+                    'first_name' => 'ASC',
+                    'last_name' => 'ASC'
+                )
+            );
 
         } catch ( Exception $ex ) {
             $this->fail($ex->getMessage());

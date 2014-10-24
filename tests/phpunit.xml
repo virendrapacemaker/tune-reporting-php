@@ -11,17 +11,17 @@
     </filter>
 
     <testsuites>
-        <testsuite name="src">
-            <file>UnittestClient.php</file>
-            <file>UnittestClicks.php</file>
-            <file>UnittestEventItems.php</file>
-            <file>UnittestEvents.php</file>
-            <file>UnittestInstalls.php</file>
-            <file>UnittestPostbacks.php</file>
-            <file>UnittestUpdates.php</file>
-            <file>UnittestActuals.php</file>
-            <file>UnittestCohort.php</file>
-            <file>UnittestRetention.php</file>
+        <testsuite name="lib">
+            <file>TestClient.php</file>
+            <file>TestClicks.php</file>
+            <file>TestEventItems.php</file>
+            <file>TestEvents.php</file>
+            <file>TestInstalls.php</file>
+            <file>TestPostbacks.php</file>
+            <file>TestUpdates.php</file>
+            <file>TestActuals.php</file>
+            <file>TestCohort.php</file>
+            <file>TestRetention.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

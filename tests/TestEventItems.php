@@ -1,6 +1,6 @@
 <?php
 /**
- * UnittestInstalls.php, Tune SDK PHPUnit Test
+ * TestEventItems.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,9 +37,9 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
-use \Tune\Management\Api\Advertiser\Stats\Installs;
+use \Tune\Management\Api\Advertiser\Stats\EventItems;
 
-class UnittestInstalls extends \PHPUnit_Framework_TestCase
+class TestEventItems extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -52,7 +52,15 @@ class UnittestInstalls extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $default_date_timezone = ini_get('date.timezone');
+        $this->assertNotNull($default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
+
         $this->api_key = getenv('API_KEY');
+        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
     }
 
     /**
@@ -64,15 +72,15 @@ class UnittestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $event_items = new EventItems($this->api_key, $validate = true);
 
-        $response = $installs->getFields();
+        $response = $event_items->getFields();
         $this->assertNotNull($response);
 
-        $response = $installs->count(
+        $response = $event_items->count(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved') AND (publisher_id > 0)",
+            $filter              = null,
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -89,33 +97,35 @@ class UnittestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $event_items = new EventItems($this->api_key, $validate = true);
 
-        $response = $installs->find(
+        $response = $event_items->find(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
+            $filter              = null,
+                $fields = "created"
                 . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
+                . ",campaign.name"
+                . ",site_event.name"
+                . ",site_event_item.name"
+                . ",quantity"
+                . ",value_usd"
+                . ",country.name"
+                . ",region.name"
+                . ",agency.name"
+                . ",advertiser_sub_site.name"
+                . ",advertiser_sub_campaign.name"
+                . ",site_id"
+                . ",campaign_id"
+                . ",agency_id"
+                . ",site_event_id"
+                . ",country_id"
+                . ",region_id"
+                . ",site_event_item_id"
+                . ",advertiser_sub_site_id"
                 . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+                . ",currency_code"
+                . ",value",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -132,33 +142,35 @@ class UnittestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $event_items = new EventItems($this->api_key, $validate = true);
 
-        $response = $installs->export(
+        $response = $event_items->export(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
+            $filter              = null,
+                $fields = "created"
                 . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
+                . ",campaign.name"
+                . ",site_event.name"
+                . ",site_event_item.name"
+                . ",quantity"
+                . ",value_usd"
+                . ",country.name"
+                . ",region.name"
+                . ",agency.name"
+                . ",advertiser_sub_site.name"
+                . ",advertiser_sub_campaign.name"
+                . ",site_id"
+                . ",campaign_id"
+                . ",agency_id"
+                . ",site_event_id"
+                . ",country_id"
+                . ",region_id"
+                . ",site_event_item_id"
+                . ",advertiser_sub_site_id"
                 . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+                . ",currency_code"
+                . ",value",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

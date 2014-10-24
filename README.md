@@ -1,7 +1,7 @@
 <h1>tune-api-php</h1>
 <h2>Tune API PHP SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  2014-10-23</h4>
+<h4>Update:  2014-10-24</h4>
 <h4>Version: 0.9.6</h4>
 ===
 
@@ -26,6 +26,9 @@ Please see documentation here:
     * The PHP JSON extension
     * The PHP Curl extension
     * The PHP pthread extension
+
+For examples:
+    * php.ini date.timezone
 
 <a name="generate_api_key"></a>
 #### Generate API Key

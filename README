@@ -1,7 +1,7 @@
 ****************************************
 Tune API PHP SDK for PHP 5.3
 Incorporate Tune API services.
-Update:  2014-10-23
+Update:  2014-10-24
 Version: 0.9.6
 ****************************************
 
@@ -31,6 +31,9 @@ Prerequisites
     * The PHP JSON extension
     * The PHP Curl extension
     * The PHP pthread extension
+
+For examples:
+    * php.ini date.timezone
 
 -------------
 Generate API Key

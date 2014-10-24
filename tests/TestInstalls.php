@@ -1,6 +1,6 @@
 <?php
 /**
- * UnittestPostbacks.php, Tune SDK PHPUnit Test
+ * TestInstalls.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -37,9 +37,9 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
-use \Tune\Management\Api\Advertiser\Stats\Postbacks;
+use \Tune\Management\Api\Advertiser\Stats\Installs;
 
-class UnittestPostbacks extends \PHPUnit_Framework_TestCase
+class TestInstalls extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -52,8 +52,15 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $default_date_timezone = ini_get('date.timezone');
+        $this->assertNotNull($default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
+        $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
+
         $this->api_key = getenv('API_KEY');
-        $this->endpoint = new Postbacks($this->api_key, $validate = true);
+        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
     }
 
     /**
@@ -65,15 +72,15 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate = true);
 
-        $response = $postbacks->getFields();
+        $response = $installs->getFields();
         $this->assertNotNull($response);
 
-        $response = $postbacks->count(
+        $response = $installs->count(
             $start_date,
             $end_date,
-            $filter              = null,
+            $filter              = "(status = 'approved') AND (publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -90,29 +97,33 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate = true);
 
-        $response = $postbacks->find(
+        $response = $installs->find(
             $start_date,
             $end_date,
                 $filter              = "(status = 'approved')",
                 $fields              = "id"
-                . ",stat_install_id"
-                . ",stat_event_id"
-                . ",stat_open_id"
                 . ",created"
                 . ",status"
                 . ",site_id"
                 . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
                 . ",publisher_id"
                 . ",publisher.name"
-                . ",attributed_publisher_id"
-                . ",attributed_publisher.name"
-                . ",url"
-                . ",http_result",
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",ios_ifa"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -129,29 +140,33 @@ class UnittestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate = true);
 
-        $response = $postbacks->export(
+        $response = $installs->export(
             $start_date,
             $end_date,
                 $filter              = "(status = 'approved')",
                 $fields              = "id"
-                . ",stat_install_id"
-                . ",stat_event_id"
-                . ",stat_open_id"
                 . ",created"
                 . ",status"
                 . ",site_id"
                 . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
                 . ",publisher_id"
                 . ",publisher.name"
-                . ",attributed_publisher_id"
-                . ",attributed_publisher.name"
-                . ",url"
-                . ",http_result",
+                . ",advertiser_ref_id"
+                . ",advertiser_sub_campaign_id"
+                . ",advertiser_sub_campaign.ref"
+                . ",publisher_sub_campaign_id"
+                . ",publisher_sub_campaign.ref"
+                . ",user_id"
+                . ",device_id"
+                . ",os_id"
+                . ",google_aid"
+                . ",ios_ifa"
+                . ",ios_ifv"
+                . ",windows_aid"
+                . ",referral_url"
+                . ",is_view_through",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

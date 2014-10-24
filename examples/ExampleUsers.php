@@ -41,7 +41,7 @@ use Tune\Management\Api\Account\Users;
 /**
  * Class ExampleUsers
  *
- * @package Tune\Examples\Management\Api\Account
+ * Using Tune\Management\Api\Account\Users
  */
 class ExampleUsers
 {

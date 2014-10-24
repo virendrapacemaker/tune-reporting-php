@@ -1,5 +1,6 @@
 <?php
 /**
+ * TestClient.php, Tune SDK PHPUnit Test
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -36,55 +37,65 @@
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
+use \Tune\Management\Shared\Service\TuneManagementClient;
+
 /**
- * Class ExampleClientActuals
+ * Unittest basic functionality of TuneManagementClient
  *
- * @package Tune\Examples\Management\Service\Client
+ * @package Tune\Unittests
  */
-class ExampleClientActuals
+class TestClient extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @ignore
+     */
+    protected $api_key = null;
 
     /**
-     * Constructor that prevents a default instance of this class from being created.
+     * Get API Key from environment.
      */
-    private function __construct()
+    protected function setUp()
     {
-
+        $this->api_key = getenv('API_KEY');
+        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
     }
 
     /**
-     *
-     * Example of running successful requests to Tune MobileAppTracking Management API
-     * through Tune PHP SDK.
+     * Validate API Key was found from environment and is not null.
      */
-    public static function run($api_key)
+    public function testApiKey()
     {
-        // api_key
-        if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
+        $this->assertNotNull($this->api_key);
+    }
+
+    /**
+     * Test Tune Management API client
+     */
+    public function testFind()
+    {
+        $response = null;
+        try {
+            $client = new TuneManagementClient(
+                $controller = 'account/users',
+                $action = 'find.json',
+                $this->api_key,
+                $query_string_dict = array(
+                    "fields" => "first_name,last_name,email",
+                    "limit" => 5
+                )
+            );
+
+            $client->call();
+
+            $response = $client->getResponse();
+
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
         }
 
-        date_default_timezone_set('UTC');
-
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $client = new \Tune\Management\Shared\Service\TuneManagementClient(
-            $controller = 'advertiser/stats',
-            $action = 'find.json',
-            $api_key,
-            $query_string_dict = array(
-                "start_date" => $start_date,
-                "end_date" => $end_date,
-                "fields" => "ad_clicks,ad_clicks_unique,ad_impressions,ad_impressions_unique",
-                "limit" => 5
-            )
-        );
-
-        $client->call();
-
-        echo $client->getResponse()->toString() . PHP_EOL;
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
     }
 }
