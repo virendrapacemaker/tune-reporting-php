@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -96,12 +96,12 @@ class ExampleClicks
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $clicks = new Clicks($api_key, $validate = true);
+            $clicks = new Clicks($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Clicks records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $clicks->getFields();
+            $response = $clicks->fields(Clicks::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -135,17 +135,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = "id"
-                . ",created"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",is_unique"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref",
+                $fields              = $clicks->fields(Clicks::Fields_Default | Clicks::Fields_Minimal),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -168,17 +158,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = "id"
-                . ",created"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",is_unique"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref",
+                $fields              = $clicks->fields(Clicks::Fields_Recommended),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -192,78 +172,21 @@ class ExampleClicks
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Clicks::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Clicks report polling         " . PHP_EOL;
+            echo "Fetching Advertiser Logs Clicks CSV report             " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
+
             $export = new Export($api_key);
+            $response = $export->fetch(
+                $job_id,
+                $verbose = true,
+                $sleep = 10
+            );
 
-            $status = null;
-            $response = null;
-            $attempt = 0;
-
-            while (true) {
-
-                $response = $export->download($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -284,17 +207,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = "id"
-                . ",created"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",is_unique"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref",
+                $fields              = $clicks->fields(Clicks::Fields_Recommended),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -308,35 +221,21 @@ class ExampleClicks
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Clicks::parseResponseReportJobId($response);
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Clicks report threaded         " . PHP_EOL;
+            echo "Fetching Advertiser Logs Clicks JSON report             " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
-
             $response = $export->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;

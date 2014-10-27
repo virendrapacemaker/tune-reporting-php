@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -55,14 +55,37 @@ class Stats extends ReportsActualsBase
      */
     public function __construct(
         $api_key,
-        $validate = false
+        $validate_fields = false
     ) {
         parent::__construct(
             "advertiser/stats",
             $api_key,
             $filter_debug_mode = true,
             $filter_test_profile_id = true,
-            $validate
+            $validate_fields
+        );
+
+        /*
+         * Fields recommended in suggested order.
+         */
+        $this->fields_recommended = array(
+             "site_id"
+            ,"site.name"
+            ,"publisher_id"
+            ,"publisher.name"
+            ,"ad_impressions"
+            ,"ad_impressions_unique"
+            ,"ad_clicks"
+            ,"ad_clicks_unique"
+            ,"paid_installs"
+            ,"paid_installs_assists"
+            ,"non_installs_assists"
+            ,"paid_events"
+            ,"paid_events_assists"
+            ,"non_events_assists"
+            ,"paid_opens"
+            ,"paid_opens_assists"
+            ,"non_opens_assists"
         );
     }
 }

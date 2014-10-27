@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -55,21 +55,21 @@ abstract class ReportsLogsBase extends ReportsBase
      * @param string $api_key                   Tune MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
-     * @param bool   $validate                  Validate fields used by actions' parameters.
+     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
      */
     public function __construct(
         $controller,
         $api_key,
         $filter_debug_mode,
         $filter_test_profile_id,
-        $validate = false
+        $validate_fields = false
     ) {
         parent::__construct(
             $controller,
             $api_key,
             $filter_debug_mode,
             $filter_test_profile_id,
-            $validate
+            $validate_fields
         );
     }
 
@@ -236,5 +236,37 @@ abstract class ReportsLogsBase extends ReportsBase
                 'response_timezone' => $response_timezone
             )
         );
+    }
+
+    /**
+     * Helper function for parsing export status response to gather report job_id.
+     *
+     * @param $response
+     *
+     * @return mixed
+     * @throws \InvalidArgumentException
+     * @throws \Tune\Shared\TuneServiceException
+     */
+    public static function parseResponseReportJobId(
+        $response
+    ) {
+        if (is_null($response)) {
+            throw new \InvalidArgumentException("Parameter 'response' is not defined.");
+        }
+
+        $data = $response->getData();
+        if (is_null($data)) {
+            throw new TuneServiceException("Report request failed to get export data.");
+        }
+
+        $job_id = $data;
+
+        if (!is_string($job_id) || empty($job_id)) {
+            throw new \Exception(
+                "Failed to return job_id: " . print_r($response, true)
+            );
+        }
+
+        return $job_id;
     }
 }

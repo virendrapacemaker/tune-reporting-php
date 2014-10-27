@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -64,6 +64,18 @@ class TestActuals extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fields
+     */
+    public function testFields()
+    {
+        $stats = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $stats->fields(Stats::Fields_Recommended);
+        $this->assertNotNull($response);
+        $this->assertNotEmpty($response);
+    }
+
+    /**
      * Test count
      */
     public function testCount()
@@ -73,11 +85,7 @@ class TestActuals extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate = true);
-
-        $response = $stats->getFields();
-        $this->assertNotNull($response);
-
+        $stats = new Stats($this->api_key, $validate_fields = true);
         $response = $stats->count(
             $start_date,
             $end_date,
@@ -100,7 +108,7 @@ class TestActuals extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate = true);
+        $stats = new Stats($this->api_key, $validate_fields = true);
 
         $response = $stats->find(
             $start_date,
@@ -142,7 +150,7 @@ class TestActuals extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate = true);
+        $stats = new Stats($this->api_key, $validate_fields = true);
 
         $response = $stats->export(
             $start_date,

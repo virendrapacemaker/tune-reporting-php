@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -64,6 +64,18 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fields
+     */
+    public function testFields()
+    {
+        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+
+        $response = $postbacks->fields(Postbacks::Fields_Recommended);
+        $this->assertNotNull($response);
+        $this->assertNotEmpty($response);
+    }
+
+    /**
      * Test count
      */
     public function testCount()
@@ -72,10 +84,7 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
-
-        $response = $postbacks->getFields();
-        $this->assertNotNull($response);
+        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
         $response = $postbacks->count(
             $start_date,
@@ -97,29 +106,13 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
+        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
         $response = $postbacks->find(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",stat_install_id"
-                . ",stat_event_id"
-                . ",stat_open_id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",attributed_publisher_id"
-                . ",attributed_publisher.name"
-                . ",url"
-                . ",http_result",
+            $filter              = "(status = 'approved')",
+            $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -136,29 +129,13 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate = true);
+        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
         $response = $postbacks->export(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",stat_install_id"
-                . ",stat_event_id"
-                . ",stat_open_id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",attributed_publisher_id"
-                . ",attributed_publisher.name"
-                . ",url"
-                . ",http_result",
+            $filter              = "(status = 'approved')",
+            $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

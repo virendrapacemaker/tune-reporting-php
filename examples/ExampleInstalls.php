@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -96,12 +96,12 @@ class ExampleInstalls
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $installs = new Installs($api_key, $validate = true);
+            $installs = new Installs($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Installs records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $installs->getFields();
+            $response = $installs->fields(Installs::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,27 +131,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+                $fields              = $installs->fields(Installs::Fields_Recommended),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -174,27 +154,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+                $fields              = $installs->fields(Installs::Fields_Recommended),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -208,78 +168,21 @@ class ExampleInstalls
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Installs::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Installs report polling      " . PHP_EOL;
+            echo "Fetching Advertiser Logs Installs CSV report          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             $export = new Export($api_key);
+            $response = $export->fetch(
+                $job_id,
+                $verbose = true,
+                $sleep = 10
+            );
 
-            $status = null;
-            $response = null;
-            $attempt = 0;
-
-            while (true) {
-
-                $response = $export->download($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -300,27 +203,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+                $fields              = $installs->fields(Installs::Fields_Recommended),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -333,35 +216,22 @@ class ExampleInstalls
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
 
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Installs::parseResponseReportJobId($response);
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Installs report threaded       " . PHP_EOL;
+            echo "Fetching Advertiser Logs Installs JSON report           " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
-
             $response = $export->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;

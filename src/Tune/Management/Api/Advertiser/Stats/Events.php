@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -51,17 +51,49 @@ class Events extends ReportsLogsBase
      * Constructor
      *
      * @param string $api_key                   Tune MobileAppTracking API Key.
-     * @param bool   $validate                  Validate fields used by actions' parameters.
+     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
-        $validate = false
+        $validate_fields = false
     ) {
         parent::__construct(
             "advertiser/stats/events",
             $api_key,
             $filter_debug_mode = true,
             $filter_test_profile_id = true
+        );
+
+        /*
+         * Fields recommended in suggested order.
+         */
+        $this->fields_recommended = array(
+            "id"
+            ,"stat_install_id"
+            ,"created"
+            ,"status"
+            ,"site_id"
+            ,"site.name"
+            ,"site_event_id"
+            ,"site_event.name"
+            ,"site_event.type"
+            ,"publisher_id"
+            ,"publisher.name"
+            ,"advertiser_ref_id"
+            ,"advertiser_sub_campaign_id"
+            ,"advertiser_sub_campaign.ref"
+            ,"publisher_sub_campaign_id"
+            ,"publisher_sub_campaign.ref"
+            ,"user_id"
+            ,"device_id"
+            ,"os_id"
+            ,"google_aid"
+            ,"ios_ifa"
+            ,"ios_ifv"
+            ,"windows_aid"
+            ,"referral_url"
+            ,"is_view_through"
+            ,"is_reengagement"
         );
     }
 }
