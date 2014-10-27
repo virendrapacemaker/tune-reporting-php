@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -66,14 +66,14 @@ abstract class ReportsBase extends TuneManagementBase
      * @param string $api_key                   MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
-     * @param bool   $validate                  Validate fields used by actions' parameters.
+     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
      */
     public function __construct(
         $controller,
         $api_key,
         $filter_debug_mode,
         $filter_test_profile_id,
-        $validate = false
+        $validate_fields = false
     ) {
         // controller
         if (!is_string($controller) || empty($controller)) {
@@ -88,7 +88,7 @@ abstract class ReportsBase extends TuneManagementBase
             );
         }
         // filter_debug_mode
-        if (!is_bool($validate)) {
+        if (!is_bool($validate_fields)) {
             throw new \InvalidArgumentException(
                 "Parameter 'validate' is not defined as a bool."
             );
@@ -109,7 +109,7 @@ abstract class ReportsBase extends TuneManagementBase
         $this->filter_debug_mode = $filter_debug_mode;
         $this->filter_test_profile_id = $filter_test_profile_id;
 
-        parent::__construct($controller, $api_key, $validate);
+        parent::__construct($controller, $api_key, $validate_fields);
     }
 
     /**
@@ -190,7 +190,7 @@ abstract class ReportsBase extends TuneManagementBase
      * @param string    $mod_export_function        Report function performing status request.
      * @param string    $job_id                     Job Identifier of report on queue.
      * @param bool      $verbose                    For debugging purposes only.
-     * @param int       $sleep                      How long thread should sleep before
+     * @param int       $sleep                      How long worker should sleep before
      *                                              next status request.
      *
      * @return object                       Report reader
@@ -204,15 +204,6 @@ abstract class ReportsBase extends TuneManagementBase
         $verbose = false,
         $sleep = 60
     ) {
-        if (!isPThreadsInstalled()) {
-            throw new \Exception(
-                sprint("%s %s: requires PHP Module 'pthreads'",
-                        constant("TUNE_SDK_NAME"),
-                        constant("TUNE_SDK_VERSION")
-                    )
-            );
-        }
-
         if (!is_string($mod_export_class) || empty($mod_export_class)) {
             throw new \InvalidArgumentException(
                 "Parameter 'mod_export_class' is not defined."
@@ -240,28 +231,15 @@ abstract class ReportsBase extends TuneManagementBase
         );
 
         if ($verbose) {
-            echo "Starting thread..." . PHP_EOL;
+            echo "Starting worker..." . PHP_EOL;
         }
-        $export_worker->start();
-        if ($verbose) {
-            echo "Waiting..." . PHP_EOL;
+        $export_worker->run();
+        if ($export_worker->run()) {
+            if ($verbose) {
+                echo "Completed worker..." . PHP_EOL;
+            }
         }
-        // Calling context to wait for the referenced Thread to finish executing
-        $success = $export_worker->join();
-
-        if ($verbose && $success) {
-            echo "Thread completed successfully." . PHP_EOL;
-        }
-
         $response = $export_worker->getResponse();
-
-        if (!$success) {
-            throw new TuneSdkException(
-                "Thread failed to complete successfully: "
-                . print_r($response, true)
-                . PHP_EOL
-            );
-        }
 
         if (is_null($response)) {
             throw new TuneServiceException(

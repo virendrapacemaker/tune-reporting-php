@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -97,12 +97,12 @@ class ExampleRetention
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $retention = new Retention($api_key, $validate = true);
+            $retention = new Retention($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Retention records.              " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $retention->getFields();
+            $response = $retention->fields(Retention::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -137,12 +137,7 @@ class ExampleRetention
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",install_publisher_id"
-                . ",install_publisher.name"
-                . ",installs"
-                . ",opens",
+                $fields              = $retention->fields(Retention::Fields_Recommended),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 10,
@@ -170,12 +165,7 @@ class ExampleRetention
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",install_publisher_id"
-                . ",install_publisher.name"
-                . ",installs"
-                . ",opens",
+                $fields              = $retention->fields(Retention::Fields_Recommended),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 10,
@@ -194,21 +184,17 @@ class ExampleRetention
                 );
             }
 
-            echo "==========================================================" . PHP_EOL;
-            echo " Request Advertiser Retention CSV report for export.      " . PHP_EOL;
-            echo "==========================================================" . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo " Request Advertiser Retention CSV report for export. " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+
             $response = $retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",install_publisher_id"
-                . ",install_publisher.name"
-                . ",installs"
-                . ",opens",
+                $fields              = $retention->fields(Retention::Fields_Recommended),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -223,137 +209,11 @@ class ExampleRetention
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
-
-            echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Retention report polling           " . PHP_EOL;
-            echo "=======================================================" . PHP_EOL;
-
-            $status = null;
-            $response = null;
-            $attempt = 0;
-
-            while (true) {
-
-                $response = $retention->status($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Retention::parseResponseUrl($response);
-            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
-
-            echo "======================================================" . PHP_EOL;
-            echo " Read Retention CSV report and pretty print 5 lines.  " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $csv_report_reader = new ReportReaderCSV(
-                $report_url
-            );
-
-            $csv_report_reader->read();
-            $csv_report_reader->prettyPrint($limit = 5);
-
-            echo "======================================================" . PHP_EOL;
-            echo " Request Advertiser Retention JSON report for export. " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-
-            $response = $retention->export(
-                $start_date,
-                $end_date,
-                $cohort_type         = "install",
-                $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",install_publisher_id"
-                . ",install_publisher.name"
-                . ",installs"
-                . ",opens",
-                $cohort_interval     = null,
-                $filter              = "(publisher_id > 0)",
-                $response_timezone   = "America/Los_Angeles"
-            );
-
-            echo "= Response:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Retention::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Retention report threaded.          " . PHP_EOL;
+            echo "Fetching Advertiser Retention CSV report                " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $retention->fetch(
@@ -362,11 +222,11 @@ class ExampleRetention
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Retention JSON report and pretty print 5 lines.   " . PHP_EOL;
+            echo " Read Retention CSV report and pretty print 5 lines.   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(

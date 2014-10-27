@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -96,12 +96,12 @@ class ExampleEvents
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $events = new Events($api_key, $validate = true);
+            $events = new Events($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Logs Events records.           " . PHP_EOL;
+            echo " Fields of Advertiser Logs Events records.            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->getFields();
+            $response = $events->fields(Events::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,32 +131,7 @@ class ExampleEvents
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",stat_install_id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through"
-                . ",is_reengagement",
+                $fields              = $events->fields(Events::Fields_Default | Events::Fields_Minimal),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -179,32 +154,7 @@ class ExampleEvents
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",stat_install_id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through"
-                . ",is_reengagement",
+                $fields              = $events->fields(Events::Fields_Recommended),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -218,79 +168,22 @@ class ExampleEvents
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Events::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Events report polling         " . PHP_EOL;
+            echo "Fetching Advertiser Logs Events CSV report            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
 
-            $status = null;
-            $response = null;
-            $attempt = 0;
+            $response = $export->fetch(
+                $job_id,
+                $verbose = true,
+                $sleep = 10
+            );
 
-            while (true) {
-
-                $response = $export->download($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -304,38 +197,13 @@ class ExampleEvents
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo " Request Advertiser Clicks JSON report for export.    " . PHP_EOL;
+            echo " Request Advertiser Events JSON report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $events->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",stat_install_id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",site_event_id"
-                . ",site_event.name"
-                . ",site_event.type"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through"
-                . ",is_reengagement",
+                $fields              = $events->fields(Events::Fields_Recommended),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -349,25 +217,13 @@ class ExampleEvents
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
-            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+            $job_id = Events::parseResponseReportJobId($response);
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Events report threaded       " . PHP_EOL;
+            echo "Fetching Advertiser Logs Events JSON report           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             $export = new Export($api_key);
 
             $response = $export->fetch(
@@ -376,7 +232,7 @@ class ExampleEvents
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;

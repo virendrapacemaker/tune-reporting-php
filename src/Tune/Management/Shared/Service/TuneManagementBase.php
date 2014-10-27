@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -53,6 +53,12 @@ use Tune\Management\Shared\Service\TuneManagementClient;
  */
 class TuneManagementBase
 {
+    const Fields_All     = 0;
+    const Fields_Default = 1;
+    const Fields_Related = 2;
+    const Fields_Minimal = 4;
+    const Fields_Recommended = 8;
+
     /**
      * Tune Management API Endpoint
      * @var string
@@ -75,7 +81,7 @@ class TuneManagementBase
      * Validate action's parameters against this endpoint' fields.
      * @var bool
      */
-    protected $validate = false;
+    protected $validate_fields = false;
 
     /**
      * Endpoint's model
@@ -126,6 +132,11 @@ class TuneManagementBase
     );
 
     /**
+     * @var array
+     */
+    protected $fields_recommended = null;
+
+    /**
      * Parameter 'format' for export report.
      * @var array
     */
@@ -138,21 +149,21 @@ class TuneManagementBase
     /**
      * Constructor
      *
-     * @param string $controller    Tune Management API Endpoint
-     * @param string $api_key       MobileAppTracking API Key
-     * @param bool   $validate      Validate fields used by actions' parameters.
+     * @param string $controller        Tune Management API Endpoint
+     * @param string $api_key           MobileAppTracking API Key
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
     */
     public function __construct(
-            $controller,
-            $api_key,
-            $validate = false
+        $controller,
+        $api_key,
+        $validate_fields = false
     ) {
         if (!isCurlInstalled()) {
             throw new \Exception(
-                    sprint("%s %s: requires PHP Module 'curl'",
-                            constant("TUNE_SDK_NAME"),
-                            constant("TUNE_SDK_VERSION")
-                    )
+                sprintf("%s %s: requires PHP Module 'curl'",
+                        constant("TUNE_SDK_NAME"),
+                        constant("TUNE_SDK_VERSION")
+                )
             );
         }
 
@@ -164,14 +175,14 @@ class TuneManagementBase
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
-        // validate
-        if (!is_bool($validate)) {
-            throw new \InvalidArgumentException("Parameter 'validate' is not defined as a boolean.");
+        // validate_fields
+        if (!is_bool($validate_fields)) {
+            throw new \InvalidArgumentException("Parameter 'validate_fields' is not defined as a boolean.");
         }
 
         $this->controller = $controller;
         $this->api_key = $api_key;
-        $this->validate = $validate;
+        $this->validate_fields = $validate_fields;
     }
 
     /**
@@ -233,94 +244,151 @@ class TuneManagementBase
      * @throws TuneSdkException
      * @throws TuneServiceException
      */
-    public function getFields()
+    public function fields($enum_fields_selection = self::Fields_All)
     {
-        $query_string_dict = array(
-                "controllers" => $this->controller,
-                "details" => "modelName,fields"
-        );
+        if (($this->validate_fields
+             || !($enum_fields_selection & self::Fields_Recommended))
+            && is_null($this->fields)
+        ) {
+            $query_string_dict = array(
+                    "controllers" => $this->controller,
+                    "details" => "modelName,fields"
+            );
 
-        $client = new TuneManagementClient(
-                "apidoc",
-                "get_controllers",
-                $this->api_key,
-                $query_string_dict
-        );
+            $client = new TuneManagementClient(
+                    "apidoc",
+                    "get_controllers",
+                    $this->api_key,
+                    $query_string_dict
+            );
 
-        $client->call();
+            $client->call();
 
-        $response = $client->getResponse();
-        $http_code = $response->getHttpCode();
-        $data = $response->getData();
+            $response = $client->getResponse();
+            $http_code = $response->getHttpCode();
+            $data = $response->getData();
 
-        if ($http_code != 200) {
-            $request_url = $response->getRequestUrl();
-            throw new TuneServiceException("Connection failure '{$request_url}': '{$http_code}'");
-        }
+            if ($http_code != 200) {
+                $request_url = $response->getRequestUrl();
+                throw new TuneServiceException("Connection failure '{$request_url}': '{$http_code}'");
+            }
 
-        if (is_null($data) || empty($data)) {
-            $controller = $this->controller;
-            throw new TuneServiceException("Failed to get fields for endpoint: '{$controller}'.");
-        }
+            if (is_null($data) || empty($data)) {
+                $controller = $this->controller;
+                throw new TuneServiceException("Failed to get fields for endpoint: '{$controller}'.");
+            }
 
-        $endpoint_metadata = $data[0];
-        $fields             = $endpoint_metadata["fields"];
-        $this->model_name   = $endpoint_metadata["modelName"];
+            $endpoint_metadata = $data[0];
+            $fields             = $endpoint_metadata["fields"];
+            $this->model_name   = $endpoint_metadata["modelName"];
 
-        $field_names = array();
-        $related_fields = array();
+            $fields_found = array();
+            $related_fields = array();
 
-        foreach ($fields as $field) {
+            foreach ($fields as $field) {
+                if ($field["related"] == 1) {
+                    if ($field["type"] == "property") {
+                        $related_property = $field["name"];
+                        if (!array_key_exists($related_property, $related_fields)) {
+                            $related_fields[$related_property] = array();
+                        }
+                        continue;
+                    }
 
-            if ($field["related"] == 1) {
-                if ($field["type"] == "property") {
-                    $related_property = $field["name"];
+                    $field_related = explode(".", $field["name"]);
+                    $related_property = $field_related[0];
+                    $related_field_name = $field_related[1];
+
                     if (!array_key_exists($related_property, $related_fields)) {
                         $related_fields[$related_property] = array();
                     }
+
+                    $related_fields[$related_property][] = $related_field_name;
                     continue;
                 }
 
-                $field_related = explode(".", $field["name"]);
-                $related_property = $field_related[0];
-                $related_field_name = $field_related[1];
+                $fields_found[$field["name"]] = array("default" => $field["fieldDefault"], "related" => false );
+            }
 
-                if (!array_key_exists($related_property, $related_fields)) {
-                    $related_fields[$related_property] = array();
+            ksort($fields_found);
+
+            $fields_found_merged = array();
+
+            foreach ($fields_found as $field_name => $field_info) {
+                $fields_found_merged[$field_name] = $field_info;
+                if (($field_name != "_id") && endsWith($field_name, "_id")) {
+                    $related_property = substr($field_name, 0, strlen($field_name) - 3);
+                    if (array_key_exists($related_property, $related_fields)
+                    && !empty($related_fields[$related_property])
+                    ) {
+                        foreach ($related_fields[$related_property] as $related_field_name) {
+                            // Not including duplicate data.
+                            if ($related_field_name == "id") {
+                                continue;
+                            }
+                            $fields_found_merged["{$related_property}.{$related_field_name}"] = array("default" => $field_info["default"], "related" => true);
+                        }
+                    } else {
+                        $fields_found_merged["{$related_property}.name"] = array("default" => $field_info["default"], "related" => true);
+                    }
                 }
+            }
 
-                $related_fields[$related_property][] = $related_field_name;
+            $this->fields = $fields_found_merged;
+        }
+
+        if ($enum_fields_selection & self::Fields_Recommended) {
+            return $this->fields_recommended;
+        }
+
+        if (!($enum_fields_selection & self::Fields_Default)
+            && ($enum_fields_selection & self::Fields_Related)
+            ) {
+            return array_keys($this->fields);
+        }
+
+        $fields_filtered = array();
+        foreach ($this->fields as $field_name => $field_info) {
+            if (!($enum_fields_selection & self::Fields_Related)
+                && !($enum_fields_selection & self::Fields_Minimal)
+                && $field_info["related"]
+                ) {
                 continue;
             }
 
-            $field_name = $field["name"];
+            if (!($enum_fields_selection & self::Fields_Default)
+                && !$field_info["related"]
+            ) {
+                $fields_filtered[$field_name] = $field_info;
+                continue;
+            }
 
-            $field_names[] = $field_name;
-        }
-
-        sort($field_names);
-
-        $field_names_merged = array();
-
-        foreach ($field_names as $field_name) {
-            $field_names_merged[] = $field_name;
-            if (($field_name != "_id") && endsWith($field_name, "_id")) {
-                $related_property = substr($field_name, 0, strlen($field_name) - 3);
-                if (array_key_exists($related_property, $related_fields)
-                && !empty($related_fields[$related_property])
+            if (($enum_fields_selection & self::Fields_Default)
+                && $field_info["default"]
+            ) {
+                if (($enum_fields_selection & self::Fields_Minimal)
+                    && $field_info["related"]
                 ) {
-                    foreach ($related_fields[$related_property] as $related_field_name) {
-                        $field_names_merged[] = "{$related_property}.{$related_field_name}";
+                    foreach (array(".name", ".ref") as $related_field) {
+                        if (endsWith($field_name, $related_field)) {
+                            $fields_filtered[$field_name] = $field_info;
+                        }
                     }
-                } else {
-                    $field_names_merged[] = "{$related_property}.name";
+                    continue;
                 }
+                $fields_filtered[$field_name] = $field_info;
+                continue;
+            }
+
+            if (($enum_fields_selection & self::Fields_Related)
+                && $field_info["related"]
+            ) {
+                $fields_filtered[$field_name] = $field_info;
+                continue;
             }
         }
 
-        $this->fields = $field_names_merged;
-
-        return $this->fields;
+        return array_keys($fields_filtered);
     }
 
     /**
@@ -331,7 +399,7 @@ class TuneManagementBase
     public function getModelName()
     {
         if (is_null($this->fields)) {
-            $this->getFields();
+            $this->fields();
         }
 
         return $this->model_name;
@@ -361,13 +429,13 @@ class TuneManagementBase
             throw new TuneSdkException("Invalid parameter 'fields' provided.");
         }
 
-        if ($this->validate) {
+        if ($this->validate_fields) {
             if (is_null($this->fields)) {
-                $this->getFields();
+                $this->fields();
             }
 
             foreach ($fields as $field) {
-                if (!in_array($field, $this->fields)) {
+                if (!array_key_exists($field, $this->fields)) {
                     throw new TuneSdkException("Parameter 'fields' contains an invalid field: '{$field}'.");
                 }
             }
@@ -395,13 +463,13 @@ class TuneManagementBase
             $group = explode(",", $group);
         }
 
-        if ($this->validate) {
+        if ($this->validate_fields) {
             if (is_null($this->fields)) {
-                $this->getFields();
+                $this->fields();
             }
 
             foreach ($group as $field) {
-                if (!in_array($field, $this->fields)) {
+                if (!array_key_exists($field, $this->fields)) {
                     throw new TuneSdkException("Parameter 'group' contains an invalid field: '{$field}'.");
                 }
             }
@@ -424,13 +492,13 @@ class TuneManagementBase
             throw new TuneSdkException("Invalid parameter 'sort' provided.");
         }
 
-        if ($this->validate) {
+        if ($this->validate_fields) {
             if (is_null($this->fields)) {
-                $this->getFields();
+                $this->fields();
             }
 
             foreach ($sort as $sort_field => $sort_direction) {
-                if (!in_array($sort_field, $this->fields)) {
+                if (!array_key_exists($sort_field, $this->fields)) {
                     throw new TuneSdkException("Parameter 'sort' contains an invalid field: '{$sort_field}'.");
                 }
                 if (!in_array($sort_direction, self::$sort_directions)) {
@@ -468,9 +536,9 @@ class TuneManagementBase
 
         $filter_parts = explode(" ", $filter);
 
-        if ($this->validate) {
+        if ($this->validate_fields) {
             if (is_null($this->fields)) {
-                $this->getFields();
+                $this->fields();
             }
         }
 
@@ -495,8 +563,8 @@ class TuneManagementBase
                 && !empty($filter_part)
                 && preg_match('/[a-z0-9\.\_]+/', $filter_part)
             ) {
-                if ($this->validate) {
-                    if (!is_null($this->fields) && is_array($this->fields) && in_array($filter_part, $this->fields)) {
+                if ($this->validate_fields) {
+                    if (!is_null($this->fields) && is_array($this->fields) && array_key_exists($filter_part, $this->fields)) {
                         continue;
                     }
                 } else {

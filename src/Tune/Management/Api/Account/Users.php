@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -47,7 +47,7 @@ use Tune\Management\Shared\Service\TuneManagementBase;
  * @example UnittestUsers.php
  *
  * @code
- *  $account_users = new Users($api_key, $validate = true);
+ *  $account_users = new Users($api_key, $validate_fields = true);
  *
  * @endcode
  */
@@ -58,12 +58,12 @@ class Users extends TuneManagementBase
      */
     public function __construct(
         $api_key,
-        $validate = false
+        $validate_fields = false
     ) {
         parent::__construct(
             "account/users",
             $api_key,
-            $validate
+            $validate_fields
         );
     }
 

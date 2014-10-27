@@ -1,20 +1,9 @@
-# PHPStorm project files
+# Project files
 .idea/
+.metadata/
+*.komodoproject
+.project
+.settings/
 
 # Composer vendors
 Vendors
-
-# tune-api-php
-doc/phpdoc/
-doc/doxygen/
-README.md.bak
-
-.pydevproject
-.dartignore
-.metadata/
-*.komodoproject
-erlide.log
-erlide.log.lck
-.buildpath
-.project
-.settings/

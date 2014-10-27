@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -71,6 +71,11 @@ class Export extends ReportsBase
         );
     }
 
+    public function getFieldsRecommended()
+    {
+        return array();
+    }
+
     /**
      * Action 'download' for polling export queue for status information on request report to be exported.
      *
@@ -96,7 +101,6 @@ class Export extends ReportsBase
 
     /**
      * Helper function for fetching report upon completion.
-     * Starts worker thread for polling export queue.
      *
      * @param string $job_id        Job identifier assigned for report export.
      * @param bool   $verbose       For debug purposes to monitor job export completion status.
@@ -131,7 +135,7 @@ class Export extends ReportsBase
      * @throws \InvalidArgumentException
      * @throws \Tune\Shared\TuneServiceException
      */
-    public static function parseResponseUrl(
+    public static function parseResponseReportUrl(
         $response
     ) {
         if (is_null($response)) {
@@ -140,7 +144,9 @@ class Export extends ReportsBase
 
         $data = $response->getData();
         if (is_null($data)) {
-            throw new TuneServiceException("Report request failed to get export data.");
+            throw new TuneServiceException(
+                "Report request failed to get export data: " . print_r($response, true) . PHP_EOL
+            );
         }
         if (!array_key_exists("data", $data)) {
             throw new TuneSdkException(
@@ -154,7 +160,7 @@ class Export extends ReportsBase
         }
         if (is_null($data["data"])) {
             throw new TuneServiceException(
-                "Export data response does not contain 'data': " . print_r($data, true) . PHP_EOL
+                "Export data response does not contain 'data: " . print_r($data, true) . PHP_EOL
             );
         }
         if (!array_key_exists("url", $data["data"])) {

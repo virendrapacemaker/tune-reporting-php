@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -49,16 +49,16 @@ class Account extends TuneManagementBase
      * Constructor
      *
      * @param string $api_key       MobileAppTracking API Key
-     * @param bool   $validate      Validate fields used by actions' parameters.
+     * @param bool   $validate_fields      Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
-        $validate = false
+        $validate_fields = false
     ) {
         parent::__contruct(
             "account",
             $api_key,
-            $validate
+            $validate_fields
         );
     }
 

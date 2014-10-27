@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -64,7 +64,7 @@ class TestAccountUsers extends \PHPUnit_Framework_TestCase
     {
         $response = null;
         try {
-            $account_users = new Users($this->api_key, $validate = true);
+            $account_users = new Users($this->api_key, $validate_fields = true);
 
             $filter_array = array(
                 array(
@@ -95,7 +95,7 @@ class TestAccountUsers extends \PHPUnit_Framework_TestCase
     {
         $response = null;
         try {
-            $account_users = new \Tune\Management\Api\Account\Users($this->api_key, $validate = false);
+            $account_users = new \Tune\Management\Api\Account\Users($this->api_key, $validate_fields = false);
 
             $filter_array = array(
                 array(

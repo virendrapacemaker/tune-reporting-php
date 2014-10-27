@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -64,6 +64,18 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fields
+     */
+    public function testFields()
+    {
+        $installs = new Installs($this->api_key, $validate_fields = true);
+
+        $response = $installs->fields(Installs::Fields_Recommended);
+        $this->assertNotNull($response);
+        $this->assertNotEmpty($response);
+    }
+
+    /**
      * Test count
      */
     public function testCount()
@@ -72,9 +84,9 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate_fields = true);
 
-        $response = $installs->getFields();
+        $response = $installs->fields();
         $this->assertNotNull($response);
 
         $response = $installs->count(
@@ -97,33 +109,13 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate_fields = true);
 
         $response = $installs->find(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+            $filter              = "(status = 'approved')",
+            $fields              = $installs->fields(Installs::Fields_Recommended),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -140,33 +132,13 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $installs = new Installs($this->api_key, $validate = true);
+        $installs = new Installs($this->api_key, $validate_fields = true);
 
         $response = $installs->export(
             $start_date,
             $end_date,
-                $filter              = "(status = 'approved')",
-                $fields              = "id"
-                . ",created"
-                . ",status"
-                . ",site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",advertiser_ref_id"
-                . ",advertiser_sub_campaign_id"
-                . ",advertiser_sub_campaign.ref"
-                . ",publisher_sub_campaign_id"
-                . ",publisher_sub_campaign.ref"
-                . ",user_id"
-                . ",device_id"
-                . ",os_id"
-                . ",google_aid"
-                . ",ios_ifa"
-                . ",ios_ifv"
-                . ",windows_aid"
-                . ",referral_url"
-                . ",is_view_through",
+            $filter              = "(status = 'approved')",
+            $fields              = $installs->fields(Installs::Fields_Recommended),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

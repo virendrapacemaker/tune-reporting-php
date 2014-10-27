@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -64,6 +64,18 @@ class TestRetention extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fields
+     */
+    public function testFields()
+    {
+        $retention = new Retention($this->api_key, $validate_fields = true);
+
+        $response = $retention->fields(Retention::Fields_Recommended);
+        $this->assertNotNull($response);
+        $this->assertNotEmpty($response);
+    }
+
+    /**
      * Test count
      */
     public function testCount()
@@ -73,10 +85,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
-
-        $response = $retention->getFields();
-        $this->assertNotNull($response);
+        $retention = new Retention($this->api_key, $validate_fields = true);
 
         $response = $retention->count(
             $start_date,
@@ -102,7 +111,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
+        $retention = new Retention($this->api_key, $validate_fields = true);
 
         $response = $retention->find(
             $start_date,
@@ -110,12 +119,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",install_publisher_id"
-            . ",install_publisher.name"
-            . ",installs"
-            . ",opens",
+            $fields              = $retention->fields(Retention::Fields_Recommended),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $limit               = 10,
@@ -136,7 +140,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate = true);
+        $retention = new Retention($this->api_key, $validate_fields = true);
 
         $response = $retention->export(
             $start_date,
@@ -144,12 +148,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",install_publisher_id"
-            . ",install_publisher.name"
-            . ",installs"
-            . ",opens",
+            $fields              = $retention->fields(Retention::Fields_Recommended),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"

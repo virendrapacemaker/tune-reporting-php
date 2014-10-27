@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -73,9 +73,9 @@ class TestCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate = true);
+        $ltv = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->getFields();
+        $response = $ltv->fields();
         $this->assertNotNull($response);
 
         $response = $ltv->count(
@@ -102,7 +102,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate = true);
+        $ltv = new LTV($this->api_key, $validate_fields = true);
 
         $response = $ltv->find(
             $start_date,
@@ -110,12 +110,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",publisher_id"
-            . ",publisher.name"
-            . ",rpi"
-            . ",epi",
+            $fields              = $ltv->fields(LTV::Fields_Recommended),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -136,7 +131,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate = true);
+        $ltv = new LTV($this->api_key, $validate_fields = true);
 
         $response = $ltv->export(
             $start_date,
@@ -144,12 +139,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = "site_id"
-            . ",site.name"
-            . ",publisher_id"
-            . ",publisher.name"
-            . ",rpi"
-            . ",epi",
+            $fields              = $ltv->fields(LTV::Fields_Recommended),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"

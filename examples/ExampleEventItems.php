@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -96,12 +96,12 @@ class ExampleEventItems
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $event_items = new EventItems($api_key, $validate = true);
+            $event_items = new EventItems($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Event Items records.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $event_items->getFields();
+            $response = $event_items->fields(EventItems::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -130,30 +130,8 @@ class ExampleEventItems
             $response = $event_items->find(
                 $start_date,
                 $end_date,
-                $filter = null,
-                $fields = "created"
-                . ",site.name"
-                . ",campaign.name"
-                . ",site_event.name"
-                . ",site_event_item.name"
-                . ",quantity"
-                . ",value_usd"
-                . ",country.name"
-                . ",region.name"
-                . ",agency.name"
-                . ",advertiser_sub_site.name"
-                . ",advertiser_sub_campaign.name"
-                . ",site_id"
-                . ",campaign_id"
-                . ",agency_id"
-                . ",site_event_id"
-                . ",country_id"
-                . ",region_id"
-                . ",site_event_item_id"
-                . ",advertiser_sub_site_id"
-                . ",advertiser_sub_campaign_id"
-                . ",currency_code"
-                . ",value",
+                $filter              = null,
+                $fields              = $event_items->fields(EventItems::Fields_Default | EventItems::Fields_Minimal),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -175,30 +153,8 @@ class ExampleEventItems
             $response = $event_items->export(
                 $start_date,
                 $end_date,
-                $filter = null,
-                $fields = "created"
-                . ",site.name"
-                . ",campaign.name"
-                . ",site_event.name"
-                . ",site_event_item.name"
-                . ",quantity"
-                . ",value_usd"
-                . ",country.name"
-                . ",region.name"
-                . ",agency.name"
-                . ",advertiser_sub_site.name"
-                . ",advertiser_sub_campaign.name"
-                . ",site_id"
-                . ",campaign_id"
-                . ",agency_id"
-                . ",site_event_id"
-                . ",country_id"
-                . ",region_id"
-                . ",site_event_item_id"
-                . ",advertiser_sub_site_id"
-                . ",advertiser_sub_campaign_id"
-                . ",currency_code"
-                . ",value",
+                $filter              = null,
+                $fields              = $event_items->fields(EventItems::Fields_Recommended),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -212,78 +168,22 @@ class ExampleEventItems
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = EventItems::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Event Items report polling    " . PHP_EOL;
+            echo "Fetching Advertiser Logs Event Items CSV report        " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
+
             $export = new Export($api_key);
 
-            $status = null;
-            $response = null;
-            $attempt = 0;
+            $response = $export->fetch(
+                $job_id,
+                $verbose = true,
+                $sleep = 10
+            );
 
-            while (true) {
-
-                $response = $export->download($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;
@@ -302,30 +202,8 @@ class ExampleEventItems
             $response = $event_items->export(
                 $start_date,
                 $end_date,
-                $filter = null,
-                $fields = "created"
-                . ",site.name"
-                . ",campaign.name"
-                . ",site_event.name"
-                . ",site_event_item.name"
-                . ",quantity"
-                . ",value_usd"
-                . ",country.name"
-                . ",region.name"
-                . ",agency.name"
-                . ",advertiser_sub_site.name"
-                . ",advertiser_sub_campaign.name"
-                . ",site_id"
-                . ",campaign_id"
-                . ",agency_id"
-                . ",site_event_id"
-                . ",country_id"
-                . ",region_id"
-                . ",site_event_item_id"
-                . ",advertiser_sub_site_id"
-                . ",advertiser_sub_campaign_id"
-                . ",currency_code"
-                . ",value",
+                $filter              = null,
+                $fields              = $event_items->fields(EventItems::Fields_Recommended),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -339,24 +217,11 @@ class ExampleEventItems
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
-            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+            $job_id = EventItems::parseResponseReportJobId($response);
+            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Event Items report threaded    " . PHP_EOL;
+            echo "Fetching Advertiser Logs Event Items JSON report        " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
@@ -367,7 +232,7 @@ class ExampleEventItems
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;

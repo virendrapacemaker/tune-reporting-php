@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.6
+ * @version   0.9.7
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -98,12 +98,12 @@ class ExampleActuals
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $stats = new Stats($api_key, $validate = true);
+            $stats = new Stats($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Actuals records.                " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->getFields();
+            $response = $stats->fields(Stats::Fields_Recommended);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -135,23 +135,7 @@ class ExampleActuals
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",ad_impressions"
-                . ",ad_impressions_unique"
-                . ",ad_clicks"
-                . ",ad_clicks_unique"
-                . ",paid_installs"
-                . ",paid_installs_assists"
-                . ",non_installs_assists"
-                . ",paid_events"
-                . ",paid_events_assists"
-                . ",non_events_assists"
-                . ",paid_opens"
-                . ",paid_opens_assists"
-                . ",non_opens_assists",
+                $fields              = $stats->fields(Stats::Fields_Default | Stats::Fields_Minimal),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("installs" => "DESC"),
@@ -176,23 +160,7 @@ class ExampleActuals
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",ad_impressions"
-                . ",ad_impressions_unique"
-                . ",ad_clicks"
-                . ",ad_clicks_unique"
-                . ",paid_installs"
-                . ",paid_installs_assists"
-                . ",non_installs_assists"
-                . ",paid_events"
-                . ",paid_events_assists"
-                . ",non_events_assists"
-                . ",paid_opens"
-                . ",paid_opens_assists"
-                . ",non_opens_assists",
+                $fields              = $stats->fields(Stats::Fields_Recommended),
                 $timestamp           = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -207,79 +175,21 @@ class ExampleActuals
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Stats::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Actuals report polling             " . PHP_EOL;
+            echo "Fetching Advertiser Actuals CSV report                 " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
+            $response = $export->fetch(
+                $job_id,
+                $verbose = true,
+                $sleep = 10
+            );
 
-            $status = null;
-            $response = null;
-            $attempt = 0;
-
-            while (true) {
-
-                $response = $export->download($job_id);
-
-                if (is_null($response)) {
-                    throw new \Exception("No response returned from export request.");
-                }
-
-                $request_url = $response->getRequestUrl();
-                $response_http_code = $response->getHttpCode();
-
-                if (is_null($response->getData())) {
-                    throw new \Exception(
-                        "No response data returned from export. Request URL: '{$request_url}'"
-                    );
-                }
-
-                if ($response_http_code != 200) {
-                    throw new \Exception(
-                        "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
-                    );
-                }
-
-                $status = $response->getData()["status"];
-                if ($status == "fail" || $status == "complete") {
-                    break;
-                }
-
-                $attempt += 1;
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
-                sleep(10);
-            }
-
-            if ($status != "complete") {
-                throw new \Exception(
-                    "Export request '{$status}':, response: " . print_r($response, true)
-                );
-            }
-
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -303,23 +213,7 @@ class ExampleActuals
                 $group               = "site_id"
                 . ",publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = "site_id"
-                . ",site.name"
-                . ",publisher_id"
-                . ",publisher.name"
-                . ",ad_impressions"
-                . ",ad_impressions_unique"
-                . ",ad_clicks"
-                . ",ad_clicks_unique"
-                . ",paid_installs"
-                . ",paid_installs_assists"
-                . ",non_installs_assists"
-                . ",paid_events"
-                . ",paid_events_assists"
-                . ",non_events_assists"
-                . ",paid_opens"
-                . ",paid_opens_assists"
-                . ",non_opens_assists",
+                $fields              = $stats->fields(Stats::Fields_Recommended),
                 $timestamp           = null,
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
@@ -334,35 +228,21 @@ class ExampleActuals
                 );
             }
 
-            $data = $response->getData();
-            if (is_null($data)) {
-                throw new \Exception(
-                    "Failed to return data: " . print_r($response, true)
-                );
-            }
-
-            $job_id = $data;
-            if (!is_string($job_id) || empty($job_id)) {
-                throw new \Exception(
-                    "Failed to return job_id: " . print_r($response, true)
-                );
-            }
-
+            $job_id = Stats::parseResponseReportJobId($response);
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Actuals report threaded.            " . PHP_EOL;
+            echo "Fetching Advertiser Actuals JSON report                 " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
-
             $response = $export->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseUrl($response);
+            $report_url = Export::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
