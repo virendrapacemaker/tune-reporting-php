@@ -38,6 +38,7 @@
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
 use Tune\Management\Api\Advertiser\Stats\Clicks;
+use Tune\Management\Shared\Service\TuneManagementBase;
 use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
 use Tune\Management\Shared\Reports\ReportReaderJSON;
@@ -101,7 +102,7 @@ class ExampleClicks
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Clicks records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $clicks->fields(Clicks::Fields_Recommended);
+            $response = $clicks->fields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -123,9 +124,6 @@ class ExampleClicks
                 );
             }
 
-            $data = $response->getData();
-
-            echo print_r($data, true) . PHP_EOL;
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -135,7 +133,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(Clicks::Fields_Default | Clicks::Fields_Minimal),
+                $fields              = $clicks->fields(TuneManagementBase::TUNE_FIELDS_DEFAULT | TuneManagementBase::TUNE_FIELDS_MINIMAL),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -158,7 +156,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(Clicks::Fields_Recommended),
+                $fields              = $clicks->fields(TuneManagementBase::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -176,7 +174,7 @@ class ExampleClicks
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Clicks CSV report             " . PHP_EOL;
+            echo " Fetching Advertiser Logs Clicks CSV report.           " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
@@ -207,7 +205,7 @@ class ExampleClicks
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(Clicks::Fields_Recommended),
+                $fields              = $clicks->fields(TuneManagementBase::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -225,7 +223,7 @@ class ExampleClicks
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Clicks JSON report             " . PHP_EOL;
+            echo " Fetching Advertiser Logs Clicks JSON report            " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);

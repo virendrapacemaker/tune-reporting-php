@@ -53,11 +53,11 @@ use Tune\Management\Shared\Service\TuneManagementClient;
  */
 class TuneManagementBase
 {
-    const Fields_All     = 0;
-    const Fields_Default = 1;
-    const Fields_Related = 2;
-    const Fields_Minimal = 4;
-    const Fields_Recommended = 8;
+    const TUNE_FIELDS_ALL     = 0;
+    const TUNE_FIELDS_DEFAULT = 1;
+    const TUNE_FIELDS_RELATED = 2;
+    const TUNE_FIELDS_MINIMAL = 4;
+    const TUNE_FIELDS_RECOMMENDED = 8;
 
     /**
      * Tune Management API Endpoint
@@ -132,6 +132,7 @@ class TuneManagementBase
     );
 
     /**
+     * Recommended fields for report exports.
      * @var array
      */
     protected $fields_recommended = null;
@@ -244,129 +245,46 @@ class TuneManagementBase
      * @throws TuneSdkException
      * @throws TuneServiceException
      */
-    public function fields($enum_fields_selection = self::Fields_All)
-    {
+    public function fields(
+        $enum_fields_selection = self::TUNE_FIELDS_DEFAULT
+    ) {
         if (($this->validate_fields
-             || !($enum_fields_selection & self::Fields_Recommended))
+             || !($enum_fields_selection & self::TUNE_FIELDS_RECOMMENDED))
             && is_null($this->fields)
         ) {
-            $query_string_dict = array(
-                    "controllers" => $this->controller,
-                    "details" => "modelName,fields"
-            );
-
-            $client = new TuneManagementClient(
-                    "apidoc",
-                    "get_controllers",
-                    $this->api_key,
-                    $query_string_dict
-            );
-
-            $client->call();
-
-            $response = $client->getResponse();
-            $http_code = $response->getHttpCode();
-            $data = $response->getData();
-
-            if ($http_code != 200) {
-                $request_url = $response->getRequestUrl();
-                throw new TuneServiceException("Connection failure '{$request_url}': '{$http_code}'");
-            }
-
-            if (is_null($data) || empty($data)) {
-                $controller = $this->controller;
-                throw new TuneServiceException("Failed to get fields for endpoint: '{$controller}'.");
-            }
-
-            $endpoint_metadata = $data[0];
-            $fields             = $endpoint_metadata["fields"];
-            $this->model_name   = $endpoint_metadata["modelName"];
-
-            $fields_found = array();
-            $related_fields = array();
-
-            foreach ($fields as $field) {
-                if ($field["related"] == 1) {
-                    if ($field["type"] == "property") {
-                        $related_property = $field["name"];
-                        if (!array_key_exists($related_property, $related_fields)) {
-                            $related_fields[$related_property] = array();
-                        }
-                        continue;
-                    }
-
-                    $field_related = explode(".", $field["name"]);
-                    $related_property = $field_related[0];
-                    $related_field_name = $field_related[1];
-
-                    if (!array_key_exists($related_property, $related_fields)) {
-                        $related_fields[$related_property] = array();
-                    }
-
-                    $related_fields[$related_property][] = $related_field_name;
-                    continue;
-                }
-
-                $fields_found[$field["name"]] = array("default" => $field["fieldDefault"], "related" => false );
-            }
-
-            ksort($fields_found);
-
-            $fields_found_merged = array();
-
-            foreach ($fields_found as $field_name => $field_info) {
-                $fields_found_merged[$field_name] = $field_info;
-                if (($field_name != "_id") && endsWith($field_name, "_id")) {
-                    $related_property = substr($field_name, 0, strlen($field_name) - 3);
-                    if (array_key_exists($related_property, $related_fields)
-                    && !empty($related_fields[$related_property])
-                    ) {
-                        foreach ($related_fields[$related_property] as $related_field_name) {
-                            // Not including duplicate data.
-                            if ($related_field_name == "id") {
-                                continue;
-                            }
-                            $fields_found_merged["{$related_property}.{$related_field_name}"] = array("default" => $field_info["default"], "related" => true);
-                        }
-                    } else {
-                        $fields_found_merged["{$related_property}.name"] = array("default" => $field_info["default"], "related" => true);
-                    }
-                }
-            }
-
-            $this->fields = $fields_found_merged;
+            $this->getEndpointFields();
         }
 
-        if ($enum_fields_selection & self::Fields_Recommended) {
+        if ($enum_fields_selection & self::TUNE_FIELDS_RECOMMENDED) {
             return $this->fields_recommended;
         }
 
-        if (!($enum_fields_selection & self::Fields_Default)
-            && ($enum_fields_selection & self::Fields_Related)
+        if (!($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
+            && ($enum_fields_selection & self::TUNE_FIELDS_RELATED)
             ) {
             return array_keys($this->fields);
         }
 
         $fields_filtered = array();
         foreach ($this->fields as $field_name => $field_info) {
-            if (!($enum_fields_selection & self::Fields_Related)
-                && !($enum_fields_selection & self::Fields_Minimal)
+            if (!($enum_fields_selection & self::TUNE_FIELDS_RELATED)
+                && !($enum_fields_selection & self::TUNE_FIELDS_MINIMAL)
                 && $field_info["related"]
                 ) {
                 continue;
             }
 
-            if (!($enum_fields_selection & self::Fields_Default)
+            if (!($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
                 && !$field_info["related"]
             ) {
                 $fields_filtered[$field_name] = $field_info;
                 continue;
             }
 
-            if (($enum_fields_selection & self::Fields_Default)
+            if (($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
                 && $field_info["default"]
             ) {
-                if (($enum_fields_selection & self::Fields_Minimal)
+                if (($enum_fields_selection & self::TUNE_FIELDS_MINIMAL)
                     && $field_info["related"]
                 ) {
                     foreach (array(".name", ".ref") as $related_field) {
@@ -380,7 +298,7 @@ class TuneManagementBase
                 continue;
             }
 
-            if (($enum_fields_selection & self::Fields_Related)
+            if (($enum_fields_selection & self::TUNE_FIELDS_RELATED)
                 && $field_info["related"]
             ) {
                 $fields_filtered[$field_name] = $field_info;
@@ -403,6 +321,111 @@ class TuneManagementBase
         }
 
         return $this->model_name;
+    }
+
+    /**
+     * Fetch all fields from model and related models of this endpoint.
+     */
+    protected function getEndpointFields()
+    {
+        $query_string_dict = array(
+            "controllers" => $this->controller,
+            "details" => "modelName,fields"
+        );
+
+        $client = new TuneManagementClient(
+                "apidoc",
+                "get_controllers",
+                $this->api_key,
+                $query_string_dict
+        );
+
+        $client->call();
+
+        $response = $client->getResponse();
+        $http_code = $response->getHttpCode();
+        $data = $response->getData();
+
+        if ($http_code != 200) {
+            $request_url = $response->getRequestUrl();
+            throw new TuneServiceException("Connection failure '{$request_url}': '{$http_code}'");
+        }
+
+        if (is_null($data) || empty($data)) {
+            $controller = $this->controller;
+            throw new TuneServiceException("Failed to get fields for endpoint: '{$controller}'.");
+        }
+
+        $endpoint_metadata = $data[0];
+        $fields             = $endpoint_metadata["fields"];
+        $this->model_name   = $endpoint_metadata["modelName"];
+
+        $fields_found = array();
+        $related_fields = array();
+
+        foreach ($fields as $field) {
+            if ($field["related"] == 1) {
+                if ($field["type"] == "property") {
+                    $related_property = $field["name"];
+                    if (!array_key_exists($related_property, $related_fields)) {
+                        $related_fields[$related_property] = array();
+                    }
+                    continue;
+                }
+
+                $field_related = explode(".", $field["name"]);
+                $related_property = $field_related[0];
+                $related_field_name = $field_related[1];
+
+                if (!array_key_exists($related_property, $related_fields)) {
+                    $related_fields[$related_property] = array();
+                }
+
+                $related_fields[$related_property][] = $related_field_name;
+                continue;
+            }
+
+            $fields_found[$field["name"]] = array(
+                "default" => $field["fieldDefault"],
+                "related" => false
+            );
+        }
+
+        ksort($fields_found);
+
+        $fields_found_merged = array();
+
+        foreach ($fields_found as $field_name => $field_info) {
+            $fields_found_merged[$field_name] = $field_info;
+            if (($field_name != "_id") && endsWith($field_name, "_id")) {
+                $related_property = substr($field_name, 0, strlen($field_name) - 3);
+                if (array_key_exists($related_property, $related_fields)
+                    && !empty($related_fields[$related_property])
+                ) {
+                    foreach ($related_fields[$related_property] as $related_field_name) {
+                        // Not including duplicate data.
+                        if ($related_field_name == "id") {
+                            continue;
+                        }
+                        $related_property_field_name = "{$related_property}.{$related_field_name}";
+
+                        $fields_found_merged[$related_property_field_name] = array(
+                            "default" => $field_info["default"],
+                            "related" => true
+                        );
+                    }
+                } else {
+                    $fields_found_merged["{$related_property}.name"] = array(
+                        "default" => $field_info["default"],
+                        "related" => true
+                    );
+                }
+            }
+        }
+
+        $this->fields = $fields_found_merged;
+
+        return $this->fields;
     }
 
     /**
@@ -481,7 +504,7 @@ class TuneManagementBase
     /**
      * Validate query string parameter 'sort' having valid endpoint's fields and direction.
      *
-     * @param $sort
+     * @param array $sort
      *
      * @return bool
      * @throws \Tune\Shared\TuneSdkException

@@ -102,7 +102,7 @@ class ExampleRetention
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Retention records.              " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $retention->fields(Retention::Fields_Recommended);
+            $response = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -137,7 +137,7 @@ class ExampleRetention
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $retention->fields(Retention::Fields_Recommended),
+                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 10,
@@ -165,7 +165,7 @@ class ExampleRetention
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $retention->fields(Retention::Fields_Recommended),
+                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 10,
@@ -194,7 +194,7 @@ class ExampleRetention
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $retention->fields(Retention::Fields_Recommended),
+                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"

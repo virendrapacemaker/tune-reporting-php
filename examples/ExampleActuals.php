@@ -103,7 +103,7 @@ class ExampleActuals
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Actuals records.                " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->fields(Stats::Fields_Recommended);
+            $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -135,7 +135,7 @@ class ExampleActuals
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $stats->fields(Stats::Fields_Default | Stats::Fields_Minimal),
+                $fields              = $stats->fields(Stats::TUNE_FIELDS_DEFAULT | Stats::TUNE_FIELDS_MINIMAL),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("installs" => "DESC"),
@@ -160,7 +160,7 @@ class ExampleActuals
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $stats->fields(Stats::Fields_Recommended),
+                $fields              = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $timestamp           = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -213,7 +213,7 @@ class ExampleActuals
                 $group               = "site_id"
                 . ",publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $stats->fields(Stats::Fields_Recommended),
+                $fields              = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $timestamp           = null,
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"

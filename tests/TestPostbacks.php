@@ -70,7 +70,7 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
     {
         $postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-        $response = $postbacks->fields(Postbacks::Fields_Recommended);
+        $response = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -112,7 +112,7 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
+            $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -135,7 +135,7 @@ class TestPostbacks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
+            $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

@@ -70,7 +70,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
     {
         $retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->fields(Retention::Fields_Recommended);
+        $response = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -119,7 +119,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $retention->fields(Retention::Fields_Recommended),
+            $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $limit               = 10,
@@ -148,7 +148,7 @@ class TestRetention extends \PHPUnit_Framework_TestCase
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $retention->fields(Retention::Fields_Recommended),
+            $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"

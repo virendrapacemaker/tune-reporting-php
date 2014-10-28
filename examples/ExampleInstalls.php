@@ -101,7 +101,7 @@ class ExampleInstalls
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Installs records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $installs->fields(Installs::Fields_Recommended);
+            $response = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,7 +131,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::Fields_Recommended),
+                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -154,7 +154,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::Fields_Recommended),
+                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -171,9 +171,9 @@ class ExampleInstalls
             $job_id = Installs::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Installs CSV report          " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
+            echo " Fetching Advertiser Logs Installs CSV report.         " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
             $response = $export->fetch(
@@ -203,7 +203,7 @@ class ExampleInstalls
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::Fields_Recommended),
+                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -221,7 +221,7 @@ class ExampleInstalls
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Installs JSON report           " . PHP_EOL;
+            echo " Fetching Advertiser Logs Installs JSON report          " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);

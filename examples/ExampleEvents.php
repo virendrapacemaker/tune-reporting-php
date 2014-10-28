@@ -101,7 +101,7 @@ class ExampleEvents
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Events records.            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->fields(Events::Fields_Recommended);
+            $response = $events->fields(Events::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -122,6 +122,7 @@ class ExampleEvents
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
+
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,7 +132,7 @@ class ExampleEvents
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::Fields_Default | Events::Fields_Minimal),
+                $fields              = $events->fields(Events::TUNE_FIELDS_DEFAULT | Events::TUNE_FIELDS_MINIMAL),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -154,7 +155,7 @@ class ExampleEvents
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::Fields_Recommended),
+                $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -171,9 +172,9 @@ class ExampleEvents
             $job_id = Events::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Events CSV report            " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
+            echo " Fetching Advertiser Logs Events CSV report.           " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
 
@@ -203,7 +204,7 @@ class ExampleEvents
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::Fields_Recommended),
+                $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -220,9 +221,9 @@ class ExampleEvents
             $job_id = Events::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Events JSON report           " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo " Fetching Advertiser Logs Events JSON report            " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
 
             $export = new Export($api_key);
 
