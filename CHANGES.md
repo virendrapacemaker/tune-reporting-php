@@ -1,4 +1,4 @@
-# tune-api-php Changelog
+## tune-api-php Changelog
 =======================
 
 Here you can see the full list of changes between each tune-api-php release.

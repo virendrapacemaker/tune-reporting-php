@@ -110,7 +110,7 @@ SDK Unittests
 
 Run the following script to view execution of all unittests:
 ```
-    $ ./scripts/tune_unittests.sh [API_KEY]
+    $ ./scripts/tune_tests.sh [API_KEY]
 ```
 
 =============
