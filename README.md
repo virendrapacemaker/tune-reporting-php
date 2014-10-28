@@ -1,4 +1,4 @@
-<h1>tune-api-php</h1>
+<h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
 <h4>Update:  2014-10-27</h4>
@@ -98,7 +98,7 @@ Run the following script to view execution of all examples:
 
 Run the following script to view execution of all unittests:
 ```bash
-    $ ./scripts/tune_unittests.sh [API_KEY]
+    $ ./scripts/tune_tests.sh [API_KEY]
 ```
 
 <a name="license"></a>
