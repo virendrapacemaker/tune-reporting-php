@@ -1,5 +1,6 @@
 ****************************************
-Tune API PHP SDK for PHP 5.3
+tune-api-php
+Tune API SDK for PHP 5.3
 Incorporate Tune API services.
 Update:  2014-10-27
 Version: 0.9.7
@@ -31,8 +32,14 @@ Prerequisites
     * The PHP JSON extension
     * The PHP Curl extension
 
-For examples:
-    * php.ini date.timezone
+Examples requires setting within your `php.ini` parameter `date.timezone`:
+
+```
+[Date]
+; Defines the default timezone used by the date functions
+; http://php.net/date.timezone
+date.timezone = "America/Los_Angeles"
+```
 
 -------------
 Generate API Key
@@ -45,19 +52,13 @@ http://developers.mobileapptracking.com/generate-api-key/
 Installation
 =============
 
-You can install **tune-api-php** via PEAR or by downloading the source.
-
--------------
-Via PEAR (>= 1.9.3):
--------------
-
-*TODO*
-
 -------------
 Via Composer:
 -------------
 
-```json
+Add the following script within your `composer.json` file to include `tune-api-php`:
+
+```
 {
     "require": {
         "mobileapptracking/tune-api-php": "dev-master"
@@ -78,10 +79,10 @@ Via Composer:
 Via ZIP file:
 -------------
 
-You can download the source code ZIP:
-(.zip)](https://github.com/MobileAppTracking/tune-api-php/archive/master.zip) for `tune-api-php`.
+You can download the source code ZIP for `tune-api-php`:
+https://github.com/MobileAppTracking/tune-api-php/archive/master.zip
 
-Once you download the library, move the tune-api-php folder to your project
+Once you download the library, move the `tune-api-php` folder to your project
 directory and then include the library file:
 
 ```php
@@ -95,17 +96,18 @@ and you're good to go!
 SDK Examples
 -------------
 
-```bash
-./scripts/tune_examples.sh [API_KEY]
+Run the following script to view execution of all examples:
+```
+    $ ./scripts/tune_examples.sh [API_KEY]
 ```
 
 -------------
 SDK Unittests
 -------------
 
-```bash
-cd tests/
-./tune_unittests.sh [API_KEY]
+Run the following script to view execution of all unittests:
+```
+    $ ./scripts/tune_unittests.sh [API_KEY]
 ```
 
 =============
