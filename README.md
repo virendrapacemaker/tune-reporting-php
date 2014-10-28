@@ -1,5 +1,5 @@
 <h1>tune-api-php</h1>
-<h2>Tune API PHP SDK for PHP 5.3</h2>
+<h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
 <h4>Update:  2014-10-27</h4>
 <h4>Version: 0.9.7</h4>
@@ -26,8 +26,14 @@ Please see documentation here:
     * The PHP JSON extension
     * The PHP Curl extension
 
-For examples:
-    * php.ini date.timezone
+Examples requires setting within your `php.ini` parameter `date.timezone`:
+
+```bash
+[Date]
+; Defines the default timezone used by the date functions
+; http://php.net/date.timezone
+date.timezone = "America/Los_Angeles"
+```
 
 <a name="generate_api_key"></a>
 #### Generate API Key
@@ -41,6 +47,8 @@ You can install **tune-api-php** via composer or by downloading the source.
 
 <a name="sdk_installation_composer"></a>
 #### Via Composer:
+
+Add the following script within your `composer.json` file to include `tune-api-php`:
 
 ```json
 {
@@ -98,4 +106,4 @@ cd unittests/
 <a name="sdk_reporting_issues"></a>
 ## Reporting Issues
 
-Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-api-python/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).
+Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-api-php/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).

@@ -128,11 +128,11 @@ class Request
             $this->query_string_dict = $query_string_dict;
         }
 
-        if (is_array($api_url_base) && !empty($api_url_base)) {
+        if (is_string($api_url_base) && !empty($api_url_base)) {
             $this->api_url_base = $api_url_base;
         }
 
-        if (is_array($api_url_version) && !empty($api_url_version)) {
+        if (is_string($api_url_version) && !empty($api_url_version)) {
             $this->api_url_version = $api_url_version;
         }
 

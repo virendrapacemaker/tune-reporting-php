@@ -123,8 +123,8 @@ class Proxy
             );
         }
 
+        $this->response = null;
         $isSuccess = false;
-        $response = null;
         try {
             $this->uri = $this->request->getUrl();
             $isSuccess = $this->curlSend();
@@ -181,7 +181,12 @@ class Proxy
             $headers = $response_array;
             $json = json_decode($response_json, true);
 
-            $this->response = new \Tune\Management\Shared\Service\Response($this->uri, $json, $headers, $http_code);
+            $this->response = new \Tune\Management\Shared\Service\Response(
+                    $this->uri,
+                    $json,
+                    $headers,
+                    $http_code
+                );
         } catch (\Tune\Shared\TuneServiceException $ex) {
             throw $ex;
         } catch (\Tune\Shared\TuneSdkException $ex) {
