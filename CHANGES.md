@@ -45,3 +45,8 @@ Version 0.9.7
 Beta public release on October 27, 2014
 * Removed threading from fetch()
 * Provided recommended values for exports()
+
+Version 0.9.8
+--------------
+
+* Added methods fetch() and status() for all classes.
