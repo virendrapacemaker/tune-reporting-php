@@ -1,8 +1,8 @@
 <h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  2014-10-27</h4>
-<h4>Version: 0.9.7</h4>
+<h4>Update:  2014-10-28</h4>
+<h4>Version: 0.9.8</h4>
 ===
 
 ## Overview

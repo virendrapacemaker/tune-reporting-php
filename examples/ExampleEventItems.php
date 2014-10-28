@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_PHP_SDK
+ * @package   Tune_API_PHP
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.7
+ * @version   0.9.8
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -38,7 +38,6 @@
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
 use Tune\Management\Api\Advertiser\Stats\EventItems;
-use Tune\Management\Api\Export;
 use Tune\Management\Shared\Reports\ReportReaderCSV;
 use Tune\Management\Shared\Reports\ReportReaderJSON;
 
@@ -172,18 +171,16 @@ class ExampleEventItems
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Event Items CSV report        " . PHP_EOL;
+            echo " Fetching Advertiser Logs Event Items CSV report.      " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $export = new Export($api_key);
-
-            $response = $export->fetch(
+            $response = $event_items->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseReportUrl($response);
+            $report_url = EventItems::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;
@@ -199,6 +196,7 @@ class ExampleEventItems
             echo "======================================================" . PHP_EOL;
             echo " Request Advertiser Event Items JSON report for export.     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
+
             $response = $event_items->export(
                 $start_date,
                 $end_date,
@@ -218,21 +216,19 @@ class ExampleEventItems
             }
 
             $job_id = EventItems::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Event Items JSON report        " . PHP_EOL;
+            echo " Fetching Advertiser Logs Event Items JSON report.      " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $export = new Export($api_key);
-
-            $response = $export->fetch(
+            $response = $event_items->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseReportUrl($response);
+            $report_url = EventItems::parseResponseReportUrl($response);
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;

@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_PHP_SDK
+ * @package   Tune_API_PHP
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.7
+ * @version   0.9.8
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -222,7 +222,7 @@ class ExampleRetention
                 $sleep = 10
             );
 
-            $report_url = Export::parseResponseReportUrl($response);
+            $report_url = Retention::parseResponseReportUrl($response);
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;

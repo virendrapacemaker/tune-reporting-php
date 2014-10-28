@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_PHP_SDK
+ * @package   Tune_API_PHP
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.7
+ * @version   0.9.8
  * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
  *
  */
@@ -38,6 +38,7 @@
 namespace Tune\Management\Shared\Reports;
 
 use Tune\Management\Shared\Service\TuneManagementBase;
+use Tune\Management\Api\Export;
 
 /**
  * Base class intended for gathering from Advertiser Stats actuals.
@@ -271,6 +272,56 @@ abstract class ReportsActualsBase extends ReportsBase
     }
 
     /**
+     * Query status of insight reports. Upon completion will
+     * return url to download requested report.
+     *
+     * @param string $job_id    Provided Job Identifier to reference
+     *                          requested report on export queue.
+     */
+    public function status(
+        $job_id
+    ) {
+        if (!is_string($job_id) || empty($job_id)) {
+            throw new \InvalidArgumentException(
+                "Parameter 'job_id' is not defined."
+            );
+        }
+
+        $export = new Export($this->getApiKey());
+        return $export->download(
+            $job_id
+        );
+    }
+
+    /**
+     * Helper function for fetching report upon completion.
+     *
+     * @param string $job_id        Job identifier assigned for report export.
+     * @param bool   $verbose       For debug purposes to monitor job export completion status.
+     * @param int    $sleep         Polling delay for checking job completion status.
+     *
+     * @return null
+     */
+    public function fetch(
+        $job_id,
+        $verbose = false,
+        $sleep = 10
+    ) {
+        if (!is_string($job_id) || empty($job_id)) {
+            throw new \InvalidArgumentException(
+                "Parameter 'job_id' is not defined."
+            );
+        }
+
+        $export = new Export($this->getApiKey());
+        return $export->fetch(
+            $job_id,
+            $verbose,
+            $sleep
+        );
+    }
+
+    /**
      * Helper function for parsing export status response to gather report job_id.
      *
      * @param $response
@@ -300,5 +351,20 @@ abstract class ReportsActualsBase extends ReportsBase
         }
 
         return $job_id;
+    }
+
+    /**
+     * Helper function for parsing export status response to gather report url.
+     *
+     * @param Response $response
+     *
+     * @return mixed
+     * @throws \InvalidArgumentException
+     * @throws \Tune\Shared\TuneServiceException
+     */
+    public static function parseResponseReportUrl(
+        $response
+    ) {
+        return Export::parseResponseReportUrl($response);
     }
 }
