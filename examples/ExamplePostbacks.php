@@ -101,7 +101,7 @@ class ExamplePostbacks
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Postbacks records.         " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $postbacks->fields(Postbacks::Fields_Recommended);
+            $response = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -122,6 +122,7 @@ class ExamplePostbacks
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
+
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,7 +132,7 @@ class ExamplePostbacks
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
+                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -154,7 +155,7 @@ class ExamplePostbacks
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::Fields_Default | Postbacks::Fields_Minimal),
+                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_DEFAULT | Postbacks::TUNE_FIELDS_MINIMAL),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -172,7 +173,7 @@ class ExamplePostbacks
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Postbacks CSV report          " . PHP_EOL;
+            echo " Fetching Advertiser Logs Postbacks CSV report.        " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
             $export = new Export($api_key);
@@ -203,7 +204,7 @@ class ExamplePostbacks
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::Fields_Recommended),
+                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -221,7 +222,7 @@ class ExamplePostbacks
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Logs Postbacks JSON report          " . PHP_EOL;
+            echo " Fetching Advertiser Logs Postbacks JSON report         " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
             $export = new Export($api_key);
 

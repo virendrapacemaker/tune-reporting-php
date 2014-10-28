@@ -70,7 +70,7 @@ class TestActuals extends \PHPUnit_Framework_TestCase
     {
         $stats = new Stats($this->api_key, $validate_fields = true);
 
-        $response = $stats->fields(Stats::Fields_Recommended);
+        $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }

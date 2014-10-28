@@ -102,7 +102,7 @@ class ExampleCohort
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Cohort records.                 " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $ltv->fields(LTV::Fields_Recommended);
+            $response = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -137,7 +137,7 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::Fields_Recommended),
+                $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -165,7 +165,7 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::Fields_Default | LTV::Fields_Minimal),
+                $fields              = $ltv->fields(LTV::TUNE_FIELDS_DEFAULT | LTV::TUNE_FIELDS_MINIMAL),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -194,7 +194,7 @@ class ExampleCohort
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::Fields_Recommended),
+                $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"

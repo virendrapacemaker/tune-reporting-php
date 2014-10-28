@@ -70,7 +70,7 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
     {
         $installs = new Installs($this->api_key, $validate_fields = true);
 
-        $response = $installs->fields(Installs::Fields_Recommended);
+        $response = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -115,7 +115,7 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $installs->fields(Installs::Fields_Recommended),
+            $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -138,7 +138,7 @@ class TestInstalls extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $installs->fields(Installs::Fields_Recommended),
+            $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

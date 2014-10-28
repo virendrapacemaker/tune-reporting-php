@@ -71,7 +71,7 @@ class TestClicks extends \PHPUnit_Framework_TestCase
     {
         $clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields(Clicks::Fields_Recommended);
+        $response = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -83,7 +83,7 @@ class TestClicks extends \PHPUnit_Framework_TestCase
     {
         $clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields(Clicks::Fields_Default | Clicks::Fields_Minimal);
+        $response = $clicks->fields(Clicks::TUNE_FIELDS_DEFAULT | Clicks::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -128,7 +128,7 @@ class TestClicks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $clicks->fields(Clicks::Fields_Recommended),
+            $fields              = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -253,7 +253,7 @@ class TestClicks extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $clicks->fields(Clicks::Fields_Recommended),
+            $fields              = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

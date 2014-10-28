@@ -101,7 +101,7 @@ class ExampleEventItems
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Logs Event Items records.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $event_items->fields(EventItems::Fields_Recommended);
+            $response = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -131,7 +131,7 @@ class ExampleEventItems
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $event_items->fields(EventItems::Fields_Default | EventItems::Fields_Minimal),
+                $fields              = $event_items->fields(EventItems::TUNE_FIELDS_DEFAULT | EventItems::TUNE_FIELDS_MINIMAL),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -154,7 +154,7 @@ class ExampleEventItems
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $event_items->fields(EventItems::Fields_Recommended),
+                $fields              = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -203,7 +203,7 @@ class ExampleEventItems
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $event_items->fields(EventItems::Fields_Recommended),
+                $fields              = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );

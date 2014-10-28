@@ -70,7 +70,7 @@ class TestEventItems extends \PHPUnit_Framework_TestCase
     {
         $event_items = new EventItems($this->api_key, $validate_fields = true);
 
-        $response = $event_items->fields(EventItems::Fields_Recommended);
+        $response = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
@@ -112,7 +112,7 @@ class TestEventItems extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $event_items->fields(EventItems::Fields_Recommended),
+            $fields              = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -135,7 +135,7 @@ class TestEventItems extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $event_items->fields(EventItems::Fields_Recommended),
+            $fields              = $event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );

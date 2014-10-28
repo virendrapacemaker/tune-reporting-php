@@ -110,7 +110,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $ltv->fields(LTV::Fields_Recommended),
+            $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -139,7 +139,7 @@ class TestCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $ltv->fields(LTV::Fields_Recommended),
+            $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
