@@ -82,20 +82,23 @@ directory and then include the library file:
 
 and you're good to go!
 
+<a name="sdk_code_samples"></a>
+## Code Samples
 
 <a name="sdk_examples"></a>
-## SDK Examples
+#### SDK Examples
 
+Run the following script to view execution of all examples:
 ```bash
-./tune_examples.sh [API_KEY]
+    $ ./scripts/tune_examples.sh [API_KEY]
 ```
 
 <a name="sdk_unittests"></a>
-## SDK Unittests
+#### SDK Unittests
 
+Run the following script to view execution of all unittests:
 ```bash
-cd unittests/
-./tune_unittests.sh [API_KEY]
+    $ ./scripts/tune_unittests.sh [API_KEY]
 ```
 
 <a name="license"></a>
