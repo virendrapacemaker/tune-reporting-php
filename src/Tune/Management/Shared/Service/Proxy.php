@@ -29,8 +29,8 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
@@ -86,7 +86,9 @@ class Proxy
     public function __construct($request)
     {
         if (is_null($request)) {
-            throw new \InvalidArgumentException("Parameter 'request' is not set.");
+            throw new \InvalidArgumentException(
+                "Parameter 'request' is not set."
+            );
         }
 
         if (!is_a($request, "\Tune\Management\Shared\Service\Request")) {
@@ -96,7 +98,9 @@ class Proxy
         }
 
         if (!function_exists('curl_init')) {
-            throw new \RuntimeException("PHP extension 'php_curl' is not installed.");
+            throw new \RuntimeException(
+                "PHP extension 'php_curl' is not installed."
+            );
         }
 
         $this->request = $request;
@@ -133,7 +137,11 @@ class Proxy
         } catch (\Tune\Shared\TuneSdkException $ex) {
             throw $ex;
         } catch (Exception $ex) {
-            throw new \Tune\Shared\TuneSdkException("Failed to process request.", $ex->getCode(), $ex);
+            throw new \Tune\Shared\TuneSdkException(
+                "Failed to process request.",
+                $ex->getCode(),
+                $ex
+            );
         }
         return $isSuccess;
     }
@@ -182,11 +190,11 @@ class Proxy
             $json = json_decode($response_json, true);
 
             $this->response = new \Tune\Management\Shared\Service\Response(
-                    $this->uri,
-                    $json,
-                    $headers,
-                    $http_code
-                );
+                $this->uri,
+                $json,
+                $headers,
+                $http_code
+            );
         } catch (\Tune\Shared\TuneServiceException $ex) {
             throw $ex;
         } catch (\Tune\Shared\TuneSdkException $ex) {

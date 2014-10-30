@@ -30,8 +30,8 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
@@ -122,11 +122,11 @@ function endsWith($haystack, $needle)
  *
  * @return bool
  */
-function isCurlInstalled() {
-    if  (in_array  ('curl', get_loaded_extensions())) {
+function isCurlInstalled()
+{
+    if (in_array('curl', get_loaded_extensions())) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -136,11 +136,11 @@ function isCurlInstalled() {
  *
  * @return bool
  */
-function isJsonInstalled() {
-    if  (in_array  ('json', get_loaded_extensions())) {
+function isJsonInstalled()
+{
+    if (in_array('json', get_loaded_extensions())) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -150,11 +150,11 @@ function isJsonInstalled() {
  *
  * @return bool
  */
-function isPThreadsInstalled() {
-    if  (in_array  ('pthreads', get_loaded_extensions())) {
+function isPThreadsInstalled()
+{
+    if (in_array('pthreads', get_loaded_extensions())) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -164,29 +164,32 @@ function isPThreadsInstalled() {
  *
  * @return bool
  */
-function isParenthesesBalanced($str){
+function isParenthesesBalanced($str)
+{
     $count = 0;
     $length = strlen($str);
-    for($i = 0; $i < $length; $i++){
-        if($str[$i] == '(')
+    for ($i = 0; $i < $length; $i++) {
+        if ($str[$i] == '(') {
             $count += 1;
-        else if($str[$i] == ')')
+        } elseif ($str[$i] == ')') {
             $count -= 1;
-        if($count == -1)
+        }
+        if ($count == -1) {
             return false;
+        }
     }
     return $count == 0;
 }
 
 
-function arrayToString($array){
+function arrayToString($array)
+{
     $str="";
-    foreach($array as $k=>$i){
-        if(is_array($i)){
-            $str.=array2string($i);
-        }
-        else{
-            $str.= " " . $i;
+    foreach ($array as $k => $i) {
+        if (is_array($i)) {
+            $str .= array2string($i);
+        } else {
+            $str .= " " . $i;
         }
     }
     return $str;

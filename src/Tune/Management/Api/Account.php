@@ -29,21 +29,21 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api;
 
-use Tune\Management\Shared\Service\TuneManagementBase;
+use Tune\Management\Shared\Endpoints\ItemsEndpointBase;
 
 /**
  * Tune Management API endpoint '/account/'
  *
  * @package Tune\Management\Api
  */
-class Account extends TuneManagementBase
+class Account extends ItemsEndpointBase
 {
     /**
      * Constructor
@@ -59,67 +59,6 @@ class Account extends TuneManagementBase
             "account",
             $api_key,
             $validate_fields
-        );
-    }
-
-    /**
-     * Counts all existing records that match filter criteria
-     * and returns an array of found model data.
-     *
-     * @param string $filter                Filter the results and apply conditions
-     *                                      that must be met for records to be
-     *                                      included in data.
-     *
-     * @return object
-     */
-    public function count(
-        $filter = null
-    ) {
-        $query_string_dict = [];
-        $query_string_dict['filter'] = $filter;
-
-        return parent::call(
-            "count",
-            $query_string_dict
-        );
-    }
-
-    /**
-     * Finds all existing records that match filter criteria
-     * and returns an array of found model data.
-     *
-     * @param string $filter                Filter the results and apply conditions
-     *                                      that must be met for records to be
-     *                                      included in data.
-     * @param string $fields                No value returns default fields, "*"
-     *                                      returns all available fields,
-     *                                      or provide specific fields.
-     * @param int    $limit                 Limit number of results, default 10,
-     *                                      0 shows all.
-     * @param int    $page                  Pagination, default 1.
-     * @param dict   $sort                  Expression defining sorting found
-     *                                      records in result set base upon provided
-     *                                      fields and its modifier (ASC or DESC).
-     *
-     * @return object
-     */
-    public function find(
-        $fields = null,
-        $filter = null,
-        $limit = null,
-        $page = null,
-        $sort = null
-    ) {
-        $query_string_dict = [];
-        $query_string_dict['fields'] = $fields;
-        $query_string_dict['filter'] = $filter;
-        $query_string_dict['limit'] = $limit;
-        $query_string_dict['page'] = $page;
-        $query_string_dict['sort'] = $sort;
-
-        return parent::call(
-            "find",
-            $query_string_dict
         );
     }
 }

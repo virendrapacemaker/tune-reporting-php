@@ -30,12 +30,16 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
+namespace Tune\Examples;
+
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
+
+global $argc, $argv;
 
 /**
  * Class ExampleClientAccountUsers
@@ -79,3 +83,15 @@ class ExampleClientAccountUsers
         echo $client->getResponse()->toString() . PHP_EOL;
     }
 }
+
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+
+$api_key = $argv[1];
+
+ExampleClientAccountUsers::run($api_key);

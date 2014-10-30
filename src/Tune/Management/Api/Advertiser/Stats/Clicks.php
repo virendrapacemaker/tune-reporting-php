@@ -29,23 +29,23 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser\Stats;
 
-use Tune\Management\Shared\Reports\ReportsLogsBase;
+use Tune\Management\Shared\Endpoints\ReportsLogsEndpointBase;
 
 /**
  * Tune Management API endpoint '/advertiser/stats/clicks'
  *
  * @package Tune\Management\Api\Advertiser\Stats
  *
- * @example ExampleClicks.php
+ * @example ExampleReportsClicks.php
  */
-class Clicks extends ReportsLogsBase
+class Clicks extends ReportsLogsEndpointBase
 {
     /**
      * Constructor
@@ -80,6 +80,6 @@ class Clicks extends ReportsLogsBase
             ,"advertiser_sub_campaign.ref"
             ,"publisher_sub_campaign_id"
             ,"publisher_sub_campaign.ref"
-       );
+        );
     }
 }

@@ -2,8 +2,8 @@
 tune-api-php
 Tune API SDK for PHP 5.3
 Incorporate Tune API services.
-Update:  2014-10-28
-Version: 0.9.8
+Update:  2014-10-30
+Version: 0.9.9
 ****************************************
 
 =============
@@ -101,7 +101,7 @@ SDK Examples
 
 Run the following script to view execution of all examples:
 ```
-    $ ./scripts/tune_examples.sh [API_KEY]
+    $ make api_key=[API_KEY] examples
 ```
 
 -------------
@@ -110,8 +110,19 @@ SDK Unittests
 
 Run the following script to view execution of all unittests:
 ```
-    $ ./scripts/tune_tests.sh [API_KEY]
+    $ make api_key=[API_KEY] tests
 ```
+
+-------------
+SDK Document
+-------------
+
+Run the following script to generate Doxygen-based documentation:
+```
+    $ make docs
+```
+
+Requires installation of Doxygen: http://www.stack.nl/~dimitri/doxygen/index.html
 
 =============
 License

@@ -30,23 +30,23 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser;
 
-use Tune\Management\Shared\Reports\ReportsActualsBase;
+use Tune\Management\Shared\Endpoints\ReportsActualsEndpointBase;
 
 /**
  * Tune Management API endpoint '/advertiser/stats/'
  *
  * @package Tune\Management\Api\Advertiser
  *
- * @example ExampleActuals.php
+ * @example ExampleReportsActuals.php
  */
-class Stats extends ReportsActualsBase
+class Stats extends ReportsActualsEndpointBase
 {
     /**
      * Constructor

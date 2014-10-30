@@ -29,8 +29,8 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
@@ -45,7 +45,7 @@ require_once dirname(__FILE__) . "/Constants.php";
  *
  * Tune MobileAppTracking Management API access class
  *
- * @example ExampleClient.php
+ * @example ExampleClientAccountUsers.php
  *
  */
 class TuneManagementClient

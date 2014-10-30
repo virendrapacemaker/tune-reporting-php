@@ -30,29 +30,29 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser\Stats;
 
-use Tune\Management\Shared\Reports\ReportsLogsBase;
+use Tune\Management\Shared\Endpoints\ReportsLogsEndpointBase;
 
 /**
  * Tune Management API controller 'advertiser/stats/event/items'
  *
  * @package Tune\Management\Api\Advertiser\Stats
  *
- * @example ExampleEventItems.php
+ * @example ExampleReportsEventItems.php
  */
-class EventItems extends ReportsLogsBase
+class EventItems extends ReportsLogsEndpointBase
 {
     /**
      * Constructor
      *
-     * @param string $api_key                   Tune MobileAppTracking API Key.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
