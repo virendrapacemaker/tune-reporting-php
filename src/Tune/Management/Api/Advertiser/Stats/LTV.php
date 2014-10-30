@@ -29,23 +29,23 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api\Advertiser\Stats;
 
-use Tune\Management\Shared\Reports\ReportsInsightBase;
+use Tune\Management\Shared\Endpoints\ReportsInsightEndpointBase;
 
 /**
  * Tune Management API controller 'advertiser/stats/ltv'
  *
  * @package Tune\Management\Api\Advertiser\Stats
  *
- * @example ExampleCohort.php
+ * @example ExampleReportsCohort.php
  */
-class LTV extends ReportsInsightBase
+class LTV extends ReportsInsightEndpointBase
 {
     /**
      * Constructor

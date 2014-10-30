@@ -29,29 +29,28 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api\Account;
 
-use Tune\Management\Shared\Service\TuneManagementBase;
+use Tune\Management\Shared\Endpoints\ItemsEndpointBase;
 
 /**
  * Class Users
  *
  * @package Tune\Management\Api\Account
  *
- * @example ExampleUsers.php
- * @example UnittestUsers.php
+ * @example ExampleItemsAccountUsers.php
  *
  * @code
  *  $account_users = new Users($api_key, $validate_fields = true);
  *
  * @endcode
  */
-class Users extends TuneManagementBase
+class Users extends ItemsEndpointBase
 {
     /**
      * @param $api_key
@@ -64,81 +63,6 @@ class Users extends TuneManagementBase
             "account/users",
             $api_key,
             $validate_fields
-        );
-    }
-
-    /**
-     * Count users with current account based upon provided constraints.
-     *
-     * @code
-     *   $filter_array = array(
-     *        array(
-     *            "column" => "first_name",
-     *            "operator" => "LIKE",
-     *            "value" => "%a%"
-     *        ),
-     *        "AND",
-     *        array(
-     *            "column" => "phone",
-     *            "operator" => "IS NOT NULL"
-     *        )
-     *   );
-     *   $response = $account_users->count($filter_array);
-     * @endcode
-     *
-     * @param null|string|array      $filter
-     *
-     */
-    public function count(
-        $filter = null
-    ) {
-        if (!is_null($filter)) {
-            $filter = $this->validateFilter($filter);
-        }
-
-        return parent::call(
-            "count",
-            $query_string_dict = array (
-                'filter' => $filter
-            )
-        );
-    }
-
-    /**
-     * Find users with current account based upon provided constraints.
-     *
-     * @param null|string|array      $fields
-     * @param null|string|array      $filter
-     * @param null|int               $limit
-     * @param null|int               $page
-     * @param null|array             $sort
-     */
-    public function find(
-        $fields = null,
-        $filter = null,
-        $limit = null,
-        $page = null,
-        $sort = null
-    ) {
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
-        if (!is_null($filter)) {
-            $filter = $this->validateFilter($filter);
-        }
-        if (!is_null($sort)) {
-            $sort = $this->validateSort($sort);
-        }
-
-        return parent::call(
-            "find",
-            $query_string_dict = array (
-                'fields' => $fields,
-                'filter' => $filter,
-                'limit' => $limit,
-                'page' => $page,
-                'sort' => $sort
-            )
         );
     }
 }

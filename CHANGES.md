@@ -50,3 +50,10 @@ Version 0.9.8
 --------------
 
 * Added methods fetch() and status() for all classes.
+
+Version 0.9.9
+--------------
+
+Beta public release on October 30, 2014
+* Created endpoint base classes.
+* Removed bash scripts and provided Makefile instead.

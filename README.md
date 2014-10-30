@@ -1,8 +1,8 @@
 <h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  2014-10-28</h4>
-<h4>Version: 0.9.8</h4>
+<h4>Update:  2014-10-30</h4>
+<h4>Version: 0.9.9</h4>
 ===
 
 ## Overview
@@ -90,7 +90,7 @@ and you're good to go!
 
 Run the following script to view execution of all examples:
 ```bash
-    $ ./scripts/tune_examples.sh [API_KEY]
+    $ make api_key=[API_KEY] examples
 ```
 
 <a name="sdk_unittests"></a>
@@ -98,8 +98,18 @@ Run the following script to view execution of all examples:
 
 Run the following script to view execution of all unittests:
 ```bash
-    $ ./scripts/tune_tests.sh [API_KEY]
+    $ make api_key=[API_KEY] tests
 ```
+
+<a name="sdk_docs"></a>
+#### SDK Documentation
+
+Run the following script to generate Doxygen-based documentation:
+```bash
+    $ make docs
+```
+
+Requires installation of [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html).
 
 <a name="license"></a>
 ## License

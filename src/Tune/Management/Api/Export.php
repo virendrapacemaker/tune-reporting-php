@@ -30,14 +30,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 namespace Tune\Management\Api;
 
-use Tune\Management\Shared\Reports\ReportsBase;
+use Tune\Management\Shared\Endpoints\EndpointBase;
 
 use Tune\Shared\TuneSdkException;
 use Tune\Shared\TuneServiceException;
@@ -48,7 +48,7 @@ use Tune\Shared\TuneServiceException;
  *
  * @package Tune\Management\Api
  */
-class Export extends ReportsBase
+class Export extends EndpointBase
 {
     /**
      * Constructor

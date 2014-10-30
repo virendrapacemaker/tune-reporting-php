@@ -35,14 +35,15 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.8
- * @link      https://developers.mobileapptracking.com Tune Developer Community @endlink
+ * @version   0.9.9
+ * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
+namespace Tune\Examples;
+
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 require_once dirname(__FILE__) . "/TuneExamplesAutoloader.php";
-
 
 use Tune\Shared\TuneSdkException;
 use Tune\Shared\TuneServiceException;
@@ -77,25 +78,25 @@ class TuneExamples
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        echo "\n==============================\n";
-        echo   "= Tune PHP SDK Example =\n";
+        echo "\n==================================\n";
+        echo   "= Tune API SDK for PHP Examples  =\n";
         echo   "= SDK version: " . \Tune\Management\Shared\Service\TuneManagementClient::Version() . " =\n";
-        echo   "==============================\n";
+        echo   "==================================\n";
         echo "\n";
 
         try {
             ExampleClientAccountUsers::run($api_key);
-            ExampleClientLogs::run($api_key);
+            ExampleItemsAccountUsers::run($api_key);
 
-            ExampleClicks::run($api_key);
-            ExampleEventItems::run($api_key);
-            ExampleEvents::run($api_key);
-            ExampleInstalls::run($api_key);
-            ExamplePostbacks::run($api_key);
+            ExampleReportsClicks::run($api_key);
+            ExampleReportsEventItems::run($api_key);
+            ExampleReportsEvents::run($api_key);
+            ExampleReportsInstalls::run($api_key);
+            ExampleReportsPostbacks::run($api_key);
 
-            ExampleActuals::run($api_key);
-            ExampleCohort::run($api_key);
-            ExampleRetention::run($api_key);
+            ExampleReportsActuals::run($api_key);
+            ExampleReportsCohort::run($api_key);
+            ExampleReportsRetention::run($api_key);
 
         } catch (\Tune\Shared\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";
@@ -104,7 +105,7 @@ class TuneExamples
         } catch (\InvalidArgumentException $ex) {
             echo 'Invalid arguments: ' . $ex->getMessage() . "\n";
             echo $ex->getTraceAsString();
-        } catch (\UnexpectedValueException $ex){
+        } catch (\UnexpectedValueException $ex) {
             echo 'Unexpected Value: ' . $ex->getMessage() . "\n";
             echo $ex->getTraceAsString();
         } catch (\RuntimeException $ex) {

@@ -12,16 +12,16 @@
 
     <testsuites>
         <testsuite name="lib">
-            <file>TestClient.php</file>
-            <file>TestClicks.php</file>
-            <file>TestEventItems.php</file>
-            <file>TestEvents.php</file>
-            <file>TestInstalls.php</file>
-            <file>TestPostbacks.php</file>
-            <file>TestUpdates.php</file>
-            <file>TestActuals.php</file>
-            <file>TestCohort.php</file>
-            <file>TestRetention.php</file>
+            <file>TestClientAccountUsers.php</file>
+            <file>TestItemsAccountUsers.php</file>
+            <file>TestReportsClicks.php</file>
+            <file>TestReportsEventItems.php</file>
+            <file>TestReportsEvents.php</file>
+            <file>TestReportsInstalls.php</file>
+            <file>TestReportsPostbacks.php</file>
+            <file>TestReportsActuals.php</file>
+            <file>TestReportsCohort.php</file>
+            <file>TestReportsRetention.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
