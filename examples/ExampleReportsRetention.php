@@ -30,12 +30,10 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
-
-namespace Tune\Examples;
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
@@ -114,9 +112,9 @@ class ExampleReportsRetention
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $group               = "site_id,publisher_id",
+                $group               = "site_id,install_publisher_id",
                 $cohort_interval     = null,
-                $filter              = "(publisher_id > 0)",
+                $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -138,10 +136,10 @@ class ExampleReportsRetention
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
+                $group               = "site_id,install_publisher_id",
                 $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
-                $filter              = "(publisher_id > 0)",
+                $filter              = "(install_publisher_id > 0)",
                 $limit               = 10,
                 $page                = null,
                 $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
@@ -167,10 +165,10 @@ class ExampleReportsRetention
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
+                $group               = "site_id,install_publisher_id",
                 $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
-                $filter              = "(publisher_id > 0)",
+                $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 

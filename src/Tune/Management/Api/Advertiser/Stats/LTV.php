@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -50,8 +50,8 @@ class LTV extends ReportsInsightEndpointBase
     /**
      * Constructor
      *
-     * @param string $api_key                   Tune MobileAppTracking API Key.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
@@ -61,7 +61,8 @@ class LTV extends ReportsInsightEndpointBase
             "advertiser/stats/ltv",
             $api_key,
             $filter_debug_mode = false,
-            $filter_test_profile_id = true
+            $filter_test_profile_id = true,
+            $validate_fields
         );
 
         /*
@@ -92,8 +93,9 @@ class LTV extends ReportsInsightEndpointBase
         $verbose = false,
         $sleep = 60
     ) {
-        return parent::fetchRecordsInsight(
-            __CLASS__,
+        return parent::fetchRecords(
+            $this->controller,
+            "status",
             $job_id,
             $verbose,
             $sleep

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -76,6 +76,8 @@ class ItemsEndpointBase extends EndpointBase
      *
      * @param string $filter            Filter the results and apply conditions
      *                                  that must be met for records to be included in data.
+     *
+     * @return object @see Response
      */
     public function count(
         $filter = null
@@ -109,7 +111,7 @@ class ItemsEndpointBase extends EndpointBase
      *                                      records in result set base upon provided
      *                                      fields and its modifier (ASC or DESC).
      *
-     * @return object
+     * @return object @see Response
      */
     public function find(
         $filter = null,
@@ -156,7 +158,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param string $response_timezone     Setting expected timezone for results,
      *                                      default is set in account.
      *
-     * @return object
+     * @return object @see Response
      */
     public function export(
         $filter = null,
@@ -198,6 +200,8 @@ class ItemsEndpointBase extends EndpointBase
      *
      * @param string $job_id    Provided Job Identifier to reference
      *                          requested report on export queue.
+     *
+     * @return object @see Response
      */
     public function status(
         $job_id
@@ -217,7 +221,9 @@ class ItemsEndpointBase extends EndpointBase
             )
         );
 
-        return $client->cal();
+        $client->call();
+        
+        return $client->getResponse();
     }
 
     /**
@@ -227,7 +233,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param bool   $verbose       For debug purposes to monitor job export completion status.
      * @param int    $sleep         Polling delay for checking job completion status.
      *
-     * @return null
+     * @return object @see Response
      */
     public function fetch(
         $job_id,
@@ -241,8 +247,8 @@ class ItemsEndpointBase extends EndpointBase
         }
 
         return parent::fetchRecords(
-            $mod_export_class = "Tune\Management\Api\Export",
-            $mod_export_function = "download",
+            $export_controller = "export",
+            $export_action = "download",
             $job_id,
             $verbose,
             $sleep

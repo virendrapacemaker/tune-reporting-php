@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -51,8 +51,8 @@ class Retention extends ReportsInsightEndpointBase
     /**
      * Constructor
      *
-     * @param string $api_key                   Tune MobileAppTracking API Key.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
@@ -62,7 +62,8 @@ class Retention extends ReportsInsightEndpointBase
             "advertiser/stats/retention",
             $api_key,
             $filter_debug_mode = false,
-            $filter_test_profile_id = true
+            $filter_test_profile_id = true,
+            $validate_fields
         );
 
         /*
@@ -90,11 +91,12 @@ class Retention extends ReportsInsightEndpointBase
         $verbose = false,
         $sleep = 60
     ) {
-        return parent::fetchRecordsInsight(
-            __CLASS__,
+        return parent::fetchRecords(
+            $this->controller,
+            "status",
             $job_id,
             $verbose,
-            $sleep # seconds
+            $sleep
         );
     }
 }
