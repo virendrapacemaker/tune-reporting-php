@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -51,7 +51,8 @@ class Stats extends ReportsActualsEndpointBase
     /**
      * Constructor
      *
-     * @param string $api_key MobileAppTracking API Key
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,

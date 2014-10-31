@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -319,8 +319,8 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
         }
         
         return parent::fetchRecords(
-            $mod_export_class = "Tune\Management\Api\Export",
-            $mod_export_function = "download",
+            $export_controller = "export",
+            $export_action = "download",
             $job_id,
             $verbose,
             $sleep

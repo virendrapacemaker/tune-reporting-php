@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -50,8 +50,8 @@ class Clicks extends ReportsLogsEndpointBase
     /**
      * Constructor
      *
-     * @param string $api_key                   Tune MobileAppTracking API Key.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,
@@ -60,9 +60,9 @@ class Clicks extends ReportsLogsEndpointBase
         parent::__construct(
             "advertiser/stats/clicks",
             $api_key,
-            $validate_fields,
             $filter_debug_mode = true,
-            $filter_test_profile_id = true
+            $filter_test_profile_id = true,
+            $validate_fields
         );
 
         /*

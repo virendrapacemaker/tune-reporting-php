@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -40,6 +40,7 @@ namespace Tune\Shared;
 use Tune\Shared\TuneServiceException;
 use Tune\Shared\TuneSdkException;
 use Tune\Management\Api\Export;
+use Tune\Management\Shared\Service\TuneManagementClient;
 
 /**
  * "Threaded worker for handle polling of report request on export queue.
@@ -51,11 +52,11 @@ class ReportExportWorker
     /**
      * @var null|string
      */
-    private $mod_export_class = null;
+    private $export_controller = null;
     /**
      * @var null|string
      */
-    private $mod_export_function = null;
+    private $export_action = null;
     /**
      * @var null|string
      */
@@ -68,17 +69,21 @@ class ReportExportWorker
      * @var int
      */
     private $sleep = 60;
-
+    /**
+     * @var bool
+     */
     private $verbose = false;
-    private $class_export = null;
+    /**
+     * @var object @see Response
+     */
     private $response = null;
 
     /**
      * Constructor
      *
-     * @param string    $mod_export_class       Reference class name for worker to
+     * @param string    $export_controller      Reference class name for worker to
      *                                          perform download status query.
-     * @param string    $mod_export_function    Reference class function name for worker
+     * @param string    $export_action          Reference class function name for worker
      *                                          to perform download status query.
      * @param string    $api_key                MobileAppTracking API Key
      * @param string    $job_id                 Provided Job Identifier to reference requested report on export queue.
@@ -86,18 +91,18 @@ class ReportExportWorker
      * @param int       $sleep                  Polling delay between querying job status on export queue.
      */
     public function __construct(
-        $mod_export_class,
-        $mod_export_function,
+        $export_controller,
+        $export_action,
         $api_key,
         $job_id,
         $verbose = false,
         $sleep = 60
     ) {
-        if (!is_string($mod_export_class) || empty($mod_export_class)) {
-            throw new \InvalidArgumentException("Parameter 'mod_export_class' is not defined.");
+        if (!is_string($export_controller) || empty($export_controller)) {
+            throw new \InvalidArgumentException("Parameter 'export_controller' is not defined.");
         }
-        if (!is_string($mod_export_function) || empty($mod_export_function)) {
-            throw new \InvalidArgumentException("Parameter 'mod_export_function' is not defined.");
+        if (!is_string($export_action) || empty($export_action)) {
+            throw new \InvalidArgumentException("Parameter 'export_action' is not defined.");
         }
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
@@ -106,17 +111,14 @@ class ReportExportWorker
             throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
         }
 
-        $instance = new $mod_export_class($api_key);
-
-        $this->mod_export_class = $mod_export_class;
-        $this->mod_export_function = $mod_export_function;
+        $this->export_controller = $export_controller;
+        $this->export_action = $export_action;
 
         $this->api_key = $api_key;
         $this->job_id = $job_id;
         $this->sleep = $sleep;
 
         $this->verbose = $verbose;
-        $this->class_export = $instance;
         $this->response = null;
 
     }
@@ -132,11 +134,20 @@ class ReportExportWorker
         $status = null;
         $response = null;
         $attempt = 0;
+        
+        $client = new TuneManagementClient(
+            $this->export_controller,
+            $this->export_action,
+            $this->api_key,
+            $query_string_dict = array (
+                'job_id' => $this->job_id
+            )
+        );
 
         while (true) {
 
-            $mod_export_function = $this->mod_export_function;
-            $response = $this->class_export->$mod_export_function($this->job_id);
+            $client->call();
+            $response = $client->getResponse();
 
             if (is_null($response)) {
                 throw new TuneSdkException("No response returned from export request.");

@@ -1,4 +1,4 @@
-# Tune API helper library.
+# Tune API SDK for PHP
 # See LICENSE file for copyright and license details.
 
 export API_KEY=$(api_key)
@@ -13,7 +13,7 @@ all: test
 clean:
 	sudo rm -rf Vendors
 
-tests-install: clean
+tests-install:
 	sudo pear upgrade PHP_CodeSniffer
 	if [ -f composer.lock ] ; then sudo rm composer.lock ; fi
 	if [ -f composer.phar ] ; then sudo rm composer.phar ; fi
@@ -25,14 +25,8 @@ install:
 analysis:
 	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./src
 	
-examples-analysis: analysis
-	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./examples
-	
 examples:
 	php ./examples/TuneExamples.php $(api_key)
-	
-tests-analysis: analysis
-	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./tests
 
 # if these fail, you may need to install the helper library - run "make
 # tests-install"
@@ -44,4 +38,4 @@ docs:
 	sudo rm -fR ./doc/doxygen/*
 	sudo doxygen ./doc/Doxyfile
 
-.PHONY: all clean dist test examples docs test-install analysis test-analysis examples-analysis
+.PHONY: all clean dist tests examples docs tests-install analysis

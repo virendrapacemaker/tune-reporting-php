@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.9
+ * @version   0.9.10
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -683,8 +683,8 @@ class EndpointBase
      *
      * Requesting for report url is not the same for all report endpoints.
      *
-     * @param string    $mod_export_class           Report class.
-     * @param string    $mod_export_function        Report function performing
+     * @param string    $export_controller          Report class.
+     * @param string    $export_action              Report function performing
      *                                              status request.
      * @param string    $job_id                     Job Identifier of report on queue.
      * @param bool      $verbose                    For debugging purposes only.
@@ -695,20 +695,20 @@ class EndpointBase
      * @throws TuneServiceException
      */
     protected function fetchRecords(
-        $mod_export_class,
-        $mod_export_function,
+        $export_controller,
+        $export_action,
         $job_id,
         $verbose = false,
         $sleep = 60
     ) {
-        if (!is_string($mod_export_class) || empty($mod_export_class)) {
+        if (!is_string($export_controller) || empty($export_controller)) {
             throw new \InvalidArgumentException(
-                "Parameter 'mod_export_class' is not defined."
+                "Parameter 'export_controller' is not defined."
             );
         }
-        if (!is_string($mod_export_function) || empty($mod_export_function)) {
+        if (!is_string($export_action) || empty($export_action)) {
             throw new \InvalidArgumentException(
-                "Parameter 'mod_export_function' is not defined."
+                "Parameter 'export_action' is not defined."
             );
         }
         if (!is_string($job_id) || empty($job_id)) {
@@ -719,8 +719,8 @@ class EndpointBase
         }
 
         $export_worker = new ReportExportWorker(
-            $mod_export_class,
-            $mod_export_function,
+            $export_controller,
+            $export_action,
             $this->api_key,
             $job_id,
             $verbose,
