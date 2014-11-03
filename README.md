@@ -2,7 +2,7 @@
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
 <h4>Update:  2014-10-31</h4>
-<h4>Version: 0.9.10</h4>
+<h4>Version: 0.9.12</h4>
 ===
 
 ## Overview
@@ -101,12 +101,24 @@ Run the following script to view execution of all unittests:
     $ make api_key=[API_KEY] tests
 ```
 
-<a name="sdk_docs"></a>
-#### SDK Documentation
+<a name="sdk_docs_sphinx"></a>
+#### SDK Documentation -- Sphinx
+
+Run the following script to generate Sphnix-based documentation:
+
+```bash
+    $ make tests-installs
+    $ make docs-sphinx
+```
+
+<a name="sdk_docs_doxygen"></a>
+#### SDK Documentation -- Doxygen
 
 Run the following script to generate Doxygen-based documentation:
+
 ```bash
-    $ make docs
+    $ make tests-installs
+    $ make docs-doxygen
 ```
 
 Requires installation of [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html).

@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -77,7 +77,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param string $filter            Filter the results and apply conditions
      *                                  that must be met for records to be included in data.
      *
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      */
     public function count(
         $filter = null
@@ -111,7 +111,7 @@ class ItemsEndpointBase extends EndpointBase
      *                                      records in result set base upon provided
      *                                      fields and its modifier (ASC or DESC).
      *
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      */
     public function find(
         $filter = null,
@@ -158,7 +158,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param string $response_timezone     Setting expected timezone for results,
      *                                      default is set in account.
      *
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      */
     public function export(
         $filter = null,
@@ -201,7 +201,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param string $job_id    Provided Job Identifier to reference
      *                          requested report on export queue.
      *
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      */
     public function status(
         $job_id
@@ -233,7 +233,7 @@ class ItemsEndpointBase extends EndpointBase
      * @param bool   $verbose       For debug purposes to monitor job export completion status.
      * @param int    $sleep         Polling delay for checking job completion status.
      *
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      */
     public function fetch(
         $job_id,

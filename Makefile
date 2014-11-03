@@ -11,16 +11,20 @@ endif
 all: test
 
 clean:
+	sudo rm -fR ./docs/doxygen/*
+	sudo rm -fR ./docs/phpdoc/*
 	sudo rm -rf Vendors
 
-tests-install:
-	sudo pear upgrade PHP_CodeSniffer
+install:
 	if [ -f composer.lock ] ; then sudo rm composer.lock ; fi
 	if [ -f composer.phar ] ; then sudo rm composer.phar ; fi
 	wget http://getcomposer.org/composer.phar
 	sudo $(COMPOSER) install
-
-install:
+	
+tests-install: install
+	sudo pear upgrade PHP_CodeSniffer
+	sudo pear upgrade XSLTProcessor
+	sudo pear upgrade XSLCache
 
 analysis:
 	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./src
@@ -34,8 +38,12 @@ tests:
 	@printenv | grep API_KEY
 	@PATH=vendor/bin:$(PATH) phpunit --strict --colors --configuration tests/phpunit.xml;
 
-docs:
-	sudo rm -fR ./doc/doxygen/*
-	sudo doxygen ./doc/Doxyfile
+docs-doxygen:
+	sudo rm -fR ./docs/doxygen/*
+	sudo doxygen ./docs/Doxyfile
+	
+docs-phpdoc:
+	sudo rm -fR ./docs/phpdoc/*
+	phpdoc -d ./src/ -t ./docs/phpdoc --template="responsive-twig" --title "Tune API SDK for PHP" --sourcecode
 
 .PHONY: all clean dist tests examples docs tests-install analysis

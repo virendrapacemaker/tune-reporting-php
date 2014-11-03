@@ -5,10 +5,10 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Tune API SDK - PHP"
-PROJECT_NUMBER         = 0.9.9
+PROJECT_NUMBER         = 0.9.12
 PROJECT_BRIEF          =
-PROJECT_LOGO           = ./doc/tune-logo-with-dial.png
-OUTPUT_DIRECTORY       = ./doc/doxygen
+PROJECT_LOGO           = ./docs/tune-logo-with-dial.png
+OUTPUT_DIRECTORY       = ./docs/doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES

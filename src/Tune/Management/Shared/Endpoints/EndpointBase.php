@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -219,7 +219,7 @@ class EndpointBase
      *                                          action name
      * @param null|array  $query_string_dict    Action's query string
      *                                          parameters
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      * @throws TuneSdkException
      */
     protected function call(
@@ -256,6 +256,7 @@ class EndpointBase
     /**
      * Get all fields for assigned endpoint.
      *
+     * @param integer $enum_fields_selection Filter available fields.
      * @return array
      * @throws TuneSdkException
      * @throws TuneServiceException
@@ -655,6 +656,8 @@ class EndpointBase
     }
 
     /**
+     * Validate that provided string is either "YYYY-MM-DD' or "YYYY-MM-DD HH:MM:SS.
+     * 
      * @param $param_name
      * @param $date_time
      *
@@ -683,14 +686,13 @@ class EndpointBase
      *
      * Requesting for report url is not the same for all report endpoints.
      *
-     * @param string    $export_controller          Report class.
-     * @param string    $export_action              Report function performing
-     *                                              status request.
+     * @param string    $export_controller      Controller for report export status.
+     * @param string    $export_action          Action for report export status.
      * @param string    $job_id                     Job Identifier of report on queue.
      * @param bool      $verbose                    For debugging purposes only.
      * @param int       $sleep                      How long worker should sleep
      *                                              before next status request.
-     * @return object @see Response
+     * @return object @see TuneManagementResponse
      * @throws \InvalidArgumentException
      * @throws TuneServiceException
      */

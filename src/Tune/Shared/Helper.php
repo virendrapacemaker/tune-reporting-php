@@ -26,16 +26,18 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 /**
+ * Determine if array is associative.
+ * 
  * @param $array
  * @return bool
  */
@@ -45,6 +47,8 @@ function isAssoc($array)
 }
 
 /**
+ * Wrap string with single-quotes.
+ * 
  * @param $str
  * @return string|void
  */
@@ -54,6 +58,8 @@ function addQuotes($str)
 }
 
 /**
+ * Create string of value wrapped with single-quotes.
+ * 
  * @param $glue
  * @param $array
  * @return string|void
@@ -64,6 +70,8 @@ function implodeQuotes($glue, $array)
 }
 
 /**
+ * Determine if integer is even.
+ * 
  * @param int $int
  * @return bool
  */
@@ -73,6 +81,8 @@ function isEven($int)
 }
 
 /**
+ * String starts with sub-string.
+ * 
  * @param string $haystack
  * @param string $needle
  *
@@ -84,6 +94,8 @@ function startsWith($haystack, $needle)
 }
 
 /**
+ * Get sub-string that starts before ending sub-substring.
+ * 
  * @param string $haystack
  * @param string $needle
  *
@@ -96,6 +108,8 @@ function starts($haystack, $needle)
 
 
 /**
+ * Get the field or related property from a string.
+ * 
  * @param string $haystack
  *
  * @return string
@@ -106,6 +120,8 @@ function starts_field($haystack)
 }
 
 /**
+ * String ends with sub-string.
+ * 
  * @param string $haystack
  * @param string $needle
  *
@@ -160,6 +176,8 @@ function isPThreadsInstalled()
 }
 
 /**
+ * Validate string has balanced parentheses.
+ * 
  * @param $str
  *
  * @return bool
@@ -181,7 +199,12 @@ function isParenthesesBalanced($str)
     return $count == 0;
 }
 
-
+/**
+ * Convert array to string
+ *
+ * @param array $array
+ * @return string
+ */
 function arrayToString($array)
 {
     $str="";

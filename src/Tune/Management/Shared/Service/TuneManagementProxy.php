@@ -25,11 +25,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -43,12 +43,17 @@ use Tune\Shared\TuneServiceException;
 
 /**
  * HTTP POST connection class to Tune MobileAppTracking Management API environment.
- *
- * @package Tune\Management\Shared\Service
  */
-class Proxy
+class TuneManagementProxy
 {
+    /**
+     * @var object @see TuneManagementRequest
+     */
     private $request = null;
+
+    /**
+     * @var object @see TuneManagementResponse
+     */
     private $response = null;
 
     /**
@@ -81,7 +86,7 @@ class Proxy
     /**
      * Constructor
      *
-     * @param Request $request
+     * @param TuneManagementRequest $request
      */
     public function __construct($request)
     {
@@ -91,9 +96,9 @@ class Proxy
             );
         }
 
-        if (!is_a($request, "\Tune\Management\Shared\Service\Request")) {
+        if (!is_a($request, "\Tune\Management\Shared\Service\TuneManagementRequest")) {
             throw new \InvalidArgumentException(
-                "Parameter 'request' is not an instance of \Tune\Management\Shared\Service\Request."
+                "Parameter 'request' is not an instance of \Tune\Management\Shared\Service\TuneManagementRequest."
             );
         }
 
@@ -121,9 +126,9 @@ class Proxy
             throw new \InvalidArgumentException("Parameter 'request' is not set.");
         }
 
-        if (!is_a($this->request, "\Tune\Management\Shared\Service\Request")) {
+        if (!is_a($this->request, "\Tune\Management\Shared\Service\TuneManagementRequest")) {
             throw new \InvalidArgumentException(
-                "Parameter 'request' is not an instance of \Tune\Management\Shared\Service\Request."
+                "Parameter 'request' is not an instance of \Tune\Management\Shared\Service\TuneManagementRequest."
             );
         }
 
@@ -189,7 +194,7 @@ class Proxy
             $headers = $response_array;
             $json = json_decode($response_json, true);
 
-            $this->response = new \Tune\Management\Shared\Service\Response(
+            $this->response = new \Tune\Management\Shared\Service\TuneManagementResponse(
                 $this->uri,
                 $json,
                 $headers,

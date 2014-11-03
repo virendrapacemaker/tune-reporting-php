@@ -25,11 +25,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -53,7 +53,10 @@ use Tune\Management\Shared\Endpoints\ItemsEndpointBase;
 class Users extends ItemsEndpointBase
 {
     /**
-     * @param $api_key
+     * Constructor
+     * 
+     * @param string $api_key           Tune MobileAppTracking API Key.
+     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
         $api_key,

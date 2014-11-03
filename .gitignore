@@ -4,6 +4,7 @@
 *.komodoproject
 .project
 .settings/
+docs/phpdoc/.htaccess
 
 # Composer vendors
 Vendors

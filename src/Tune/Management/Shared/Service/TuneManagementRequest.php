@@ -1,6 +1,6 @@
 <?php
 /**
- * Request.php
+ * TuneManagementRequest.php
  *
  * Copyright (c) 2014 Tune, Inc
  * All rights reserved.
@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -38,11 +38,9 @@
 namespace Tune\Management\Shared\Service;
 
 /**
- * Request provides the basic interface for all the possible request types.
- *
- * @package Tune_API_PHP
+ * TuneManagementRequest provides the basic interface for all the possible request types.
  */
-class Request
+class TuneManagementRequest
 {
     /**
      * Property of Tune Management API controller requested.
@@ -82,6 +80,8 @@ class Request
     private $api_url_version = null;
 
     /**
+     * Constructor
+     * 
      * @param string $controller        Tune Management API controller
      * @param string $action            Tune Management API controller's action
      * @param string $api_key           User's API Key provide by their MobileAppTracking platform account.

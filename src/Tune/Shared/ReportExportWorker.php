@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -44,47 +44,50 @@ use Tune\Management\Shared\Service\TuneManagementClient;
 
 /**
  * "Threaded worker for handle polling of report request on export queue.
- *
- * @package Tune\Shared
  */
 class ReportExportWorker
 {
     /**
+     * Export Controller
      * @var null|string
      */
     private $export_controller = null;
     /**
+     * Export Action
      * @var null|string
      */
     private $export_action = null;
     /**
+     * User provided API Key
      * @var null|string
      */
     private $api_key = null;
     /**
+     * Report Job Identifier on Export Queue.
      * @var null|string
      */
     private $job_id = null;
     /**
-     * @var int
+     * Amount of sleep between status requests.
+     * @var int seconds
      */
     private $sleep = 60;
     /**
+     * Verbose output to show progressive status of report on queue.
      * @var bool
      */
     private $verbose = false;
     /**
-     * @var object @see Response
+     * Response upon either completion or failure for request.
+     * @var object @see TuneManagementResponse
      */
     private $response = null;
 
     /**
      * Constructor
      *
-     * @param string    $export_controller      Reference class name for worker to
-     *                                          perform download status query.
-     * @param string    $export_action          Reference class function name for worker
-     *                                          to perform download status query.
+     * @param string    $export_controller      Controller for report export status.
+     * @param string    $export_action          Action for report export status.
      * @param string    $api_key                MobileAppTracking API Key
      * @param string    $job_id                 Provided Job Identifier to reference requested report on export queue.
      * @param bool      $verbose                Debug purposes only to view progress of job on export queue.
@@ -163,7 +166,7 @@ class ReportExportWorker
 
             if ($response_http_code != 200) {
                 throw new TuneServiceException(
-                    "Service failed request: {$response_http_code}. Request URL: '{$request_url}'"
+                    "Service failed request: {$response_http_code}. TuneManagementRequest URL: '{$request_url}'"
                 );
             }
             if (!array_key_exists("status", $data)) {

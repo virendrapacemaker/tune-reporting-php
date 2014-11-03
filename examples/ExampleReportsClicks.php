@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -120,7 +120,7 @@ class ExampleReportsClicks
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= Response:" . PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -146,7 +146,7 @@ class ExampleReportsClicks
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= Response:" . PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -156,7 +156,7 @@ class ExampleReportsClicks
             }
 
             echo "==========================================================" . PHP_EOL;
-            echo " Request Advertiser Logs Clicks CSV report for export.    " . PHP_EOL;
+            echo " Advertiser Logs Clicks CSV report for export.    " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
             $response = $clicks->export(
@@ -168,7 +168,7 @@ class ExampleReportsClicks
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= Response:" . PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
@@ -204,7 +204,7 @@ class ExampleReportsClicks
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo " Request Advertiser Clicks JSON report for export.    " . PHP_EOL;
+            echo " Advertiser Clicks JSON report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $clicks->export(
@@ -216,7 +216,7 @@ class ExampleReportsClicks
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= Response:" . PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             if ($response->getHttpCode() != 200) {
