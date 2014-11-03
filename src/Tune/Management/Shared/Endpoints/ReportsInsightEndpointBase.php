@@ -26,11 +26,10 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -41,10 +40,13 @@ use Tune\Shared\TuneSdkException;
 use Tune\Shared\TuneServiceException;
 use Tune\Management\Shared\Endpoints\ReportsEndpointBase;
 
+/**
+ * Base class intended for gathering from Advertiser Insights reports: @see LTV @see Retention.
+ */
 abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
 {
     /**
-     * @var array
+     * @var array Available choices for Cohort intervals.
      */
     protected static $cohort_intervals
         = array(
@@ -55,7 +57,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         );
 
     /**
-     * @var array
+     * @var array Available choices for Cohort types.
      */
     protected static $cohort_types
         = array(
@@ -64,7 +66,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         );
 
     /**
-     * @var array
+     * @var array Available choices for Aggregation types.
      */
     protected static $aggregation_types
         = array(
@@ -79,7 +81,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
      * @param string $api_key                   Tune MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
+     * @param bool   $validate_fields           Validate fields used by actions' parameters.
      */
     public function __construct(
         $controller,
@@ -382,7 +384,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
     /**
      * Helper function for parsing export status response to gather report url.
      *
-     * @param Response $response
+     * @param TuneManagementResponse $response
      *
      * @return mixed
      * @throws \InvalidArgumentException

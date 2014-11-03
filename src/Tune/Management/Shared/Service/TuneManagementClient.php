@@ -25,11 +25,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
+ * 
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -50,7 +50,14 @@ require_once dirname(__FILE__) . "/Constants.php";
  */
 class TuneManagementClient
 {
+    /**
+     * @var object @see TuneManagementRequest
+     */
     private $request = null;
+    
+    /**
+     * @var object @see TuneManagementResponse
+     */
     private $response = null;
 
     /**
@@ -113,7 +120,7 @@ class TuneManagementClient
         }
 
         // set up the request
-        $this->request = new \Tune\Management\Shared\Service\Request(
+        $this->request = new \Tune\Management\Shared\Service\TuneManagementRequest(
             $controller,
             $action,
             $api_key,
@@ -144,7 +151,7 @@ class TuneManagementClient
     public function call()
     {
         if (is_null($this->request)) {
-            throw new TuneSdkException("Request was not defined.");
+            throw new TuneSdkException("TuneManagementRequest was not defined.");
         }
 
         $success = false;
@@ -152,7 +159,7 @@ class TuneManagementClient
 
         try {
             # make the request
-            $proxy = new \Tune\Management\Shared\Service\Proxy($this->request);
+            $proxy = new \Tune\Management\Shared\Service\TuneManagementProxy($this->request);
             if ($proxy->execute()) {
                 $success = true;
                 $this->response = $proxy->getResponse();

@@ -62,5 +62,19 @@ Beta public release on October 30, 2014
 Version 0.9.10
 --------------
 
-Beta public release on October 30, 2014
+Beta public release on October 31, 2014
 * Better handling of report worker.
+
+Version 0.9.11
+--------------
+
+Beta public release on October 31, 2014
+* Refactor: Renamed service classes.
+
+ng of report worker.
+
+Version 0.9.12
+--------------
+
+Beta public release on November 03, 2014
+* Documentation ready to use phpDocumentor.

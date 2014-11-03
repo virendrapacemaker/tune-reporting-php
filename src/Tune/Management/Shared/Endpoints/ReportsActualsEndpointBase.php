@@ -26,11 +26,10 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * @package   Tune_API_PHP
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.10
+ * @version   0.9.12
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -41,13 +40,11 @@ use Tune\Management\Shared\Endpoints\ReportsEndpointBase;
 
 /**
  * Base class intended for gathering from Advertiser Stats actuals.
- *
- * @package Tune\Management\Shared\Endpoints
  */
 abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
 {
     /**
-     * @var array
+     * @var array Available values for parameter 'timestamp'.
      */
     protected static $timestamps
         = array(
@@ -133,6 +130,7 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      *
      * @param string $start_date        YYYY-MM-DD HH:MM:SS
      * @param string $end_date          YYYY-MM-DD HH:MM:SS
+     * @param string $group             Group results using this endpoint's fields.
      * @param string $filter            Filter the results and apply conditions that
      *                                  must be met for records to be included in data.
      * @param string $fields            No value returns default fields, "*" returns all
@@ -140,7 +138,8 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      * @param integer $limit            Limit number of results, default 10, 0 shows all.
      * @param integer $page             Pagination, default 1.
      * @param array $sort               Sort by field name, ASC (default) or DESC
-     * @param string $timestamp         Set to breakdown stats by timestamp choices: hour, datehour, date, week, month.
+     * @param string $timestamp         Set to breakdown stats by timestamp choices:
+     *                                  hour, datehour, date, week, month.
      * @param string $response_timezone Setting expected timezone for data. Default is set by account.
      *
      * @return object
@@ -206,11 +205,13 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      *
      * @param string $start_date        YYYY-MM-DD HH:MM:SS
      * @param string $end_date          YYYY-MM-DD HH:MM:SS
+     * @param string $group             Group results using this endpoint's fields.
      * @param string $filter            Filter the results and apply conditions that
      *                                  must be met for records to be included in data.
      * @param string $fields            No value returns default fields, "*" returns all
      *                                  available fields, or provide specific fields.
-     * @param string $timestamp         Set to breakdown stats by timestamp choices: hour, datehour, date, week, month.
+     * @param string $timestamp         Set to breakdown stats by timestamp choices:
+     *                                  hour, datehour, date, week, month.
      * @param string $format            Export format for downloaded report: json, csv.
      * @param string $response_timezone Setting expected timezone for data. Default is set by account.
      *
