@@ -1,4 +1,7 @@
+
+```url
 https://api.mobileapptracking.com/v2/advertiser/stats/clicks/find_export_queue.json?start_date=2014-11-02+00:00:00&end_date=2014-11-03+23:59:59&fields=id,created,site_id,site.name,publisher_id,publisher.name,is_unique,advertiser_sub_campaign_id,advertiser_sub_campaign.ref,publisher_sub_campaign_id,publisher_sub_campaign.ref&format=csv&api_key=API_KEY&debug=0
+```
 
 ```json
 {
