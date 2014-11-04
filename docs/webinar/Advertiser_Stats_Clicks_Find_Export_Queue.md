@@ -1,5 +1,11 @@
 
-https://api.mobileapptracking.com/v2/advertiser/stats/clicks/find_export_queue.json?start_date=2014-11-02+00:00:00&end_date=2014-11-03+23:59:59&format=json&api_key=API_KEY&debug=0
+```url
+https://api.mobileapptracking.com/v2/advertiser/stats/clicks/find_export_queue.json?
+start_date=2014-11-02+00:00:00
+&end_date=2014-11-03+23:59:59
+&format=json
+&api_key=API_KEY
+```
 
 ```json
 {
