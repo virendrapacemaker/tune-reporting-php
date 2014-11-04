@@ -1,5 +1,5 @@
 
-make API_KEY=[API_KEY] examples
+make API_KEY=API_KEY examples
 
 =========================================================
 = Tune Management API Items Account Users               =
@@ -34,7 +34,7 @@ Array
 = TuneManagementResponse:
 Tune\Management\Shared\Service\TuneManagementResponse Object
 (
-    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/count?api_key=[API_KEY]
+    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/count?api_key=API_KEY
     [response_http_code:Tune\Management\Shared\Service\TuneManagementResponse:private] => 200
     [response_headers:Tune\Management\Shared\Service\TuneManagementResponse:private] => Array
         (
@@ -65,7 +65,7 @@ Tune\Management\Shared\Service\TuneManagementResponse Object
 = TuneManagementResponse:
 Tune\Management\Shared\Service\TuneManagementResponse Object
 (
-    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/find?api_key=[API_KEY]&fields=account_id%2Ccell_phone%2Ccreated%2Cemail%2Cfi
+    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/find?api_key=API_KEY&fields=account_id%2Ccell_phone%2Ccreated%2Cemail%2Cfi
 rst_name%2Cgoogle_auth_enabled%2Cgoogle_auth_verified%2Cid%2Clast_name%2Cmodified%2Cname%2Cpassword%2Cphone%2Csignup_ip%2Cstatus%2Ctime_zone%2Ctitle&limit=5&sort%5Bcreated%5D=DESC
     [response_http_code:Tune\Management\Shared\Service\TuneManagementResponse:private] => 200
     [response_headers:Tune\Management\Shared\Service\TuneManagementResponse:private] => Array
@@ -112,7 +112,7 @@ rst_name%2Cgoogle_auth_enabled%2Cgoogle_auth_verified%2Cid%2Clast_name%2Cmodifie
 = TuneManagementResponse:
 Tune\Management\Shared\Service\TuneManagementResponse Object
 (
-    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/find_export_queue?api_key=[API_KEY]&fields=account_id%2Ccell_phone%2Ccreated
+    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/account/users/find_export_queue?api_key=API_KEY&fields=account_id%2Ccell_phone%2Ccreated
 %2Cemail%2Cfirst_name%2Cgoogle_auth_enabled%2Cgoogle_auth_verified%2Cid%2Clast_name%2Cmodified%2Cname%2Cpassword%2Cphone%2Csignup_ip%2Cstatus%2Ctime_zone%2Ctitle&format=csv
     [response_http_code:Tune\Management\Shared\Service\TuneManagementResponse:private] => 200
     [response_headers:Tune\Management\Shared\Service\TuneManagementResponse:private] => Array
@@ -142,7 +142,7 @@ Tune\Management\Shared\Service\TuneManagementResponse Object
 Starting worker...
 = attempt: 1, response: Tune\Management\Shared\Service\TuneManagementResponse Object
 (
-    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/export/download?api_key=[API_KEY]&job_id=204216b8809a35da62d259620db1ce1b
+    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/export/download?api_key=API_KEY&job_id=204216b8809a35da62d259620db1ce1b
     [response_http_code:Tune\Management\Shared\Service\TuneManagementResponse:private] => 200
     [response_headers:Tune\Management\Shared\Service\TuneManagementResponse:private] => Array
         (
@@ -173,7 +173,7 @@ Starting worker...
 
 = attempt: 1, response: Tune\Management\Shared\Service\TuneManagementResponse Object
 (
-    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/export/download?api_key=[API_KEY]&job_id=204216b8809a35da62d259620db1ce1b
+    [request_url:Tune\Management\Shared\Service\TuneManagementResponse:private] => https://api.mobileapptracking.com/v2/export/download?api_key=API_KEY&job_id=204216b8809a35da62d259620db1ce1b
     [response_http_code:Tune\Management\Shared\Service\TuneManagementResponse:private] => 200
     [response_headers:Tune\Management\Shared\Service\TuneManagementResponse:private] => Array
         (

@@ -6,7 +6,7 @@
 =========================================================
 
 200
-request_url:	 https://api.mobileapptracking.com/v2/account/users/find.json?api_key=b951b30cc17b6a77dad4f1ef1471bd5d&fields=first_name%2Clast_name%2Cemail&limit=5
+request_url:	 https://api.mobileapptracking.com/v2/account/users/find.json?api_key=API_KEY&fields=first_name%2Clast_name%2Cemail&limit=5
 status_code:	 200
 response_size:	 446
 data:		Array
