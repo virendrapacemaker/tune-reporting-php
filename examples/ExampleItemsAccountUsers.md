@@ -1,5 +1,7 @@
 
-make API_KEY=API_KEY examples
+```bash
+make API_KEY=[API_KEY] examples
+```
 
 ```bash
 =========================================================
