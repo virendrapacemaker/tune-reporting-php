@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -168,5 +168,52 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Retention::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testFetch()
+    {
+        try {
+            $week_ago       = date('Y-m-d', strtotime("-8 days"));
+            $yesterday      = date('Y-m-d', strtotime("-1 days"));
+            $start_date     = "{$week_ago} 00:00:00";
+            $end_date       = "{$yesterday} 23:59:59";
+
+            $retention = new Retention($this->api_key, $validate_fields = true);
+
+            $response = $retention->export(
+                $start_date,
+                $end_date,
+                $cohort_type         = "install",
+                $aggregation_type    = "cumulative",
+                $group               = "site_id,install_publisher_id",
+                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+                $cohort_interval     = "year_day",
+                $filter              = "(install_publisher_id > 0)",
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            $this->assertNotNull($response);
+            $this->assertEquals(200, $response->getHttpCode());
+
+            $job_id = Retention::parseResponseReportJobId($response);
+            $this->assertNotNull($job_id);
+            $this->assertTrue(!empty($job_id));
+
+            $response = $retention->fetch(
+                $job_id,
+                $verbose = false,
+                $sleep = 10
+            );
+
+            $report_url = Retention::parseResponseReportUrl($response);
+            $this->assertNotNull($report_url);
+            $this->assertTrue(!empty($report_url));
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
+        }
     }
 }

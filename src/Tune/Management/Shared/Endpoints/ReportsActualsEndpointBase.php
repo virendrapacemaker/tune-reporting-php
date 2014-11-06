@@ -28,8 +28,9 @@
  * @category  Tune
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_reports_actuals_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -169,7 +170,7 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
             $filter = $this->validateFilter($filter);
         }
         if (!is_null($sort)) {
-            $sort = $this->validateSort($sort);
+            $sort = $this->validateSort($fields, $sort);
         }
         if (!is_null($fields)) {
             $fields = $this->validateFields($fields);
@@ -286,7 +287,7 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
                 "Parameter 'job_id' is not defined."
             );
         }
-        
+
         $client = new TuneManagementClient(
             "export",
             "download",
@@ -296,7 +297,9 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
             )
         );
 
-        return $client->cal();
+        $client->call();
+
+        return $client->getResponse();
     }
 
     /**
@@ -318,7 +321,7 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
                 "Parameter 'job_id' is not defined."
             );
         }
-        
+
         return parent::fetchRecords(
             $export_controller = "export",
             $export_action = "download",

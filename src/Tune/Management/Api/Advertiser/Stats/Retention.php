@@ -26,11 +26,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_api_advertiser_stats_retention
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -41,8 +42,6 @@ use Tune\Management\Shared\Endpoints\ReportsInsightEndpointBase;
 
 /**
  * Tune Management API controller 'advertiser/stats/retention'
- *
- * @package Tune\Management\Api\Advertiser\Stats
  *
  * @example ExampleReportsRetention.php
  */
@@ -81,7 +80,7 @@ class Retention extends ReportsInsightEndpointBase
 
     /**
      * Fetch report when status is complete.
-     * 
+     *
      * @param        $job_id
      * @param bool   $verbose
      * @param int    $sleep

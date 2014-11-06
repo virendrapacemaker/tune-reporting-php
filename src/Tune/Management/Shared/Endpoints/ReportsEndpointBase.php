@@ -26,11 +26,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_reports_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -44,8 +45,6 @@ use Tune\Shared\ReportExportWorker;
 
 /**
  * Base class for handling all endpoints that pertain to reports.
- *
- * @package Tune\Management\Shared\Endpoints
  */
 class ReportsEndpointBase extends EndpointBase
 {
@@ -142,7 +141,7 @@ class ReportsEndpointBase extends EndpointBase
         if ($this->filter_debug_mode) {
             $sdk_filter = "(debug_mode=0 OR debug_mode is NULL)";
         }
-        
+
         if ($this->filter_test_profile_id) {
             if (!is_null($sdk_filter)
                 && is_string($sdk_filter)

@@ -78,3 +78,10 @@ Version 0.9.12
 
 Beta public release on November 03, 2014
 * Documentation ready to use phpDocumentor.
+
+
+Version 1.0.0
+--------------
+
+Production public release on November 05, 2014
+* Sort changes for all Advertiser Reports.

@@ -25,11 +25,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_api_advertiser
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -39,9 +40,7 @@ namespace Tune\Management\Api;
 use Tune\Management\Shared\Endpoints\ItemsEndpointBase;
 
 /**
- * Tune Management API endpoint '/account/'
- *
- * @package Tune\Management\Api
+ * Tune Management API endpoint '/advertiser/'
  */
 class Advertiser extends ItemsEndpointBase
 {

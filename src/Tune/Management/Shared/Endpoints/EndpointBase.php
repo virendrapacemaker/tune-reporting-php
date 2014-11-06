@@ -26,11 +26,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -47,8 +48,6 @@ use Tune\Shared\ReportExportWorker;
 
 /**
  * Base class for handling Tune Management API endpoints.
- *
- * @package Tune\Management\Shared\Endpoints
  */
 class EndpointBase
 {
@@ -538,34 +537,63 @@ class EndpointBase
     /**
      * Validate query string parameter 'sort' having valid endpoint's fields and direction.
      *
+     * @param array $fields
      * @param array $sort
      *
-     * @return bool
+     * @return array Validated sort
      * @throws \Tune\Shared\TuneSdkException
      */
-    public function validateSort($sort)
+    public function validateSort(&$fields, $sort)
     {
         if (!isAssoc($sort)) {
             throw new TuneSdkException("Invalid parameter 'sort' provided.");
+        }
+
+        $fields_arr = null;
+        if (is_null($fields)) {
+            $fields_arr = array();
+        } elseif (is_array($fields)) {
+            $fields_arr = $fields;
+        } elseif (is_string($fields)) {
+            if (empty($fields)) {
+                $fields_arr = array();
+            } else {
+                $fields = preg_replace('/\s+/', '', $fields);
+                $fields_arr = explode(",", $fields);
+            }
         }
 
         if ($this->validate_fields) {
             if (is_null($this->fields)) {
                 $this->fields();
             }
+        }
 
-            foreach ($sort as $sort_field => $sort_direction) {
+        foreach ($sort as $sort_field => $sort_direction) {
+            $sort_field = trim($sort_field);
+            $sort_direction = strtoupper(trim($sort_direction));
+
+            if ($this->validate_fields) {
                 if (!array_key_exists($sort_field, $this->fields)) {
                     throw new TuneSdkException(
                         "Parameter 'sort' contains an invalid field: '{$sort_field}'."
                     );
                 }
-                if (!in_array($sort_direction, self::$sort_directions)) {
-                    throw new TuneSdkException(
-                        "Parameter 'sort' contains an invalid direction: '{$sort_direction}'."
-                    );
-                }
             }
+            if (!in_array($sort_field, $fields_arr)) {
+                $fields_arr[] = $sort_field;
+            }
+            if (!in_array($sort_direction, self::$sort_directions)) {
+                throw new TuneSdkException(
+                    "Parameter 'sort' contains an invalid direction: '{$sort_direction}'."
+                );
+            }
+        }
+
+        if (is_string($fields)) {
+            $fields = implode(",", $fields_arr);
+        } else {
+            $fields = $fields_arr;
         }
 
         return $sort;
@@ -657,7 +685,7 @@ class EndpointBase
 
     /**
      * Validate that provided string is either "YYYY-MM-DD' or "YYYY-MM-DD HH:MM:SS.
-     * 
+     *
      * @param $param_name
      * @param $date_time
      *
