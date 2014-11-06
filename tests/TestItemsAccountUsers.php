@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -56,7 +56,7 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $this->api_key);
         $this->assertNotEmpty($this->api_key);
     }
-    
+
     /**
      * Test fields
      */
@@ -71,7 +71,7 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertNotEmpty($response);
     }
-    
+
     /**
      * Test /account/users/count
      */
@@ -83,7 +83,7 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
                 $this->api_key,
                 $validate_fields = true
             );
-            
+
             $response = $account_users->count(
                 $filter = "((first_name LIKE '%a%') AND (phone IS NOT NULL))"
             );
@@ -126,7 +126,7 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
     }
-    
+
     public function testExport()
     {
         $account_users = new Users(
@@ -142,5 +142,44 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Users::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testFetch()
+    {
+        try {
+            $account_users = new Users(
+                $this->api_key,
+                $validate_fields = true
+            );
+
+            $response = $account_users->export(
+                $filter              = null,
+                $fields              = $account_users->fields(),
+                $format              = "json"
+            );
+
+            $this->assertNotNull($response);
+            $this->assertEquals(200, $response->getHttpCode());
+
+            $job_id = Users::parseResponseReportJobId($response);
+            $this->assertNotNull($job_id);
+            $this->assertTrue(!empty($job_id));
+
+            $response = $account_users->fetch(
+                $job_id,
+                $verbose = false,
+                $sleep = 10
+            );
+
+            $report_url = Users::parseResponseReportUrl($response);
+            $this->assertNotNull($report_url);
+            $this->assertTrue(!empty($report_url));
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
+        }
     }
 }

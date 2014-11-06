@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -103,7 +103,7 @@ class ExampleReportsClicks
             echo "======================================================" . PHP_EOL;
             $response = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
-            
+
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Clicks records: DEFAULT.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;

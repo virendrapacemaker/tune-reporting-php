@@ -25,11 +25,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_api_advertiser_stats_installs
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -40,8 +41,6 @@ use Tune\Management\Shared\Endpoints\ReportsLogsEndpointBase;
 
 /**
  * Tune Management API controller 'advertiser/stats/installs'
- *
- * @package Tune\Management\Api\Advertiser\Stats
  *
  * @example ExampleReportsInstalls.php
  */

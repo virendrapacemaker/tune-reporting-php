@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -142,5 +142,47 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Postbacks::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testFetch() {
+        try {
+            $yesterday      = date('Y-m-d', strtotime("-1 days"));
+            $start_date     = "{$yesterday} 00:00:00";
+            $end_date       = "{$yesterday} 23:59:59";
+
+            $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+
+            $response = $postbacks->export(
+                $start_date,
+                $end_date,
+                $filter              = "(status = 'approved')",
+                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $format              = "csv",
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            $this->assertNotNull($response);
+            $this->assertEquals(200, $response->getHttpCode());
+
+            $job_id = Postbacks::parseResponseReportJobId($response);
+            $this->assertNotNull($job_id);
+            $this->assertTrue(!empty($job_id));
+
+            $response = $postbacks->fetch(
+                $job_id,
+                $verbose = false,
+                $sleep = 10
+            );
+
+            $report_url = Postbacks::parseResponseReportUrl($response);
+            $this->assertNotNull($report_url);
+            $this->assertTrue(!empty($report_url));
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
+        }
     }
 }

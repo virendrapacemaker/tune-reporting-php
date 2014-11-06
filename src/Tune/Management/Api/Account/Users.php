@@ -25,11 +25,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_api_account_users
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -39,9 +40,7 @@ namespace Tune\Management\Api\Account;
 use Tune\Management\Shared\Endpoints\ItemsEndpointBase;
 
 /**
- * Class Users
- *
- * @package Tune\Management\Api\Account
+ * Tune Management API controller 'account/users'
  *
  * @example ExampleItemsAccountUsers.php
  *
@@ -54,7 +53,7 @@ class Users extends ItemsEndpointBase
 {
     /**
      * Constructor
-     * 
+     *
      * @param string $api_key           Tune MobileAppTracking API Key.
      * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */

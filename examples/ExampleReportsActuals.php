@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 14:59:02 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -104,7 +104,7 @@ class ExampleReportsActuals
             echo "======================================================" . PHP_EOL;
             $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
-            
+
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Actuals records: DEFAULT.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
@@ -140,7 +140,7 @@ class ExampleReportsActuals
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $stats->fields(Stats::TUNE_FIELDS_DEFAULT | Stats::TUNE_FIELDS_MINIMAL),
+                $fields              = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("installs" => "DESC"),

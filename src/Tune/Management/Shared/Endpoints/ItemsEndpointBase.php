@@ -26,11 +26,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_items_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -46,8 +47,6 @@ use Tune\Management\Api\Export;
 
 /**
  * Base class for handling Tune Management API endpoints.
- *
- * @package Tune\Management\Shared\Endpoints
  */
 class ItemsEndpointBase extends EndpointBase
 {
@@ -123,11 +122,11 @@ class ItemsEndpointBase extends EndpointBase
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
+        if (!is_null($sort)) {
+            $sort = $this->validateSort($fields, $sort);
+        }
         if (!is_null($fields)) {
             $fields = $this->validateFields($fields);
-        }
-        if (!is_null($sort)) {
-            $sort = $this->validateSort($sort);
         }
 
         return parent::call(
@@ -222,7 +221,7 @@ class ItemsEndpointBase extends EndpointBase
         );
 
         $client->call();
-        
+
         return $client->getResponse();
     }
 

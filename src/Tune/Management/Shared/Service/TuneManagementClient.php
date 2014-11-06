@@ -25,11 +25,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_service_client
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-03 15:03:06 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -42,11 +43,7 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . "/Version.php";
 require_once dirname(__FILE__) . "/Constants.php";
 
 /**
- *
  * Tune MobileAppTracking Management API access class
- *
- * @example ExampleClientAccountUsers.php
- *
  */
 class TuneManagementClient
 {
@@ -54,7 +51,7 @@ class TuneManagementClient
      * @var object @see TuneManagementRequest
      */
     private $request = null;
-    
+
     /**
      * @var object @see TuneManagementResponse
      */

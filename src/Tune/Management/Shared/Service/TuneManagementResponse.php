@@ -26,11 +26,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_service_response
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -49,19 +50,22 @@ class TuneManagementResponse
     private $request_url;
 
     /**
-     * Property of HTTP response code returned from curl after completion for Tune Management API request.
+     * Property of HTTP response code returned from curl after completion for
+     * Tune Management API request.
      * @var integer $response_http_code
      */
     private $response_http_code;
 
     /**
-     * Property of HTTP response headers returned from curl after completion for Tune Management API request.
+     * Property of HTTP response headers returned from curl after completion
+     * for Tune Management API request.
      * @var array $response_headers
      */
     private $response_headers;
 
     /**
-     * Property of full JSON response returned from service of Tune Management API.
+     * Property of full JSON response returned from service of
+     * Tune Management API.
      * @var array $response_json
      */
     private $response_json;
@@ -69,10 +73,13 @@ class TuneManagementResponse
     /**
      * Constructor
      *
-     * @param string $request_url
-     * @param string $response_json
-     * @param string $response_headers
-     * @param string $response_http_code
+     * @param string $request_url           Tune Management API request URL.
+     * @param string $response_json         Tune Management API Service full
+     *                                      response.
+     * @param array  $response_headers      Tune Management API Service
+     *                                      response HTTP headers.
+     * @param string $response_http_code    Tune Management API Service response
+     *                                      HTTP code.
      */
     public function __construct(
         $request_url,
@@ -84,19 +91,27 @@ class TuneManagementResponse
          * Validate that all required parameters are defined properly.
          */
         if (!is_string($request_url) || empty($request_url)) {
-            throw new \InvalidArgumentException("Parameter 'request_url' must be defined string.");
+            throw new \InvalidArgumentException(
+                "Parameter 'request_url' must be defined string."
+            );
         }
 
         if (is_null($response_json)) {
-            throw new \InvalidArgumentException("Parameter 'response_json' must be defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'response_json' must be defined."
+            );
         }
 
         if (is_null($response_headers)) {
-            throw new \InvalidArgumentException("Parameter 'response_headers' must be defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'response_headers' must be defined."
+            );
         }
 
         if (is_null($response_http_code)) {
-            throw new \InvalidArgumentException("Parameter 'response_http_code' must be defined.");
+            throw new \InvalidArgumentException(
+                "Parameter 'response_http_code' must be defined."
+            );
         }
 
         $this->request_url          = $request_url;
@@ -144,7 +159,8 @@ class TuneManagementResponse
     }
 
     /**
-     * Get property of full JSON response provided by Tune Management API service.
+     * Get property of full JSON response provided by
+     * Tune Management API service.
      *
      * @return array
      */
@@ -219,7 +235,8 @@ class TuneManagementResponse
 
     /**
      * Tune Management API's response value pertaining to its key 'debugs'
-     * only if request's query string expressed for service to provide debug information.
+     * only if request's query string expressed for service to
+     * provide debug information.
      *
      * @return array
      */

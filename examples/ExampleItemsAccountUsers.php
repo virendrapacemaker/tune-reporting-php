@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 14:59:02 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -75,7 +75,7 @@ class ExampleItemsAccountUsers
         }
 
         echo "=========================================================" . PHP_EOL;
-        echo "= Tune Management API Account Users                     =" . PHP_EOL;
+        echo "= Tune Management API Items Account Users                     =" . PHP_EOL;
         echo "=========================================================" . PHP_EOL;
 
         try {
@@ -83,13 +83,13 @@ class ExampleItemsAccountUsers
             $users = new Users($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Account Users records.           " . PHP_EOL;
+            echo " Fields of Items Account Users records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $users->fields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Count Account Users records.                " . PHP_EOL;
+            echo " Count Items Account Users records.                " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $users->count(
                 $filter              = null
@@ -107,7 +107,7 @@ class ExampleItemsAccountUsers
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Find Account Users records.                 " . PHP_EOL;
+            echo " Find Items Account Users records.                 " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $users->find(
@@ -126,9 +126,9 @@ class ExampleItemsAccountUsers
                     sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
                 );
             }
-            
+
             echo "==========================================================" . PHP_EOL;
-            echo " Account Users CSV report for export.             " . PHP_EOL;
+            echo " Items Account Users CSV report for export.             " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
             $response = $users->export(
@@ -150,7 +150,7 @@ class ExampleItemsAccountUsers
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo " Fetching Account Users CSV report.                    " . PHP_EOL;
+            echo " Fetching Items Account Users CSV report.                    " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
             $response = $users->fetch(
@@ -163,7 +163,7 @@ class ExampleItemsAccountUsers
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "=============================================================" . PHP_EOL;
-            echo " Read Account Users CSV report and pretty print 5 lines.     " . PHP_EOL;
+            echo " Read Items Account Users CSV report and pretty print 5 lines.     " . PHP_EOL;
             echo "=============================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
@@ -173,7 +173,7 @@ class ExampleItemsAccountUsers
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo " Account Users JSON report for export.        " . PHP_EOL;
+            echo " Items Account Users JSON report for export.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $users->export(
@@ -195,7 +195,7 @@ class ExampleItemsAccountUsers
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Fetching Account Users JSON report                     " . PHP_EOL;
+            echo " Fetching Items Account Users JSON report                     " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $users->fetch(
@@ -208,7 +208,7 @@ class ExampleItemsAccountUsers
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;
-            echo " Read Account Users JSON report and pretty print 5 lines.  " . PHP_EOL;
+            echo " Read Items Account Users JSON report and pretty print 5 lines.  " . PHP_EOL;
             echo "===========================================================" . PHP_EOL;
 
             $json_report_reader = new ReportReaderJSON(

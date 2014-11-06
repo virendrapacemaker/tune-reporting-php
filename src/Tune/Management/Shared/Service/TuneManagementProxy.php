@@ -25,11 +25,12 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_service_proxy
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -40,6 +41,7 @@ require_once dirname(__FILE__) . "/Constants.php";
 
 use Tune\Shared\TuneSdkException;
 use Tune\Shared\TuneServiceException;
+use Tune\Management\Shared\Service\TuneManagementResponse;
 
 /**
  * HTTP POST connection class to Tune MobileAppTracking Management API environment.
@@ -194,7 +196,7 @@ class TuneManagementProxy
             $headers = $response_array;
             $json = json_decode($response_json, true);
 
-            $this->response = new \Tune\Management\Shared\Service\TuneManagementResponse(
+            $this->response = new TuneManagementResponse(
                 $this->uri,
                 $json,
                 $headers,

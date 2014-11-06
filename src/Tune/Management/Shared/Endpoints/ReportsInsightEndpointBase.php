@@ -28,8 +28,9 @@
  * @category  Tune
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
+ * @package   management_shared_reports_insights_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -124,8 +125,12 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         $filter = null,
         $response_timezone = null
     ) {
-        EndpointBase::validateDateTime('start_date', $start_date);
-        EndpointBase::validateDateTime('end_date', $end_date);
+        if (!is_null($start_date)) {
+            EndpointBase::validateDateTime('start_date', $start_date);
+        }
+        if (!is_null($end_date)) {
+            EndpointBase::validateDateTime('end_date', $end_date);
+        }
 
         if (!is_string($cohort_type)
             || empty($cohort_type)
@@ -142,8 +147,9 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
                 "Parameter 'interval' is invalid: '{$cohort_interval}'."
             );
         }
-
-        $group = $this->validateGroup($group);
+        if (!is_null($group)) {
+            $group = $this->validateGroup($group);
+        }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -199,8 +205,12 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         $format = null,
         $response_timezone = null
     ) {
-        EndpointBase::validateDateTime('start_date', $start_date);
-        EndpointBase::validateDateTime('end_date', $end_date);
+        if (!is_null($start_date)) {
+            EndpointBase::validateDateTime('start_date', $start_date);
+        }
+        if (!is_null($end_date)) {
+            EndpointBase::validateDateTime('end_date', $end_date);
+        }
 
         if (!is_string($cohort_type)
             || empty($cohort_type)
@@ -214,7 +224,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
             && !in_array($cohort_interval, self::$cohort_intervals)
         ) {
             throw new \InvalidArgumentException(
-                "Parameter 'interval' is invalid: '{$cohort_interval}'."
+                "Parameter 'cohort_interval' is invalid: '{$cohort_interval}'."
             );
         }
         if (!is_string($aggregation_type)
@@ -226,26 +236,17 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
             );
         }
 
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
         if (!is_null($sort)) {
-            $sort = $this->validateSort($sort);
+            $sort = $this->validateSort($fields, $sort);
+        }
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
         }
         if (!is_null($group)) {
             $group = $this->validateGroup($group);
-        }
-
-        if (!is_null($cohort_interval)) {
-            if (!is_string($cohort_interval)
-                || empty($cohort_interval)
-                || !in_array($cohort_interval, self::$cohort_intervals)
-            ) {
-                throw new \InvalidArgumentException("Parameter 'interval' is invalid: '{$cohort_interval}'.");
-            }
         }
 
         return parent::callRecords(
@@ -300,8 +301,12 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         $filter = null,
         $response_timezone = null
     ) {
-        EndpointBase::validateDateTime('start_date', $start_date);
-        EndpointBase::validateDateTime('end_date', $end_date);
+        if (!is_null($start_date)) {
+            EndpointBase::validateDateTime('start_date', $start_date);
+        }
+        if (!is_null($end_date)) {
+            EndpointBase::validateDateTime('end_date', $end_date);
+        }
 
         if (!is_string($cohort_type)
             || empty($cohort_type)

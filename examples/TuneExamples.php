@@ -31,11 +31,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 14:59:02 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -86,13 +86,14 @@ class TuneExamples
             ExampleClientAccountUsers::run($api_key);
             ExampleItemsAccountUsers::run($api_key);
 
+            ExampleReportsActuals::run($api_key);
+
             ExampleReportsClicks::run($api_key);
             ExampleReportsEventItems::run($api_key);
             ExampleReportsEvents::run($api_key);
             ExampleReportsInstalls::run($api_key);
             ExampleReportsPostbacks::run($api_key);
 
-            ExampleReportsActuals::run($api_key);
             ExampleReportsCohort::run($api_key);
             ExampleReportsRetention::run($api_key);
 

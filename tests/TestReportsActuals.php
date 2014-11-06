@@ -26,11 +26,11 @@
  * PHP Version 5.3
  *
  * @category  Tune
- * 
+ *
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   0.9.12
+ * @version   $Date: 2014-11-05 16:25:44 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -193,5 +193,50 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Stats::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testFetch() {
+        try {
+            $week_ago       = date('Y-m-d', strtotime("-8 days"));
+            $yesterday      = date('Y-m-d', strtotime("-1 days"));
+            $start_date     = "{$week_ago} 00:00:00";
+            $end_date       = "{$yesterday} 23:59:59";
+
+            $stats = new Stats($this->api_key, $validate_fields = true);
+
+            $response = $stats->export(
+                $start_date,
+                $end_date,
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
+                $fields              = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED),
+                $timestamp           = "datehour",
+                $format              = "csv",
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            $this->assertNotNull($response);
+            $this->assertEquals(200, $response->getHttpCode());
+
+            $job_id = Stats::parseResponseReportJobId($response);
+            $this->assertNotNull($job_id);
+            $this->assertTrue(!empty($job_id));
+
+            $response = $stats->fetch(
+                $job_id,
+                $verbose = false,
+                $sleep = 10
+            );
+
+            $report_url = Stats::parseResponseReportUrl($response);
+            $this->assertNotNull($report_url);
+            $this->assertTrue(!empty($report_url));
+        } catch ( Exception $ex ) {
+            $this->fail($ex->getMessage());
+        }
     }
 }
