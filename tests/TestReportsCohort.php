@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,11 +68,38 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $ltv = new LTV($this->api_key, $validate_fields = true);
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->fields();
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_cohort->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsEndpoint()
+    {
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $fields = $reports_cohort->fields(LTV::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_cohort = new LTV(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -80,11 +107,23 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $ltv = new LTV($this->api_key, $validate_fields = true);
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefaultMinimal()
+    {
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $fields = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT | LTV::TUNE_FIELDS_MINIMAL);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -97,12 +136,12 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate_fields = true);
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->fields();
+        $response = $reports_cohort->fields();
         $this->assertNotNull($response);
 
-        $response = $ltv->count(
+        $response = $reports_cohort->count(
             $start_date,
             $end_date,
             $cohort_type         = "click",
@@ -126,15 +165,111 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate_fields = true);
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->find(
+        $response = $reports_cohort->find(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+            $fields              = null,
+            $cohort_interval     = "year_day",
+            $filter              = "(publisher_id > 0)",
+            $limit               = 5,
+            $page                = null,
+            $sort                = null,
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindDefault()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $response = $reports_cohort->find(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $aggregation_type    = "cumulative",
+            $group               = "site_id,publisher_id",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT),
+            $cohort_interval     = "year_day",
+            $filter              = "(publisher_id > 0)",
+            $limit               = 5,
+            $page                = null,
+            $sort                = null,
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindEndpoint()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $response = $reports_cohort->find(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $aggregation_type    = "cumulative",
+            $group               = "site_id,publisher_id",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_ENDPOINT),
+            $cohort_interval     = "year_day",
+            $filter              = "(publisher_id > 0)",
+            $limit               = 5,
+            $page                = null,
+            $sort                = null,
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindRecommended()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $response = $reports_cohort->find(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $aggregation_type    = "cumulative",
+            $group               = "site_id,publisher_id",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -155,15 +290,44 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $ltv = new LTV($this->api_key, $validate_fields = true);
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-        $response = $ltv->export(
+        $response = $reports_cohort->export(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $aggregation_type    = "cumulative",
             $group               = "site_id,publisher_id",
-            $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+            $fields              = null,
+            $cohort_interval     = "year_day",
+            $filter              = "(publisher_id > 0)",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = LTV::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testExportRecommended()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_cohort = new LTV($this->api_key, $validate_fields = true);
+
+        $response = $reports_cohort->export(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $aggregation_type    = "cumulative",
+            $group               = "site_id,publisher_id",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
@@ -185,15 +349,15 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $ltv = new LTV($this->api_key, $validate_fields = true);
+            $reports_cohort = new LTV($this->api_key, $validate_fields = true);
 
-            $response = $ltv->export(
+            $response = $reports_cohort->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = "year_day",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -206,7 +370,7 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $ltv->fetch(
+            $response = $reports_cohort->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

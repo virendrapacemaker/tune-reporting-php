@@ -58,7 +58,6 @@ Beta public release on October 30, 2014
 * Created endpoint base classes.
 * Removed bash scripts and provided Makefile instead.
 
-
 Version 0.9.10
 --------------
 
@@ -79,9 +78,15 @@ Version 0.9.12
 Beta public release on November 03, 2014
 * Documentation ready to use phpDocumentor.
 
-
-Version 1.0.0
+Version 0.9.13
 --------------
 
-Production public release on November 05, 2014
+Beta public release on November 05, 2014
 * Sort changes for all Advertiser Reports.
+
+Version 0.9.14
+--------------
+
+Beta public release on November 06, 2014
+* Cohort endpoint changes.
+* Actuals endpoint changes.

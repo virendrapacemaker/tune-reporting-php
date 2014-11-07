@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 14:59:02 $
+ * @version   $Date: 2014-11-06 16:45:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -76,7 +76,7 @@ class ExampleReportsActuals
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
@@ -100,15 +100,15 @@ class ExampleReportsActuals
             $stats = new Stats($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Actuals records: RECOMMENDED.   " . PHP_EOL;
+            echo " Fields of Advertiser Actuals records: Default.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
+            $response = $stats->fields(Stats::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Actuals records: DEFAULT.       " . PHP_EOL;
+            echo " Fields of Advertiser Actuals records: Recommended.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->fields(Stats::TUNE_FIELDS_DEFAULT);
+            $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -132,8 +132,34 @@ class ExampleReportsActuals
             }
             echo "= Count:" . $response->getData() . PHP_EOL;
 
+
             echo "======================================================" . PHP_EOL;
-            echo " Find Advertiser Actuals records.                     " . PHP_EOL;
+            echo " Find Advertiser Actuals records -- Default.          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $stats->find(
+                $start_date,
+                $end_date,
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
+                $fields              = null,
+                $limit               = 5,
+                $page                = null,
+                $sort                = array("installs" => "DESC"),
+                $timestamp           = null,
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
+            if ($response->getHttpCode() != 200) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                );
+            }
+
+            echo "======================================================" . PHP_EOL;
+            echo " Find Advertiser Actuals records -- Recommended       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $stats->find(
                 $start_date,

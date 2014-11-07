@@ -31,7 +31,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 17:54:12 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -51,11 +51,13 @@ use Tune\Shared\ReportExportWorker;
  */
 class EndpointBase
 {
-    const TUNE_FIELDS_ALL     = 0;
-    const TUNE_FIELDS_DEFAULT = 1;
-    const TUNE_FIELDS_RELATED = 2;
-    const TUNE_FIELDS_MINIMAL = 4;
-    const TUNE_FIELDS_RECOMMENDED = 8;
+    const TUNE_FIELDS_UNDEFINED     = 0;
+    const TUNE_FIELDS_ALL           = 1;
+    const TUNE_FIELDS_ENDPOINT      = 2;
+    const TUNE_FIELDS_DEFAULT       = 4;
+    const TUNE_FIELDS_RELATED       = 8;
+    const TUNE_FIELDS_MINIMAL       = 16;
+    const TUNE_FIELDS_RECOMMENDED   = 32;
 
     /**
      * Tune Management API Endpoint
@@ -261,44 +263,53 @@ class EndpointBase
      * @throws TuneServiceException
      */
     public function fields(
-        $enum_fields_selection = self::TUNE_FIELDS_ALL
+        $enum_fields_selection = self::TUNE_FIELDS_DEFAULT
     ) {
-        if (($this->validate_fields
-             || !($enum_fields_selection & self::TUNE_FIELDS_RECOMMENDED))
-            && is_null($this->fields)
-        ) {
+        if (is_null($this->fields) || empty($fields)) {
             $this->getEndpointFields();
         }
 
-        if ($enum_fields_selection & self::TUNE_FIELDS_RECOMMENDED) {
-            if (!is_null($this->fields_recommended)
-                && !empty($this->fields_recommended)
-            ) {
-                return $this->fields_recommended;
-            }
-
-            $enum_fields_selection = self::TUNE_FIELDS_DEFAULT;
+        if (($enum_fields_selection & self::TUNE_FIELDS_ALL) ||
+            (!($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
+            && ($enum_fields_selection & self::TUNE_FIELDS_RELATED))
+        ) {
+            return array_keys($this->fields);
         }
 
-        if (!($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
-            && ($enum_fields_selection & self::TUNE_FIELDS_RELATED)
-            ) {
-            return array_keys($this->fields);
+        if ($enum_fields_selection & self::TUNE_FIELDS_RECOMMENDED) {
+
+            $fields = $this->fields_recommended;
+
+            if (is_null($fields) || empty($fields)) {
+                $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+            }
+
+            if (is_null($fields) || empty($fields)) {
+                $fields = self::fields(self::TUNE_FIELDS_ENDPOINT);
+            }
+
+            if (is_null($fields) || empty($fields)) {
+                throw new TuneSdkException("No fields found for TUNE_FIELDS_RECOMMENDED.");
+            }
+
+            return $fields;
         }
 
         $fields_filtered = array();
         foreach ($this->fields as $field_name => $field_info) {
-            if (!($enum_fields_selection & self::TUNE_FIELDS_RELATED)
-                && !($enum_fields_selection & self::TUNE_FIELDS_MINIMAL)
-                && $field_info["related"]
-                ) {
-                continue;
-            }
 
-            if (!($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
+            if ((($enum_fields_selection & self::TUNE_FIELDS_ENDPOINT)
+                 || !($enum_fields_selection & self::TUNE_FIELDS_DEFAULT))
                 && !$field_info["related"]
             ) {
                 $fields_filtered[$field_name] = $field_info;
+                continue;
+            }
+
+            if (   !($enum_fields_selection & self::TUNE_FIELDS_RELATED)
+                && !($enum_fields_selection & self::TUNE_FIELDS_MINIMAL)
+                && $field_info["related"]
+                ) {
                 continue;
             }
 
@@ -319,7 +330,7 @@ class EndpointBase
                 continue;
             }
 
-            if (($enum_fields_selection & self::TUNE_FIELDS_RELATED)
+            if (   ($enum_fields_selection & self::TUNE_FIELDS_RELATED)
                 && $field_info["related"]
             ) {
                 $fields_filtered[$field_name] = $field_info;
@@ -327,7 +338,25 @@ class EndpointBase
             }
         }
 
-        return array_keys($fields_filtered);
+        $fields = array_keys($fields_filtered);
+
+        // Provide all immediate fields for this endpoint if
+        // requested default fields but none were found.
+        if (($enum_fields_selection & self::TUNE_FIELDS_DEFAULT)
+            && (is_null($fields) || empty($fields))
+        ) {
+            $fields = self::fields(self::TUNE_FIELDS_RECOMMENDED);
+
+            if (is_null($fields) || empty($fields)) {
+                $fields = self::fields(self::TUNE_FIELDS_ENDPOINT);
+            }
+
+            if (is_null($fields) || empty($fields)) {
+                throw new TuneSdkException("No fields found for TUNE_FIELDS_DEFAULT.");
+            }
+        }
+
+        return $fields;
     }
 
     /**
@@ -543,7 +572,7 @@ class EndpointBase
      * @return array Validated sort
      * @throws \Tune\Shared\TuneSdkException
      */
-    public function validateSort(&$fields, $sort)
+    public function validateSort($fields, $sort)
     {
         if (!isAssoc($sort)) {
             throw new TuneSdkException("Invalid parameter 'sort' provided.");
@@ -596,7 +625,10 @@ class EndpointBase
             $fields = $fields_arr;
         }
 
-        return $sort;
+        return array (
+            "sort" => $sort,
+            "fields" => $fields
+        );
     }
 
     /**

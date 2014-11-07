@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -97,18 +97,24 @@ class ExampleReportsRetention
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $retention = new Retention($api_key, $validate_fields = true);
+            $reports_retention = new Retention($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Retention records.              " . PHP_EOL;
+            echo " Fields of Advertiser Retention Default.              " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_retention->fields(Retention::TUNE_FIELDS_DEFAULT);
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Fields of Advertiser Retention Recommended.          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Retention records.                  " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $retention->count(
+            $response = $reports_retention->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
@@ -131,13 +137,13 @@ class ExampleReportsRetention
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Retention records.                   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $retention->find(
+            $response = $reports_retention->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,install_publisher_id",
-                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(install_publisher_id > 0)",
                 $limit               = 10,
@@ -160,13 +166,13 @@ class ExampleReportsRetention
             echo " Advertiser Retention CSV report for export. " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $retention->export(
+            $response = $reports_retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,install_publisher_id",
-                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -188,7 +194,7 @@ class ExampleReportsRetention
             echo "Fetching Advertiser Retention CSV report                " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $retention->fetch(
+            $response = $reports_retention->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10

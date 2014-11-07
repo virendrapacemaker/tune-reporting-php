@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,11 +68,38 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $stats = new Stats($this->api_key, $validate_fields = true);
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
 
-        $response = $stats->fields();
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_actuals->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsEndpoint()
+    {
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $fields = $reports_actuals->fields(Stats::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_actuals = new Stats(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_actuals->fields(Stats::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -80,11 +107,23 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $stats = new Stats($this->api_key, $validate_fields = true);
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
 
-        $response = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefaultMinimal()
+    {
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $fields = $reports_actuals->fields(Stats::TUNE_FIELDS_DEFAULT | Stats::TUNE_FIELDS_MINIMAL);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -97,8 +136,8 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate_fields = true);
-        $response = $stats->count(
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+        $response = $reports_actuals->count(
             $start_date,
             $end_date,
             $group               = "site_id,publisher_id",
@@ -120,9 +159,38 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate_fields = true);
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
 
-        $response = $stats->find(
+        $response = $reports_actuals->find(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = null,
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("installs" => "DESC"),
+            $timestamp           = "datehour",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindSelected()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->find(
             $start_date,
             $end_date,
             $group               = "site_id,publisher_id",
@@ -155,16 +223,160 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getHttpCode());
     }
 
-    public function testExport()
+    /**
+     * Test find
+     */
+    public function testFindDefault()
     {
         $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $stats = new Stats($this->api_key, $validate_fields = true);
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
 
-        $response = $stats->export(
+        $response = $reports_actuals->find(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_DEFAULT),
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("installs" => "DESC"),
+            $timestamp           = "datehour",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindEndpoint()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->find(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_ENDPOINT),
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("installs" => "DESC"),
+            $timestamp           = "datehour",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+
+    /**
+     * Test find
+     */
+    public function testFindRecommended()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->find(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("installs" => "DESC"),
+            $timestamp           = "datehour",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+        public function testExport()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->export(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = null,
+            $timestamp           = "datehour",
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Stats::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testExportRecommended()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->export(
+            $start_date,
+            $end_date,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
+            $timestamp           = "datehour",
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+
+        $job_id = Stats::parseResponseReportJobId($response);
+        $this->assertNotNull($job_id);
+        $this->assertTrue(!empty($job_id));
+    }
+
+    public function testExportSelected()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_actuals = new Stats($this->api_key, $validate_fields = true);
+
+        $response = $reports_actuals->export(
             $start_date,
             $end_date,
             $group               = "site_id,publisher_id",
@@ -206,14 +418,14 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $stats = new Stats($this->api_key, $validate_fields = true);
+            $reports_actuals = new Stats($this->api_key, $validate_fields = true);
 
-            $response = $stats->export(
+            $response = $reports_actuals->export(
                 $start_date,
                 $end_date,
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $stats->fields(Stats::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $timestamp           = "datehour",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -226,7 +438,7 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $stats->fetch(
+            $response = $reports_actuals->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

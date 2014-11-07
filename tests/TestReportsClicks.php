@@ -30,14 +30,14 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneApi.php";
 
-use Tune\Management\Api\Advertiser\Stats\Clicks;
+use \Tune\Management\Api\Advertiser\Stats\Clicks;
 use Tune\Shared\TuneSdkException;
 
 class TestReportsClicks extends \PHPUnit_Framework_TestCase
@@ -69,11 +69,38 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields();
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_logs_clicks->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsEndpoint()
+    {
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
+
+        $fields = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_logs_clicks = new Clicks(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -81,11 +108,11 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -93,11 +120,11 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefaultMinimal()
     {
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields(Clicks::TUNE_FIELDS_DEFAULT | Clicks::TUNE_FIELDS_MINIMAL);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_DEFAULT | Clicks::TUNE_FIELDS_MINIMAL);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -109,12 +136,12 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->fields();
+        $response = $reports_logs_clicks->fields();
         $this->assertNotNull($response);
 
-        $response = $clicks->count(
+        $response = $reports_logs_clicks->count(
             $start_date,
             $end_date,
             $filter              = null,
@@ -125,7 +152,7 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getHttpCode());
     }
 
-    /**
+        /**
      * Test find
      */
     public function testFind()
@@ -134,13 +161,91 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->find(
+        $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = null,
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindDefault()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
+
+        $response = $reports_logs_clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = null,
+            $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_DEFAULT),
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindEndpoint()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
+
+        $response = $reports_logs_clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = null,
+            $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_ENDPOINT),
+            $limit               = 5,
+            $page                = null,
+            $sort                = array("created" => "DESC"),
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindRecommended()
+    {
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$yesterday} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
+
+        $response = $reports_logs_clicks->find(
+            $start_date,
+            $end_date,
+            $filter              = null,
+            $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -160,9 +265,9 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->find(
+        $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
             $filter              = null,
@@ -183,9 +288,9 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->find(
+        $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
             $filter              = "(foo > 0)",
@@ -206,9 +311,9 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->find(
+        $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
             $filter              = "(created # 0)",
@@ -229,9 +334,9 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->find(
+        $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
             $filter              = null,
@@ -249,13 +354,13 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $clicks = new Clicks($this->api_key, $validate_fields = true);
+        $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-        $response = $clicks->export(
+        $response = $reports_logs_clicks->export(
             $start_date,
             $end_date,
             $filter              = null,
-            $fields              = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -274,13 +379,13 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $clicks = new Clicks($this->api_key, $validate_fields = true);
+            $reports_logs_clicks = new Clicks($this->api_key, $validate_fields = true);
 
-            $response = $clicks->export(
+            $response = $reports_logs_clicks->export(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -292,7 +397,7 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $clicks->fetch(
+            $response = $reports_logs_clicks->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

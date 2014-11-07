@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,11 +68,38 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $retention = new Retention($this->api_key, $validate_fields = true);
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->fields();
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_retention->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsEndpoint()
+    {
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
+
+        $fields = $reports_retention->fields(Retention::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_retention = new Retention(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_retention->fields(Retention::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -80,11 +107,23 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $retention = new Retention($this->api_key, $validate_fields = true);
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefaultMinimal()
+    {
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
+
+        $fields = $reports_retention->fields(Retention::TUNE_FIELDS_DEFAULT | Retention::TUNE_FIELDS_MINIMAL);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -97,9 +136,9 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate_fields = true);
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->count(
+        $response = $reports_retention->count(
             $start_date,
             $end_date,
             $cohort_type         = "click",
@@ -123,15 +162,15 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate_fields = true);
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->find(
+        $response = $reports_retention->find(
             $start_date,
             $end_date,
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,install_publisher_id",
-            $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(install_publisher_id > 0)",
             $limit               = 10,
@@ -152,15 +191,15 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $retention = new Retention($this->api_key, $validate_fields = true);
+        $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-        $response = $retention->export(
+        $response = $reports_retention->export(
             $start_date,
             $end_date,
             $cohort_type         = "install",
             $aggregation_type    = "cumulative",
             $group               = "site_id,install_publisher_id",
-            $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
             $filter              = "(install_publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
@@ -182,15 +221,15 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $retention = new Retention($this->api_key, $validate_fields = true);
+            $reports_retention = new Retention($this->api_key, $validate_fields = true);
 
-            $response = $retention->export(
+            $response = $reports_retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,install_publisher_id",
-                $fields              = $retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = "year_day",
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -203,7 +242,7 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $retention->fetch(
+            $response = $reports_retention->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

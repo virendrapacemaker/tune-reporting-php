@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -95,18 +95,24 @@ class ExampleReportsEvents
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $events = new Events($api_key, $validate_fields = true);
+            $reports_logs_events = new Events($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Logs Events records.            " . PHP_EOL;
+            echo " Fields of Advertiser Logs Events Default.            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->fields(Events::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_logs_events->fields(Events::TUNE_FIELDS_DEFAULT);
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Fields of Advertiser Logs Events Recommended.        " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Logs Events records.               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->count(
+            $response = $reports_logs_events->count(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
@@ -127,11 +133,11 @@ class ExampleReportsEvents
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Logs Events records.                 " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->find(
+            $response = $reports_logs_events->find(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::TUNE_FIELDS_DEFAULT | Events::TUNE_FIELDS_MINIMAL),
+                $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -150,11 +156,11 @@ class ExampleReportsEvents
             echo "============================================================" . PHP_EOL;
             echo " Advertiser Logs Events CSV report for export.      " . PHP_EOL;
             echo "============================================================" . PHP_EOL;
-            $response = $events->export(
+            $response = $reports_logs_events->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -175,7 +181,7 @@ class ExampleReportsEvents
             echo " Fetching Advertiser Logs Events CSV report.           " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $events->fetch(
+            $response = $reports_logs_events->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
@@ -197,11 +203,11 @@ class ExampleReportsEvents
             echo "======================================================" . PHP_EOL;
             echo " Advertiser Events JSON report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $events->export(
+            $response = $reports_logs_events->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -222,7 +228,7 @@ class ExampleReportsEvents
             echo " Fetching Advertiser Logs Events JSON report            " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $events->fetch(
+            $response = $reports_logs_events->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
