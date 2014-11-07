@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 14:59:02 $
+ * @version   $Date: 2014-11-06 16:45:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -75,7 +75,7 @@ class ExampleItemsAccountUsers
         }
 
         echo "=========================================================" . PHP_EOL;
-        echo "= Tune Management API Items Account Users                     =" . PHP_EOL;
+        echo "= Tune Management API Items Account Users               =" . PHP_EOL;
         echo "=========================================================" . PHP_EOL;
 
         try {
@@ -83,13 +83,13 @@ class ExampleItemsAccountUsers
             $users = new Users($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Items Account Users records.           " . PHP_EOL;
+            echo " Fields of Items Account Users records.               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $users->fields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Count Items Account Users records.                " . PHP_EOL;
+            echo " Count Items Account Users records.                   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $users->count(
                 $filter              = null
@@ -107,7 +107,7 @@ class ExampleItemsAccountUsers
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Find Items Account Users records.                 " . PHP_EOL;
+            echo " Find Items Account Users records.                    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $users->find(
@@ -128,7 +128,7 @@ class ExampleItemsAccountUsers
             }
 
             echo "==========================================================" . PHP_EOL;
-            echo " Items Account Users CSV report for export.             " . PHP_EOL;
+            echo " Items Account Users CSV report for export.               " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
             $response = $users->export(

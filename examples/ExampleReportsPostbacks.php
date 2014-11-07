@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -76,7 +76,7 @@ class ExampleReportsPostbacks
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
@@ -95,18 +95,24 @@ class ExampleReportsPostbacks
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $postbacks = new Postbacks($api_key, $validate_fields = true);
+            $reports_logs_postbacks = new Postbacks($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Logs Postbacks records.         " . PHP_EOL;
+            echo " Fields of Advertiser Logs Postbacks Default.         " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_DEFAULT);
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Fields of Advertiser Logs Postbacks Recommended.     " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Logs Postbacks records.             " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $postbacks->count(
+            $response = $reports_logs_postbacks->count(
                 $start_date,
                 $end_date,
                 $filter              = null,
@@ -127,11 +133,11 @@ class ExampleReportsPostbacks
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Logs Postbacks records.              " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $postbacks->find(
+            $response = $reports_logs_postbacks->find(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -150,11 +156,11 @@ class ExampleReportsPostbacks
             echo "==========================================================" . PHP_EOL;
             echo " Advertiser Logs Postbacks CSV report for export. " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
-            $response = $postbacks->export(
+            $response = $reports_logs_postbacks->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -175,7 +181,7 @@ class ExampleReportsPostbacks
             echo " Fetching Advertiser Logs Postbacks CSV report.        " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $postbacks->fetch(
+            $response = $reports_logs_postbacks->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
@@ -197,11 +203,11 @@ class ExampleReportsPostbacks
             echo "======================================================" . PHP_EOL;
             echo " Advertiser Postbacks JSON report for export. " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $postbacks->export(
+            $response = $reports_logs_postbacks->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -222,7 +228,7 @@ class ExampleReportsPostbacks
             echo " Fetching Advertiser Logs Postbacks JSON report         " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $postbacks->fetch(
+            $response = $reports_logs_postbacks->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -96,24 +96,24 @@ class ExampleReportsClicks
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $clicks = new Clicks($api_key, $validate_fields = true);
+            $reports_logs_clicks = new Clicks($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Clicks records: RECOMMENDED.    " . PHP_EOL;
+            echo " Fields of Advertiser Clicks records: Recommended.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Clicks records: DEFAULT.        " . PHP_EOL;
+            echo " Fields of Advertiser Clicks records: Default.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $clicks->fields(Clicks::TUNE_FIELDS_DEFAULT);
+            $response = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Logs Clicks records.                " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $clicks->count(
+            $response = $reports_logs_clicks->count(
                 $start_date,
                 $end_date,
                 $filter              = null,
@@ -135,11 +135,11 @@ class ExampleReportsClicks
             echo " Find Advertiser Logs Clicks records.                 " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $clicks->find(
+            $response = $reports_logs_clicks->find(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(EndpointBase::TUNE_FIELDS_DEFAULT | EndpointBase::TUNE_FIELDS_MINIMAL),
+                $fields              = $reports_logs_clicks->fields(EndpointBase::TUNE_FIELDS_DEFAULT | EndpointBase::TUNE_FIELDS_MINIMAL),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -159,11 +159,11 @@ class ExampleReportsClicks
             echo " Advertiser Logs Clicks CSV report for export.    " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
-            $response = $clicks->export(
+            $response = $reports_logs_clicks->export(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(EndpointBase::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_clicks->fields(EndpointBase::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -184,7 +184,7 @@ class ExampleReportsClicks
             echo " Fetching Advertiser Logs Clicks CSV report.           " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $clicks->fetch(
+            $response = $reports_logs_clicks->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
@@ -207,11 +207,11 @@ class ExampleReportsClicks
             echo " Advertiser Clicks JSON report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $clicks->export(
+            $response = $reports_logs_clicks->export(
                 $start_date,
                 $end_date,
                 $filter              = null,
-                $fields              = $clicks->fields(EndpointBase::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_clicks->fields(EndpointBase::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -232,7 +232,7 @@ class ExampleReportsClicks
             echo " Fetching Advertiser Logs Clicks JSON report            " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $clicks->fetch(
+            $response = $reports_logs_clicks->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10

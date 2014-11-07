@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -95,18 +95,24 @@ class ExampleReportsInstalls
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $installs = new Installs($api_key, $validate_fields = true);
+            $reports_logs_installs = new Installs($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Logs Installs records.           " . PHP_EOL;
+            echo " Fields of Advertiser Logs Installs Default.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_logs_installs->fields(Installs::TUNE_FIELDS_DEFAULT);
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Fields of Advertiser Logs Installs Recommended.      " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Logs Installs records.              " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $installs->count(
+            $response = $reports_logs_installs->count(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
@@ -126,11 +132,11 @@ class ExampleReportsInstalls
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Logs Installs records.               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $installs->find(
+            $response = $reports_logs_installs->find(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
@@ -149,11 +155,11 @@ class ExampleReportsInstalls
             echo "=========================================================" . PHP_EOL;
             echo " Advertiser Logs Installs CSV report for export. " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
-            $response = $installs->export(
+            $response = $reports_logs_installs->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -174,7 +180,7 @@ class ExampleReportsInstalls
             echo " Fetching Advertiser Logs Installs CSV report.         " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $installs->fetch(
+            $response = $reports_logs_installs->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10
@@ -197,11 +203,11 @@ class ExampleReportsInstalls
             echo " Advertiser Installs JSON report for export.  " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $installs->export(
+            $response = $reports_logs_installs->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -222,7 +228,7 @@ class ExampleReportsInstalls
             echo " Fetching Advertiser Logs Installs JSON report          " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $installs->fetch(
+            $response = $reports_logs_installs->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10

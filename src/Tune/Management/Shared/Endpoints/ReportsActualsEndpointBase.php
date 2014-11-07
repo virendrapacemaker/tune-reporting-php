@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_reports_actuals_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -170,7 +170,12 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
             $filter = $this->validateFilter($filter);
         }
         if (!is_null($sort)) {
-            $sort = $this->validateSort($fields, $sort);
+            if (is_null($fields) || (is_array($fields) && empty($fields))) {
+                $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+            }
+            $sort_map = $this->validateSort($fields, $sort);
+            $sort = $sort_map["sort"];
+            $fields = $sort_map["fields"];
         }
         if (!is_null($fields)) {
             $fields = $this->validateFields($fields);
@@ -240,9 +245,6 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
 
         // timestamp
         if (is_string($timestamp) && !in_array($timestamp, self::$timestamps)) {
@@ -254,7 +256,11 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
         }
 
         if (("csv" == $format) && (is_null($fields) || empty($fields))) {
-            throw new \InvalidArgumentException("Parameter 'fields' needs to be defined if report format is 'csv'.");
+            $fields = parent::fields(self::TUNE_FIELDS_DEFAULT);
+        }
+
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
         }
 
         return parent::callRecords(

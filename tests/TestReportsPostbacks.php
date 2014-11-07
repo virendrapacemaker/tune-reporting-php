@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,11 +68,38 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+        $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-        $response = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_logs_postbacks->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_logs_postbacks = new Postbacks(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsRecommended()
+    {
+        $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
+
+        $fields = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -84,9 +111,9 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+        $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-        $response = $postbacks->count(
+        $response = $reports_logs_postbacks->count(
             $start_date,
             $end_date,
             $filter              = null,
@@ -106,13 +133,13 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+        $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-        $response = $postbacks->find(
+        $response = $reports_logs_postbacks->find(
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -129,13 +156,13 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+        $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-        $response = $postbacks->export(
+        $response = $reports_logs_postbacks->export(
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -154,13 +181,13 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $postbacks = new Postbacks($this->api_key, $validate_fields = true);
+            $reports_logs_postbacks = new Postbacks($this->api_key, $validate_fields = true);
 
-            $response = $postbacks->export(
+            $response = $reports_logs_postbacks->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -172,7 +199,7 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $postbacks->fetch(
+            $response = $reports_logs_postbacks->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

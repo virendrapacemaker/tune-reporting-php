@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -97,18 +97,24 @@ class ExampleReportsCohort
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $ltv = new LTV($api_key, $validate_fields = true);
+            $reports_cohort = new LTV($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Cohort records: RECOMMENDED.    " . PHP_EOL;
+            echo " Fields of Advertiser Cohort records: Default.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED);
+            $response = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT);
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " Fields of Advertiser Cohort records: Recommended.    " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            $response = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Cohort records.                     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $ltv->count(
+            $response = $reports_cohort->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
@@ -129,16 +135,45 @@ class ExampleReportsCohort
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Cohort records: cohort_type = 'click'   " . PHP_EOL;
+            echo " Find Advertiser Cohort records Default                  " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
-            $response = $ltv->find(
+            $response = $reports_cohort->find(
+                $start_date,
+                $end_date,
+                $cohort_type         = "click",
+                $aggregation_type    = "cumulative",
+                $group               = null,
+                $fields              = null,
+                $cohort_interval     = null,
+                $filter              = "(publisher_id > 0)",
+                $limit               = 5,
+                $page                = null,
+                $sort                = null,
+                $format              = "csv",
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
+            if ($response->getHttpCode() != 200) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                );
+            }
+
+            echo "=========================================================" . PHP_EOL;
+            echo " Find Advertiser Cohort records Recommended              " . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+
+            $response = $reports_cohort->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -161,13 +196,13 @@ class ExampleReportsCohort
             echo " Advertiser Cohort CSV report for export.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $ltv->export(
+            $response = $reports_cohort->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $aggregation_type    = "cumulative",
                 $group               = "site_id,publisher_id",
-                $fields              = $ltv->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = null,
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -189,7 +224,7 @@ class ExampleReportsCohort
             echo "Fetching Advertiser Cohort CSV report                   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $ltv->fetch(
+            $response = $reports_cohort->fetch(
                 $job_id,
                 $verbose = true,
                 $sleep = 10

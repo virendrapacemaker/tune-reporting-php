@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,11 +68,38 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $events = new Events($this->api_key, $validate_fields = true);
+        $reports_logs_events = new Events($this->api_key, $validate_fields = true);
 
-        $response = $events->fields(Events::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $reports_logs_events->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
+        $reports_logs_events = new Events(
+            $this->api_key,
+            $validate_fields = true
+        );
+
+        $fields = $reports_logs_events->fields(Events::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsRecommended()
+    {
+        $reports_logs_events = new Events($this->api_key, $validate_fields = true);
+
+        $fields = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
@@ -84,12 +111,12 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $events = new Events($this->api_key, $validate_fields = true);
+        $reports_logs_events = new Events($this->api_key, $validate_fields = true);
 
-        $response = $events->fields();
+        $response = $reports_logs_events->fields();
         $this->assertNotNull($response);
 
-        $response = $events->count(
+        $response = $reports_logs_events->count(
             $start_date,
             $end_date,
             $filter              = null,
@@ -109,13 +136,13 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $events = new Events($this->api_key, $validate_fields = true);
+        $reports_logs_events = new Events($this->api_key, $validate_fields = true);
 
-        $response = $events->find(
+        $response = $reports_logs_events->find(
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -132,12 +159,12 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $events = new Events($this->api_key, $validate_fields = true);
-        $response = $events->export(
+        $reports_logs_events = new Events($this->api_key, $validate_fields = true);
+        $response = $reports_logs_events->export(
             $start_date,
             $end_date,
             $filter              = "(status = 'approved')",
-            $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -156,12 +183,12 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $events = new Events($this->api_key, $validate_fields = true);
-            $response = $events->export(
+            $reports_logs_events = new Events($this->api_key, $validate_fields = true);
+            $response = $reports_logs_events->export(
                 $start_date,
                 $end_date,
                 $filter              = "(status = 'approved')",
-                $fields              = $events->fields(Events::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $reports_logs_events->fields(Events::TUNE_FIELDS_RECOMMENDED),
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
@@ -173,7 +200,7 @@ class TestReportsEvents extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $events->fetch(
+            $response = $reports_logs_events->fetch(
                 $job_id,
                 $verbose = false,
                 $sleep = 10

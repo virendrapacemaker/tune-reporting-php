@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_reports_insights_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -239,8 +239,16 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
-        if (!is_null($sort)) {
-            $sort = $this->validateSort($fields, $sort);
+
+        if (is_null($fields) ||
+        	(is_array($fields) && empty($fields)) ||
+        	(is_string($fields) && empty($fields))
+        ) {
+        	$fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+        }
+
+        if (is_null($fields) || empty($fields)) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
         }
         if (!is_null($fields)) {
             $fields = $this->validateFields($fields);
@@ -325,6 +333,9 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
             );
         }
 
+        if (is_null($fields) || empty($fields)) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+        }
         if (!is_null($fields)) {
             $fields = $this->validateFields($fields);
         }

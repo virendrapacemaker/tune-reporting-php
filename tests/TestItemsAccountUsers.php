@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 16:25:44 $
+ * @version   $Date: 2014-11-06 12:28:55 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -62,14 +62,50 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
+        $account_users = new Users($this->api_key, $validate_fields = true);
+
+        $fields = $account_users->fields();
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsEndpoint()
+    {
+        $account_users = new Users($this->api_key, $validate_fields = true);
+
+        $fields = $account_users->fields(Users::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefault()
+    {
         $account_users = new Users(
             $this->api_key,
             $validate_fields = true
         );
 
-        $response = $account_users->fields();
-        $this->assertNotNull($response);
-        $this->assertNotEmpty($response);
+        $fields = $account_users->fields(Users::TUNE_FIELDS_DEFAULT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsRecommended()
+    {
+        $account_users = new Users($this->api_key, $validate_fields = true);
+
+        $fields = $account_users->fields(Users::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
     }
 
     /**
