@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 16:45:45 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -79,28 +79,27 @@ class ExampleItemsAccountUsers
         echo "=========================================================" . PHP_EOL;
 
         try {
-
-            $users = new Users($api_key, $validate_fields = true);
+            $account_users = new Users($api_key, $validate_fields = true);
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Items Account Users records.               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $users->fields();
+            $response = $account_users->fields();
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Items Account Users records.                   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $users->count(
+            $response = $account_users->count(
                 $filter              = null
             );
 
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
 
@@ -110,51 +109,51 @@ class ExampleItemsAccountUsers
             echo " Find Items Account Users records.                    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $users->find(
+            $response = $account_users->find(
+                $fields              = $account_users->fields(),
                 $filter              = null,
-                $fields              = $users->fields(),
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC")
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
 
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
             echo "==========================================================" . PHP_EOL;
-            echo " Items Account Users CSV report for export.               " . PHP_EOL;
+            echo " Export Account Users CSV report.                         " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
-            $response = $users->export(
-                $filter              = null,
-                $fields              = $users->fields(),
+            $response = $account_users->export(
+                $fields              = $account_users->fields(),
+                $filter              = null,    // filter
                 $format              = "csv"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
 
-            $job_id = Users::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
+            $csv_job_id = Users::parseResponseReportJobId($response);
+            echo "= CSV Job ID: {$csv_job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo " Fetching Items Account Users CSV report.                    " . PHP_EOL;
+            echo " Fetching Account Users CSV report.                    " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $users->fetch(
-                $job_id,
+            $response = $account_users->fetch(
+                $csv_job_id,
                 $verbose = true,
                 $sleep = 10
             );
@@ -163,7 +162,7 @@ class ExampleItemsAccountUsers
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "=============================================================" . PHP_EOL;
-            echo " Read Items Account Users CSV report and pretty print 5 lines.     " . PHP_EOL;
+            echo " Print Account Users CSV report.                             " . PHP_EOL;
             echo "=============================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
@@ -173,33 +172,33 @@ class ExampleItemsAccountUsers
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo " Items Account Users JSON report for export.        " . PHP_EOL;
+            echo " Export Account Users JSON report.                    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $users->export(
-                $filter              = null,
-                $fields              = $users->fields(),
+            $response = $account_users->export(
+                $fields              = $account_users->fields(),
+                $filter              = null,    // filter
                 $format              = "json"
             );
+
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
 
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
-
-            $job_id = Users::parseResponseReportJobId($response);
-            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+            $json_job_id = Users::parseResponseReportJobId($response);
+            echo "= JSON Job ID: {$json_job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Fetching Items Account Users JSON report                     " . PHP_EOL;
+            echo " Fetching Account Users JSON report.                    " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $users->fetch(
-                $job_id,
+            $response = $account_users->fetch(
+                $json_job_id,
                 $verbose = true,
                 $sleep = 10
             );
@@ -208,7 +207,7 @@ class ExampleItemsAccountUsers
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "===========================================================" . PHP_EOL;
-            echo " Read Items Account Users JSON report and pretty print 5 lines.  " . PHP_EOL;
+            echo " Print Account Users JSON report.                          " . PHP_EOL;
             echo "===========================================================" . PHP_EOL;
 
             $json_report_reader = new ReportReaderJSON(

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -138,8 +138,8 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_event_items->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = null,
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -164,8 +164,8 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_event_items->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -187,8 +187,8 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_event_items->export(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = null,
+            $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -212,8 +212,8 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_event_items->export(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
+            $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -226,6 +226,9 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch() {
         try {
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
@@ -237,8 +240,8 @@ class TestReportsEventItems extends \PHPUnit_Framework_TestCase
             $response = $reports_logs_event_items->export(
                 $start_date,
                 $end_date,
-                $filter              = null,
                 $fields              = $reports_logs_event_items->fields(EventItems::TUNE_FIELDS_RECOMMENDED),
+                $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );

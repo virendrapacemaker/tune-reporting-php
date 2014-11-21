@@ -37,4 +37,4 @@
 namespace Tune;
 
 define("TUNE_SDK_NAME", "tune-api-php");
-define("TUNE_SDK_VERSION", "0.9.15");
+define("TUNE_SDK_VERSION", "0.9.16");

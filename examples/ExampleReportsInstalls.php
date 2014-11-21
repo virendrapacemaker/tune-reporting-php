@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -119,14 +119,15 @@ class ExampleReportsInstalls
                 $response_timezone   = "America/Los_Angeles"
             );
 
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
+
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -135,22 +136,22 @@ class ExampleReportsInstalls
             $response = $reports_logs_installs->find(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved')",
                 $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $filter              = "(status = 'approved')",
                 $limit               = 5,
                 $page                = null,
                 $sort                = array("created" => "DESC"),
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
             echo " Advertiser Logs Installs CSV report for export. " . PHP_EOL;
@@ -158,20 +159,20 @@ class ExampleReportsInstalls
             $response = $reports_logs_installs->export(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved')",
                 $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $filter              = "(status = 'approved')",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             $job_id = Installs::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
@@ -206,20 +207,20 @@ class ExampleReportsInstalls
             $response = $reports_logs_installs->export(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved')",
                 $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $filter              = "(status = 'approved')",
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             $job_id = Installs::parseResponseReportJobId($response);
             echo "= JSON Job ID: {$job_id}" . PHP_EOL;

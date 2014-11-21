@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -152,6 +152,7 @@ class ReportExportWorker
             $client->call();
             $response = $client->getResponse();
 
+            // Failed to return response.
             if (is_null($response)) {
                 throw new TuneSdkException("No response returned from export request.");
             }
@@ -159,21 +160,29 @@ class ReportExportWorker
             $request_url = $response->getRequestUrl();
             $response_http_code = $response->getHttpCode();
 
+            // Failed to get successful service response.
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new TuneServiceException(
+                    sprintf("Service failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
+            
+            // Failed to get data.
             $data = $response->getData();
             if (is_null($data)) {
-                throw new TuneServiceException("Report request failed to get export data.");
-            }
-
-            if ($response_http_code != 200) {
                 throw new TuneServiceException(
-                    "Service failed request: {$response_http_code}. TuneManagementRequest URL: '{$request_url}'"
+                    "Report request failed to get export data, response: " . print_r($response, true)
                 );
             }
+            
+            // Failed to get status.
             if (!array_key_exists("status", $data)) {
                 throw new TuneSdkException(
-                    "Export data does not contain report 'status' for download: " . print_r($data, true) . PHP_EOL
+                    "Export data does not contain report 'status', response: " . print_r($response, true)
                 );
             }
+            
+            // Get status.
             $status = $data["status"];
             if ($status == "fail" || $status == "complete") {
                 break;

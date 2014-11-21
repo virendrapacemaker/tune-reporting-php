@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_api_advertiser_stats_ltv
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-03 15:03:06 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -74,6 +74,173 @@ class LTV extends ReportsInsightEndpointBase
             ,"publisher.name"
             ,"rpi"
             ,"epi"
+        );
+    }
+
+    /**
+     * Finds all existing records that match filter criteria
+     * and returns an array of found model data.
+     *
+     * @param string $start_date        YYYY-MM-DD HH:MM:SS
+     * @param string $end_date          YYYY-MM-DD HH:MM:SS
+     * @param string $cohort_type       Cohort types: click, install
+     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
+     * @param string $aggregation_type  Aggregation types: cumulative, incremental.
+     * @param string $fields            Present results using these endpoint's fields.
+     * @param string $group             Group results using this endpoint's fields.
+     * @param string $filter            Apply constraints based upon values associated with
+     *                                  this endpoint's fields.
+     * @param int    $limit             Limit number of results, default 10, 0 shows all
+     * @param int    $page              Pagination, default 1.
+     * @param string $sort              Sort results using this endpoint's fields. Directions: DESC, ASC
+     * @param string $format
+     * @param string $response_timezone Setting expected timezone for results,
+     *                                  default is set in account.
+     *
+     * @return object
+     */
+    public function find(
+        $start_date,
+        $end_date,
+        $cohort_type,
+        $cohort_interval,
+        $aggregation_type,
+        $fields,
+        $group,
+        $filter = null,
+        $limit = null,
+        $page = null,
+        $sort = null,
+        $response_timezone = null
+    ) {
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
+        self::validateCohortType($cohort_type);
+        self::validateCohortInterval($cohort_interval);
+        self::validateAggregationType($aggregation_type);
+
+        if (is_null($group)
+            || (is_array($group) && empty($group))
+            || (is_string($group) && empty($group))
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'group' is invalid: '{$group}'."
+            );
+        } else {
+            $group = $this->validateGroup($group);
+        }
+
+        if (is_null($fields) ||
+            (is_array($fields) && empty($fields)) ||
+            (is_string($fields) && empty($fields))
+        ) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+        }
+
+        if (is_null($fields) || empty($fields)) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+        }
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
+        }
+
+        if (!is_null($filter)) {
+            $filter = $this->validateFilter($filter);
+        }
+
+        return parent::callRecords(
+            $action = "find",
+            $query_string_dict = array (
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'cohort_type' => $cohort_type,
+                'interval' => $cohort_interval,
+                'aggregation_type' => $aggregation_type,
+                'fields' => $fields,
+                'group' => $group,
+                'filter' => $filter,
+                'limit' => $limit,
+                'page' => $page,
+                'sort' => $sort,
+                'response_timezone' => $response_timezone
+            )
+        );
+    }
+
+    /**
+     * Places a job into a queue to generate a report that will contain
+     * records that match provided filter criteria, and it returns a job
+     * identifier to be provided to action /export/download.json to download
+     * completed report.
+     *
+     * @param string $start_date        YYYY-MM-DD HH:MM:SS
+     * @param string $end_date          YYYY-MM-DD HH:MM:SS
+     * @param string $cohort_type       Cohort types: click, install.
+     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year.
+     * @param string $aggregation_type  Aggregation types: cumulative, incremental.
+     * @param string $fields            Present results using these endpoint's fields.
+     * @param string $group             Group results using this endpoint's fields.
+     * @param string $filter            Apply constraints based upon values associated with
+     *                                  this endpoint's fields.
+     * @param string $response_timezone Setting expected timezone for results,
+     *                                  default is set in account.
+     *
+     * @return object
+     * @throws \InvalidArgumentException
+     */
+    public function export(
+        $start_date,
+        $end_date,
+        $cohort_type,
+        $cohort_interval,
+        $aggregation_type,
+        $fields,
+        $group,
+        $filter = null,
+        $response_timezone = null
+    ) {
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
+        self::validateCohortType($cohort_type);
+        self::validateCohortInterval($cohort_interval);
+        self::validateAggregationType($aggregation_type);
+
+        if (is_null($group)
+            || (is_array($group) && empty($group))
+            || (is_string($group) && empty($group))
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'group' is invalid: '{$group}'."
+            );
+        } else {
+            $group = $this->validateGroup($group);
+        }
+
+        if (is_null($fields) || empty($fields)) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
+        }
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
+        }
+        if (!is_null($filter)) {
+            $filter = $this->validateFilter($filter);
+        }
+
+        return parent::callRecords(
+            $action = "export",
+            $query_string_dict = array (
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'cohort_type' => $cohort_type,
+                'interval' => $cohort_interval,
+                'aggregation_type' => $aggregation_type,
+                'fields' => $fields,
+                'group' => $group,
+                'filter' => $filter,
+                'response_timezone' => $response_timezone
+            )
         );
     }
 

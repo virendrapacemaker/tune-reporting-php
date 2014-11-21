@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -118,20 +118,21 @@ class ExampleReportsRetention
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
+                $cohort_interval     = "year_day",
                 $group               = "site_id,install_publisher_id",
-                $cohort_interval     = null,
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
+
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -141,51 +142,48 @@ class ExampleReportsRetention
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $aggregation_type    = "cumulative",
-                $group               = "site_id,install_publisher_id",
+                $cohort_interval     = "year_day",
                 $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
-                $cohort_interval     = null,
+                $group               = "site_id,install_publisher_id",
                 $filter              = "(install_publisher_id > 0)",
-                $limit               = 10,
+                $limit               = 5,
                 $page                = null,
                 $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
-                $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
+
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
 
             echo "= advertiser/stats/retention/find.json csv response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
-
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser Retention CSV report for export. " . PHP_EOL;
+            echo " Advertiser Retention CSV report for export.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $reports_retention->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $aggregation_type    = "cumulative",
-                $group               = "site_id,install_publisher_id",
+                $cohort_interval     = "year_day",
                 $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
-                $cohort_interval     = null,
+                $group               = "site_id,install_publisher_id",
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             $job_id = Retention::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
@@ -204,7 +202,7 @@ class ExampleReportsRetention
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Retention CSV report and pretty print 5 lines.   " . PHP_EOL;
+            echo " Read Retention CSV report and pretty print 5 lines.    " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(

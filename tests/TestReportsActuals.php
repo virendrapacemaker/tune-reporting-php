@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -164,9 +164,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->find(
             $start_date,
             $end_date,
+            $fields              = null,
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -193,8 +193,6 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->find(
             $start_date,
             $end_date,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
             $fields              = "site_id"
             . ",site.name"
             . ",publisher_id"
@@ -212,6 +210,8 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
             . ",paid_opens"
             . ",paid_opens_assists"
             . ",non_opens_assists",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -238,9 +238,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->find(
             $start_date,
             $end_date,
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_DEFAULT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_DEFAULT),
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -267,9 +267,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->find(
             $start_date,
             $end_date,
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_ENDPOINT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_ENDPOINT),
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -280,7 +280,6 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
     }
-
 
     /**
      * Test find
@@ -297,9 +296,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->find(
             $start_date,
             $end_date,
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
             $limit               = 5,
             $page                = null,
             $sort                = array("installs" => "DESC"),
@@ -323,9 +322,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->export(
             $start_date,
             $end_date,
+            $fields              = null,
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = null,
             $timestamp           = "datehour",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -351,9 +350,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->export(
             $start_date,
             $end_date,
+            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
-            $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
             $timestamp           = "datehour",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -379,8 +378,6 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $response = $reports_actuals->export(
             $start_date,
             $end_date,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
             $fields              = "site_id"
             . ",site.name"
             . ",publisher_id"
@@ -398,6 +395,8 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
             . ",paid_opens"
             . ",paid_opens_assists"
             . ",non_opens_assists",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $timestamp           = "datehour",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -411,6 +410,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch() {
         try {
             $week_ago       = date('Y-m-d', strtotime("-8 days"));
@@ -423,9 +425,9 @@ class TestReportsActuals extends \PHPUnit_Framework_TestCase
             $response = $reports_actuals->export(
                 $start_date,
                 $end_date,
+                $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
-                $fields              = $reports_actuals->fields(Stats::TUNE_FIELDS_RECOMMENDED),
                 $timestamp           = "datehour",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -141,8 +141,8 @@ class TestReportsInstalls extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_installs->find(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved')",
             $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+            $filter              = "(status = 'approved')",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -164,8 +164,8 @@ class TestReportsInstalls extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_installs->export(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved')",
             $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+            $filter              = "(status = 'approved')",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -178,6 +178,9 @@ class TestReportsInstalls extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch()
     {
         try {
@@ -190,8 +193,8 @@ class TestReportsInstalls extends \PHPUnit_Framework_TestCase
             $response = $reports_logs_installs->export(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved')",
                 $fields              = $reports_logs_installs->fields(Installs::TUNE_FIELDS_RECOMMENDED),
+                $filter              = "(status = 'approved')",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );

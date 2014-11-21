@@ -90,3 +90,9 @@ Version 0.9.14
 Beta public release on November 06, 2014
 * Cohort endpoint changes.
 * Actuals endpoint changes.
+
+Version 0.9.16
+--------------
+
+Beta public release on Novenber 19, 2014
+* Fixes to Cohort and Retention reports

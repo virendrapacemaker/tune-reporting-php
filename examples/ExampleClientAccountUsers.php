@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 14:59:02 $
+ * @version   $Date: 2014-11-18 17:35:42 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -68,29 +68,35 @@ class ExampleClientAccountUsers
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        echo "=========================================================" . PHP_EOL;
-        echo "= Tune Management API Client Account Users              =" . PHP_EOL;
-        echo "=========================================================" . PHP_EOL;
+        try {
 
-        $client = new \Tune\Management\Shared\Service\TuneManagementClient(
-            $controller = 'account/users',
-            $action = 'find.json',
-            $api_key,
-            $query_string_dict = array(
-                "fields" => "first_name,last_name,email",
-                "limit" => 5
-            )
-        );
+            echo "=========================================================" . PHP_EOL;
+            echo "= Tune Management API Client Account Users              =" . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
 
-        $client->call();
+            $client = new \Tune\Management\Shared\Service\TuneManagementClient(
+                $controller = 'account/users',
+                $action = 'find.json',
+                $api_key,
+                $query_string_dict = array(
+                    "fields" => "first_name,last_name,email",
+                    "limit" => 5
+                )
+            );
 
-        echo "= TuneManagementResponse:" . PHP_EOL;
-        echo print_r($client->getResponse(), true) . PHP_EOL;
+            $client->call();
 
-        echo "======================================================" . PHP_EOL;
-        echo " End Example                                          " . PHP_EOL;
-        echo "======================================================" . PHP_EOL;
-        echo PHP_EOL;
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($client->getResponse(), true) . PHP_EOL;
+
+            echo "======================================================" . PHP_EOL;
+            echo " End Example                                          " . PHP_EOL;
+            echo "======================================================" . PHP_EOL;
+            echo PHP_EOL;
+
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 }
 
