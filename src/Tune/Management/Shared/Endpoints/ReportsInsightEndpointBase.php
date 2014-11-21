@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_reports_insights_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -49,7 +49,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
     /**
      * @var array Available choices for Cohort intervals.
      */
-    protected static $cohort_intervals
+    private static $cohort_intervals
         = array(
             "year_day",
             "year_week",
@@ -60,7 +60,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
     /**
      * @var array Available choices for Cohort types.
      */
-    protected static $cohort_types
+    private static $cohort_types
         = array(
             "click",
             "install"
@@ -69,7 +69,7 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
     /**
      * @var array Available choices for Aggregation types.
      */
-    protected static $aggregation_types
+    private static $aggregation_types
         = array(
             "incremental",
             "cumulative"
@@ -107,8 +107,8 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
      * @param string $start_date        YYYY-MM-DD HH:MM:SS
      * @param string $end_date          YYYY-MM-DD HH:MM:SS
      * @param string $cohort_type       Cohort types: click, install
-     * @param string $group             Group results using this endpoint's fields.
      * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
+     * @param string $group             Group results using this endpoint's fields.
      * @param string $filter            Apply constraints based upon values associated with
      *                                  this endpoint's fields.
      * @param string $response_timezone Setting expected timezone for results,
@@ -120,35 +120,30 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         $start_date,
         $end_date,
         $cohort_type,
+        $cohort_interval,
         $group,
-        $cohort_interval = null,
         $filter = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
+        self::validateCohortType($cohort_type);
+        self::validateCohortInterval($cohort_interval);
+
+        if (is_null($group)
+            || (is_array($group) && empty($group))
+            || (is_string($group) && empty($group))
+        ) {
+            throw new \InvalidArgumentException(
+                "Parameter 'group' is invalid: '{$group}'."
+            );
+        } else {
+            $group = $this->validateGroup($group);
         }
 
-        if (!is_string($cohort_type)
-            || empty($cohort_type)
-            || !in_array($cohort_type, self::$cohort_types)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
-            );
-        }
-        if (is_string($cohort_interval)
-            && !in_array($cohort_interval, self::$cohort_intervals)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'interval' is invalid: '{$cohort_interval}'."
-            );
-        }
-        if (!is_null($group)) {
-            $group = $this->validateGroup($group);
+        if (!is_null($filter)) {
+            $filter = $this->validateFilter($filter);
         }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
@@ -160,214 +155,9 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
                 'start_date' => $start_date,
                 'end_date' => $end_date,
                 'cohort_type' => $cohort_type,
-                'group' => $group,
                 'interval' => $cohort_interval,
-                'filter' => $filter,
-                'response_timezone' => $response_timezone
-            )
-        );
-    }
-
-    /**
-     * Finds all existing records that match filter criteria
-     * and returns an array of found model data.
-     *
-     * @param string $start_date        YYYY-MM-DD HH:MM:SS
-     * @param string $end_date          YYYY-MM-DD HH:MM:SS
-     * @param string $cohort_type       Cohort types: click, install
-     * @param string $aggregation_type  Aggregation types: cumulative, incremental
-     * @param string $group             Group results using this endpoint's fields.
-     * @param string $fields            Present results using these endpoint's fields.
-     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
-     * @param string $filter            Apply constraints based upon values associated with
-     *                                  this endpoint's fields.
-     * @param int    $limit             Limit number of results, default 10, 0 shows all
-     * @param int    $page              Pagination, default 1.
-     * @param string $sort              Sort results using this endpoint's fields. Directions: DESC, ASC
-     * @param string $format
-     * @param string $response_timezone Setting expected timezone for results,
-     *                                  default is set in account.
-     *
-     * @return object
-     */
-    public function find(
-        $start_date,
-        $end_date,
-        $cohort_type,
-        $aggregation_type,
-        $group,
-        $fields = null,
-        $cohort_interval = null,
-        $filter = null,
-        $limit = null,
-        $page = null,
-        $sort = null,
-        $format = null,
-        $response_timezone = null
-    ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
-
-        if (!is_string($cohort_type)
-            || empty($cohort_type)
-            || !in_array($cohort_type, self::$cohort_types)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
-            );
-        }
-        if (is_string($cohort_interval)
-            && !in_array($cohort_interval, self::$cohort_intervals)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'cohort_interval' is invalid: '{$cohort_interval}'."
-            );
-        }
-        if (!is_string($aggregation_type)
-            || empty($aggregation_type)
-            || !in_array($aggregation_type, self::$aggregation_types)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'aggregation_type' is invalid: '{aggregation_type}'."
-            );
-        }
-
-        if (!is_null($filter)) {
-            $filter = $this->validateFilter($filter);
-        }
-
-        if (is_null($fields) ||
-        	(is_array($fields) && empty($fields)) ||
-        	(is_string($fields) && empty($fields))
-        ) {
-        	$fields = self::fields(self::TUNE_FIELDS_DEFAULT);
-        }
-
-        if (is_null($fields) || empty($fields)) {
-            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
-        }
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
-        if (!is_null($group)) {
-            $group = $this->validateGroup($group);
-        }
-
-        return parent::callRecords(
-            $action = "find",
-            $query_string_dict = array (
-                'start_date' => $start_date,
-                'end_date' => $end_date,
-                'cohort_type' => $cohort_type,
-                'aggregation_type' => $aggregation_type,
                 'group' => $group,
-                'interval' => $cohort_interval,
                 'filter' => $filter,
-                'fields' => $fields,
-                'limit' => $limit,
-                'page' => $page,
-                'sort' => $sort,
-                'format' => $format,
-                'response_timezone' => $response_timezone
-            )
-        );
-    }
-
-    /**
-     * Places a job into a queue to generate a report that will contain
-     * records that match provided filter criteria, and it returns a job
-     * identifier to be provided to action /export/download.json to download
-     * completed report.
-     *
-     * @param string $start_date        YYYY-MM-DD HH:MM:SS
-     * @param string $end_date          YYYY-MM-DD HH:MM:SS
-     * @param string $cohort_type       Cohort types: click, install
-     * @param string $aggregation_type  Aggregation types: cumulative, incremental
-     * @param string $group             Group results using this endpoint's fields.
-     * @param string $cohort_interval   Cohort intervals: year_day, year_week, year_month, year
-     * @param string $fields            Present results using these endpoint's fields.
-     * @param string $filter            Apply constraints based upon values associated with
-     *                                  this endpoint's fields.
-     * @param string $response_timezone Setting expected timezone for results,
-     *                                  default is set in account.
-     *
-     * @return object
-     * @throws \InvalidArgumentException
-     */
-    public function export(
-        $start_date,
-        $end_date,
-        $cohort_type,
-        $aggregation_type,
-        $group,
-        $fields,
-        $cohort_interval = null,
-        $filter = null,
-        $response_timezone = null
-    ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
-
-        if (!is_string($cohort_type)
-            || empty($cohort_type)
-            || !in_array($cohort_type, self::$cohort_types)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'cohort_type' is invalid: '{$cohort_type}'."
-            );
-        }
-        if (!is_string($aggregation_type)
-            || empty($aggregation_type)
-            || !in_array($aggregation_type, self::$aggregation_types)
-        ) {
-            throw new \InvalidArgumentException(
-                "Parameter 'aggregation_type' is invalid: '{aggregation_type}'."
-            );
-        }
-
-        if (is_null($fields) || empty($fields)) {
-            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
-        }
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
-        if (!is_null($filter)) {
-            $filter = $this->validateFilter($filter);
-        }
-        if (!is_null($group)) {
-            $group = $this->validateGroup($group);
-        }
-
-        if (!is_null($cohort_interval)) {
-            if (!is_string($cohort_interval)
-                || empty($cohort_interval)
-                || !in_array($cohort_interval, self::$cohort_intervals)
-            ) {
-                throw new \InvalidArgumentException(
-                    "Parameter 'cohort_interval' is invalid: '{$cohort_interval}'."
-                );
-            }
-        }
-
-        return parent::callRecords(
-            $action = "export",
-            $query_string_dict = array (
-                'start_date' => $start_date,
-                'end_date' => $end_date,
-                'cohort_type' => $cohort_type,
-                'aggregation_type' => $aggregation_type,
-                'group' => $group,
-                'interval' => $cohort_interval,
-                'filter' => $filter,
-                'fields' => $fields,
                 'response_timezone' => $response_timezone
             )
         );
@@ -450,7 +240,9 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
 
         $data = $response->getData();
         if (is_null($data)) {
-            throw new TuneServiceException("Report request failed to get export data.");
+            throw new TuneServiceException(
+                "Report request failed to get export data, response: " . print_r($response, true)
+            );
         }
         if (!array_key_exists("job_id", $data)) {
             throw new TuneSdkException(
@@ -467,5 +259,71 @@ abstract class ReportsInsightEndpointBase extends ReportsEndpointBase
         }
 
         return $job_id;
+    }
+
+    /**
+     * @param $cohort_interval
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function validateCohortInterval($cohort_interval)
+    {
+        if (is_null($cohort_interval)
+            || !is_string($cohort_interval)
+            || empty($cohort_interval)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'cohort_interval' is not defined.");
+        }
+
+        if (!in_array($cohort_interval, self::$cohort_intervals)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'cohort_interval' is invalid: '{$cohort_interval}'.");
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $cohort_type
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function validateCohortType($cohort_type)
+    {
+        if (is_null($cohort_type)
+            || !is_string($cohort_type)
+            || empty($cohort_type)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'cohort_type' is not defined.");
+        }
+
+        if (!in_array($cohort_type, self::$cohort_types)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'cohort_type' is invalid: '{$cohort_type}'.");
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $aggregation_type
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function validateAggregationType($aggregation_type)
+    {
+        if (is_null($aggregation_type)
+            || !is_string($aggregation_type)
+            || empty($aggregation_type)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'aggregation_type' is not defined.");
+        }
+
+        if (!in_array($aggregation_type, self::$aggregation_types)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'aggregation_type' is invalid: '{$aggregation_type}'.");
+        }
+
+        return true;
     }
 }

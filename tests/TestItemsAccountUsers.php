@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -145,8 +145,8 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
             );
 
             $response = $account_users->find(
-                $filter      = "((first_name LIKE '%a%') AND (phone IS NOT NULL))",
                 $fields      = $account_users->fields(),
+                $filter      = "((first_name LIKE '%a%') AND (phone IS NOT NULL))",
                 $limit       = 5,
                 $limit       = null,
                 $sort        = array (
@@ -171,8 +171,8 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
         );
 
         $response = $account_users->export(
-            $filter      = "((first_name LIKE '%a%') AND (phone IS NOT NULL))",
             $fields      = $account_users->fields(),
+            $filter      = "((first_name LIKE '%a%') AND (phone IS NOT NULL))",
             $format      = "csv"
         );
 
@@ -184,6 +184,9 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch()
     {
         try {
@@ -193,8 +196,8 @@ class TestItemsAccountUsers extends \PHPUnit_Framework_TestCase
             );
 
             $response = $account_users->export(
-                $filter              = null,
                 $fields              = $account_users->fields(),
+                $filter              = null,
                 $format              = "json"
             );
 

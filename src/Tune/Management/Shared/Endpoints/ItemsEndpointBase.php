@@ -31,7 +31,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_items_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -97,12 +97,12 @@ class ItemsEndpointBase extends EndpointBase
      * Finds all existing records that match filter criteria
      * and returns an array of found model data.
      *
-     * @param string $filter                Filter the results and apply conditions
-     *                                      that must be met for records to be
-     *                                      included in data.
      * @param string $fields                No value returns default fields, "*"
      *                                      returns all available fields,
      *                                      or provide specific fields.
+     * @param string $filter                Filter the results and apply conditions
+     *                                      that must be met for records to be
+     *                                      included in data.
      * @param int    $limit                 Limit number of results, default 10,
      *                                      0 shows all.
      * @param int    $page                  Pagination, default 1.
@@ -113,12 +113,15 @@ class ItemsEndpointBase extends EndpointBase
      * @return object @see TuneManagementResponse
      */
     public function find(
-        $filter = null,
         $fields = null,
+        $filter = null,
         $limit = null,
         $page = null,
         $sort = null
     ) {
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
+        }
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -129,9 +132,6 @@ class ItemsEndpointBase extends EndpointBase
             $sort_map = $this->validateSort($fields, $sort);
             $sort = $sort_map["sort"];
             $fields = $sort_map["fields"];
-        }
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
         }
 
         return parent::call(
@@ -154,10 +154,10 @@ class ItemsEndpointBase extends EndpointBase
      *
      * @param string $start_date            YYYY-MM-DD HH:MM:SS
      * @param string $end_date              YYYY-MM-DD HH:MM:SS
+     * @param string $fields                Provide fields if format is 'csv'.
      * @param string $filter                Filter the results and apply conditions
      *                                      that must be met for records to be
      *                                      included in data.
-     * @param string $fields                Provide fields if format is 'csv'.
      * @param string $format                Export format: csv, json
      * @param string $response_timezone     Setting expected timezone for results,
      *                                      default is set in account.
@@ -165,8 +165,8 @@ class ItemsEndpointBase extends EndpointBase
      * @return object @see TuneManagementResponse
      */
     public function export(
-        $filter = null,
         $fields = null,
+        $filter = null,
         $format = null
     ) {
         if (!is_null($filter)) {

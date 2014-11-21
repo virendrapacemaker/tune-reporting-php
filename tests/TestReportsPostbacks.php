@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -138,8 +138,8 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_postbacks->find(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved')",
             $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+            $filter              = "(status = 'approved')",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -161,8 +161,8 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_postbacks->export(
             $start_date,
             $end_date,
-            $filter              = "(status = 'approved')",
             $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+            $filter              = "(status = 'approved')",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -175,6 +175,9 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch() {
         try {
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
@@ -186,8 +189,8 @@ class TestReportsPostbacks extends \PHPUnit_Framework_TestCase
             $response = $reports_logs_postbacks->export(
                 $start_date,
                 $end_date,
-                $filter              = "(status = 'approved')",
                 $fields              = $reports_logs_postbacks->fields(Postbacks::TUNE_FIELDS_RECOMMENDED),
+                $filter              = "(status = 'approved')",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );

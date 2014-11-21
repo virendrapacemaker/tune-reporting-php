@@ -35,7 +35,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-05 14:59:02 $
+ * @version   $Date: 2014-11-18 17:35:42 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -87,16 +87,14 @@ class TuneExamples
             ExampleItemsAccountUsers::run($api_key);
 
             ExampleReportsActuals::run($api_key);
+            ExampleReportsCohort::run($api_key);
+            ExampleReportsRetention::run($api_key);
 
             ExampleReportsClicks::run($api_key);
             ExampleReportsEventItems::run($api_key);
             ExampleReportsEvents::run($api_key);
             ExampleReportsInstalls::run($api_key);
             ExampleReportsPostbacks::run($api_key);
-
-            ExampleReportsCohort::run($api_key);
-            ExampleReportsRetention::run($api_key);
-
         } catch (\Tune\Shared\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";
         } catch (\Tune\Shared\TuneSdkException $ex) {

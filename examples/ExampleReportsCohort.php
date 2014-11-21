@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -118,50 +118,50 @@ class ExampleReportsCohort
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $group               = "site_id,publisher_id",
                 $cohort_interval     = "year_day",
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
+
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Cohort records Default                  " . PHP_EOL;
+            echo " Find Advertiser Cohort records.                         " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
             $response = $reports_cohort->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
+                $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $group               = null,
-                $fields              = null,
-                $cohort_interval     = null,
+                $fields              = "site_id,site.name,publisher_id,publisher.name,rpi,epi",
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
                 $sort                = null,
-                $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
             echo " Find Advertiser Cohort records Recommended              " . PHP_EOL;
@@ -171,51 +171,50 @@ class ExampleReportsCohort
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
+                $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
                 $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
-                $cohort_interval     = null,
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
                 $sort                = null,
-                $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );
+
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
 
             echo "= TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            if ($response->getHttpCode() != 200) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
-                );
-            }
-
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser Cohort CSV report for export.    " . PHP_EOL;
+            echo " Advertiser Cohort CSV report for export.             " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $reports_cohort->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
+                $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
                 $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
-                $cohort_interval     = null,
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if ($response->getHttpCode() != 200) {
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response->getErrors()))
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
                 );
             }
+
+            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
 
             $job_id = LTV::parseResponseReportJobId($response);
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;

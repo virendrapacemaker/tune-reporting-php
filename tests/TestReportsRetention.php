@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -142,8 +142,8 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $group               = "site_id,install_publisher_id",
             $cohort_interval     = "year_day",
+            $group               = "site_id,install_publisher_id",
             $filter              = "(install_publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -168,12 +168,11 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "install",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,install_publisher_id",
-            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
+            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,install_publisher_id",
             $filter              = "(install_publisher_id > 0)",
-            $limit               = 10,
+            $limit               = 5,
             $page                = null,
             $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
             $format              = "csv",
@@ -197,10 +196,9 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "install",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,install_publisher_id",
-            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
+            $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,install_publisher_id",
             $filter              = "(install_publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -213,6 +211,9 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch()
     {
         try {
@@ -227,10 +228,9 @@ class TestReportsRetention extends \PHPUnit_Framework_TestCase
                 $start_date,
                 $end_date,
                 $cohort_type         = "install",
-                $aggregation_type    = "cumulative",
-                $group               = "site_id,install_publisher_id",
-                $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = "year_day",
+                $fields              = $reports_retention->fields(Retention::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,install_publisher_id",
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );

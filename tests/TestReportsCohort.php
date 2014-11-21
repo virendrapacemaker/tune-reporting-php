@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -145,8 +145,8 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $group               = "site_id,publisher_id",
             $cohort_interval     = "year_day",
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -171,10 +171,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = null,
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = null,
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
@@ -203,10 +203,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT),
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_DEFAULT),
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
@@ -235,10 +235,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_ENDPOINT),
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_ENDPOINT),
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
@@ -267,10 +267,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
@@ -296,10 +296,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = null,
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = null,
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -325,10 +325,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
             $start_date,
             $end_date,
             $cohort_type         = "click",
-            $aggregation_type    = "cumulative",
-            $group               = "site_id,publisher_id",
-            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
             $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -341,6 +341,9 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch()
     {
         try {
@@ -355,10 +358,10 @@ class TestReportsCohort extends \PHPUnit_Framework_TestCase
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
-                $aggregation_type    = "cumulative",
-                $group               = "site_id,publisher_id",
-                $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
                 $cohort_interval     = "year_day",
+                $aggregation_type    = "cumulative",
+                $fields              = $reports_cohort->fields(LTV::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );

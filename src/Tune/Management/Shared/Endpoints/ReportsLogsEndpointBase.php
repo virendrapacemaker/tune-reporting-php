@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_reports_logs_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -82,17 +82,14 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
      * @param string $response_timezone Setting expected time for data
      */
     public function count(
-        $start_date = null,
-        $end_date = null,
+        $start_date,
+        $end_date,
         $filter = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -114,12 +111,12 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
      *
      * @param string $start_date            YYYY-MM-DD HH:MM:SS
      * @param string $end_date              YYYY-MM-DD HH:MM:SS
-     * @param string $filter                Filter the results and apply conditions
-     *                                      that must be met for records to be
-     *                                      included in data.
      * @param string $fields                No value returns default fields, "*"
      *                                      returns all available fields,
      *                                      or provide specific fields.
+     * @param string $filter                Filter the results and apply conditions
+     *                                      that must be met for records to be
+     *                                      included in data.
      * @param int    $limit                 Limit number of results, default 10,
      *                                      0 shows all.
      * @param int    $page                  Pagination, default 1.
@@ -132,21 +129,18 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
      * @return object
      */
     public function find(
-        $start_date = null,
-        $end_date = null,
-        $filter = null,
+        $start_date,
+        $end_date,
         $fields = null,
+        $filter = null,
         $limit = null,
         $page = null,
         $sort = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -167,8 +161,8 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
             $query_string_dict = array (
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'filter' => $filter,
                 'fields' => $fields,
+                'filter' => $filter,
                 'limit' => $limit,
                 'page' => $page,
                 'sort' => $sort,
@@ -185,10 +179,10 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
      *
      * @param string $start_date            YYYY-MM-DD HH:MM:SS
      * @param string $end_date              YYYY-MM-DD HH:MM:SS
+     * @param string $fields                Provide fields if format is 'csv'.
      * @param string $filter                Filter the results and apply conditions
      *                                      that must be met for records to be
      *                                      included in data.
-     * @param string $fields                Provide fields if format is 'csv'.
      * @param string $format                Export format: csv, json
      * @param string $response_timezone     Setting expected timezone for results,
      *                                      default is set in account.
@@ -196,19 +190,16 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
      * @return object
      */
     public function export(
-        $start_date = null,
-        $end_date = null,
-        $filter = null,
+        $start_date,
+        $end_date,
         $fields = null,
+        $filter = null,
         $format = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -234,8 +225,8 @@ abstract class ReportsLogsEndpointBase extends ReportsEndpointBase
             $query_string_dict = array (
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'filter' => $filter,
                 'fields' => $fields,
+                'filter' => $filter,
                 'format' => $format,
                 'response_timezone' => $response_timezone
             )

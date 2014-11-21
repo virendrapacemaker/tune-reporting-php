@@ -30,7 +30,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_reports_actuals_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -94,18 +94,15 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      * @param string $response_timezone Setting expected time for data
      */
     public function count(
-        $start_date = null,
-        $end_date = null,
+        $start_date,
+        $end_date,
         $group = null,
         $filter = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
-        }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
-        }
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
         if (!is_null($group)) {
             $group = $this->validateGroup($group);
         }
@@ -146,39 +143,38 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      * @return object
      */
     public function find(
-        $start_date = null,
-        $end_date = null,
+        $start_date,
+        $end_date,
+        $fields = null,
         $group = null,
         $filter = null,
-        $fields = null,
         $limit = null,
         $page = null,
         $sort = null,
         $timestamp = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
+        if (is_null($fields) || (is_array($fields) && empty($fields))) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
         }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
         }
         if (!is_null($group)) {
             $group = $this->validateGroup($group);
         }
+
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
         if (!is_null($sort)) {
-            if (is_null($fields) || (is_array($fields) && empty($fields))) {
-                $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
-            }
+
             $sort_map = $this->validateSort($fields, $sort);
             $sort = $sort_map["sort"];
             $fields = $sort_map["fields"];
-        }
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
         }
 
         // timestamp
@@ -191,9 +187,9 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
             $query_string_dict = array (
                 'start_date' => $start_date,
                 'end_date' => $end_date,
+                'fields' => $fields,
                 'group' => $group,
                 'filter' => $filter,
-                'fields' => $fields,
                 'limit' => $limit,
                 'page' => $page,
                 'sort' => $sort,
@@ -211,11 +207,11 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      *
      * @param string $start_date        YYYY-MM-DD HH:MM:SS
      * @param string $end_date          YYYY-MM-DD HH:MM:SS
+     * @param string $fields            No value returns default fields, "*" returns all
+     *                                  available fields, or provide specific fields.
      * @param string $group             Group results using this endpoint's fields.
      * @param string $filter            Filter the results and apply conditions that
      *                                  must be met for records to be included in data.
-     * @param string $fields            No value returns default fields, "*" returns all
-     *                                  available fields, or provide specific fields.
      * @param string $timestamp         Set to breakdown stats by timestamp choices:
      *                                  hour, datehour, date, week, month.
      * @param string $format            Export format for downloaded report: json, csv.
@@ -224,24 +220,28 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
      * @return object
      */
     public function export(
-        $start_date = null,
-        $end_date = null,
+        $start_date,
+        $end_date,
+        $fields = null,
         $group = null,
         $filter = null,
-        $fields = null,
         $timestamp = null,
         $format = null,
         $response_timezone = null
     ) {
-        if (!is_null($start_date)) {
-            EndpointBase::validateDateTime('start_date', $start_date);
+        self::validateDateTime('start_date', $start_date);
+        self::validateDateTime('end_date', $end_date);
+
+        if (is_null($fields) || (is_array($fields) && empty($fields))) {
+            $fields = self::fields(self::TUNE_FIELDS_DEFAULT);
         }
-        if (!is_null($end_date)) {
-            EndpointBase::validateDateTime('end_date', $end_date);
+        if (!is_null($fields)) {
+            $fields = $this->validateFields($fields);
         }
         if (!is_null($group)) {
             $group = $this->validateGroup($group);
         }
+
         if (!is_null($filter)) {
             $filter = $this->validateFilter($filter);
         }
@@ -259,18 +259,14 @@ abstract class ReportsActualsEndpointBase extends ReportsEndpointBase
             $fields = parent::fields(self::TUNE_FIELDS_DEFAULT);
         }
 
-        if (!is_null($fields)) {
-            $fields = $this->validateFields($fields);
-        }
-
         return parent::callRecords(
             $action = "find_export_queue",
             $query_string_dict = array (
                 'start_date' => $start_date,
                 'end_date' => $end_date,
+                'fields' => $fields,
                 'group' => $group,
                 'filter' => $filter,
-                'fields' => $fields,
                 'timestamp' => $timestamp,
                 'format' => $format,
                 'response_timezone' => $response_timezone

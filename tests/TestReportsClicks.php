@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 Tune (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 12:28:55 $
+ * @version   $Date: 2014-11-19 07:02:45 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -166,8 +166,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = null,
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -192,8 +192,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_DEFAULT),
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -218,8 +218,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_ENDPOINT),
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -244,8 +244,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -270,8 +270,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = "foo",
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -293,8 +293,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = "(foo > 0)",
             $fields              = null,
+            $filter              = "(foo > 0)",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -316,8 +316,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = "(created # 0)",
             $fields              = null,
+            $filter              = "(created # 0)",
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -339,8 +339,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->find(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = "foo",
+            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -359,8 +359,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $response = $reports_logs_clicks->export(
             $start_date,
             $end_date,
-            $filter              = null,
             $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+            $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
@@ -373,6 +373,9 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!empty($job_id));
     }
 
+    /**
+     * @large
+     */
     public function testFetch() {
         try {
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
@@ -384,8 +387,8 @@ class TestReportsClicks extends \PHPUnit_Framework_TestCase
             $response = $reports_logs_clicks->export(
                 $start_date,
                 $end_date,
-                $filter              = null,
                 $fields              = $reports_logs_clicks->fields(Clicks::TUNE_FIELDS_RECOMMENDED),
+                $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
             );

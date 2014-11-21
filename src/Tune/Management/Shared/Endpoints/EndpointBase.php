@@ -31,7 +31,7 @@
  * @copyright 2014 Tune (http://www.tune.com)
  * @package   management_shared_endpoint_base
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-11-06 17:54:12 $
+ * @version   $Date: 2014-11-19 21:21:08 $
  * @link      https://developers.mobileapptracking.com @endlink
  *
  */
@@ -726,6 +726,16 @@ class EndpointBase
      */
     public static function validateDateTime($param_name, $date_time)
     {
+        if (is_null($param_name) || !is_string($param_name) || empty($param_name)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'param_name' is not defined.");
+        }
+
+        if (is_null($date_time) || !is_string($date_time) || empty($date_time)
+        ) {
+            throw new \InvalidArgumentException("Parameter '{$param_name}' is not defined.");
+        }
+
         $d = \DateTime::createFromFormat('Y-m-d', $date_time);
         if ($d && $d->format('Y-m-d') == $date_time) {
             return true;
@@ -858,7 +868,9 @@ class EndpointBase
 
         $data = $response->getData();
         if (is_null($data)) {
-            throw new TuneServiceException("Report request failed to get export data.");
+            throw new TuneServiceException(
+                "Report request failed to get export data, response: " . print_r($response, true)
+            );
         }
 
         $job_id = $data;
@@ -895,18 +907,13 @@ class EndpointBase
             );
         }
         if (!array_key_exists("data", $data)) {
-            throw new TuneSdkException(
-                "Export data does not contain report 'data' for download: " . print_r($data, true) . PHP_EOL
-            );
-        }
-        if (!array_key_exists("data", $data)) {
             throw new TuneServiceException(
                 "Export response does not contain 'data': " . print_r($data, true) . PHP_EOL
             );
         }
         if (is_null($data["data"])) {
             throw new TuneServiceException(
-                "Export data response does not contain 'data: " . print_r($data, true) . PHP_EOL
+                "Export data response does not contain 'data': " . print_r($data, true) . PHP_EOL
             );
         }
         if (!array_key_exists("url", $data["data"])) {

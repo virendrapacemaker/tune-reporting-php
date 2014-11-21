@@ -1,8 +1,8 @@
 <h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  2014-11-06</h4>
-<h4>Version: 0.9.14</h4>
+<h4>Update:  $Date: 2014-11-21 14:12:20 $</h4>
+<h4>Version: 0.9.16</h4>
 ===
 
 ### Overview
@@ -104,7 +104,7 @@ Run the following script to view execution of all unittests:
 <a name="sdk_docs_phpdoc"></a>
 #### SDK Documentation -- phpDocumentor
 
-Run the following script to generate phpDocumentor-based documentation:
+The following will generate [PhpDocumentor](http://en.wikipedia.org/wiki/PhpDocumentor) from PHP codebase:
 
 ```bash
     $ make docs-phpdoc
@@ -113,7 +113,7 @@ Run the following script to generate phpDocumentor-based documentation:
 <a name="sdk_docs_doxygen"></a>
 #### SDK Documentation -- Doxygen
 
-Run the following script to generate Doxygen-based documentation:
+The following will generate [Doxygen](http://en.wikipedia.org/wiki/Doxygen) from PHP codebase:
 
 ```bash
     $ make docs-doxygen
