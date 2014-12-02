@@ -3,7 +3,7 @@
 <h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  $Date: 2014-11-21 17:34:43 $</h4>
+<h4>Update:  $Date: 2014-12-02 12:00:00 $</h4>
 <h4>Version: 0.9.16</h4>
 ===
 
