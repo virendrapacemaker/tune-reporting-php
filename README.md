@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/MobileAppTracking/tune-api-php.png?branch=master)](http://travis-ci.org/MobileAppTracking/tune-api-php)
+
 <h2>tune-api-php</h2>
 <h2>Tune API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
