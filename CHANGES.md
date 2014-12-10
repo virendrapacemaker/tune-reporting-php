@@ -1,7 +1,7 @@
-## tune-api-php Changelog
+## tune-reporting-php Changelog
 =======================
 
-Here you can see the full list of changes between each tune-api-php release.
+Here you can see the full list of changes between each tune-reporting-php release.
 
 Version 0.9.0
 --------------
@@ -96,3 +96,9 @@ Version 0.9.16
 
 Beta public release on Novenber 19, 2014
 * Fixes to Cohort and Retention reports
+
+Version 0.9.20
+--------------
+
+Beta public release on December 20, 2014
+* Refactor to reflect new naming from 'tune-api-php' to 'tune-reporting-php'

@@ -1,16 +1,16 @@
 ****************************************
-tune-api-php
-Tune API SDK for PHP 5.3
-Incorporate Tune API services.
-Update:  $Date: 2014-11-21 17:34:43 $
-Version: 0.9.16
+tune-reporting-php
+Tune Reporting API SDK for PHP 5.3
+Incorporate Tune Reporting API services.
+Update:  $Date: 2014-12-10 11:15:22 $
+Version: 0.9.20
 ****************************************
 
 =============
 Overview
 =============
 
-PHP helper library for Tune API services.
+PHP helper library for Tune Reporting API services.
 
 The utility focus of this SDK is upon the Advertiser Reporting endpoints.
 
@@ -26,7 +26,7 @@ Documentation
 
 Please see documentation here:
 
-https://developers.mobileapptracking.com/tune-api-sdks/
+https://developers.mobileapptracking.com/tune-reporting-sdks/
 
 =============
 Requirements
@@ -64,20 +64,20 @@ Installation
 Via Composer:
 -------------
 
-Add the following script within your `composer.json` file to include `tune-api-php`:
+Add the following script within your `composer.json` file to include `tune-reporting-php`:
 
 ```
 {
     "require": {
-        "mobileapptracking/tune-api-php": "dev-master"
+        "mobileapptracking/tune-reporting-php": "dev-master"
     },
     "require-dev": {
-        "mobileapptracking/tune-api-php": "dev-master"
+        "mobileapptracking/tune-reporting-php": "dev-master"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:MobileAppTracking/tune-api-php.git"
+            "url": "git@github.com:MobileAppTracking/tune-reporting-php.git"
         }
     ],
 }
@@ -87,14 +87,14 @@ Add the following script within your `composer.json` file to include `tune-api-p
 Via ZIP file:
 -------------
 
-You can download the source code ZIP for `tune-api-php`:
-https://github.com/MobileAppTracking/tune-api-php/archive/master.zip
+You can download the source code ZIP for `tune-reporting-php`:
+https://github.com/MobileAppTracking/tune-reporting-php/archive/master.zip
 
-Once you download the library, move the `tune-api-php` folder to your project
+Once you download the library, move the `tune-reporting-php` folder to your project
 directory and then include the library file:
 
 ```php
-    require '/path/to/tune-api-php/lib/TuneApi.php';
+    require '/path/to/tune-reporting-php/lib/TuneApi.php';
 ```
 
 and you're good to go!
@@ -156,7 +156,7 @@ Reporting Issues
 We would love to hear your feedback.
 
 Report issues using the Github Issue Tracker:
-https://github.com/MobileAppTracking/tune-api-php/issues
+https://github.com/MobileAppTracking/tune-reporting-php/issues
 
 or Email:
 sdk@tune.com

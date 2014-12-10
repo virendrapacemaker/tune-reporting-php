@@ -15,16 +15,15 @@
 
     <testsuites>
         <testsuite name="lib">
-            <file>TestClientAccountUsers.php</file>
-            <file>TestItemsAccountUsers.php</file>
-            <file>TestReportsClicks.php</file>
-            <file>TestReportsEventItems.php</file>
-            <file>TestReportsEvents.php</file>
-            <file>TestReportsInstalls.php</file>
-            <file>TestReportsPostbacks.php</file>
-            <file>TestReportsActuals.php</file>
-            <file>TestReportsCohort.php</file>
-            <file>TestReportsRetention.php</file>
+            <file>TestTuneManagementClient.php</file>
+            <file>TestAdvertiserReportClicks.php</file>
+            <file>TestAdvertiserReportEventItems.php</file>
+            <file>TestAdvertiserReportEvents.php</file>
+            <file>TestAdvertiserReportInstalls.php</file>
+            <file>TestAdvertiserReportPostbacks.php</file>
+            <file>TestAdvertiserReportActuals.php</file>
+            <file>TestAdvertiserReportCohort.php</file>
+            <file>TestAdvertiserReportRetention.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
