@@ -1,10 +1,8 @@
-[![Build Status](https://secure.travis-ci.org/MobileAppTracking/tune-api-php.png?branch=master)](http://travis-ci.org/MobileAppTracking/tune-api-php)
-
-<h2>tune-api-php</h2>
-<h2>Tune API SDK for PHP 5.3</h2>
+<h2>tune-reporting-php</h2>
+<h2>Tune Reporting API SDK for PHP 5.3</h2>
 <h3>Incorporate Tune API services.</h3>
-<h4>Update:  $Date: 2014-12-02 12:00:00 $</h4>
-<h4>Version: 0.9.16</h4>
+<h4>Update:  $Date: 2014-12-10 11:15:22 $</h4>
+<h4>Version: 0.9.20</h4>
 ===
 
 ### Overview
@@ -21,7 +19,7 @@ The second goal of the SDKs is to assure that our customers’ developers are us
 
 Please see documentation here:
 
-[Tune API SDKs](https://developers.mobileapptracking.com/tune-api-sdks/)
+[Tune API SDKs](https://developers.mobileapptracking.com/tune-reporting-sdks/)
 
 <a name="sdk_requirements"></a>
 ### SDK Requirements
@@ -50,25 +48,25 @@ To use SDK, it requires you to [Generate API Key](http://developers.mobileapptra
 <a name="sdk_installation"></a>
 ### Installation
 
-You can install **tune-api-php** via composer or by downloading the source.
+You can install **tune-reporting-php** via composer or by downloading the source.
 
 <a name="sdk_installation_composer"></a>
 #### Via Composer:
 
-Add the following script within your `composer.json` file to include `tune-api-php`:
+Add the following script within your `composer.json` file to include `tune-reporting-php`:
 
 ```json
 {
     "require": {
-        "mobileapptracking/tune-api-php": "dev-master"
+        "mobileapptracking/tune-reporting-php": "dev-master"
     },
     "require-dev": {
-        "mobileapptracking/tune-api-php": "dev-master"
+        "mobileapptracking/tune-reporting-php": "dev-master"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:MobileAppTracking/tune-api-php.git"
+            "url": "git@github.com:MobileAppTracking/tune-reporting-php.git"
         }
     ],
 }
@@ -78,13 +76,13 @@ Add the following script within your `composer.json` file to include `tune-api-p
 #### Via ZIP file:
 
 [Click here to download the source code
-(.zip)](https://github.com/MobileAppTracking/tune-api-php/archive/master.zip) for `tune-api-php`.
+(.zip)](https://github.com/MobileAppTracking/tune-reporting-php/archive/master.zip) for `tune-reporting-php`.
 
-Once you download the library, move the tune-api-php folder to your project
+Once you download the library, move the tune-reporting-php folder to your project
 directory and then include the library file:
 
 ```php
-    require '/path/to/tune-api-php/lib/TuneApi.php';
+    require '/path/to/tune-reporting-php/lib/TuneReporting.php';
 ```
 
 and you're good to go!
@@ -136,4 +134,4 @@ Requires installation of [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.ht
 <a name="sdk_reporting_issues"></a>
 ### Reporting Issues
 
-Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-api-php/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).
+Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-reporting-php/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).

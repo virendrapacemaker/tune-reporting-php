@@ -1,7 +1,0 @@
-language: php
-php:
-    - 5.3
-    - 5.4
-    - 5.5
-script: "make api_key=b951b30cc17b6a77dad4f1ef1471bd5d tests"
-before_install: "composer install --dev"

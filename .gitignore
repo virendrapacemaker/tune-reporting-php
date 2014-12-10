@@ -8,3 +8,7 @@
 # Composer vendors
 Vendors
 composer.phar
+
+# Code documentation
+docs/doxygen/
+docs/phpdoc/

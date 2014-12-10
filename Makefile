@@ -26,8 +26,8 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 Tune (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-11-21 14:12:20 $
-# link      https://developers.mobileapptracking.com
+# version   $Date: 2014-12-10 11:15:22 $
+# link      https://developers.mobileapptracking.com/tune-reporting-sdks
 #
 
 .PHONY: all clean dist analysis tests examples docs-doxygen docs-phpdoc tests-install
@@ -60,7 +60,7 @@ analysis:
 	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./src
 
 examples:
-	php ./examples/TuneExamples.php $(api_key)
+	php ./examples/TuneReportingExamples.php $(api_key)
 
 # if these fail, you may need to install the helper library - run "make
 # tests-install"
@@ -75,5 +75,5 @@ docs-doxygen:
 
 docs-phpdoc:
 	sudo rm -fR ./docs/phpdoc/*
-	phpdoc -d ./src/ -t ./docs/phpdoc --template="responsive-twig" --title "Tune API SDK for PHP" --sourcecode
+	phpdoc -d ./src/ -t ./docs/phpdoc --template="responsive-twig" --title "Tune Reporting API SDK for PHP" --sourcecode
 	x-www-browser docs/phpdoc/index.html
