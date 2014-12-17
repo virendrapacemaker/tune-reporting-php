@@ -2,7 +2,7 @@
 /**
  * ReportExportWorker.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,18 +25,18 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
-namespace TuneReporting\Helpers;
+namespace TuneReporting\Base\Endpoints;
 
 use TuneReporting\Helpers\TuneServiceException;
 use TuneReporting\Helpers\TuneSdkException;
@@ -74,6 +74,11 @@ class ReportExportWorker
      */
     private $sleep = 60;
     /**
+     * Timeout requesting status.
+     * @var int seconds
+     */
+    private $timeout = 0;
+    /**
      * Verbose output to show progressive status of report on queue.
      * @var bool
      */
@@ -93,6 +98,7 @@ class ReportExportWorker
      * @param string    $job_id                 Provided Job Identifier to reference requested report on export queue.
      * @param bool      $verbose                Debug purposes only to view progress of job on export queue.
      * @param int       $sleep                  Polling delay between querying job status on export queue.
+     * @param int       $timeout                Stop polling if time exceeds timeout period.
      */
     public function __construct(
         $export_controller,
@@ -100,7 +106,8 @@ class ReportExportWorker
         $api_key,
         $job_id,
         $verbose = false,
-        $sleep = 60
+        $sleep = 60,
+        $timeout = 0
     ) {
         if (!is_string($export_controller) || empty($export_controller)) {
             throw new \InvalidArgumentException("Parameter 'export_controller' is not defined.");
@@ -121,6 +128,7 @@ class ReportExportWorker
         $this->api_key = $api_key;
         $this->job_id = $job_id;
         $this->sleep = $sleep;
+        $this->timeout = $timeout;
 
         $this->verbose = $verbose;
         $this->response = null;
@@ -148,7 +156,15 @@ class ReportExportWorker
             )
         );
 
+        $total_time = 0;
+
         while (true) {
+
+            if (($this->timeout > 0) && ($this->timeout <= $total_time)) {
+                throw new TuneSdkException(
+                    "Export request did not complete within timeout '" . $this->timeout . "' seconds."
+                );
+            }
 
             $client->call();
             $response = $client->getResponse();
@@ -194,6 +210,7 @@ class ReportExportWorker
                 echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
             }
             sleep($this->sleep);
+            $total_time += $this->sleep;
         }
 
         if ($status != "complete") {

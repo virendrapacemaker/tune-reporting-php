@@ -2,7 +2,7 @@
 /**
  * TuneManagementResponse.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -44,28 +44,28 @@ namespace TuneReporting\Base\Service;
 class TuneManagementResponse
 {
     /**
-     * Property of actual HTTP uri requested by by Tune Reporting API.
+     * Property of actual HTTP uri requested by by TUNE Reporting API.
      * @var string $request_url
      */
     private $request_url;
 
     /**
      * Property of HTTP response code returned from curl after completion for
-     * Tune Reporting API request.
+     * TUNE Reporting API request.
      * @var integer $response_http_code
      */
     private $response_http_code;
 
     /**
      * Property of HTTP response headers returned from curl after completion
-     * for Tune Reporting API request.
+     * for TUNE Reporting API request.
      * @var array $response_headers
      */
     private $response_headers;
 
     /**
      * Property of full JSON response returned from service of
-     * Tune Reporting API.
+     * TUNE Reporting API.
      * @var array $response_json
      */
     private $response_json;
@@ -73,12 +73,12 @@ class TuneManagementResponse
     /**
      * Constructor
      *
-     * @param string $request_url           Tune Reporting API request URL.
-     * @param string $response_json         Tune Reporting API Service full
+     * @param string $request_url           TUNE Reporting API request URL.
+     * @param string $response_json         TUNE Reporting API Service full
      *                                      response.
-     * @param array  $response_headers      Tune Reporting API Service
+     * @param array  $response_headers      TUNE Reporting API Service
      *                                      response HTTP headers.
-     * @param string $response_http_code    Tune Reporting API Service response
+     * @param string $response_http_code    TUNE Reporting API Service response
      *                                      HTTP code.
      */
     public function __construct(
@@ -160,7 +160,7 @@ class TuneManagementResponse
 
     /**
      * Get property of full JSON response provided by
-     * Tune Reporting API service.
+     * TUNE Reporting API service.
      *
      * @return array
      */
@@ -188,7 +188,7 @@ class TuneManagementResponse
     }
 
     /**
-     * Get property of data JSON response provided by Tune Reporting API service.
+     * Get property of data JSON response provided by TUNE Reporting API service.
      *
      * @return array
      */
@@ -198,7 +198,7 @@ class TuneManagementResponse
     }
 
     /**
-     * Tune Reporting API's response value pertaining to its key 'response_size'.
+     * TUNE Reporting API's response value pertaining to its key 'response_size'.
      *
      * @return integer
      */
@@ -209,7 +209,7 @@ class TuneManagementResponse
 
 
     /**
-     * Tune Reporting API's response value pertaining to its key 'status_code'.
+     * TUNE Reporting API's response value pertaining to its key 'status_code'.
      *
      * @return integer
      */
@@ -219,7 +219,7 @@ class TuneManagementResponse
     }
 
     /**
-     * Tune Reporting API's response value pertaining to its key 'errors'
+     * TUNE Reporting API's response value pertaining to its key 'errors'
      * only if service experienced an error.
      *
      * @return array
@@ -234,7 +234,7 @@ class TuneManagementResponse
     }
 
     /**
-     * Tune Reporting API's response value pertaining to its key 'debugs'
+     * TUNE Reporting API's response value pertaining to its key 'debugs'
      * only if request's query string expressed for service to
      * provide debug information.
      *

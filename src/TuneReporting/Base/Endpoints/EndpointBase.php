@@ -2,7 +2,7 @@
 /**
  * EndpointBase.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -42,13 +42,14 @@ require_once dirname(dirname(dirname(__FILE__))) . "/Helpers/String.php";
 require_once dirname(dirname(dirname(__FILE__))) . "/Helpers/Utils.php";
 require_once dirname(dirname(dirname(__FILE__))) . "/Version.php";
 
+use TuneReporting\Base\Service\TuneManagementClient;
+use TuneReporting\Base\Endpoints\ReportExportWorker;
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
-use TuneReporting\Base\Service\TuneManagementClient;
-use TuneReporting\Helpers\ReportExportWorker;
+use TuneReporting\Helpers\Config;
 
 /**
- * Base class for handling Tune Reporting API endpoints.
+ * Base class for handling TUNE Reporting API endpoints.
  */
 class EndpointBase
 {
@@ -61,7 +62,7 @@ class EndpointBase
     const TUNE_FIELDS_RECOMMENDED   = 32;
 
     /**
-     * Tune Reporting API Endpoint
+     * TUNE Reporting API Endpoint
      * @var string
      */
     protected $controller = null;
@@ -73,7 +74,7 @@ class EndpointBase
     protected $api_key = null;
 
     /**
-     * Tune Reporting API Endpoint's fields
+     * TUNE Reporting API Endpoint's fields
      * @var null|array
      */
     protected $fields = null;
@@ -103,7 +104,7 @@ class EndpointBase
     /**
      * Parameter 'filter' expression operations.
      * @var array
-    */
+     */
     protected static $filter_operations
     = array(
             "=",
@@ -125,7 +126,7 @@ class EndpointBase
     /**
      * Parameter 'filter' expression conjunctions.
      * @var array
-    */
+     */
     protected static $filter_conjunctions
     = array(
             "AND",
@@ -141,7 +142,7 @@ class EndpointBase
     /**
      * Parameter 'format' for export report.
      * @var array
-    */
+     */
     protected static $report_export_formats
     = array(
             "csv",
@@ -149,16 +150,21 @@ class EndpointBase
     );
 
     /**
+     * Configuration settings.
+     */
+    protected $config = null;
+
+    /**
      * Constructor
      *
-     * @param string $controller        Tune Reporting API Endpoint
+     * @param string $controller        TUNE Reporting API Endpoint
      * @param string $api_key           MobileAppTracking API Key
      * @param bool   $validate_fields   Validate fields used by actions' parameters.
-    */
+     */
     public function __construct(
         $controller,
-        $api_key,
-        $validate_fields = false
+        $api_key = null,
+        $validate_fields = null
     ) {
         if (!isCurlInstalled()) {
             throw new \Exception(
@@ -170,28 +176,49 @@ class EndpointBase
             );
         }
 
+        $this->config = Config::getInstance();
+
         // controller
         if (!is_string($controller) || empty($controller)) {
             throw new \InvalidArgumentException(
                 "Parameter 'controller' is not defined."
             );
         }
+
         // api key
+        if (is_null($api_key)) {
+            $api_key = $this->config->getConfigValue("tune_reporting_api_key_string");
+        }
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException(
-                "Parameter 'api_key' is not defined."
+                "Parameter 'api_key' is not defined: '{$api_key}'"
             );
         }
+
         // validate_fields
+        if (is_null($validate_fields)) {
+            $validate_fields = $this->config->getConfigValue("tune_reporting_verify_fields_boolean");
+            $validate_fields = $validate_fields == "1";
+        }
         if (!is_bool($validate_fields)) {
             throw new \InvalidArgumentException(
-                "Parameter 'validate_fields' is not defined as a boolean."
+                "Parameter 'validate_fields' is not defined as a boolean: '{$validate_fields}'"
             );
         }
 
         $this->controller = $controller;
         $this->api_key = $api_key;
         $this->validate_fields = $validate_fields;
+    }
+
+    /**
+     * Get SDK configuration settings.
+     *
+     * @return object @see Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -215,9 +242,9 @@ class EndpointBase
     }
 
     /**
-     * Call Tune Reporting API service for this controller.
+     * Call TUNE Reporting API service for this controller.
      *
-     * @param string      $action               Tune Reporting API endpoint's
+     * @param string      $action               TUNE Reporting API endpoint's
      *                                          action name
      * @param null|array  $query_string_dict    Action's query string
      *                                          parameters
@@ -761,8 +788,7 @@ class EndpointBase
      * @param string    $export_action          Action for report export status.
      * @param string    $job_id                     Job Identifier of report on queue.
      * @param bool      $verbose                    For debugging purposes only.
-     * @param int       $sleep                      How long worker should sleep
-     *                                              before next status request.
+     *
      * @return object @see TuneManagementResponse
      * @throws \InvalidArgumentException
      * @throws TuneServiceException
@@ -771,8 +797,7 @@ class EndpointBase
         $export_controller,
         $export_action,
         $job_id,
-        $verbose = false,
-        $sleep = 60
+        $verbose = false
     ) {
         if (!is_string($export_controller) || empty($export_controller)) {
             throw new \InvalidArgumentException(
@@ -788,7 +813,23 @@ class EndpointBase
             throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
         }
         if (!is_string($this->api_key) || empty($this->api_key)) {
-            throw new \TuneSdkException("Parameter 'api_key' is not defined.");
+            throw new TuneSdkException("Parameter 'api_key' is not defined.");
+        }
+
+        $sleep = $this->config->getConfigValue("tune_reporting_export_status_sleep_seconds");
+        $timeout = $this->config->getConfigValue("tune_reporting_export_status_timeout_seconds");
+
+        if (is_string($sleep)) {
+            $sleep = intval($sleep);
+        }
+        if (is_string($timeout)) {
+            $timeout = intval($timeout);
+        }
+        if (!is_integer($sleep)) {
+            throw new TuneSdkException("Configuration 'sleep' is not defined: " . print_r($sleep, true));
+        }
+        if (!is_integer($timeout)) {
+            throw new TuneSdkException("Configuration 'timeout' is not defined: " . print_r($timeout, true));
         }
 
         $export_worker = new ReportExportWorker(
@@ -797,7 +838,8 @@ class EndpointBase
             $this->api_key,
             $job_id,
             $verbose,
-            $sleep
+            $sleep,
+            $timeout
         );
 
         if ($verbose) {

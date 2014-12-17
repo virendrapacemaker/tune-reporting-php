@@ -2,7 +2,7 @@
 /**
  * AdvertiserReportBase.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -41,7 +41,6 @@ namespace TuneReporting\Base\Endpoints;
 use TuneReporting\Base\Endpoints\EndpointBase;
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
-use TuneReporting\Helpers\ReportExportWorker;
 
 /**
  * Base class for handling all endpoints that pertain to reports.
@@ -62,7 +61,7 @@ class AdvertiserReportBase extends EndpointBase
     /**
      * Constructor
      *
-     * @param string $controller                Tune Reporting API endpoint name.
+     * @param string $controller                TUNE Reporting API endpoint name.
      * @param string $api_key                   MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
@@ -70,27 +69,15 @@ class AdvertiserReportBase extends EndpointBase
      */
     public function __construct(
         $controller,
-        $api_key,
-        $filter_debug_mode,
-        $filter_test_profile_id,
-        $validate_fields = false
+        $api_key = null,
+        $filter_debug_mode = false,
+        $filter_test_profile_id = false,
+        $validate_fields = null
     ) {
         // controller
         if (!is_string($controller) || empty($controller)) {
             throw new \InvalidArgumentException(
                 "Parameter 'controller' is not defined."
-            );
-        }
-        // api_key
-        if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException(
-                "Parameter 'api_key' is not defined."
-            );
-        }
-        // filter_debug_mode
-        if (!is_bool($validate_fields)) {
-            throw new \InvalidArgumentException(
-                "Parameter 'validate' is not defined as a bool."
             );
         }
         // filter_debug_mode

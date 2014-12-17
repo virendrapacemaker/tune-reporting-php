@@ -2,7 +2,7 @@
 /**
  * AdvertiserReportInsightBase.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -42,7 +42,10 @@ use TuneReporting\Helpers\TuneServiceException;
 use TuneReporting\Base\Endpoints\AdvertiserReportBase;
 
 /**
- * Base class intended for gathering from Advertiser Insights reports: @see AdvertiserReportCohort @see AdvertiserReportRetention.
+ * Base class intended for gathering from Advertiser reporting insights.
+ *
+ * @see AdvertiserReportCohort
+ * @see AdvertiserReportRetention
  */
 abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
 {
@@ -78,8 +81,8 @@ abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
     /**
      * Constructor
      *
-     * @param string $controller                Tune Reporting API endpoint name.
-     * @param string $api_key                   Tune MobileAppTracking API Key.
+     * @param string $controller                TUNE Reporting API endpoint name.
+     * @param string $api_key                   TUNE MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
      * @param bool   $validate_fields           Validate fields used by actions' parameters.
@@ -193,7 +196,7 @@ abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
      * @param $response
      *
      * @return string Job identifier.
-     * 
+     *
      * @throws \InvalidArgumentException
      * @throws \TuneReporting\Helpers\TuneServiceException
      */
@@ -226,7 +229,7 @@ abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
 
         return $job_id;
     }
-    
+
 
     /**
      * Helper function for parsing export status response to gather report url.
@@ -234,7 +237,7 @@ abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
      * @param TuneManagementResponse $response
      *
      * @return string Report Download URL
-     * 
+     *
      * @throws \InvalidArgumentException
      * @throws \TuneReporting\Helpers\TuneServiceException
      */
@@ -266,7 +269,7 @@ abstract class AdvertiserReportInsightBase extends AdvertiserReportBase
 
     /**
      * Validate is allowed cohort intervals.
-     * 
+     *
      * @param $cohort_interval
      *
      * @returns boolean

@@ -2,7 +2,7 @@
 /**
  * TuneManagementRequest.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -44,19 +44,19 @@ namespace TuneReporting\Base\Service;
 class TuneManagementRequest
 {
     /**
-     * Property of Tune Reporting API controller requested.
+     * Property of TUNE Reporting API controller requested.
      * @var string $controller
      */
     private $controller = null;
 
     /**
-     * Property of Tune Reporting API controller's action requested.
+     * Property of TUNE Reporting API controller's action requested.
      * @var string $action
      */
     private $action = null;
 
     /**
-     * Property of user's API KEY provided from their Tune MobileAppTracking account.
+     * Property of user's API KEY provided from their TUNE MobileAppTracking account.
      * @var string $api_key
      */
     private $api_key = null;
@@ -68,14 +68,14 @@ class TuneManagementRequest
     private $query_string_dict = null;
 
     /**
-     * Tune Reporting API URL
+     * TUNE Reporting API URL
      * @var string $api_url_base
      */
     private $api_url_base = null;
 
 
     /**
-     * Tune Reporting API Version
+     * TUNE Reporting API Version
      * @var string $api_url_version
      */
     private $api_url_version = null;
@@ -83,12 +83,12 @@ class TuneManagementRequest
     /**
      * Constructor
      *
-     * @param string $controller        Tune Reporting API controller
-     * @param string $action            Tune Reporting API controller's action
+     * @param string $controller        TUNE Reporting API controller
+     * @param string $action            TUNE Reporting API controller's action
      * @param string $api_key           User's API Key provide by their MobileAppTracking platform account.
      * @param dict   $query_string_dict Query string elements appropriate to the requested controller's action.
-     * @param string $api_url_base      Tune Reporting API base url.
-     * @param string $api_url_version   Tune Reporting API version.
+     * @param string $api_url_base      TUNE Reporting API base url.
+     * @param string $api_url_version   TUNE Reporting API version.
      */
     public function __construct(
         $controller,
@@ -249,7 +249,7 @@ class TuneManagementRequest
     }
 
     /**
-     * Tune Reporting API service path
+     * TUNE Reporting API service path
      *
      * @return string
      */
@@ -267,7 +267,7 @@ class TuneManagementRequest
     }
 
     /**
-     * Tune Reporting API full service request
+     * TUNE Reporting API full service request
      *
      * @return string
      */
