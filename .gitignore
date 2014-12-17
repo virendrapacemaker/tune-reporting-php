@@ -1,14 +1,20 @@
 # Project files
+*.komodoproject
 .idea/
 .metadata/
-*.komodoproject
 .project
 .settings/
 
-# Composer vendors
+# Code build files
 Vendors
 composer.phar
 
 # Code documentation
 docs/doxygen/
 docs/phpdoc/
+
+# Backup files
+*.bak
+*.log
+*.*~
+*~

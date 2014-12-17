@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,13 +24,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -44,7 +44,7 @@ use TuneReporting\Helpers\TuneServiceException;
 use TuneReporting\Base\Service\TuneManagementResponse;
 
 /**
- * HTTP POST connection class to Tune MobileAppTracking Management API environment.
+ * HTTP POST connection class to TUNE MobileAppTracking Management API environment.
  */
 class TuneManagementProxy
 {
@@ -114,7 +114,7 @@ class TuneManagementProxy
     }
 
     /**
-     * Execute to send request to Tune Reporting API, and determine success
+     * Execute to send request to TUNE Reporting API, and determine success
      * or failure based upon its service's response.
      *
      * @return bool
@@ -154,7 +154,7 @@ class TuneManagementProxy
     }
 
     /**
-     * Using build URL request, connect with Tune Reporting API service, wait for reply, and
+     * Using build URL request, connect with TUNE Reporting API service, wait for reply, and
      * then return complete response including HTTP code, HTTP headers, and full JSON.
      *
      * @return bool

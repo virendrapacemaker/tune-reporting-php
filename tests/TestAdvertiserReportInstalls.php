@@ -1,8 +1,8 @@
 <?php
 /**
- * TestAdvertiserReportInstalls.php, Tune SDK PHPUnit Test
+ * TestAdvertiserReportInstalls.php, TUNE SDK PHPUnit Test
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -68,9 +68,9 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+        $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-        $fields = $reports_logs_installs->fields();
+        $fields = $advertiser_report_installs->fields();
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -80,12 +80,12 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $reports_logs_installs = new AdvertiserReportInstalls(
+        $advertiser_report_installs = new AdvertiserReportInstalls(
             $this->api_key,
             $validate_fields = true
         );
 
-        $fields = $reports_logs_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_DEFAULT);
+        $fields = $advertiser_report_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -95,9 +95,9 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+        $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-        $fields = $reports_logs_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED);
+        $fields = $advertiser_report_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -111,12 +111,12 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+        $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_installs->fields();
+        $response = $advertiser_report_installs->fields();
         $this->assertNotNull($response);
 
-        $response = $reports_logs_installs->count(
+        $response = $advertiser_report_installs->count(
             $start_date,
             $end_date,
             $filter              = "(status = 'approved') AND (publisher_id > 0)",
@@ -136,12 +136,12 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+        $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_installs->find(
+        $response = $advertiser_report_installs->find(
             $start_date,
             $end_date,
-            $fields              = $reports_logs_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $advertiser_report_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
             $filter              = "(status = 'approved')",
             $limit               = 5,
             $page                = null,
@@ -159,12 +159,12 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+        $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_installs->export(
+        $response = $advertiser_report_installs->export(
             $start_date,
             $end_date,
-            $fields              = $reports_logs_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $advertiser_report_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
             $filter              = "(status = 'approved')",
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -188,12 +188,12 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $reports_logs_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
+            $advertiser_report_installs = new AdvertiserReportInstalls($this->api_key, $validate_fields = true);
 
-            $response = $reports_logs_installs->export(
+            $response = $advertiser_report_installs->export(
                 $start_date,
                 $end_date,
-                $fields              = $reports_logs_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report_installs->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
                 $filter              = "(status = 'approved')",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -206,10 +206,9 @@ class TestAdvertiserReportInstalls extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $reports_logs_installs->fetch(
+            $response = $advertiser_report_installs->fetch(
                 $job_id,
-                $verbose = false,
-                $sleep = 10
+                $verbose = false
             );
 
             $report_url = AdvertiserReportInstalls::parseResponseReportUrl($response);

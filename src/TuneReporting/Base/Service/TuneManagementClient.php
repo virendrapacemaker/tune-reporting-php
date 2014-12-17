@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,13 +24,13 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -43,7 +43,7 @@ require_once dirname(dirname(dirname(__FILE__))) . "/Version.php";
 require_once dirname(__FILE__) . "/Constants.php";
 
 /**
- * Tune MobileAppTracking Management API access class
+ * TUNE MobileAppTracking Management API access class
  */
 class TuneManagementClient
 {
@@ -80,12 +80,12 @@ class TuneManagementClient
     /**
      * Constructor
      *
-     * @param string      $controller           Tune Reporting API endpoint name
-     * @param string      $action               Tune Reporting API endpoint's action name
-     * @param string      $api_key              Tune MobileAppTracking API Key
+     * @param string      $controller           TUNE Reporting API endpoint name
+     * @param string      $action               TUNE Reporting API endpoint's action name
+     * @param string      $api_key              TUNE MobileAppTracking API Key
      * @param null|array  $query_string_dict    Action's query string parameters
-     * @param null|string $api_url_base         Tune Reporting API base path
-     * @param null|string $api_url_version      Tune Reporting API version
+     * @param null|string $api_url_base         TUNE Reporting API base path
+     * @param null|string $api_url_version      TUNE Reporting API version
      */
     public function __construct(
         $controller,
@@ -139,7 +139,7 @@ class TuneManagementClient
     }
 
     /**
-     * Call Tune Reporting API Service with provided request.
+     * Call TUNE Reporting API Service with provided request.
      *
      * @return bool
      * @throws \TuneSdkException

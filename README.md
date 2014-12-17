@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
-<h2>Tune Reporting API SDK for PHP 5.3</h2>
-<h3>Incorporate Tune API services.</h3>
-<h4>Update:  $Date: 2014-12-16 12:00:00 $
-<h4>Version: 0.9.20
+<h2>TUNE Reporting SDK for PHP 5.3</h2>
+<h3>Incorporate TUNE Reporting services.</h3>
+<h4>Update:  $Date: 2014-12-17 13:40:16 $
+<h4>Version: 0.9.21
 ===
 
 <a id="TOP"></a>
@@ -11,8 +11,8 @@
 <ul>
     <li><a href="#sdk_overview">Overview</a>
         <ul>
-            <li><a href="#sdk_overview_available">Available Tune Reporting SDKs</a></li>
-            <li><a href="#sdk_overview_mobile">Tune SDKs for Mobile Apps</a></li>
+            <li><a href="#sdk_overview_available">Available TUNE Reporting SDKs</a></li>
+            <li><a href="#sdk_overview_mobile">TUNE SDKs for Mobile Apps</a></li>
             <li><a href="#sdk_overview_dev_community">Developers Community</a></li>
         </ul>
     </li>
@@ -33,6 +33,7 @@
                 </ul>
             </li>
             <li><a href="#sdk_install_library">Library</a></li>
+            <li><a href="#sdk_install_config">Configuration</a></li>
         </ul>
     </li>
 
@@ -59,7 +60,7 @@
 
     <li><a href="#sdk_classes">SDK Classes</a>
         <ul>
-            <li><a href="#sdk_classes_service">Tune Management Service Classes</a></li>
+            <li><a href="#sdk_classes_service">TUNE Management Service Classes</a></li>
             <li><a href="#sdk_report_readers">Helper Classes</a></li>
             <li><a href="#sdk_classes_exceptions">Exception Classes</a></li>
         </ul>
@@ -109,16 +110,16 @@
 <a id="sdk_overview" name="sdk_overview"></a>
 ### Overview
 
-The **Tune Reporting SDKs** addressed in this posting are for creating hosted applications which require handling requests to **Tune Management API services** with utility focus is upon Advertiser Reporting endpoints.
+The **TUNE Reporting SDKs** addressed in this posting are for creating hosted applications which require handling requests to **TUNE Management API services** with utility focus is upon Advertiser Reporting endpoints.
 
 Even though the the breadth of the Management API goes beyond just reports, it is these reporting endpoints that our customers primarily access.
 
 The second goal of the SDKs is to assure that our customers’ developers are using best practices in gathering reports in the most optimal way.
 
 <a id="sdk_overview_available" name="sdk_overview_available"></a>
-#### Available Tune Reporting SDKs
+#### Available TUNE Reporting SDKs
 
-Supported programming languages for Tune Reporting SDKs are:
+Supported programming languages for TUNE Reporting SDKs are:
 
 <ul>
     <li><b>PHP</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-php" target="_blank">tune-reporting-php</a></li>
@@ -130,11 +131,11 @@ Supported programming languages for Tune Reporting SDKs are:
 </ul>
 
 <a id="sdk_overview_mobile" name="sdk_overview_mobile"></a>
-#### Tune SDKs for Mobile Apps
+#### TUNE SDKs for Mobile Apps
 
-The **Tune Reporting SDKs** should absolutely not be included within Mobile Apps.
+The **TUNE Reporting SDKs** should absolutely not be included within Mobile Apps.
 
-All information pertaining to **Tune SDKs for Mobile Apps** are found [here](http://developers.mobileapptracking.com/sdks/).
+All information pertaining to **TUNE SDKs for Mobile Apps** are found [here](http://developers.mobileapptracking.com/sdks/).
 
 <a id="sdk_overview_dev_community" name="sdk_overview_dev_community"></a>
 #### Developers Community
@@ -143,7 +144,7 @@ Developer Community portal for MobileAppTracking™ (MAT), the industry leader i
 
 [https://developers.mobileapptracking.com](https://developers.mobileapptracking.com)
 
-Additional positions on Tune Reporting SDKs can be found here:
+Additional positions on TUNE Reporting SDKs can be found here:
 
 [https://developers.mobileapptracking.com/tune-reporting-sdks/](https://developers.mobileapptracking.com/tune-reporting-sdks/)
 
@@ -169,8 +170,8 @@ This section detail what is required to use this SDK and how to install it for u
 These are the basic requirements to use this SDK:
 
     * PHP >= 5.2.3
-    * PHP Curl extension -- Connect to Tune Management API Service.
-    * PHP JSON extension -- Tune Mangement API response is JSON.
+    * PHP Curl extension -- Connect to TUNE Management API Service.
+    * PHP JSON extension -- TUNE Mangement API response is JSON.
     * PHPUnit -- Execute SDK tests.
 
 <a id="sdk_install_prereq_ini" name="sdk_install_prereq_ini"></a>
@@ -190,7 +191,7 @@ date.timezone = "America/Los_Angeles"
 <a id="sdk_install_prereq_apikey" name="sdk_install_prereq_apikey"></a>
 ##### Generate API Key
 
-To use SDK to access Advertiser Reporting endpoints of Tune Management API, it requires a MobileAppTracking API Key: [Generate API Key](http://developers.mobileapptracking.com/generate-api-key/).
+To use SDK to access Advertiser Reporting endpoints of TUNE Management API, it requires a MobileAppTracking API Key: [Generate API Key](http://developers.mobileapptracking.com/generate-api-key/).
 
 <a id="sdk_install_choices" name="sdk_install_choices"></a>
 #### Installation Choices
@@ -235,6 +236,25 @@ directory and then include the library file:
     require '/path/to/tune-reporting-php/lib/TuneReporting.php';
 ```
 
+<a id="sdk_install_config" name="sdk_install_config"></a>
+#### Configuration
+
+In the root folder, the TUNE Reporting SDK configuration is set within file ```./tune_reporting_sdk.config```.
+
+With generated API_KEY from TUNE MobileAppTracking Platform account, replace `API_KEY`.
+
+```
+[TUNE_REPORTING]
+; Tune MobileAppTracking Platform generated API Key.
+tune_reporting_api_key_string=API_KEY
+; Validate use Tune Management API fields used within action parameters.
+tune_reporting_verify_fields_boolean=false
+; Tune reporting export status sleep (seconds).
+tune_reporting_export_status_sleep_seconds=10
+; Tune reporting export fetch timeout (seconds).
+tune_reporting_export_status_timeout_seconds=240
+```
+
 and you're good to go!
 
 <p>
@@ -261,7 +281,7 @@ This code documentation generation requires installation of [Doxygen](http://www
 ```
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_Doxygen.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_Doxygen-400x235.png" alt="Tune-Reporting PHP Doxygen Generated" width="400" height="235">
+<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_Doxygen-400x235.png" alt="TUNE-Reporting PHP Doxygen Generated" width="400" height="235">
 </a>
 
 <a id="sdk_gendoc_phpdoc" name="sdk_gen_doc_phpdoc"></a>
@@ -276,7 +296,7 @@ This code documentation generation requires installation of [phpDocumentatior](h
 </pre>
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_phpDoc.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_phpDoc-400x239.png" alt="Tune-Reporting PHP phpDocumentor Generated" width="400" height="239">
+<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_phpDoc-400x239.png" alt="TUNE-Reporting PHP phpDocumentor Generated" width="400" height="239">
 </a>
 
 <p>
@@ -292,7 +312,7 @@ This code documentation generation requires installation of [phpDocumentatior](h
 The utility focus of the SDKs is upon the <a href="/advertiser-reporting-endpoints/">Advertiser Reporting endpoints</a>. Even though the the breadth of the Management API goes beyond just reports, it is these endpoints that our customers primarily access. The second goal of the SDKs is to assure that our customers' developers are using best practices in gathering reports in the most optimal way.
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_advertiser_reporting_classes.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_advertiser_reporting_classes.png" alt="Tune Advertiser Reporting Classes" width="500" height="350" /></a>
+<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_advertiser_reporting_classes.png" alt="TUNE Advertiser Reporting Classes" width="500" height="350" /></a>
 
 The endpoints interfaced by TUNE API SDKs provide access in gathering four types of reports:
 
@@ -343,7 +363,7 @@ Advertiser Reporting class that perform Retention Reports are:
 </dl>
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_management_service_reporting_endpoints.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_management_service_reporting_endpoints.png" alt="Management API Advertiser Reports covered by Tune Reporting SDKs." width="592" height="292" /></a>
+<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_management_service_reporting_endpoints.png" alt="Management API Advertiser Reports covered by TUNE Reporting SDKs." width="592" height="292" /></a>
 
 <p>
 <a href="#TOP">
@@ -392,7 +412,8 @@ File **Makefile** provides shortcuts for executing examples and tests.
 ├── README
 ├── README.md
 ├── src
-└── tests
+├── tests
+└── tune_reporting_sdk.config
 ```
 
 <a id="sdk_sources_lib" name="sdk_sources_lib"></a>
@@ -402,7 +423,7 @@ File **TuneReporting.php** is the root of this Library.
 
 Library folder **src** contains the key functionality related to **Advertiser Reporting classes** are defined within folder **/src/TuneReporting/Api/**.
 
-Client classes that connect with the **Tune Management API Service** are defined within folder **/src/TuneReporting/Base/Service/**.
+Client classes that connect with the **TUNE Management API Service** are defined within folder **/src/TuneReporting/Base/Service/**.
 
 Helper class for both the Library and Examples are defined within folder **/src/TuneReporting/Helpers/**.
 ```
@@ -506,13 +527,13 @@ tests/
 <a id="sdk_classes" name="sdk_classes"></a>
 ### SDK Classes
 
-<!-- Tune Management API Service -->
+<!-- TUNE Management API Service -->
 <a id="sdk_classes_service" name="sdk_classes_service"></a>
-#### Tune Management API Service Classes
+#### TUNE Management API Service Classes
 
 <ul>
-    <li><code>TuneManagementClient</code> - Connects with <a href="http://developers.mobileapptracking.com/management-api/" target="_blank">Tune Management API Service</a></li>
-    <li><code>TuneManagementRequest</code> - Defines request to Tune Management API Service containing:
+    <li><code>TuneManagementClient</code> - Connects with <a href="http://developers.mobileapptracking.com/management-api/" target="_blank">TUNE Management API Service</a></li>
+    <li><code>TuneManagementRequest</code> - Defines request to TUNE Management API Service containing:
         <ul>
             <li>Controller / Endpoint</li>
             <li>Action</li>
@@ -523,7 +544,7 @@ tests/
             </li>
         </ul>
     </li>
-    <li><code>TuneManagementResponse</code> - Complete response from Tune Management API Service containing:
+    <li><code>TuneManagementResponse</code> - Complete response from TUNE Management API Service containing:
         <ul>
             <li>Status Code</li>
             <li>Data</li>
@@ -533,7 +554,7 @@ tests/
 </ul>
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_reporting_service_classes.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_reporting_service_classes.png" alt="Tune Management Service Classes" width="217" height="163" /></a>
+<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_reporting_service_classes.png" alt="TUNE Management Service Classes" width="217" height="163" /></a>
 
 <!-- Example Helpers -->
 <a id="sdk_report_readers" name="sdk_report_readers"></a>
@@ -552,8 +573,8 @@ tests/
 #### Custom Exceptions Classes
 
 <ul>
-    <li><code>TuneSdkException</code> - Exception thrown if error occurs within Tune Reporting SDK.</li>
-    <li><code>TuneServiceException</code> - Exception thrown if error condition is returned from Tune Management Service.</li>
+    <li><code>TuneSdkException</code> - Exception thrown if error occurs within TUNE Reporting SDK.</li>
+    <li><code>TuneServiceException</code> - Exception thrown if error condition is returned from TUNE Management Service.</li>
 </ul>
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_reporting_exceptions.png">
@@ -565,7 +586,7 @@ tests/
 
 <strong>Important to note on Sample Code:</strong> The example provided pertain to only Advertiser Reports class <code>AdvertiserReportClicks</code>. The fields used theses sample primarily pertain to the available fields for the record and related records for the the associated endpoint <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks</a> of this class. Do not expect that these fields will be available if used with other Advertiser Records classes.
 
-The benefit of using Tune API SDKs is it provides the same interface across all advertiser reports. The following class diagram lists what are all the expected functions. The signature of the expected parameters for each function will be consistent with the action it is interfacing.
+The benefit of using TUNE API SDKs is it provides the same interface across all advertiser reports. The following class diagram lists what are all the expected functions. The signature of the expected parameters for each function will be consistent with the action it is interfacing.
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-sdk-class.png">
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-sdk-class-600x262.png" alt="Report classes available methods." width="600" height="262" title="Click to Expand" /></a>
@@ -573,13 +594,14 @@ The benefit of using Tune API SDKs is it provides the same interface across all 
 <a id="sdk_method_count" name="sdk_method_count"></a>
 ##### Method <code>count()</code>
 
-Finds all existing records matching provided filter criteria and returns total count. It returns a populated instance of <code>class Response</code>, class of Tune API SDK, with <strong>record count</strong>.
+Finds all existing records matching provided filter criteria and returns total count. It returns a populated instance of <code>class Response</code>, class of TUNE API SDK, with <strong>record count</strong>.
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-action-count.png">
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-action-count-700x247.png" alt="Function count()" width="700" height="247" title="Click to Expand" /></a>
 
 <!-- PHP -->
 ```php
+    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
     $response = $advertiser_report_clicks->count(
         $start_date,
         $end_date,
@@ -609,6 +631,7 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- PHP -->
 ```php
+    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
     $response = $advertiser_report_clicks->find(
         $start_date,
         $end_date,
@@ -640,6 +663,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- PHP -->
 ```php
+    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
     $response = $advertiser_report_clicks->export(
         $start_date,
         $end_date,
@@ -681,8 +705,7 @@ A helper function that creates a threaded worker that handles the status request
 ```php
     $response = $advertiser_report_clicks->fetch(
         $job_id,
-        $verbose = true,
-        $sleep = 10
+        $verbose = true
     );
 
     $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
@@ -697,8 +720,8 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
 
 <!-- PHP -->
 ```php
-    $clicks = new AdvertiserReportClicks($api_key, $validate = true);
-    $response = $clicks->getFields();
+    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
+    $response = $advertiser_report_clicks->getFields();
     echo print_r($response, true) . PHP_EOL;
 ```
 
@@ -710,8 +733,8 @@ Method <strong>define()</strong> returns the complete meta-data of an endpoint. 
 
 <!-- PHP -->
 ```php
-    $clicks = new AdvertiserReportClicks($api_key, $validate = true);
-    $response = $clicks->getDefine();
+    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
+    $response = $advertiser_report_clicks->getDefine();
     echo print_r($response, true) . PHP_EOL;
 ```
 

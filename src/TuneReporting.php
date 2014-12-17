@@ -5,7 +5,7 @@
  * Autoloading class file locations hierarchy by supplying it with
  * a function to run.
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,12 +28,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -41,7 +41,7 @@
 namespace TuneReporting;
 
 /**
- * Tune SDK Autoloader Class
+ * TUNE SDK Autoloader Class
  *
  */
 class TuneApi
@@ -59,7 +59,7 @@ class TuneApi
     }
 
     /**
-     * This function will handle the autoloading of the Tune namespaced
+     * This function will handle the autoloading of the TUNE namespaced
      * classes.
      *
      * @param string $className The name of the class (with prepended namespace) to load.

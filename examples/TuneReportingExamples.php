@@ -1,9 +1,9 @@
 <?php
 /**
  * TuneReportingExamples.php
- * Examples using SDK which accesses service of Tune Reporting API.
+ * Examples using SDK which accesses service of TUNE Reporting API.
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -41,12 +41,13 @@ require_once dirname(__FILE__) . "/TuneReportingExamplesAutoloader.php";
 
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
+use TuneReporting\Helpers\Config;
 
 global $argc, $argv;
 
 /**
  *
- * Examples using SDK which accesses service of Tune Reporting API.
+ * Examples using SDK which accesses service of TUNE Reporting API.
  *
  */
 class TuneReportingExamples
@@ -62,25 +63,27 @@ class TuneReportingExamples
 
     /**
      *
-     * Example of running successful requests to Tune MobileAppTracking Management API
-     * through Tune PHP SDK.
+     * Example of running successful requests to TUNE MobileAppTracking Management API
+     * through TUNE PHP SDK.
      */
-    public static function run($api_key)
+    public static function run($api_key = null)
     {
+        if (is_null($api_key)) {
+            $api_key = Config::getInstance()->getConfigValue("tune_reporting_api_key_string");
+        }
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
         echo "\n============================================\n";
-        echo   "= Tune Reporting API SDK for PHP Examples  =\n";
+        echo   "= TUNE Reporting API SDK for PHP Examples  =\n";
         echo   "= SDK version: " . \TuneReporting\Base\Service\TuneManagementClient::Version() . " =\n";
         echo   "============================================\n";
         echo "\n";
 
         try {
             ExampleTuneManagementAPIClient::run($api_key);
-            ExampleAccountUsers::run($api_key);
 
             ExampleAdvertiserReportActuals::run($api_key);
             ExampleAdvertiserReportCohort::run($api_key);

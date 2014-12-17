@@ -1,8 +1,8 @@
 <?php
 /**
- * TestAdvertiserReportEventItems.php, Tune SDK PHPUnit Test
+ * TestAdvertiserReportEventItems.php, TUNE SDK PHPUnit Test
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -68,9 +68,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $fields = $reports_logs_event_items->fields();
+        $fields = $advertiser_report_event_items->fields();
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -80,12 +80,12 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $reports_logs_event_items = new AdvertiserReportEventItems(
+        $advertiser_report_event_items = new AdvertiserReportEventItems(
             $this->api_key,
             $validate_fields = true
         );
 
-        $fields = $reports_logs_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_DEFAULT);
+        $fields = $advertiser_report_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -95,9 +95,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $fields = $reports_logs_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED);
+        $fields = $advertiser_report_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -111,9 +111,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_event_items->count(
+        $response = $advertiser_report_event_items->count(
             $start_date,
             $end_date,
             $filter              = null,
@@ -133,9 +133,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_event_items->find(
+        $response = $advertiser_report_event_items->find(
             $start_date,
             $end_date,
             $fields              = null,
@@ -159,12 +159,12 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_event_items->find(
+        $response = $advertiser_report_event_items->find(
             $start_date,
             $end_date,
-            $fields              = $reports_logs_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $advertiser_report_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -182,9 +182,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_event_items->export(
+        $response = $advertiser_report_event_items->export(
             $start_date,
             $end_date,
             $fields              = null,
@@ -207,12 +207,12 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+        $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-        $response = $reports_logs_event_items->export(
+        $response = $advertiser_report_event_items->export(
             $start_date,
             $end_date,
-            $fields              = $reports_logs_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $advertiser_report_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -235,12 +235,12 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $reports_logs_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
+            $advertiser_report_event_items = new AdvertiserReportEventItems($this->api_key, $validate_fields = true);
 
-            $response = $reports_logs_event_items->export(
+            $response = $advertiser_report_event_items->export(
                 $start_date,
                 $end_date,
-                $fields              = $reports_logs_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report_event_items->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -253,10 +253,9 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $reports_logs_event_items->fetch(
+            $response = $advertiser_report_event_items->fetch(
                 $job_id,
-                $verbose = false,
-                $sleep = 10
+                $verbose = false
             );
 
             $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);

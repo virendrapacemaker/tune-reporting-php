@@ -2,7 +2,7 @@
 /**
  * ExampleClientAccount.php
  *
- * Copyright (c) 2014 Tune, Inc
+ * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  Tune
+ * @category  TUNE
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 Tune (http://www.tune.com)
+ * @copyright 2014 TUNE (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-10 11:17:09 $
+ * @version   $Date: 2014-12-17 13:40:16 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -58,10 +58,10 @@ class ExampleTuneManagementAPIClient
 
     /**
      *
-     * Example of running successful requests to Tune MobileAppTracking Management API
-     * through Tune PHP SDK.
+     * Example of running successful requests to TUNE MobileAppTracking Management API
+     * through TUNE PHP SDK.
      */
-    public static function run($api_key)
+    public static function run($api_key = null)
     {
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
@@ -69,9 +69,8 @@ class ExampleTuneManagementAPIClient
         }
 
         try {
-
             echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[34m" . "= Begin Example Tune Reporting API Client              =" . "\033[0m" . PHP_EOL;
+            echo "\033[34m" . "= Begin Example TUNE Reporting API Client              =" . "\033[0m" . PHP_EOL;
             echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
 
             $client = new \TuneReporting\Base\Service\TuneManagementClient(
