@@ -29,12 +29,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */

@@ -2,7 +2,7 @@
 tune-reporting-php
 TUNE Reporting API SDK for PHP 5.3
 Incorporate TUNE Reporting API services.
-Update:  $Date: 2014-12-17 13:40:16 $
+Update:  $Date: 2014-12-18 04:47:37 $
 Version: 0.9.21
 ****************************************
 
@@ -109,7 +109,7 @@ SDK Examples
 
 Run the following script to view execution of all examples:
 ```
-    $ make api_key=[API_KEY] examples
+    $ make examples
 ```
 
 -------------
@@ -118,7 +118,7 @@ SDK Unittests
 
 Run the following script to view execution of all unittests:
 ```
-    $ make api_key=[API_KEY] tests
+    $ make tests
 ```
 
 ----------------------------------

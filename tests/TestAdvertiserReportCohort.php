@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -38,14 +38,14 @@
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
 use TuneReporting\Api\AdvertiserReportCohort;
+use TuneReporting\Helpers\SdkConfig;
 
 class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
      */
-    protected $api_key = null;
-    protected $endpoint = null;
+    protected $advertiser_report = null;
 
     /**
      * Get API Key from environment.
@@ -57,10 +57,27 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
         $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
 
-        $this->api_key = getenv('API_KEY');
-        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $this->assertNotNull($sdk_config);
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+
+        $this->advertiser_report = new AdvertiserReportCohort();
+        $this->assertNotNull($this->advertiser_report);
+    }
+
+    /**
+     * Test getSdkConfig
+     */
+    public function testSdkConfig()
+    {
+        $sdk_config = $this->advertiser_report->getSdkConfig();
+        $this->assertNotNull($sdk_config);
     }
 
     /**
@@ -68,9 +85,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $fields = $reports_cohort->fields();
+        $fields = $this->advertiser_report->fields();
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -80,9 +95,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsEndpoint()
     {
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $fields = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -92,12 +105,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $reports_cohort = new AdvertiserReportCohort(
-            $this->api_key,
-            $validate_fields = true
-        );
-
-        $fields = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -107,9 +115,9 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
+        $this->advertiser_report = new AdvertiserReportCohort();
 
-        $fields = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -119,9 +127,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefaultMinimal()
     {
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $fields = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT | AdvertiserReportCohort::TUNE_FIELDS_MINIMAL);
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT | AdvertiserReportCohort::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -136,12 +142,10 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->fields();
+        $response = $this->advertiser_report->fields();
         $this->assertNotNull($response);
 
-        $response = $reports_cohort->count(
+        $response = $this->advertiser_report->count(
             $start_date,
             $end_date,
             $cohort_type         = "click",
@@ -165,9 +169,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $cohort_type         = "click",
@@ -197,15 +199,13 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -229,15 +229,13 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -261,15 +259,13 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -290,9 +286,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->export(
+        $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
             $cohort_type         = "click",
@@ -319,15 +313,13 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-        $response = $reports_cohort->export(
+        $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
@@ -352,15 +344,13 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $reports_cohort = new AdvertiserReportCohort($this->api_key, $validate_fields = true);
-
-            $response = $reports_cohort->export(
+            $response = $this->advertiser_report->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -373,7 +363,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $reports_cohort->fetch(
+            $response = $this->advertiser_report->fetch(
                 $job_id,
                 $verbose = false
             );
