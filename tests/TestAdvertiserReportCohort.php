@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-18 08:10:47 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -57,8 +57,9 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
         $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
 
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
-        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $tune_reporting_test_config_file = dirname(__FILE__) . "/tune_reporting_sdk.test.config";
+        $this->assertTrue(file_exists($tune_reporting_test_config_file), "Test config file does not exist: '{$tune_reporting_test_config_file}'");
+        $sdk_config = SdkConfig::getInstance($tune_reporting_test_config_file);
         $this->assertNotNull($sdk_config);
         $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
 
