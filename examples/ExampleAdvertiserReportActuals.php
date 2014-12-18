@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -40,8 +40,7 @@ require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 use TuneReporting\Api\AdvertiserReportActuals;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
-
-global $argc, $argv;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Class ExampleAdvertiserReportActuals
@@ -63,11 +62,22 @@ class ExampleAdvertiserReportActuals
      *
      * @param string $api_key MobileAppTracking API Key
      *
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws Exception
      */
-    public static function run($api_key = null)
+    public static function run()
     {
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        // api_key
+        if (!is_string($api_key) || empty($api_key)) {
+            throw new \InvalidArgumentException("SDK Configuration 'api_key' is not defined.");
+        }
+
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
@@ -92,24 +102,24 @@ class ExampleAdvertiserReportActuals
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $stats = new AdvertiserReportActuals($api_key, $validate_fields = true);
+            $advertiser_report = new AdvertiserReportActuals();
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Actuals records: Default.       " . PHP_EOL;
+            echo " Fields of Advertiser Actuals: Default.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->fields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Actuals records: Recommended.   " . PHP_EOL;
+            echo " Fields of Advertiser Actuals: Recommended.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Actuals records.                    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->count(
+            $response = $advertiser_report->count(
                 $start_date,
                 $end_date,
                 $group               = "site_id,publisher_id",
@@ -131,7 +141,7 @@ class ExampleAdvertiserReportActuals
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Actuals records -- Default.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->find(
+            $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
                 $fields              = "site_id,site.name,publisher_id,publisher.name",
@@ -156,10 +166,10 @@ class ExampleAdvertiserReportActuals
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Actuals records -- Recommended       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $stats->find(
+            $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
-                $fields              = $stats->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -182,10 +192,10 @@ class ExampleAdvertiserReportActuals
             echo " Advertiser Actuals CSV report for export.        " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
-            $response = $stats->export(
+            $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $stats->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $timestamp           = null,
@@ -209,7 +219,7 @@ class ExampleAdvertiserReportActuals
             echo "Fetching Advertiser Actuals CSV report                 " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
-            $response = $stats->fetch(
+            $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
@@ -218,7 +228,7 @@ class ExampleAdvertiserReportActuals
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Read Actuals CSV report and pretty print 5 lines.    " . PHP_EOL;
+            echo " Read Actuals CSV report    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
@@ -232,10 +242,10 @@ class ExampleAdvertiserReportActuals
             echo " Advertiser Actuals JSON report for export.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $stats->export(
+            $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $stats->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $timestamp           = null,
@@ -259,7 +269,7 @@ class ExampleAdvertiserReportActuals
             echo "Fetching Advertiser Actuals JSON report                 " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $stats->fetch(
+            $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
@@ -268,7 +278,7 @@ class ExampleAdvertiserReportActuals
             echo "= JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Actuals JSON report and pretty print 5 lines.     " . PHP_EOL;
+            echo " Read Actuals JSON report     " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $json_report_reader = new ReportReaderJSON(
@@ -288,14 +298,4 @@ class ExampleAdvertiserReportActuals
     }
 }
 
-/**
- * Example request API_KEY
- */
-if (count($argv) == 1) {
-    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
-    exit;
-}
-
-$api_key = $argv[1];
-
-ExampleAdvertiserReportActuals::run($api_key);
+ExampleAdvertiserReportActuals::run();

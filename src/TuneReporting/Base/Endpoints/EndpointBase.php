@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -46,7 +46,7 @@ use TuneReporting\Base\Service\TuneManagementClient;
 use TuneReporting\Base\Endpoints\ReportExportWorker;
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
-use TuneReporting\Helpers\Config;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Base class for handling TUNE Reporting API endpoints.
@@ -152,7 +152,7 @@ class EndpointBase
     /**
      * Configuration settings.
      */
-    protected $config = null;
+    protected $sdk_config = null;
 
     /**
      * Constructor
@@ -162,9 +162,7 @@ class EndpointBase
      * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
-        $controller,
-        $api_key = null,
-        $validate_fields = null
+        $controller
     ) {
         if (!isCurlInstalled()) {
             throw new \Exception(
@@ -176,7 +174,12 @@ class EndpointBase
             );
         }
 
-        $this->config = Config::getInstance();
+        $this->sdk_config = SdkConfig::getInstance();
+        if (is_null($this->sdk_config)) {
+            throw new TuneSdkException(
+                "SdkConfig is not defined."
+            );
+        }
 
         // controller
         if (!is_string($controller) || empty($controller)) {
@@ -186,20 +189,16 @@ class EndpointBase
         }
 
         // api key
-        if (is_null($api_key)) {
-            $api_key = $this->config->getConfigValue("tune_reporting_api_key_string");
-        }
-        if (!is_string($api_key) || empty($api_key)) {
+        $api_key = $this->sdk_config->getConfigValue("tune_reporting_api_key_string");
+        if (!is_string($api_key) || empty($api_key) || ('API_KEY' == $api_key)) {
             throw new \InvalidArgumentException(
                 "Parameter 'api_key' is not defined: '{$api_key}'"
             );
         }
 
         // validate_fields
-        if (is_null($validate_fields)) {
-            $validate_fields = $this->config->getConfigValue("tune_reporting_verify_fields_boolean");
-            $validate_fields = $validate_fields == "1";
-        }
+        $validate_fields = $this->sdk_config->getConfigValue("tune_reporting_verify_fields_boolean");
+        $validate_fields = $validate_fields == "1";
         if (!is_bool($validate_fields)) {
             throw new \InvalidArgumentException(
                 "Parameter 'validate_fields' is not defined as a boolean: '{$validate_fields}'"
@@ -214,11 +213,11 @@ class EndpointBase
     /**
      * Get SDK configuration settings.
      *
-     * @return object @see Config
+     * @return object @see SdkConfig
      */
-    public function getConfig()
+    public function getSdkConfig()
     {
-        return $this->config;
+        return $this->sdk_config;
     }
 
     /**
@@ -561,7 +560,7 @@ class EndpointBase
      * @param array|string $group
      *
      * @return bool
-     * @throws \TuneReporting\Helpers\TuneSdkException
+     * @throws TuneSdkException
      */
     public function validateGroup($group)
     {
@@ -598,7 +597,7 @@ class EndpointBase
      * @param array $sort
      *
      * @return array Validated sort
-     * @throws \TuneReporting\Helpers\TuneSdkException
+     * @throws TuneSdkException
      */
     public function validateSort($fields, $sort)
     {
@@ -750,7 +749,7 @@ class EndpointBase
      * @param $date_time
      *
      * @return bool
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function validateDateTime($param_name, $date_time)
     {
@@ -790,7 +789,7 @@ class EndpointBase
      * @param bool      $verbose                    For debugging purposes only.
      *
      * @return object @see TuneManagementResponse
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws TuneServiceException
      */
     protected function fetchRecords(
@@ -816,8 +815,8 @@ class EndpointBase
             throw new TuneSdkException("Parameter 'api_key' is not defined.");
         }
 
-        $sleep = $this->config->getConfigValue("tune_reporting_export_status_sleep_seconds");
-        $timeout = $this->config->getConfigValue("tune_reporting_export_status_timeout_seconds");
+        $sleep = $this->sdk_config->getConfigValue("tune_reporting_export_status_sleep_seconds");
+        $timeout = $this->sdk_config->getConfigValue("tune_reporting_export_status_timeout_seconds");
 
         if (is_string($sleep)) {
             $sleep = intval($sleep);
@@ -899,8 +898,8 @@ class EndpointBase
      * @param $response
      *
      * @return mixed
-     * @throws \InvalidArgumentException
-     * @throws \TuneReporting\Helpers\TuneServiceException
+     * @throws InvalidArgumentException
+     * @throws TuneServiceException
      */
     public static function parseResponseReportJobId(
         $response
@@ -933,8 +932,8 @@ class EndpointBase
      * @param $response
      *
      * @return mixed
-     * @throws \InvalidArgumentException
-     * @throws \TuneReporting\Helpers\TuneServiceException
+     * @throws InvalidArgumentException
+     * @throws TuneServiceException
      */
     public static function parseResponseReportUrl(
         $response

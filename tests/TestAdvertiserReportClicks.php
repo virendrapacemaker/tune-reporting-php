@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -39,14 +39,14 @@ require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
 use TuneReporting\Api\AdvertiserReportClicks;
 use TuneReporting\Helpers\TuneSdkException;
+use TuneReporting\Helpers\SdkConfig;
 
 class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
      */
-    protected $api_key = null;
-    protected $endpoint = null;
+    protected $advertiser_report = null;
 
     /**
      * Get API Key from environment.
@@ -58,21 +58,27 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
         $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
 
-        $this->api_key = getenv('API_KEY');
-        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $this->assertNotNull($sdk_config);
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+
+        $this->advertiser_report = new AdvertiserReportClicks();
+        $this->assertNotNull($this->advertiser_report);
     }
 
     /**
-     * Test fields
+     * Test getSdkConfig
      */
-    public function testConfig()
+    public function testSdkConfig()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $config = $advertiser_report_clicks->getConfig();
-        $this->assertNotNull($config);
+        $sdk_config = $this->advertiser_report->getSdkConfig();
+        $this->assertNotNull($sdk_config);
     }
 
     /**
@@ -80,9 +86,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFields()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $fields = $advertiser_report_clicks->fields();
+        $fields = $this->advertiser_report->fields();
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -92,9 +96,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsEndpoint()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $fields = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -104,12 +106,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks(
-            $this->api_key,
-            $validate_fields = true
-        );
-
-        $fields = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -119,9 +116,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $fields = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED);
+        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -131,9 +126,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefaultMinimal()
     {
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $fields = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT | AdvertiserReportClicks::TUNE_FIELDS_MINIMAL);
+        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT | AdvertiserReportClicks::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -147,12 +140,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->fields();
-        $this->assertNotNull($response);
-
-        $response = $advertiser_report_clicks->count(
+        $response = $this->advertiser_report->count(
             $start_date,
             $end_date,
             $filter              = null,
@@ -172,9 +160,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $fields              = null,
@@ -198,12 +184,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -224,12 +208,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -250,12 +232,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -270,88 +250,17 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException TuneReporting\Helpers\TuneSdkException
      */
-    public function testFindInvalidField()
-    {
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
-            $start_date,
-            $end_date,
-            $fields              = "foo",
-            $filter              = null,
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("created" => "DESC"),
-            $response_timezone   = "America/Los_Angeles"
-        );
-    }
-
-    /**
-     * @expectedException TuneReporting\Helpers\TuneSdkException
-     */
-    public function testFindInvalidFilterField()
-    {
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
-            $start_date,
-            $end_date,
-            $fields              = null,
-            $filter              = "(foo > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("created" => "DESC"),
-            $response_timezone   = "America/Los_Angeles"
-        );
-    }
-
-    /**
-     * @expectedException TuneReporting\Helpers\TuneSdkException
-     */
     public function testFindInvalidFilterOperator()
     {
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
+        $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
             $fields              = null,
             $filter              = "(created # 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("created" => "DESC"),
-            $response_timezone   = "America/Los_Angeles"
-        );
-    }
-
-    /**
-     * @expectedException TuneReporting\Helpers\TuneSdkException
-     */
-    public function testFindInvalidFields()
-    {
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->find(
-            $start_date,
-            $end_date,
-            $fields              = "foo",
-            $filter              = null,
             $limit               = 5,
             $page                = null,
             $sort                = array("created" => "DESC"),
@@ -365,12 +274,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $start_date     = "{$yesterday} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
-        $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-        $response = $advertiser_report_clicks->export(
+        $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
-            $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -393,12 +300,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report_clicks = new AdvertiserReportClicks($this->api_key, $validate_fields = true);
-
-            $response = $advertiser_report_clicks->export(
+            $response = $this->advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -411,7 +316,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
-            $response = $advertiser_report_clicks->fetch(
+            $response = $this->advertiser_report->fetch(
                 $job_id,
                 $verbose = false
             );

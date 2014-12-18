@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -41,8 +41,7 @@ use TuneReporting\Api\AdvertiserReportCohort;
 use TuneReporting\Api\Export;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
-
-global $argc, $argv;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Class ExampleAdvertiserReportCohort
@@ -64,11 +63,21 @@ class ExampleAdvertiserReportCohort
      *
      * @param string $api_key MobileAppTracking API Key
      *
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public static function run($api_key = null)
+    public static function run()
     {
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        // api_key
+        if (!is_string($api_key) || empty($api_key)) {
+            throw new \InvalidArgumentException("SDK Configuration 'api_key' is not defined.");
+        }
+
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
@@ -92,24 +101,24 @@ class ExampleAdvertiserReportCohort
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $reports_cohort = new AdvertiserReportCohort($api_key, $validate_fields = true);
+            $advertiser_report = new AdvertiserReportCohort();
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Cohort records: Default.        " . PHP_EOL;
+            echo " Fields of Advertiser Cohort: Default.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Cohort records: Recommended.    " . PHP_EOL;
+            echo " Fields of Advertiser Cohort: Recommended.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Count Advertiser Cohort records.                     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_cohort->count(
+            $response = $advertiser_report->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
@@ -134,7 +143,7 @@ class ExampleAdvertiserReportCohort
             echo " Find Advertiser Cohort records.                         " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
-            $response = $reports_cohort->find(
+            $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
@@ -162,13 +171,13 @@ class ExampleAdvertiserReportCohort
             echo " Find Advertiser Cohort records Recommended              " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
-            $response = $reports_cohort->find(
+            $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -190,13 +199,13 @@ class ExampleAdvertiserReportCohort
             echo " Advertiser Cohort CSV report for export.             " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $reports_cohort->export(
+            $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $reports_cohort->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -218,7 +227,7 @@ class ExampleAdvertiserReportCohort
             echo "Fetching Advertiser Cohort CSV report                   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $reports_cohort->fetch(
+            $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
@@ -227,7 +236,7 @@ class ExampleAdvertiserReportCohort
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Cohort CSV report and pretty print 5 lines.       " . PHP_EOL;
+            echo " Read Cohort CSV report       " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
@@ -248,14 +257,4 @@ class ExampleAdvertiserReportCohort
     }
 }
 
-/**
- * Example request API_KEY
- */
-if (count($argv) == 1) {
-    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
-    exit;
-}
-
-$api_key = $argv[1];
-
-ExampleAdvertiserReportCohort::run($api_key);
+ExampleAdvertiserReportCohort::run();

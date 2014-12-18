@@ -25,19 +25,20 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use \TuneReporting\Base\Service\TuneManagementClient;
+use TuneReporting\Base\Service\TuneManagementClient;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Unittest basic functionality of TuneManagementClient
@@ -54,10 +55,12 @@ class TestTuneManagementClient extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->api_key = getenv('API_KEY');
-        $this->assertNotNull($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertInternalType('string', $this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
-        $this->assertNotEmpty($this->api_key, "In bash: 'export API_KEY=[your API KEY]'");
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $this->assertNotNull($sdk_config);
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        $this->api_key = $api_key;
     }
 
     /**
@@ -65,7 +68,10 @@ class TestTuneManagementClient extends \PHPUnit_Framework_TestCase
      */
     public function testApiKey()
     {
-        $this->assertNotNull($this->api_key);
+        $this->assertNotNull($this->api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertInternalType('string', $this->api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEmpty($this->api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEquals("API_KEY", $this->api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
     }
 
     /**

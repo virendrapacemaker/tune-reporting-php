@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -136,33 +136,3 @@ function isParenthesesBalanced($str)
     return $count == 0;
 }
 
-/**
- * Convert array to string
- *
- * @param array $array
- * @return string
- */
-function arrayToString($array)
-{
-    $str="";
-    foreach ($array as $k => $i) {
-        if (is_array($i)) {
-            $str .= array2string($i);
-        } else {
-            $str .= " " . $i;
-        }
-    }
-    return $str;
-}
-
-/**
- * Determine if string value is null or empty.
- *
- * @param string $str
- *
- * @return bool
- */
-function isNullOrEmptyString($str)
-{
-    return ( is_null($str) || (is_string($str) === false) || (trim($str) === '') );
-}

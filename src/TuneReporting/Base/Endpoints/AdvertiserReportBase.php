@@ -25,13 +25,13 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -62,17 +62,13 @@ class AdvertiserReportBase extends EndpointBase
      * Constructor
      *
      * @param string $controller                TUNE Reporting API endpoint name.
-     * @param string $api_key                   MobileAppTracking API Key.
      * @param bool   $filter_debug_mode         Remove debug mode information from results.
      * @param bool   $filter_test_profile_id    Remove test profile information from results.
-     * @param bool   $validate_fields                  Validate fields used by actions' parameters.
      */
     public function __construct(
         $controller,
-        $api_key = null,
         $filter_debug_mode = false,
-        $filter_test_profile_id = false,
-        $validate_fields = null
+        $filter_test_profile_id = false
     ) {
         // controller
         if (!is_string($controller) || empty($controller)) {
@@ -96,7 +92,7 @@ class AdvertiserReportBase extends EndpointBase
         $this->filter_debug_mode = $filter_debug_mode;
         $this->filter_test_profile_id = $filter_test_profile_id;
 
-        parent::__construct($controller, $api_key, $validate_fields);
+        parent::__construct($controller);
     }
 
     /**
@@ -107,7 +103,7 @@ class AdvertiserReportBase extends EndpointBase
      * @param dict      $query_string_dict Query string parameters for this action.
      *
      * @return object @see TuneManagementResponse
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function callRecords(
         $action,

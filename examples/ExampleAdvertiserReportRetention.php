@@ -25,12 +25,12 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -40,8 +40,7 @@ require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 use TuneReporting\Api\AdvertiserReportRetention;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
-
-global $argc, $argv;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Class ExampleAdvertiserReportRetention
@@ -63,11 +62,22 @@ class ExampleAdvertiserReportRetention
      *
      * @param string $api_key MobileAppTracking API Key
      *
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws Exception
      */
-    public static function run($api_key = null)
+    public static function run()
     {
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
+        // api_key
+        if (!is_string($api_key) || empty($api_key)) {
+            throw new \InvalidArgumentException("SDK Configuration 'api_key' is not defined.");
+        }
+
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
@@ -82,7 +92,7 @@ class ExampleAdvertiserReportRetention
         }
 
         echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "= Begin TUNE Advertiser Report Logs Retention        =" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "= Begin TUNE Advertiser Report Retention        =" . "\033[0m" . PHP_EOL;
         echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
 
         try {
@@ -91,24 +101,24 @@ class ExampleAdvertiserReportRetention
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $reports_retention = new AdvertiserReportRetention($api_key, $validate_fields = true);
+            $advertiser_report = new AdvertiserReportRetention();
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser AdvertiserReportRetention Default.              " . PHP_EOL;
+            echo " Fields of Advertiser Report Retention Default.       " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_retention->fields(AdvertiserReportRetention::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportRetention::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser AdvertiserReportRetention Recommended.          " . PHP_EOL;
+            echo " Fields of Advertiser Report Retention Recommended.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_retention->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Count Advertiser AdvertiserReportRetention records.                  " . PHP_EOL;
+            echo " Count Advertiser Report Retention records.           " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_retention->count(
+            $response = $advertiser_report->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
@@ -130,14 +140,14 @@ class ExampleAdvertiserReportRetention
             echo "= Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Find Advertiser AdvertiserReportRetention records.                   " . PHP_EOL;
+            echo " Find Advertiser Report Retention records.                   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $reports_retention->find(
+            $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
-                $fields              = $reports_retention->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,install_publisher_id",
                 $filter              = "(install_publisher_id > 0)",
                 $limit               = 5,
@@ -156,15 +166,15 @@ class ExampleAdvertiserReportRetention
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser AdvertiserReportRetention CSV report for export.          " . PHP_EOL;
+            echo " Advertiser Report Retention CSV report for export.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
-            $response = $reports_retention->export(
+            $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
-                $fields              = $reports_retention->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportRetention::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,install_publisher_id",
                 $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -183,10 +193,10 @@ class ExampleAdvertiserReportRetention
             echo "= CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser AdvertiserReportRetention CSV report                " . PHP_EOL;
+            echo "Fetching Advertiser Report Retention CSV report                " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
-            $response = $reports_retention->fetch(
+            $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
@@ -195,7 +205,7 @@ class ExampleAdvertiserReportRetention
             echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read AdvertiserReportRetention CSV report and pretty print 5 lines.    " . PHP_EOL;
+            echo " Read Advertiser Report Retention CSV report    " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
@@ -216,14 +226,4 @@ class ExampleAdvertiserReportRetention
     }
 }
 
-/**
- * Example request API_KEY
- */
-if (count($argv) == 1) {
-    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
-    exit;
-}
-
-$api_key = $argv[1];
-
-ExampleAdvertiserReportRetention::run($api_key);
+ExampleAdvertiserReportRetention::run();

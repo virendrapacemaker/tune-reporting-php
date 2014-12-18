@@ -25,21 +25,20 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE
+ * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE (http://www.tune.com)
+ * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-17 13:40:16 $
+ * @version   $Date: 2014-12-18 04:47:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
-
-
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-global $argc, $argv;
+use TuneReporting\Base\Service\TuneManagementClient;
+use TuneReporting\Helpers\SdkConfig;
 
 /**
  * Class ExampleTuneManagementAPIClient
@@ -57,12 +56,19 @@ class ExampleTuneManagementAPIClient
     }
 
     /**
+     * Execute example.
      *
-     * Example of running successful requests to TUNE MobileAppTracking Management API
-     * through TUNE PHP SDK.
+     * @param string $api_key MobileAppTracking API Key
+     *
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public static function run($api_key = null)
+    public static function run()
     {
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
@@ -70,10 +76,10 @@ class ExampleTuneManagementAPIClient
 
         try {
             echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[34m" . "= Begin Example TUNE Reporting API Client              =" . "\033[0m" . PHP_EOL;
+            echo "\033[34m" . "= Begin Example TUNE Reporting API Client               =" . "\033[0m" . PHP_EOL;
             echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
 
-            $client = new \TuneReporting\Base\Service\TuneManagementClient(
+            $client = new TuneManagementClient(
                 $controller = 'account/users',
                 $action = 'find.json',
                 $api_key,
@@ -99,14 +105,4 @@ class ExampleTuneManagementAPIClient
     }
 }
 
-/**
- * Example request API_KEY
- */
-if (count($argv) == 1) {
-    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
-    exit;
-}
-
-$api_key = $argv[1];
-
-ExampleTuneManagementAPIClient::run($api_key);
+ExampleTuneManagementAPIClient::run();

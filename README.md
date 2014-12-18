@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-17 13:40:16 $
-<h4>Version: 0.9.21
+<h4>Update:  $Date: 2014-12-18 04:47:37 $
+<h4>Version: 0.9.22
 ===
 
 <a id="TOP"></a>
@@ -471,7 +471,7 @@ src/
 
 Run the following script to view execution of all examples:
 ```bash
-    $ make api_key=[API_KEY] examples
+    $ make examples
 ```
 
 Each Advertiser Report class defined in **/src/TuneReporting/Api/** has an example:
@@ -497,7 +497,7 @@ examples/
 
 Run the following script to view execution of all unittests:
 ```bash
-    $ make api_key=[API_KEY] tests
+    $ make tests
 ```
 
 Each Advertiser Report class defined in **/src/TuneReporting/Api/** has a test:
@@ -601,8 +601,8 @@ Finds all existing records matching provided filter criteria and returns total c
 
 <!-- PHP -->
 ```php
-    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
-    $response = $advertiser_report_clicks->count(
+    $advertiser_report = new AdvertiserReportClicks();
+    $response = $advertiser_report->count(
         $start_date,
         $end_date,
         $filter              = null,
@@ -631,11 +631,11 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- PHP -->
 ```php
-    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
-    $response = $advertiser_report_clicks->find(
+    $advertiser_report = new AdvertiserReportClicks();
+    $response = $advertiser_report->find(
         $start_date,
         $end_date,
-        $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+        $fields              = $advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
         $filter              = null,
         $limit               = 5,
         $page                = null,
@@ -663,11 +663,11 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- PHP -->
 ```php
-    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
-    $response = $advertiser_report_clicks->export(
+    $advertiser_report = new AdvertiserReportClicks();
+    $response = $advertiser_report->export(
         $start_date,
         $end_date,
-        $fields              = $advertiser_report_clicks->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+        $fields              = $advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
         $filter              = null,
         $format              = "csv",
         $response_timezone   = "America/Los_Angeles"
@@ -689,9 +689,7 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 <a id="sdk_method_status" name="sdk_method_status"></a>
 ##### Method <code>status()</code>
 
-
 As discussed in <a href="#exporting-reports">Exporting Advertise Reports</a>, for gathering report export status records' classes <strong>Cohort (AdvertiserReportCohorts)</strong> and <strong>AdvertiserReportRetention</strong> uses it own method <code>status()</code>. Its purpose is the same as method <code>Export::download()</code>.
-
 
 <a id="sdk_method_fetch" name="sdk_method_fetch"></a>
 ##### Method <code>fetch()</code>
@@ -703,7 +701,7 @@ A helper function that creates a threaded worker that handles the status request
 
 <!-- PHP -->
 ```php
-    $response = $advertiser_report_clicks->fetch(
+    $response = $advertiser_report->fetch(
         $job_id,
         $verbose = true
     );
@@ -712,7 +710,6 @@ A helper function that creates a threaded worker that handles the status request
     echo "= CSV Report URL: {$report_url}" . PHP_EOL;
 ```
 
-
 <a id="sdk_method_fields" name="sdk_method_fields"></a>
 ##### Method <code>fields()</code>
 
@@ -720,11 +717,10 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
 
 <!-- PHP -->
 ```php
-    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
-    $response = $advertiser_report_clicks->getFields();
+    $advertiser_report = new AdvertiserReportClicks();
+    $response = $advertiser_report->getFields();
     echo print_r($response, true) . PHP_EOL;
 ```
-
 
 <a id="sdk_method_define" name="sdk_method_define"></a>
 ##### Method <code>define()</code>
@@ -733,8 +729,8 @@ Method <strong>define()</strong> returns the complete meta-data of an endpoint. 
 
 <!-- PHP -->
 ```php
-    $advertiser_report_clicks = new AdvertiserReportClicks($api_key);
-    $response = $advertiser_report_clicks->getDefine();
+    $advertiser_report = new AdvertiserReportClicks();
+    $response = $advertiser_report->getDefine();
     echo print_r($response, true) . PHP_EOL;
 ```
 
