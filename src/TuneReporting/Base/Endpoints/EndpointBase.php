@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-19 17:18:01 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -189,7 +189,7 @@ class EndpointBase
         }
 
         // api key
-        $api_key = $this->sdk_config->getConfigValue("tune_reporting_api_key_string");
+        $api_key = $this->sdk_config->api_key();
         if (!is_string($api_key) || empty($api_key) || ('API_KEY' == $api_key)) {
             throw new \InvalidArgumentException(
                 "Parameter 'api_key' is not defined: '{$api_key}'"
@@ -197,13 +197,7 @@ class EndpointBase
         }
 
         // validate_fields
-        $validate_fields = $this->sdk_config->getConfigValue("tune_reporting_verify_fields_boolean");
-        $validate_fields = $validate_fields == "1";
-        if (!is_bool($validate_fields)) {
-            throw new \InvalidArgumentException(
-                "Parameter 'validate_fields' is not defined as a boolean: '{$validate_fields}'"
-            );
-        }
+        $validate_fields = $this->sdk_config->validate_fields();
 
         $this->controller = $controller;
         $this->api_key = $api_key;
@@ -815,21 +809,8 @@ class EndpointBase
             throw new TuneSdkException("Parameter 'api_key' is not defined.");
         }
 
-        $sleep = $this->sdk_config->getConfigValue("tune_reporting_export_status_sleep_seconds");
-        $timeout = $this->sdk_config->getConfigValue("tune_reporting_export_status_timeout_seconds");
-
-        if (is_string($sleep)) {
-            $sleep = intval($sleep);
-        }
-        if (is_string($timeout)) {
-            $timeout = intval($timeout);
-        }
-        if (!is_integer($sleep)) {
-            throw new TuneSdkException("Configuration 'sleep' is not defined: " . print_r($sleep, true));
-        }
-        if (!is_integer($timeout)) {
-            throw new TuneSdkException("Configuration 'timeout' is not defined: " . print_r($timeout, true));
-        }
+        $status_sleep = $this->sdk_config->status_sleep();
+        $status_timeout = $this->sdk_config->status_timeout();
 
         $export_worker = new ReportExportWorker(
             $export_controller,
@@ -837,8 +818,8 @@ class EndpointBase
             $this->api_key,
             $job_id,
             $verbose,
-            $sleep,
-            $timeout
+            $status_sleep,
+            $status_timeout
         );
 
         if ($verbose) {

@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-19 17:18:01 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -46,7 +46,6 @@ use TuneReporting\Helpers\TuneSdkException;
 class SdkConfig
 {
     /**
-     *
      * SDK Config file path
      * @var string
      */
@@ -59,13 +58,9 @@ class SdkConfig
     private $_tune_reporting_config = null;
 
     /**
-     *
      * Constructs by reading the SDK configuration settings from tune_reporting_sdk.config.
      *
      * @throws TuneSdkException
-     * @throws Exception
-     *
-     * @access private
      */
     private function __construct($tune_reporting_config_file)
     {
@@ -77,19 +72,19 @@ class SdkConfig
         try {
             $this->_tune_reporting_config = parse_ini_file($this->_tune_reporting_config_file, 'TANGOCARD');
         } catch (Exception $e) {
-            throw new Exception("Error reading tune_reporting_sdk.config", 0, $e);
+            throw new TuneSdkException("Error reading tune_reporting_sdk.config", 0, $e);
         }
 
         if (null == $this->_tune_reporting_config ) {
-            throw new Exception( "Reference to '_tune_reporting_config' is null.");
+            throw new TuneSdkException( "Reference to '_tune_reporting_config' is null.");
         }
     }
 
     /**
-     *
      * Reads configuration setting for provided key.
      *
      * @param string $key
+     * @return string SDK Configuration value.
      *
      * @throws Exception
      */
@@ -101,14 +96,13 @@ class SdkConfig
         if (is_null($key) || (is_string($key) === false) || (trim($key) === '')) {
             throw new Exception( "Parameter 'key' is not defined: '{$key}");
         }
-        return $this->_tune_reporting_config['TUNE_REPORTING'][$key];
+        return $this->_tune_reporting_config["TUNE_REPORTING"][$key];
     }
 
     /**
-     *
      * Returns a singleton instance.
      *
-     * @return \TangoCard\Sdk\Common\SdkConfig
+     * @return SdkConfig
      * @throws InvalidArgumentException
      */
     public static function &getInstance($tune_reporting_config_file = null)
@@ -129,6 +123,65 @@ class SdkConfig
         } // if
 
         return $instance;
-
     } // getInstance
+
+    /**
+     * Get TUNE MobileAppTracking API Key from SDK Configuration File.
+     *
+     * @return string
+     */
+    public function api_key() {
+        if (!array_key_exists("tune_reporting_api_key_string", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+            return false;
+        }
+
+        return $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"];
+    }
+
+    /**
+     * Get boolean flag to validate fields from SDK Configuration File.
+     *
+     * @return boolean
+     */
+    public function validate_fields() {
+        if (!array_key_exists("tune_reporting_validate_fields_boolean", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+            return false;
+        }
+
+        $validate_fields = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_validate_fields_boolean"];
+
+        return ("true" == $validate_fields || "1" == $validate_fields);
+    }
+
+    /**
+     * Get number of seconds to sleep between status requests from SDK Configuration File.
+     * Default: 10 Seconds.
+     *
+     * @return integer
+     */
+    public function status_sleep() {
+        if (!array_key_exists("tune_reporting_export_status_sleep_seconds", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+            return 10;
+        }
+
+        $status_sleep = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_sleep_seconds"];
+
+        return intval($status_sleep);
+    }
+
+    /**
+     * Get number of seconds to timeout status requests from SDK Configuration File.
+     * Default: 600 Seconds.
+     *
+     * @return integer
+     */
+    public function status_timeout() {
+        if (!array_key_exists("tune_reporting_export_status_timeout_seconds", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+            return 240;
+        }
+
+        $status_sleep = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_timeout_seconds"];
+
+        return intval($status_sleep);
+    }
 }
