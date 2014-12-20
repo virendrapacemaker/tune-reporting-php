@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-19 17:18:01 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -70,7 +70,7 @@ class ExampleAdvertiserReportPostbacks
         $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
-        $api_key = $sdk_config->getConfigValue("tune_reporting_api_key_string");
+        $api_key = $sdk_config->api_key();
 
         // api_key
         if (!is_string($api_key) || empty($api_key)) {

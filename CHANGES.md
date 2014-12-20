@@ -100,5 +100,12 @@ Beta public release on Novenber 19, 2014
 Version 0.9.20
 --------------
 
-Beta public release on December 20, 2014
+Beta public release on December 10, 2014
 * Refactor to reflect new naming from 'tune-api-php' to 'tune-reporting-php'
+
+
+Version 0.9.23
+--------------
+
+Beta public release on December 19, 2014
+* SDK Configuration
