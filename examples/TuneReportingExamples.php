@@ -31,7 +31,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -77,16 +77,16 @@ class TuneReportingExamples
         }
 
         echo "\n============================================\n";
-        echo   "= TUNE Reporting API SDK for PHP Examples  =\n";
-        echo   "= SDK version: " . \TuneReporting\Base\Service\TuneManagementClient::Version() . " =\n";
+        echo   " TUNE Reporting API SDK for PHP Examples  =\n";
+        echo   " SDK version: " . \TuneReporting\Base\Service\TuneManagementClient::Version() . " =\n";
         echo   "============================================\n";
         echo "\n";
 
         try {
-            ExampleTuneManagementAPIClient::run($api_key);
+            ExampleTuneManagementClient::run($api_key);
 
             ExampleAdvertiserReportActuals::run();
-            ExampleAdvertiserReportCohort::run();
+            ExampleAdvertiserReportValue::run();
             ExampleAdvertiserReportRetention::run();
 
             ExampleAdvertiserReportClicks::run();
@@ -113,7 +113,7 @@ class TuneReportingExamples
         }
 
         echo "\n==============================\n";
-        echo   "=   The End                  =\n";
+        echo   "   The End                  =\n";
         echo   "==============================\n";
     }
 }

@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-19 17:18:01 $</h4>
-<h4>Version: 0.9.23</h4>
+<h4>Update:  $Date: 2014-12-21 09:06:23 $</h4>
+<h4>Version: 0.9.24</h4>
 ===
 
 <a id="TOP"></a>
@@ -348,7 +348,7 @@ The Cohort report analyzes user behavior back to click date time (Cohort by Clic
 
 Advertiser Reporting class that perform Cohort Reports is:
 <ul>
-    <li><code>AdvertiserReportCohort</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
+    <li><code>AdvertiserReportValue</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
 </ul>
 </dd>
 <dt>Retention Report</dt>
@@ -432,7 +432,7 @@ src/
 │   ├── Api
 │   │   ├── AdvertiserReportActuals.php
 │   │   ├── AdvertiserReportClicks.php
-│   │   ├── AdvertiserReportCohort.php
+│   │   ├── AdvertiserReportValue.php
 │   │   ├── AdvertiserReportEventItems.php
 │   │   ├── AdvertiserReportEvents.php
 │   │   ├── AdvertiserReportInstalls.php
@@ -443,7 +443,7 @@ src/
 │   │   ├── Endpoints
 │   │   │   ├── AdvertiserReportActualsBase.php
 │   │   │   ├── AdvertiserReportBase.php
-│   │   │   ├── AdvertiserReportInsightBase.php
+│   │   │   ├── AdvertiserReportCohortBase.php
 │   │   │   ├── AdvertiserReportLogsBase.php
 │   │   │   └── EndpointBase.php
 │   │   └── Service
@@ -480,13 +480,13 @@ Each Advertiser Report class defined in **/src/TuneReporting/Api/** has an examp
 examples/
 ├── ExampleAdvertiserReportActuals.php
 ├── ExampleAdvertiserReportClicks.php
-├── ExampleAdvertiserReportCohort.php
 ├── ExampleAdvertiserReportEventItems.php
 ├── ExampleAdvertiserReportEvents.php
 ├── ExampleAdvertiserReportInstalls.php
 ├── ExampleAdvertiserReportPostbacks.php
 ├── ExampleAdvertiserReportRetention.php
-├── ExampleTuneManagementAPIClient.php
+├── ExampleAdvertiserReportValue.php
+├── ExampleTuneManagementClient.php
 ├── TuneReportingExamplesAutoloader.php
 └── TuneReportingExamples.php
 ```
@@ -508,12 +508,12 @@ tests/
 ├── phpunit.xml
 ├── TestAdvertiserReportActuals.php
 ├── TestAdvertiserReportClicks.php
-├── TestAdvertiserReportCohort.php
 ├── TestAdvertiserReportEventItems.php
 ├── TestAdvertiserReportEvents.php
 ├── TestAdvertiserReportInstalls.php
 ├── TestAdvertiserReportPostbacks.php
 ├── TestAdvertiserReportRetention.php
+├── TestAdvertiserReportValue.php
 └── TestTuneManagementClient.php
 ```
 
@@ -561,8 +561,8 @@ tests/
 #### Report Readers Classes
 
 <ul>
-    <li><code>ReportReaderCSV</code> - Reads exported CSV report using downloaded URL.</li>
-    <li><code>ReportReaderJSON</code> - Reads exported JSON report using downloaded URL.</li>
+    <li><code>ReportReaderCSV</code> - Reads exported CSV using downloaded URL.</li>
+    <li><code>ReportReaderJSON</code> - Reads exported JSON using downloaded URL.</li>
 </ul>
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_reporting_reader_classes.png">
@@ -615,10 +615,10 @@ Finds all existing records matching provided filter criteria and returns total c
         );
     }
 
-    echo "= TuneManagementResponse:" . PHP_EOL;
+    echo " TuneManagementResponse:" . PHP_EOL;
     echo print_r($response, true) . PHP_EOL;
 
-    echo "= Count:" . $response->getData() . PHP_EOL;
+    echo " Count:" . $response->getData() . PHP_EOL;
 ```
 
 <a id="sdk_method_find" name="sdk_method_find"></a>
@@ -649,7 +649,7 @@ Gathers all existing records that match filter criteria and returns an array of 
         );
     }
 
-    echo "= TuneManagementResponse:" . PHP_EOL;
+    echo " TuneManagementResponse:" . PHP_EOL;
     echo print_r($response, true) . PHP_EOL;
 ```
 
@@ -679,11 +679,11 @@ Provides the same signature as function find(), accept parameters <code>limit</c
         );
     }
 
-    echo "= TuneManagementResponse:" . PHP_EOL;
+    echo " TuneManagementResponse:" . PHP_EOL;
     echo print_r($response, true) . PHP_EOL;
 
     $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
-    echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+    echo " CSV Job ID: {$job_id}" . PHP_EOL;
 ```
 
 <a id="sdk_method_status" name="sdk_method_status"></a>
@@ -707,7 +707,7 @@ A helper function that creates a threaded worker that handles the status request
     );
 
     $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
-    echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+    echo " CSV Report URL: {$report_url}" . PHP_EOL;
 ```
 
 <a id="sdk_method_fields" name="sdk_method_fields"></a>

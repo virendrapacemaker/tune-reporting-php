@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportCohort.php
+ * ExampleAdvertiserReportValue.php
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,25 +30,25 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportCohort;
+use TuneReporting\Api\AdvertiserReportValue;
 use TuneReporting\Api\Export;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleAdvertiserReportCohort
+ * Class ExampleAdvertiserReportValue
  *
- * Using TuneReporting\Api\AdvertiserReportCohort
+ * Using TuneReporting\Api\AdvertiserReportValue
  */
-class ExampleAdvertiserReportCohort
+class ExampleAdvertiserReportValue
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -81,7 +81,7 @@ class ExampleAdvertiserReportCohort
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
@@ -91,9 +91,9 @@ class ExampleAdvertiserReportCohort
             );
         }
 
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "= Begin TUNE Advertiser Report Cohort                =" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Value         " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
         try {
             $week_ago       = date('Y-m-d', strtotime("-8 days"));
@@ -101,22 +101,22 @@ class ExampleAdvertiserReportCohort
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report = new AdvertiserReportCohort();
+            $advertiser_report = new AdvertiserReportValue();
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Cohort: Default.        " . PHP_EOL;
+            echo " Fields of Advertiser Report Value: Default.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Cohort: Recommended.    " . PHP_EOL;
+            echo " Fields of Advertiser Report Value: Recommended.            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Count Advertiser Cohort records.                     " . PHP_EOL;
+            echo " Count Advertiser Report Value records.               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->count(
                 $start_date,
@@ -134,13 +134,13 @@ class ExampleAdvertiserReportCohort
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "= Count:" . $response->getData() . PHP_EOL;
+            echo " Count:" . $response->getData() . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Cohort records.                         " . PHP_EOL;
+            echo " Find Advertiser Report Value records.                   " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
             $response = $advertiser_report->find(
@@ -164,11 +164,11 @@ class ExampleAdvertiserReportCohort
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Cohort records Recommended              " . PHP_EOL;
+            echo " Find Advertiser Report Value records Recommended        " . PHP_EOL;
             echo "=========================================================" . PHP_EOL;
 
             $response = $advertiser_report->find(
@@ -177,7 +177,7 @@ class ExampleAdvertiserReportCohort
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $limit               = 5,
@@ -192,11 +192,11 @@ class ExampleAdvertiserReportCohort
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser Cohort CSV report for export.             " . PHP_EOL;
+            echo " Export Advertiser Report Value CSV                   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
@@ -205,7 +205,7 @@ class ExampleAdvertiserReportCohort
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -217,14 +217,14 @@ class ExampleAdvertiserReportCohort
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportCohort::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            $job_id = AdvertiserReportValue::parseResponseReportJobId($response);
+            echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Cohort CSV report                   " . PHP_EOL;
+            echo " Fetching Advertiser Report Value CSV                   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
@@ -232,11 +232,11 @@ class ExampleAdvertiserReportCohort
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportCohort::parseResponseReportUrl($response);
-            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+            $report_url = AdvertiserReportValue::parseResponseReportUrl($response);
+            echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Cohort CSV report       " . PHP_EOL;
+            echo " Read Advertiser Report Value CSV                       " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
@@ -246,9 +246,9 @@ class ExampleAdvertiserReportCohort
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "= End Example                                        =" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo PHP_EOL;
 
         } catch (\Exception $ex) {
@@ -257,4 +257,4 @@ class ExampleAdvertiserReportCohort
     }
 }
 
-ExampleAdvertiserReportCohort::run();
+ExampleAdvertiserReportValue::run();

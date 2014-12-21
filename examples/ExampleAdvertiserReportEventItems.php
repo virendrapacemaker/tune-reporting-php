@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportEventItems.php
+ * ExampleAdvertiserReportEventItems.php, TUNE Reporting SDK PHP Example
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -81,7 +81,7 @@ class ExampleAdvertiserReportEventItems
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
@@ -91,9 +91,9 @@ class ExampleAdvertiserReportEventItems
             );
         }
 
-        echo "\033[34m" . "==========================================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "= Begin TUNE Advertiser Report Event Items       =" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "==========================================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Event Items   " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
         try {
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
@@ -103,19 +103,19 @@ class ExampleAdvertiserReportEventItems
             $advertiser_report = new AdvertiserReportEventItems();
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Event Items Default.   " . PHP_EOL;
+            echo " Fields of Advertiser Report Event Items Default.     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Event Items Recommended.   " . PHP_EOL;
+            echo " Fields of Advertiser Report Event Items Recommended. " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Count Advertiser Report Event Items records.           " . PHP_EOL;
+            echo " Count Advertiser Report Event Items records.         " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->count(
                 $start_date,
@@ -130,13 +130,13 @@ class ExampleAdvertiserReportEventItems
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "= Count:" . $response->getData() . PHP_EOL;
+            echo " Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Find Advertiser Report Event Items records.            " . PHP_EOL;
+            echo " Find Advertiser Report Event Items records.          " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->find(
                 $start_date,
@@ -155,12 +155,12 @@ class ExampleAdvertiserReportEventItems
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "============================================================" . PHP_EOL;
-            echo " Advertiser Report Event Items CSV report for export. " . PHP_EOL;
-            echo "============================================================" . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
+            echo " Export Advertiser Report Event Items CSV              " . PHP_EOL;
+            echo "=======================================================" . PHP_EOL;
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
@@ -176,14 +176,14 @@ class ExampleAdvertiserReportEventItems
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Event Items CSV report.      " . PHP_EOL;
+            echo " Fetching Advertiser Report Event Items CSV            " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
@@ -192,11 +192,11 @@ class ExampleAdvertiserReportEventItems
             );
 
             $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);
-            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+            echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
-            echo "===========================================================" . PHP_EOL;
-            echo " Read Event Items CSV report     " . PHP_EOL;
-            echo "===========================================================" . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
+            echo " Read Advertiser Report Event Items CSV           " . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
@@ -204,9 +204,9 @@ class ExampleAdvertiserReportEventItems
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
-            echo "======================================================" . PHP_EOL;
-            echo " Advertiser Event Items JSON report for export.     " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
+            echo " Advertiser Event Items JSON   " . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
                 $start_date,
@@ -223,14 +223,14 @@ class ExampleAdvertiserReportEventItems
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
-            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+            echo " JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Event Items JSON report.      " . PHP_EOL;
+            echo " Fetching Advertiser Report Event Items JSON.    " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
@@ -239,11 +239,11 @@ class ExampleAdvertiserReportEventItems
             );
 
             $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);
-            echo "= JSON Report URL: {$report_url}" . PHP_EOL;
+            echo " JSON Report URL: {$report_url}" . PHP_EOL;
 
-            echo "===========================================================" . PHP_EOL;
-            echo " Read Event Items JSON report    " . PHP_EOL;
-            echo "===========================================================" . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
+            echo " Read Advertiser Report Event Items JSON          " . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
 
             $json_report_reader = new ReportReaderJSON(
                 $report_url
@@ -252,9 +252,9 @@ class ExampleAdvertiserReportEventItems
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
 
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "= End Example                                        =" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo PHP_EOL;
 
         } catch (\Exception $ex) {

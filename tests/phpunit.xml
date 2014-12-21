@@ -22,8 +22,8 @@
             <file>TestAdvertiserReportInstalls.php</file>
             <file>TestAdvertiserReportPostbacks.php</file>
             <file>TestAdvertiserReportActuals.php</file>
-            <file>TestAdvertiserReportCohort.php</file>
             <file>TestAdvertiserReportRetention.php</file>
+            <file>TestAdvertiserReportValue.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

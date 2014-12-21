@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -81,7 +81,7 @@ class ExampleAdvertiserReportRetention
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
             echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'." . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
@@ -91,9 +91,9 @@ class ExampleAdvertiserReportRetention
             );
         }
 
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "= Begin TUNE Advertiser Report Retention        =" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Retention     " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
         try {
             $week_ago       = date('Y-m-d', strtotime("-8 days"));
@@ -134,13 +134,13 @@ class ExampleAdvertiserReportRetention
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "= Count:" . $response->getData() . PHP_EOL;
+            echo " Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Find Advertiser Report Retention records.                   " . PHP_EOL;
+            echo " Find Advertiser Report Retention records.            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $response = $advertiser_report->find(
                 $start_date,
@@ -162,11 +162,11 @@ class ExampleAdvertiserReportRetention
                 );
             }
 
-            echo "= advertiser/stats/retention/find.json csv response:" . PHP_EOL;
+            echo " advertiser/stats/retention/find.json csv response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser Report Retention CSV report for export.          " . PHP_EOL;
+            echo " Export Advertiser Report Retention CSV               " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
@@ -186,14 +186,14 @@ class ExampleAdvertiserReportRetention
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             $job_id = AdvertiserReportRetention::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo "Fetching Advertiser Report Retention CSV report                " . PHP_EOL;
+            echo " Fetching Advertiser Report Retention CSV         " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
@@ -202,10 +202,10 @@ class ExampleAdvertiserReportRetention
             );
 
             $report_url = AdvertiserReportRetention::parseResponseReportUrl($response);
-            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+            echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Advertiser Report Retention CSV report    " . PHP_EOL;
+            echo " Read Advertiser Report Retention CSV                   " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
@@ -215,9 +215,9 @@ class ExampleAdvertiserReportRetention
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
 
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "= End Example                                        =" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo PHP_EOL;
 
         } catch (\Exception $ex) {
