@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleClientAccount.php
+ * ExampleTuneManagementClient.php, TUNE Reporting SDK PHP Example
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -41,11 +41,11 @@ use TuneReporting\Base\Service\TuneManagementClient;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleTuneManagementAPIClient
+ * Class ExampleTuneManagementClient
  *
  * Using TuneManagementClient to connect with 'account/users'
  */
-class ExampleTuneManagementAPIClient
+class ExampleTuneManagementClient
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -75,9 +75,9 @@ class ExampleTuneManagementAPIClient
         }
 
         try {
-            echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[34m" . "= Begin Example TUNE Reporting API Client               =" . "\033[0m" . PHP_EOL;
-            echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+            echo "\033[34m" . " Begin Example TUNE Reporting API Client               " . "\033[0m" . PHP_EOL;
+            echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
             $client = new TuneManagementClient(
                 $controller = 'account/users',
@@ -91,12 +91,12 @@ class ExampleTuneManagementAPIClient
 
             $client->call();
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($client->getResponse(), true) . PHP_EOL;
 
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "= End Example                                        =" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo PHP_EOL;
 
         } catch (\Exception $ex) {
@@ -105,4 +105,4 @@ class ExampleTuneManagementAPIClient
     }
 }
 
-ExampleTuneManagementAPIClient::run();
+ExampleTuneManagementClient::run();

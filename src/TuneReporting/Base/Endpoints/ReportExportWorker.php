@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -206,7 +206,7 @@ class ReportExportWorker
 
             $attempt += 1;
             if ($this->verbose) {
-                echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
+                echo " attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
             }
             sleep($this->sleep);
             $total_time += $this->sleep;
@@ -219,7 +219,7 @@ class ReportExportWorker
         }
 
         if ($this->verbose) {
-            echo "= attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
+            echo " attempt: {$attempt}, response: " . print_r($response, true) . PHP_EOL;
         }
 
         $this->response = $response;

@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportClicks.php
+ * ExampleAdvertiserReportClicks.php, TUNE Reporting SDK PHP Example
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -91,9 +91,9 @@ class ExampleAdvertiserReportClicks
             );
         }
 
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "= Begin TUNE Advertiser Report Clicks              =" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "=========================================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Clicks        " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
         try {
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
@@ -130,10 +130,10 @@ class ExampleAdvertiserReportClicks
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "= Count:" . $response->getData() . PHP_EOL;
+            echo " Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Find Advertiser Report Clicks records.                 " . PHP_EOL;
@@ -156,11 +156,11 @@ class ExampleAdvertiserReportClicks
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             echo "==========================================================" . PHP_EOL;
-            echo " Advertiser Report Clicks CSV report for export.            " . PHP_EOL;
+            echo " Advertiser Report Clicks CSV            " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
@@ -178,15 +178,15 @@ class ExampleAdvertiserReportClicks
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
-            echo "= CSV Job ID: {$job_id}" . PHP_EOL;
+            echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "=======================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Clicks CSV report.           " . PHP_EOL;
-            echo "=======================================================" . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
+            echo " Fetching Advertiser Report Clicks CSV           " . PHP_EOL;
+            echo "==================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
                 $job_id,
@@ -194,10 +194,10 @@ class ExampleAdvertiserReportClicks
             );
 
             $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
-            echo "= CSV Report URL: {$report_url}" . PHP_EOL;
+            echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
-            echo " Read Advertiser Report Clicks CSV report     " . PHP_EOL;
+            echo " Read Advertiser Report Clicks CSV     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
@@ -207,7 +207,7 @@ class ExampleAdvertiserReportClicks
             $csv_report_reader->prettyPrint($limit = 5);
 
             echo "======================================================" . PHP_EOL;
-            echo " Advertiser Report Clicks JSON report for export.            " . PHP_EOL;
+            echo " Advertiser Report Clicks JSON            " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
@@ -225,14 +225,14 @@ class ExampleAdvertiserReportClicks
                 );
             }
 
-            echo "= TuneManagementResponse:" . PHP_EOL;
+            echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
             $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
-            echo "= JSON Job ID: {$job_id}" . PHP_EOL;
+            echo " JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Clicks JSON report            " . PHP_EOL;
+            echo " Fetching Advertiser Report Clicks JSON            " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
@@ -241,10 +241,10 @@ class ExampleAdvertiserReportClicks
             );
 
             $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
-            echo "= JSON Report URL: {$report_url}" . PHP_EOL;
+            echo " JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
-            echo " Read Advertiser Report Clicks JSON report      " . PHP_EOL;
+            echo " Read Advertiser Report Clicks JSON      " . PHP_EOL;
             echo "========================================================" . PHP_EOL;
 
             $json_report_reader = new ReportReaderJSON(
@@ -254,9 +254,9 @@ class ExampleAdvertiserReportClicks
             $json_report_reader->read();
             $json_report_reader->prettyPrint($limit = 5);
 
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "= End Example                                        =" . "\033[0m" . PHP_EOL;
-            echo "\033[32m" . "======================================================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
+            echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo PHP_EOL;
 
         } catch (\Exception $ex) {

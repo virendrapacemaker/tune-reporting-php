@@ -1,6 +1,6 @@
 <?php
 /**
- * TestAdvertiserReportCohort.php, TUNE SDK PHPUnit Test
+ * TestAdvertiserReportValue.php, TUNE Reporting SDK PHPUnit Test
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,17 +30,17 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-21 09:06:23 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportCohort;
+use TuneReporting\Api\AdvertiserReportValue;
 use TuneReporting\Helpers\SdkConfig;
 
-class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
+class TestAdvertiserReportValue extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -61,14 +61,8 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($tune_reporting_test_config_file), "Test config file does not exist: '{$tune_reporting_test_config_file}'");
         $sdk_config = SdkConfig::getInstance($tune_reporting_test_config_file);
         $this->assertNotNull($sdk_config);
-        $api_key = $sdk_config->api_key();
 
-        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-
-        $this->advertiser_report = new AdvertiserReportCohort();
+        $this->advertiser_report = new AdvertiserReportValue();
         $this->assertNotNull($this->advertiser_report);
     }
 
@@ -79,6 +73,12 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
     {
         $sdk_config = $this->advertiser_report->getSdkConfig();
         $this->assertNotNull($sdk_config);
+        $api_key = $sdk_config->api_key();
+
+        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
     }
 
     /**
@@ -96,7 +96,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsEndpoint()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_ENDPOINT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -106,7 +106,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -116,9 +116,9 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $this->advertiser_report = new AdvertiserReportCohort();
+        $this->advertiser_report = new AdvertiserReportValue();
 
-        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED);
+        $fields = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -128,7 +128,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefaultMinimal()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT | AdvertiserReportCohort::TUNE_FIELDS_MINIMAL);
+        $fields = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_DEFAULT | AdvertiserReportValue::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -206,7 +206,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_DEFAULT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_DEFAULT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -236,7 +236,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_ENDPOINT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_ENDPOINT),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -266,7 +266,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $limit               = 5,
@@ -302,7 +302,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
 
-        $job_id = AdvertiserReportCohort::parseResponseReportJobId($response);
+        $job_id = AdvertiserReportValue::parseResponseReportJobId($response);
         $this->assertNotNull($job_id);
         $this->assertTrue(!empty($job_id));
     }
@@ -320,7 +320,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $cohort_type         = "click",
             $cohort_interval     = "year_day",
             $aggregation_type    = "cumulative",
-            $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
             $group               = "site_id,publisher_id",
             $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
@@ -329,7 +329,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
 
-        $job_id = AdvertiserReportCohort::parseResponseReportJobId($response);
+        $job_id = AdvertiserReportValue::parseResponseReportJobId($response);
         $this->assertNotNull($job_id);
         $this->assertTrue(!empty($job_id));
     }
@@ -351,7 +351,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
                 $aggregation_type    = "cumulative",
-                $fields              = $this->advertiser_report->fields(AdvertiserReportCohort::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $this->advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
                 $group               = "site_id,publisher_id",
                 $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
@@ -360,7 +360,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($response);
             $this->assertEquals(200, $response->getHttpCode());
 
-            $job_id = AdvertiserReportCohort::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportValue::parseResponseReportJobId($response);
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
@@ -369,7 +369,7 @@ class TestAdvertiserReportCohort extends \PHPUnit_Framework_TestCase
                 $verbose = false
             );
 
-            $report_url = AdvertiserReportCohort::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportValue::parseResponseReportUrl($response);
             $this->assertNotNull($report_url);
             $this->assertTrue(!empty($report_url));
         } catch ( Exception $ex ) {
