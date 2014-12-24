@@ -30,7 +30,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -42,15 +42,15 @@ use TuneReporting\Base\Endpoints\AdvertiserReportCohortBase;
 /**
  * TUNE Reporting API controller 'advertiser/stats/ltv'
  *
- * @example ExampleAdvertiserReportValue.php
+ * @example ExampleAdvertiserReportCohortValue.php
  */
-class AdvertiserReportValue extends AdvertiserReportCohortBase
+class AdvertiserReportCohortValue extends AdvertiserReportCohortBase
 {
     /**
      * Constructor.
      */
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct(
             "advertiser/stats/ltv",
             $filter_debug_mode = false,

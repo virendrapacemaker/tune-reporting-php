@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -73,7 +73,7 @@ class TestAdvertiserReportActuals extends \PHPUnit_Framework_TestCase
     {
         $sdk_config = $this->advertiser_report->getSdkConfig();
         $this->assertNotNull($sdk_config);
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
         $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
@@ -434,7 +434,7 @@ class TestAdvertiserReportActuals extends \PHPUnit_Framework_TestCase
             $report_url = AdvertiserReportActuals::parseResponseReportUrl($response);
             $this->assertNotNull($report_url);
             $this->assertTrue(!empty($report_url));
-        } catch ( Exception $ex ) {
+        } catch (Exception $ex ) {
             $this->fail($ex->getMessage());
         }
     }

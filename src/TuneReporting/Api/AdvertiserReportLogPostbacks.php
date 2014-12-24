@@ -30,30 +30,30 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 namespace TuneReporting\Api;
 
-use TuneReporting\Base\Endpoints\AdvertiserReportLogsBase;
+use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
 
 /**
- * TUNE Reporting API controller 'advertiser/stats/events'
+ * TUNE Reporting API controller 'advertiser/stats/postbacks'
  *
- * @example ExampleAdvertiserReportEvents.php
+ * @example ExampleAdvertiserReportLogPostbacks.php
  */
-class AdvertiserReportEvents extends AdvertiserReportLogsBase
+class AdvertiserReportLogPostbacks extends AdvertiserReportLogBase
 {
     /**
      * Constructor.
      */
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct(
-            "advertiser/stats/events",
-            $filter_debug_mode = true,
+            "advertiser/stats/postbacks",
+            $filter_debug_mode = false,
             $filter_test_profile_id = true
         );
 
@@ -61,8 +61,10 @@ class AdvertiserReportEvents extends AdvertiserReportLogsBase
          * Fields recommended in suggested order.
          */
         $this->fields_recommended = array(
-            "id"
+             "id"
             ,"stat_install_id"
+            ,"stat_event_id"
+            ,"stat_open_id"
             ,"created"
             ,"status"
             ,"site_id"
@@ -72,21 +74,10 @@ class AdvertiserReportEvents extends AdvertiserReportLogsBase
             ,"site_event.type"
             ,"publisher_id"
             ,"publisher.name"
-            ,"advertiser_ref_id"
-            ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.ref"
-            ,"publisher_sub_campaign_id"
-            ,"publisher_sub_campaign.ref"
-            ,"user_id"
-            ,"device_id"
-            ,"os_id"
-            ,"google_aid"
-            ,"ios_ifa"
-            ,"ios_ifv"
-            ,"windows_aid"
-            ,"referral_url"
-            ,"is_view_through"
-            ,"is_reengagement"
+            ,"attributed_publisher_id"
+            ,"attributed_publisher.name"
+            ,"url"
+            ,"http_result"
         );
     }
 }

@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-21 09:06:23 $</h4>
-<h4>Version: 0.9.24</h4>
+<h4>Update:  $Date: 2014-12-24 10:43:56 $</h4>
+<h4>Version: 0.9.25</h4>
 ===
 
 <a id="TOP"></a>
@@ -323,11 +323,11 @@ Log reports provide measurement records for each Click, Install, Event, Event It
 
 Advertiser Reporting classes that perform Log Reports are:
 <ul>
-    <li><code>AdvertiserReportClicks</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks/</a></li>
-    <li><code>AdvertiserReportEventItems</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items/</a></li>
-    <li><code>AdvertiserReportEvents</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events/</a></li>
-    <li><code>AdvertiserReportInstalls</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs/</a></li>
-    <li><code>AdvertiserReportPostbacks</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks/</a></li>
+    <li><code>AdvertiserReportLogClicks</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks/</a></li>
+    <li><code>AdvertiserReportLogEventItems</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items/</a></li>
+    <li><code>AdvertiserReportLogEvents</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events/</a></li>
+    <li><code>AdvertiserReportLogInstalls</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs/</a></li>
+    <li><code>AdvertiserReportLogPostbacks</code>:<a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks/</a></li>
 </ul>
 
 </dd>
@@ -348,16 +348,16 @@ The Cohort report analyzes user behavior back to click date time (Cohort by Clic
 
 Advertiser Reporting class that perform Cohort Reports is:
 <ul>
-    <li><code>AdvertiserReportValue</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
+    <li><code>AdvertiserReportCohortValue</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
 </ul>
 </dd>
 <dt>Retention Report</dt>
 <dd>
-The Retention report shows you how many of your installed users open or engage with your app over time (how users continue to get value from the app). AdvertiserReportRetention reports are particularly good for evaluating the quality of users as opposed to the quantity of users (as in the case of user acquisition campaigns). For more information about retention reports, please visit <a href="http://support.mobileapptracking.com/entries/42179044-Running-AdvertiserReportRetention-Reports">Running AdvertiserReportRetention Reports</a>.
+The Retention report shows you how many of your installed users open or engage with your app over time (how users continue to get value from the app). AdvertiserReportCohortRetention reports are particularly good for evaluating the quality of users as opposed to the quantity of users (as in the case of user acquisition campaigns). For more information about retention reports, please visit <a href="http://support.mobileapptracking.com/entries/42179044-Running-AdvertiserReportCohortRetention-Reports">Running AdvertiserReportCohortRetention Reports</a>.
 
 Advertiser Reporting class that perform Retention Reports are:
 <ul>
-    <li><code>AdvertiserReportRetention</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention">/advertiser/stats/retention</a></li>
+    <li><code>AdvertiserReportCohortRetention</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention">/advertiser/stats/retention</a></li>
 </ul>
 </dd>
 </dl>
@@ -380,7 +380,7 @@ Logs and Actuals reports all request an export using action <code>find_export_qu
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-report-exports1.png">
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-report-exports1-600x569.png" alt="Exporting logs and actuals reports." width="600" height="569" /></a>
 
-Cohort and AdvertiserReportRetention reports all request an export using action <code>export.json</code>, which also returns a <code>job_id</code>. You then pass the <code>job_id</code> onto another action <code>status.json</code>, which performs the status checking and report URL retrieval.
+Cohort and AdvertiserReportCohortRetention reports all request an export using action <code>export.json</code>, which also returns a <code>job_id</code>. You then pass the <code>job_id</code> onto another action <code>status.json</code>, which performs the status checking and report URL retrieval.
 
 <a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-insight-report-exports.png">
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-insight-report-exports-600x459.png" alt="Export cohort and retention reports." width="600" height="459" /></a>
@@ -431,20 +431,20 @@ src/
 ├── TuneReporting
 │   ├── Api
 │   │   ├── AdvertiserReportActuals.php
-│   │   ├── AdvertiserReportClicks.php
-│   │   ├── AdvertiserReportValue.php
-│   │   ├── AdvertiserReportEventItems.php
-│   │   ├── AdvertiserReportEvents.php
-│   │   ├── AdvertiserReportInstalls.php
-│   │   ├── AdvertiserReportPostbacks.php
-│   │   ├── AdvertiserReportRetention.php
+│   │   ├── AdvertiserReportLogClicks.php
+│   │   ├── AdvertiserReportCohortValue.php
+│   │   ├── AdvertiserReportLogEventItems.php
+│   │   ├── AdvertiserReportLogEvents.php
+│   │   ├── AdvertiserReportLogInstalls.php
+│   │   ├── AdvertiserReportLogPostbacks.php
+│   │   ├── AdvertiserReportCohortRetention.php
 │   │   └── Export.php
 │   ├── Base
 │   │   ├── Endpoints
 │   │   │   ├── AdvertiserReportActualsBase.php
 │   │   │   ├── AdvertiserReportBase.php
 │   │   │   ├── AdvertiserReportCohortBase.php
-│   │   │   ├── AdvertiserReportLogsBase.php
+│   │   │   ├── AdvertiserReportLogBase.php
 │   │   │   └── EndpointBase.php
 │   │   └── Service
 │   │       ├── Constants.php
@@ -479,13 +479,13 @@ Each Advertiser Report class defined in **/src/TuneReporting/Api/** has an examp
 ```
 examples/
 ├── ExampleAdvertiserReportActuals.php
-├── ExampleAdvertiserReportClicks.php
-├── ExampleAdvertiserReportEventItems.php
-├── ExampleAdvertiserReportEvents.php
-├── ExampleAdvertiserReportInstalls.php
-├── ExampleAdvertiserReportPostbacks.php
-├── ExampleAdvertiserReportRetention.php
-├── ExampleAdvertiserReportValue.php
+├── ExampleAdvertiserReportLogClicks.php
+├── ExampleAdvertiserReportLogEventItems.php
+├── ExampleAdvertiserReportLogEvents.php
+├── ExampleAdvertiserReportLogInstalls.php
+├── ExampleAdvertiserReportLogPostbacks.php
+├── ExampleAdvertiserReportCohortRetention.php
+├── ExampleAdvertiserReportCohortValue.php
 ├── ExampleTuneManagementClient.php
 ├── TuneReportingExamplesAutoloader.php
 └── TuneReportingExamples.php
@@ -507,13 +507,13 @@ tests/
 ├── bootstrap.php
 ├── phpunit.xml
 ├── TestAdvertiserReportActuals.php
-├── TestAdvertiserReportClicks.php
-├── TestAdvertiserReportEventItems.php
-├── TestAdvertiserReportEvents.php
-├── TestAdvertiserReportInstalls.php
-├── TestAdvertiserReportPostbacks.php
-├── TestAdvertiserReportRetention.php
-├── TestAdvertiserReportValue.php
+├── TestAdvertiserReportLogClicks.php
+├── TestAdvertiserReportLogEventItems.php
+├── TestAdvertiserReportLogEvents.php
+├── TestAdvertiserReportLogInstalls.php
+├── TestAdvertiserReportLogPostbacks.php
+├── TestAdvertiserReportCohortRetention.php
+├── TestAdvertiserReportCohortValue.php
 └── TestTuneManagementClient.php
 ```
 
@@ -584,7 +584,7 @@ tests/
 <a id="sdk_methods" name="sdk_methods"></a>
 ### Advertiser Reporting Methods
 
-<strong>Important to note on Sample Code:</strong> The example provided pertain to only Advertiser Reports class <code>AdvertiserReportClicks</code>. The fields used theses sample primarily pertain to the available fields for the record and related records for the the associated endpoint <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks</a> of this class. Do not expect that these fields will be available if used with other Advertiser Records classes.
+<strong>Important to note on Sample Code:</strong> The example provided pertain to only Advertiser Reports class <code>AdvertiserReportLogClicks</code>. The fields used theses sample primarily pertain to the available fields for the record and related records for the the associated endpoint <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks</a> of this class. Do not expect that these fields will be available if used with other Advertiser Records classes.
 
 The benefit of using TUNE API SDKs is it provides the same interface across all advertiser reports. The following class diagram lists what are all the expected functions. The signature of the expected parameters for each function will be consistent with the action it is interfacing.
 
@@ -601,7 +601,7 @@ Finds all existing records matching provided filter criteria and returns total c
 
 <!-- PHP -->
 ```php
-    $advertiser_report = new AdvertiserReportClicks();
+    $advertiser_report = new AdvertiserReportLogClicks();
     $response = $advertiser_report->count(
         $start_date,
         $end_date,
@@ -631,11 +631,11 @@ Gathers all existing records that match filter criteria and returns an array of 
 
 <!-- PHP -->
 ```php
-    $advertiser_report = new AdvertiserReportClicks();
+    $advertiser_report = new AdvertiserReportLogClicks();
     $response = $advertiser_report->find(
         $start_date,
         $end_date,
-        $fields              = $advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+        $fields              = $advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
         $filter              = null,
         $limit               = 5,
         $page                = null,
@@ -663,11 +663,11 @@ Provides the same signature as function find(), accept parameters <code>limit</c
 
 <!-- PHP -->
 ```php
-    $advertiser_report = new AdvertiserReportClicks();
+    $advertiser_report = new AdvertiserReportLogClicks();
     $response = $advertiser_report->export(
         $start_date,
         $end_date,
-        $fields              = $advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+        $fields              = $advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
         $filter              = null,
         $format              = "csv",
         $response_timezone   = "America/Los_Angeles"
@@ -682,14 +682,14 @@ Provides the same signature as function find(), accept parameters <code>limit</c
     echo " TuneManagementResponse:" . PHP_EOL;
     echo print_r($response, true) . PHP_EOL;
 
-    $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
+    $job_id = AdvertiserReportLogClicks::parseResponseReportJobId($response);
     echo " CSV Job ID: {$job_id}" . PHP_EOL;
 ```
 
 <a id="sdk_method_status" name="sdk_method_status"></a>
 ##### Method <code>status()</code>
 
-As discussed in <a href="#exporting-reports">Exporting Advertise Reports</a>, for gathering report export status records' classes <strong>Cohort (AdvertiserReportCohorts)</strong> and <strong>AdvertiserReportRetention</strong> uses it own method <code>status()</code>. Its purpose is the same as method <code>Export::download()</code>.
+As discussed in <a href="#exporting-reports">Exporting Advertise Reports</a>, for gathering report export status records' classes <strong>Cohort (AdvertiserReportCohorts)</strong> and <strong>AdvertiserReportCohortRetention</strong> uses it own method <code>status()</code>. Its purpose is the same as method <code>Export::download()</code>.
 
 <a id="sdk_method_fetch" name="sdk_method_fetch"></a>
 ##### Method <code>fetch()</code>
@@ -706,7 +706,7 @@ A helper function that creates a threaded worker that handles the status request
         $verbose = true
     );
 
-    $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
+    $report_url = AdvertiserReportLogClicks::parseResponseReportUrl($response);
     echo " CSV Report URL: {$report_url}" . PHP_EOL;
 ```
 
@@ -717,7 +717,7 @@ Method <strong>fields()</strong> returns a listing of all the fields that can be
 
 <!-- PHP -->
 ```php
-    $advertiser_report = new AdvertiserReportClicks();
+    $advertiser_report = new AdvertiserReportLogClicks();
     $response = $advertiser_report->getFields();
     echo print_r($response, true) . PHP_EOL;
 ```
@@ -729,7 +729,7 @@ Method <strong>define()</strong> returns the complete meta-data of an endpoint. 
 
 <!-- PHP -->
 ```php
-    $advertiser_report = new AdvertiserReportClicks();
+    $advertiser_report = new AdvertiserReportLogClicks();
     $response = $advertiser_report->getDefine();
     echo print_r($response, true) . PHP_EOL;
 ```
@@ -759,14 +759,14 @@ Another tool is to pre-build your request using <a href="/management-api/explore
 <img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/api_explorer_record_fields-600x436.png" alt="API Explorer -- Record and Related Record&#039;s Fields for a specific endpoint." width="600" height="436" title="Click to Expand" /></a>
 
 <ul>
-    <li>AdvertiserReportClicks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks fields</a></li>
-    <li>AdvertiserReportEventItems' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items fields</a></li>
-    <li>AdvertiserReportEvents' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events fields</a></li>
-    <li>AdvertiserReportInstalls' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs fields</a></li>
-    <li>AdvertiserReportPostbacks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks fields</a></li>
+    <li>AdvertiserReportLogClicks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__clicks/">/advertiser/stats/clicks fields</a></li>
+    <li>AdvertiserReportLogEventItems' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__event__items/">/advertiser/stats/event/items fields</a></li>
+    <li>AdvertiserReportLogEvents' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__events/">/advertiser/stats/events fields</a></li>
+    <li>AdvertiserReportLogInstalls' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__installs/">/advertiser/stats/installs fields</a></li>
+    <li>AdvertiserReportLogPostbacks' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__postbacks/">/advertiser/stats/postbacks fields</a></li>
     <li>AdvertiserReportActuals' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats/">/advertiser/stats fields</a></li>
     <li>AdvertiserReportCohorts' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv/">/advertiser/stats/ltv fields</a></li>
-    <li>AdvertiserReportRetention' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention/">/advertiser/stats/retention fields</a></li>
+    <li>AdvertiserReportCohortRetention' fields: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__retention/">/advertiser/stats/retention fields</a></li>
 </ul>
 
 <p>

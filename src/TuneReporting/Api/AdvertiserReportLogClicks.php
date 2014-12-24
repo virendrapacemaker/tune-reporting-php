@@ -30,27 +30,27 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com))
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 namespace TuneReporting\Api;
 
-use TuneReporting\Base\Endpoints\AdvertiserReportLogsBase;
+use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
 
 /**
  * TUNE Reporting API endpoint '/advertiser/stats/clicks'
  *
- * @example ExampleAdvertiserReportClicks.php
+ * @example ExampleAdvertiserReportLogClicks.php
  */
-class AdvertiserReportClicks extends AdvertiserReportLogsBase
+class AdvertiserReportLogClicks extends AdvertiserReportLogBase
 {
     /**
      * Constructor
      */
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct(
             "advertiser/stats/clicks",
             $filter_debug_mode = true,

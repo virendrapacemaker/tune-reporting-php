@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportValue.php
+ * ExampleAdvertiserReportCohortRetention.php
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,25 +30,24 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportValue;
-use TuneReporting\Api\Export;
+use TuneReporting\Api\AdvertiserReportCohortRetention;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleAdvertiserReportValue
+ * Class ExampleAdvertiserReportCohortRetention
  *
- * Using TuneReporting\Api\AdvertiserReportValue
+ * Using TuneReporting\Api\AdvertiserReportCohortRetention
  */
-class ExampleAdvertiserReportValue
+class ExampleAdvertiserReportCohortRetention
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -64,6 +63,7 @@ class ExampleAdvertiserReportValue
      * @param string $api_key MobileAppTracking API Key
      *
      * @throws InvalidArgumentException
+     * @throws RuntimeException
      * @throws Exception
      */
     public static function run()
@@ -71,7 +71,7 @@ class ExampleAdvertiserReportValue
         $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
@@ -80,9 +80,9 @@ class ExampleAdvertiserReportValue
 
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
-            echo "======================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
             echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
                 "It is not safe to rely on the system's timezone settings. "
@@ -91,9 +91,9 @@ class ExampleAdvertiserReportValue
             );
         }
 
-        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . " Begin TUNE Advertiser Report Value         " . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "================================================" . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Cohort Retention  " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . "================================================" . "\033[0m" . PHP_EOL;
 
         try {
             $week_ago       = date('Y-m-d', strtotime("-8 days"));
@@ -101,30 +101,30 @@ class ExampleAdvertiserReportValue
             $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report = new AdvertiserReportValue();
+            $advertiser_report = new AdvertiserReportCohortRetention();
 
-            echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Value: Default.          " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_DEFAULT);
+            echo "===========================================================" . PHP_EOL;
+            echo " Fields of Advertiser Report Cohort Retention Default.     " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            $response = $advertiser_report->fields(AdvertiserReportCohortRetention::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Value: Recommended.            " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED);
+            echo "===========================================================" . PHP_EOL;
+            echo " Fields of Advertiser Report Cohort Retention Recommended. " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            $response = $advertiser_report->fields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Count Advertiser Report Value records.               " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            echo " Count Advertiser Report Cohort Retention records.           " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
             $response = $advertiser_report->count(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
-                $group               = "site_id,publisher_id",
-                $filter              = "(publisher_id > 0)",
+                $group               = "site_id,install_publisher_id",
+                $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -139,22 +139,20 @@ class ExampleAdvertiserReportValue
 
             echo " Count:" . $response->getData() . PHP_EOL;
 
-            echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Report Value records.                   " . PHP_EOL;
-            echo "=========================================================" . PHP_EOL;
-
+            echo "===========================================================" . PHP_EOL;
+            echo " Find Advertiser Report Cohort Retention records.          " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
             $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
-                $aggregation_type    = "cumulative",
-                $fields              = "site_id,site.name,publisher_id,publisher.name,rpi,epi",
-                $group               = "site_id,publisher_id",
-                $filter              = "(publisher_id > 0)",
+                $fields              = $advertiser_report->fields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,install_publisher_id",
+                $filter              = "(install_publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
-                $sort                = null,
+                $sort                = array("year_day" => "ASC", "install_publisher_id" => "ASC"),
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -164,50 +162,21 @@ class ExampleAdvertiserReportValue
                 );
             }
 
-            echo " TuneManagementResponse:" . PHP_EOL;
+            echo " advertiser/stats/retention/find.json csv response:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "=========================================================" . PHP_EOL;
-            echo " Find Advertiser Report Value records Recommended        " . PHP_EOL;
-            echo "=========================================================" . PHP_EOL;
-
-            $response = $advertiser_report->find(
-                $start_date,
-                $end_date,
-                $cohort_type         = "click",
-                $cohort_interval     = "year_day",
-                $aggregation_type    = "cumulative",
-                $fields              = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
-                $group               = "site_id,publisher_id",
-                $filter              = "(publisher_id > 0)",
-                $limit               = 5,
-                $page                = null,
-                $sort                = null,
-                $response_timezone   = "America/Los_Angeles"
-            );
-
-            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
-                );
-            }
-
-            echo " TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            echo "======================================================" . PHP_EOL;
-            echo " Export Advertiser Report Value CSV                   " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            echo " Export Advertiser Report Cohort Retention CSV             " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
 
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
                 $cohort_type         = "click",
                 $cohort_interval     = "year_day",
-                $aggregation_type    = "cumulative",
-                $fields              = $advertiser_report->fields(AdvertiserReportValue::TUNE_FIELDS_RECOMMENDED),
-                $group               = "site_id,publisher_id",
-                $filter              = "(publisher_id > 0)",
+                $fields              = $advertiser_report->fields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,install_publisher_id",
+                $filter              = "(install_publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -220,24 +189,24 @@ class ExampleAdvertiserReportValue
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportValue::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportCohortRetention::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "========================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Value CSV                   " . PHP_EOL;
-            echo "========================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            echo " Fetching Advertiser Report Cohort Retention CSV           " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportValue::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportCohortRetention::parseResponseReportUrl($response);
             echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
-            echo "========================================================" . PHP_EOL;
-            echo " Read Advertiser Report Value CSV                       " . PHP_EOL;
-            echo "========================================================" . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
+            echo " Read Advertiser Report Cohort Retention CSV               " . PHP_EOL;
+            echo "===========================================================" . PHP_EOL;
 
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
@@ -257,4 +226,4 @@ class ExampleAdvertiserReportValue
     }
 }
 
-ExampleAdvertiserReportValue::run();
+ExampleAdvertiserReportCohortRetention::run();

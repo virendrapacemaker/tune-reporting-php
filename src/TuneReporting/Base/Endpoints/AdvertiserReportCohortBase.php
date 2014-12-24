@@ -30,7 +30,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -44,8 +44,8 @@ use TuneReporting\Base\Endpoints\AdvertiserReportBase;
 /**
  * Base class intended for gathering from Advertiser reporting insights.
  *
- * @see AdvertiserReportValue
- * @see AdvertiserReportRetention
+ * @see AdvertiserReportCohortValue
+ * @see AdvertiserReportCohortRetention
  */
 abstract class AdvertiserReportCohortBase extends AdvertiserReportBase
 {
