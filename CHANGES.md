@@ -114,3 +114,11 @@ Version 0.9.24
 
 Beta public release on December 19, 2014
 * /advertiser/stats/ltv is now considered as Value reporting.
+
+
+Version 0.9.25
+--------------
+
+Beta public release on December 24, 2014
+* Refactor Log and Cohort classes
+* TUNE Management API request contains SDK type and version.

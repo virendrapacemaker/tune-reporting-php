@@ -16,14 +16,14 @@
     <testsuites>
         <testsuite name="lib">
             <file>TestTuneManagementClient.php</file>
-            <file>TestAdvertiserReportClicks.php</file>
-            <file>TestAdvertiserReportEventItems.php</file>
-            <file>TestAdvertiserReportEvents.php</file>
-            <file>TestAdvertiserReportInstalls.php</file>
-            <file>TestAdvertiserReportPostbacks.php</file>
+            <file>TestAdvertiserReportLogClicks.php</file>
+            <file>TestAdvertiserReportLogEventItems.php</file>
+            <file>TestAdvertiserReportLogEvents.php</file>
+            <file>TestAdvertiserReportLogInstalls.php</file>
+            <file>TestAdvertiserReportLogPostbacks.php</file>
             <file>TestAdvertiserReportActuals.php</file>
-            <file>TestAdvertiserReportRetention.php</file>
-            <file>TestAdvertiserReportValue.php</file>
+            <file>TestAdvertiserReportCohortRetention.php</file>
+            <file>TestAdvertiserReportCohortValue.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

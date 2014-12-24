@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -49,13 +49,13 @@ class SdkConfig
      * SDK Config file path
      * @var string
      */
-    private $_tune_reporting_config_file = null;
+    private $tune_reporting_config_file = null;
     /**
      *
      * Parsed SDK config file's contents
      * @var array
      */
-    private $_tune_reporting_config = null;
+    private $tune_reporting_config = null;
 
     /**
      * Constructs by reading the SDK configuration settings from tune_reporting_sdk.config.
@@ -64,19 +64,21 @@ class SdkConfig
      */
     private function __construct($tune_reporting_config_file)
     {
-        $this->_tune_reporting_config_file = $tune_reporting_config_file;
-        if (!file_exists($this->_tune_reporting_config_file)) {
-            throw new TuneSdkException('The tune_reporting_sdk.config file is required: ' . $this->_tune_reporting_config_file );
+        $this->tune_reporting_config_file = $tune_reporting_config_file;
+        if (!file_exists($this->tune_reporting_config_file)) {
+            throw new TuneSdkException(
+                'The tune_reporting_sdk.config file is required: ' . $this->tune_reporting_config_file
+            );
         }
 
         try {
-            $this->_tune_reporting_config = parse_ini_file($this->_tune_reporting_config_file, 'TANGOCARD');
+            $this->tune_reporting_config = parse_ini_file($this->tune_reporting_config_file, 'TANGOCARD');
         } catch (Exception $e) {
             throw new TuneSdkException("Error reading tune_reporting_sdk.config", 0, $e);
         }
 
-        if (null == $this->_tune_reporting_config ) {
-            throw new TuneSdkException( "Reference to '_tune_reporting_config' is null.");
+        if (null == $this->tune_reporting_config) {
+            throw new TuneSdkException("Reference to 'tune_reporting_config' is null.");
         }
     }
 
@@ -90,13 +92,13 @@ class SdkConfig
      */
     public function getConfigValue($key)
     {
-        if (null == $this->_tune_reporting_config ) {
-            throw new Exception( "Reference to '_tune_reporting_config' is null.");
+        if (null == $this->tune_reporting_config) {
+            throw new Exception("Reference to 'tune_reporting_config' is null.");
         }
         if (is_null($key) || (is_string($key) === false) || (trim($key) === '')) {
-            throw new Exception( "Parameter 'key' is not defined: '{$key}");
+            throw new Exception("Parameter 'key' is not defined: '{$key}");
         }
-        return $this->_tune_reporting_config["TUNE_REPORTING"][$key];
+        return $this->tune_reporting_config["TUNE_REPORTING"][$key];
     }
 
     /**
@@ -130,12 +132,16 @@ class SdkConfig
      *
      * @return string
      */
-    public function api_key() {
-        if (!array_key_exists("tune_reporting_api_key_string", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+    public function getApiKey()
+    {
+        if (!array_key_exists(
+            "tune_reporting_api_key_string",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
             return false;
         }
 
-        return $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"];
+        return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"];
     }
 
     /**
@@ -143,12 +149,16 @@ class SdkConfig
      *
      * @return boolean
      */
-    public function validate_fields() {
-        if (!array_key_exists("tune_reporting_validate_fields_boolean", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+    public function getValidateFields()
+    {
+        if (!array_key_exists(
+            "tune_reporting_validate_fields_boolean",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
             return false;
         }
 
-        $validate_fields = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_validate_fields_boolean"];
+        $validate_fields = $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_validate_fields_boolean"];
 
         return ("true" == $validate_fields || "1" == $validate_fields);
     }
@@ -159,12 +169,16 @@ class SdkConfig
      *
      * @return integer
      */
-    public function status_sleep() {
-        if (!array_key_exists("tune_reporting_export_status_sleep_seconds", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+    public function getStatusSleep()
+    {
+        if (!array_key_exists(
+            "tune_reporting_export_status_sleep_seconds",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
             return 10;
         }
 
-        $status_sleep = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_sleep_seconds"];
+        $status_sleep = $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_sleep_seconds"];
 
         return intval($status_sleep);
     }
@@ -175,12 +189,16 @@ class SdkConfig
      *
      * @return integer
      */
-    public function status_timeout() {
-        if (!array_key_exists("tune_reporting_export_status_timeout_seconds", $this->_tune_reporting_config["TUNE_REPORTING"])) {
+    public function getStatusTimeout()
+    {
+        if (!array_key_exists(
+            "tune_reporting_export_status_timeout_seconds",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
             return 240;
         }
 
-        $status_sleep = $this->_tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_timeout_seconds"];
+        $status_sleep = $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_export_status_timeout_seconds"];
 
         return intval($status_sleep);
     }

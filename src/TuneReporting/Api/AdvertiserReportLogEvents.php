@@ -30,29 +30,29 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 namespace TuneReporting\Api;
 
-use TuneReporting\Base\Endpoints\AdvertiserReportLogsBase;
+use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
 
 /**
- * TUNE Reporting API controller 'advertiser/stats/installs'
+ * TUNE Reporting API controller 'advertiser/stats/events'
  *
- * @example ExampleAdvertiserReportInstalls.php
+ * @example ExampleAdvertiserReportLogEvents.php
  */
-class AdvertiserReportInstalls extends AdvertiserReportLogsBase
+class AdvertiserReportLogEvents extends AdvertiserReportLogBase
 {
     /**
      * Constructor.
      */
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct(
-            "advertiser/stats/installs",
+            "advertiser/stats/events",
             $filter_debug_mode = true,
             $filter_test_profile_id = true
         );
@@ -61,11 +61,15 @@ class AdvertiserReportInstalls extends AdvertiserReportLogsBase
          * Fields recommended in suggested order.
          */
         $this->fields_recommended = array(
-             "id"
+            "id"
+            ,"stat_install_id"
             ,"created"
             ,"status"
             ,"site_id"
             ,"site.name"
+            ,"site_event_id"
+            ,"site_event.name"
+            ,"site_event.type"
             ,"publisher_id"
             ,"publisher.name"
             ,"advertiser_ref_id"
@@ -82,6 +86,7 @@ class AdvertiserReportInstalls extends AdvertiserReportLogsBase
             ,"windows_aid"
             ,"referral_url"
             ,"is_view_through"
+            ,"is_reengagement"
         );
     }
 }

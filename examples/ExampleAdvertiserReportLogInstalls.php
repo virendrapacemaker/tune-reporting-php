@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportInstalls.php, TUNE Reporting SDK PHP Example
+ * ExampleAdvertiserReportLogInstalls.php, TUNE Reporting SDK PHP Example
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,24 +30,24 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportInstalls;
+use TuneReporting\Api\AdvertiserReportLogInstalls;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleAdvertiserReportInstalls
+ * Class ExampleAdvertiserReportLogInstalls
  *
- * Using TuneReporting\Api\AdvertiserReportInstalls
+ * Using TuneReporting\Api\AdvertiserReportLogInstalls
  */
-class ExampleAdvertiserReportInstalls
+class ExampleAdvertiserReportLogInstalls
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -71,7 +71,7 @@ class ExampleAdvertiserReportInstalls
         $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
@@ -100,18 +100,18 @@ class ExampleAdvertiserReportInstalls
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report = new AdvertiserReportInstalls();
+            $advertiser_report = new AdvertiserReportLogInstalls();
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Report Installs Default.        " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportInstalls::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportLogInstalls::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Report Installs Recommended.    " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportLogInstalls::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -141,7 +141,7 @@ class ExampleAdvertiserReportInstalls
             $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogInstalls::TUNE_FIELDS_RECOMMENDED),
                 $filter              = "(status = 'approved')",
                 $limit               = 5,
                 $page                = null,
@@ -164,7 +164,7 @@ class ExampleAdvertiserReportInstalls
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogInstalls::TUNE_FIELDS_RECOMMENDED),
                 $filter              = "(status = 'approved')",
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -179,7 +179,7 @@ class ExampleAdvertiserReportInstalls
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportInstalls::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportLogInstalls::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "==================================================" . PHP_EOL;
@@ -191,7 +191,7 @@ class ExampleAdvertiserReportInstalls
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportInstalls::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportLogInstalls::parseResponseReportUrl($response);
             echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -211,7 +211,7 @@ class ExampleAdvertiserReportInstalls
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportInstalls::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogInstalls::TUNE_FIELDS_RECOMMENDED),
                 $filter              = "(status = 'approved')",
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
@@ -226,7 +226,7 @@ class ExampleAdvertiserReportInstalls
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportInstalls::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportLogInstalls::parseResponseReportJobId($response);
             echo " JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
@@ -238,7 +238,7 @@ class ExampleAdvertiserReportInstalls
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportInstalls::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportLogInstalls::parseResponseReportUrl($response);
             echo " JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -263,4 +263,4 @@ class ExampleAdvertiserReportInstalls
     }
 }
 
-ExampleAdvertiserReportInstalls::run();
+ExampleAdvertiserReportLogInstalls::run();

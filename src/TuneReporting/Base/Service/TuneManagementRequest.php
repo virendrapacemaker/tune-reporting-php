@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -238,6 +238,12 @@ class TuneManagementRequest
         if (!is_string($this->api_key) || empty($this->api_key)) {
             throw new TuneSdkException("Parameter 'api_key' is not defined.");
         }
+
+        // TUNE Reporting SDK Name
+        $qsb->add('sdk_name', constant("TUNE_SDK_NAME"));
+
+        // TUNE Reporting SDK Version
+        $qsb->add('sdk_version', constant("TUNE_SDK_VERSION"));
 
         // Every request should contain an API Key
         $qsb->add('api_key', $this->api_key);

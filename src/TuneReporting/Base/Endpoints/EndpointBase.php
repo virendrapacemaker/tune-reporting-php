@@ -1,6 +1,6 @@
 <?php
 /**
- * EndpointBase.php
+ * EndpointBase.php, Abstract class for defining TUNE Management API actions.
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-19 17:18:01 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -189,7 +189,7 @@ class EndpointBase
         }
 
         // api key
-        $api_key = $this->sdk_config->api_key();
+        $api_key = $this->sdk_config->getApiKey();
         if (!is_string($api_key) || empty($api_key) || ('API_KEY' == $api_key)) {
             throw new \InvalidArgumentException(
                 "Parameter 'api_key' is not defined: '{$api_key}'"
@@ -197,7 +197,7 @@ class EndpointBase
         }
 
         // validate_fields
-        $validate_fields = $this->sdk_config->validate_fields();
+        $validate_fields = $this->sdk_config->getValidateFields();
 
         $this->controller = $controller;
         $this->api_key = $api_key;
@@ -327,7 +327,7 @@ class EndpointBase
                 continue;
             }
 
-            if (   !($enum_fields_selection & self::TUNE_FIELDS_RELATED)
+            if (!($enum_fields_selection & self::TUNE_FIELDS_RELATED)
                 && !($enum_fields_selection & self::TUNE_FIELDS_MINIMAL)
                 && $field_info["related"]
                 ) {
@@ -351,7 +351,7 @@ class EndpointBase
                 continue;
             }
 
-            if (   ($enum_fields_selection & self::TUNE_FIELDS_RELATED)
+            if (($enum_fields_selection & self::TUNE_FIELDS_RELATED)
                 && $field_info["related"]
             ) {
                 $fields_filtered[$field_name] = $field_info;
@@ -809,8 +809,8 @@ class EndpointBase
             throw new TuneSdkException("Parameter 'api_key' is not defined.");
         }
 
-        $status_sleep = $this->sdk_config->status_sleep();
-        $status_timeout = $this->sdk_config->status_timeout();
+        $status_sleep = $this->sdk_config->getStatusSleep();
+        $status_timeout = $this->sdk_config->getStatusTimeout();
 
         $export_worker = new ReportExportWorker(
             $export_controller,

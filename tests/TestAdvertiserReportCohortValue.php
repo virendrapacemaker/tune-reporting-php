@@ -1,6 +1,6 @@
 <?php
 /**
- * TestAdvertiserReportEventItems.php, TUNE Reporting SDK PHPUnit Test
+ * TestAdvertiserReportCohortValue.php, TUNE Reporting SDK PHPUnit Test
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,17 +30,17 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportEventItems;
+use TuneReporting\Api\AdvertiserReportCohortValue;
 use TuneReporting\Helpers\SdkConfig;
 
-class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
+class TestAdvertiserReportCohortValue extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -62,7 +62,7 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
         $sdk_config = SdkConfig::getInstance($tune_reporting_test_config_file);
         $this->assertNotNull($sdk_config);
 
-        $this->advertiser_report = new AdvertiserReportEventItems();
+        $this->advertiser_report = new AdvertiserReportCohortValue();
         $this->assertNotNull($this->advertiser_report);
     }
 
@@ -73,7 +73,7 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
     {
         $sdk_config = $this->advertiser_report->getSdkConfig();
         $this->assertNotNull($sdk_config);
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
         $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
@@ -94,9 +94,19 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
     /**
      * Test fields
      */
+    public function testFieldsEndpoint()
+    {
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_ENDPOINT);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
     public function testFieldsDefault()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_DEFAULT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -106,7 +116,19 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED);
+        $this->advertiser_report = new AdvertiserReportCohortValue();
+
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED);
+        $this->assertNotNull($fields);
+        $this->assertNotEmpty($fields);
+    }
+
+    /**
+     * Test fields
+     */
+    public function testFieldsDefaultMinimal()
+    {
+        $fields = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_DEFAULT | AdvertiserReportCohortValue::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -116,14 +138,21 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testCount()
     {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
+        $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
+
+        $response = $this->advertiser_report->fields();
+        $this->assertNotNull($response);
 
         $response = $this->advertiser_report->count(
             $start_date,
             $end_date,
-            $filter              = null,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -136,18 +165,84 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFind()
     {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
+        $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
         $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
             $fields              = null,
-            $filter              = null,
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
-            $sort                = array("created" => "DESC"),
+            $sort                = null,
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindDefault()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $response = $this->advertiser_report->find(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_DEFAULT),
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $limit               = 5,
+            $page                = null,
+            $sort                = null,
+            $format              = "csv",
+            $response_timezone   = "America/Los_Angeles"
+        );
+
+        $this->assertNotNull($response);
+        $this->assertEquals(200, $response->getHttpCode());
+    }
+
+    /**
+     * Test find
+     */
+    public function testFindEndpoint()
+    {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
+        $yesterday      = date('Y-m-d', strtotime("-1 days"));
+        $start_date     = "{$week_ago} 00:00:00";
+        $end_date       = "{$yesterday} 23:59:59";
+
+        $response = $this->advertiser_report->find(
+            $start_date,
+            $end_date,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_ENDPOINT),
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
+            $limit               = 5,
+            $page                = null,
+            $sort                = null,
+            $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -160,18 +255,24 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
      */
     public function testFindRecommended()
     {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
+        $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
         $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
-            $filter              = null,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $limit               = 5,
             $page                = null,
-            $sort                = array("created" => "DESC"),
+            $sort                = null,
+            $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
         );
 
@@ -181,46 +282,54 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
 
     public function testExport()
     {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
+        $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
         $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
             $fields              = null,
-            $filter              = null,
-            $format              = "csv",
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
 
-        $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
+        $job_id = AdvertiserReportCohortValue::parseResponseReportJobId($response);
         $this->assertNotNull($job_id);
         $this->assertTrue(!empty($job_id));
     }
 
     public function testExportRecommended()
     {
+        $week_ago       = date('Y-m-d', strtotime("-8 days"));
         $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$yesterday} 00:00:00";
+        $start_date     = "{$week_ago} 00:00:00";
         $end_date       = "{$yesterday} 23:59:59";
 
         $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
-            $filter              = null,
-            $format              = "csv",
+            $cohort_type         = "click",
+            $cohort_interval     = "year_day",
+            $aggregation_type    = "cumulative",
+            $fields              = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED),
+            $group               = "site_id,publisher_id",
+            $filter              = "(publisher_id > 0)",
             $response_timezone   = "America/Los_Angeles"
         );
 
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
 
-        $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
+        $job_id = AdvertiserReportCohortValue::parseResponseReportJobId($response);
         $this->assertNotNull($job_id);
         $this->assertTrue(!empty($job_id));
     }
@@ -228,25 +337,30 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
     /**
      * @large
      */
-    public function testFetch() {
+    public function testFetch()
+    {
         try {
+            $week_ago       = date('Y-m-d', strtotime("-8 days"));
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
-            $start_date     = "{$yesterday} 00:00:00";
+            $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
             $response = $this->advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $this->advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
-                $filter              = null,
-                $format              = "csv",
+                $cohort_type         = "click",
+                $cohort_interval     = "year_day",
+                $aggregation_type    = "cumulative",
+                $fields              = $this->advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
             $this->assertNotNull($response);
             $this->assertEquals(200, $response->getHttpCode());
 
-            $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportCohortValue::parseResponseReportJobId($response);
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
@@ -255,10 +369,10 @@ class TestAdvertiserReportEventItems extends \PHPUnit_Framework_TestCase
                 $verbose = false
             );
 
-            $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportCohortValue::parseResponseReportUrl($response);
             $this->assertNotNull($report_url);
             $this->assertTrue(!empty($report_url));
-        } catch ( Exception $ex ) {
+        } catch (Exception $ex ) {
             $this->fail($ex->getMessage());
         }
     }

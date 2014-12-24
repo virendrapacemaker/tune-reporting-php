@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportEventItems.php, TUNE Reporting SDK PHP Example
+ * ExampleAdvertiserReportLogEventItems.php, TUNE Reporting SDK PHP Example
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,24 +30,24 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportEventItems;
+use TuneReporting\Api\AdvertiserReportLogEventItems;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleAdvertiserReportEventItems
+ * Class ExampleAdvertiserReportLogEventItems
  *
- * Using TuneReporting\Api\AdvertiserReportEventItems
+ * Using TuneReporting\Api\AdvertiserReportLogEventItems
  */
-class ExampleAdvertiserReportEventItems
+class ExampleAdvertiserReportLogEventItems
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -71,7 +71,7 @@ class ExampleAdvertiserReportEventItems
         $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
@@ -100,18 +100,18 @@ class ExampleAdvertiserReportEventItems
             $start_date     = "{$yesterday} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report = new AdvertiserReportEventItems();
+            $advertiser_report = new AdvertiserReportLogEventItems();
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Report Event Items Default.     " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_DEFAULT);
+            $response = $advertiser_report->fields(AdvertiserReportLogEventItems::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
             echo " Fields of Advertiser Report Event Items Recommended. " . PHP_EOL;
             echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED);
+            $response = $advertiser_report->fields(AdvertiserReportLogEventItems::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -141,7 +141,7 @@ class ExampleAdvertiserReportEventItems
             $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogEventItems::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $limit               = 5,
                 $page                = null,
@@ -164,7 +164,7 @@ class ExampleAdvertiserReportEventItems
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogEventItems::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -179,7 +179,7 @@ class ExampleAdvertiserReportEventItems
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportLogEventItems::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
             echo "=======================================================" . PHP_EOL;
@@ -191,7 +191,7 @@ class ExampleAdvertiserReportEventItems
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportLogEventItems::parseResponseReportUrl($response);
             echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
             echo "==================================================" . PHP_EOL;
@@ -211,7 +211,7 @@ class ExampleAdvertiserReportEventItems
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportEventItems::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $advertiser_report->fields(AdvertiserReportLogEventItems::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $format              = "json",
                 $response_timezone   = "America/Los_Angeles"
@@ -226,7 +226,7 @@ class ExampleAdvertiserReportEventItems
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportEventItems::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportLogEventItems::parseResponseReportJobId($response);
             echo " JSON Job ID: {$job_id}" . PHP_EOL;
 
             echo "========================================================" . PHP_EOL;
@@ -238,7 +238,7 @@ class ExampleAdvertiserReportEventItems
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportEventItems::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportLogEventItems::parseResponseReportUrl($response);
             echo " JSON Report URL: {$report_url}" . PHP_EOL;
 
             echo "==================================================" . PHP_EOL;
@@ -263,4 +263,4 @@ class ExampleAdvertiserReportEventItems
     }
 }
 
-ExampleAdvertiserReportEventItems::run();
+ExampleAdvertiserReportLogEventItems::run();

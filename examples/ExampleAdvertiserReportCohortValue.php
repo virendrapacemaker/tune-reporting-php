@@ -1,6 +1,6 @@
 <?php
 /**
- * ExampleAdvertiserReportPostbacks.php
+ * ExampleAdvertiserReportCohortValue.php
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,24 +30,25 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportPostbacks;
+use TuneReporting\Api\AdvertiserReportCohortValue;
+use TuneReporting\Api\Export;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
 
 /**
- * Class ExampleAdvertiserReportPostbacks
+ * Class ExampleAdvertiserReportCohortValue
  *
- * Using TuneReporting\Api\AdvertiserReportPostbacks
+ * Using TuneReporting\Api\AdvertiserReportCohortValue
  */
-class ExampleAdvertiserReportPostbacks
+class ExampleAdvertiserReportCohortValue
 {
     /**
      * Constructor that prevents a default instance of this class from being created.
@@ -70,7 +71,7 @@ class ExampleAdvertiserReportPostbacks
         $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
 
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
@@ -79,9 +80,9 @@ class ExampleAdvertiserReportPostbacks
 
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
-            echo "======================================================" . PHP_EOL;
-            echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo " Default timezone used: '{$default_date_timezone}'.     " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
         } else {
             throw new \RuntimeException(
                 "It is not safe to rely on the system's timezone settings. "
@@ -91,35 +92,39 @@ class ExampleAdvertiserReportPostbacks
         }
 
         echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
-        echo "\033[34m" . " Begin TUNE Advertiser Report Postbacks     " . "\033[0m" . PHP_EOL;
+        echo "\033[34m" . " Begin TUNE Advertiser Report Cohort Value  " . "\033[0m" . PHP_EOL;
         echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
 
         try {
+            $week_ago       = date('Y-m-d', strtotime("-8 days"));
             $yesterday      = date('Y-m-d', strtotime("-1 days"));
-            $start_date     = "{$yesterday} 00:00:00";
+            $start_date     = "{$week_ago} 00:00:00";
             $end_date       = "{$yesterday} 23:59:59";
 
-            $advertiser_report = new AdvertiserReportPostbacks();
+            $advertiser_report = new AdvertiserReportCohortValue();
 
-            echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Postbacks Default.       " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportPostbacks::TUNE_FIELDS_DEFAULT);
+            echo "========================================================" . PHP_EOL;
+            echo " Fields of Advertiser Report Cohort Value: Default.     " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            $response = $advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_DEFAULT);
             echo print_r($response, true) . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Fields of Advertiser Report Postbacks Recommended.   " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->fields(AdvertiserReportPostbacks::TUNE_FIELDS_RECOMMENDED);
+            echo "========================================================" . PHP_EOL;
+            echo " Fields of Advertiser Report Cohort Value: Recommended. " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            $response = $advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED);
             echo print_r($response, true) . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Count Advertiser Report Postbacks records.           " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo " Count Advertiser Report Cohort Value records.          " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
             $response = $advertiser_report->count(
                 $start_date,
                 $end_date,
-                $filter              = null,
+                $cohort_type         = "click",
+                $cohort_interval     = "year_day",
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -134,17 +139,22 @@ class ExampleAdvertiserReportPostbacks
 
             echo " Count:" . $response->getData() . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Find Advertiser Report Postbacks records.            " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+            echo " Find Advertiser Report Cohort Value records.            " . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+
             $response = $advertiser_report->find(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportPostbacks::TUNE_FIELDS_RECOMMENDED),
-                $filter              = null,
+                $cohort_type         = "click",
+                $cohort_interval     = "year_day",
+                $aggregation_type    = "cumulative",
+                $fields              = "site_id,site.name,publisher_id,publisher.name,rpi,epi",
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
                 $limit               = 5,
                 $page                = null,
-                $sort                = array("created" => "DESC"),
+                $sort                = null,
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -157,15 +167,47 @@ class ExampleAdvertiserReportPostbacks
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            echo "==========================================================" . PHP_EOL;
-            echo " Export Advertiser Report Postbacks CSV                   " . PHP_EOL;
-            echo "==========================================================" . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+            echo " Find Advertiser Report Cohort Value records Recommended " . PHP_EOL;
+            echo "=========================================================" . PHP_EOL;
+
+            $response = $advertiser_report->find(
+                $start_date,
+                $end_date,
+                $cohort_type         = "click",
+                $cohort_interval     = "year_day",
+                $aggregation_type    = "cumulative",
+                $fields              = $advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
+                $limit               = 5,
+                $page                = null,
+                $sort                = null,
+                $response_timezone   = "America/Los_Angeles"
+            );
+
+            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
+                throw new \Exception(
+                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
+                );
+            }
+
+            echo " TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+
+            echo "========================================================" . PHP_EOL;
+            echo " Export Advertiser Report Cohort Value CSV                   " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+
             $response = $advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportPostbacks::TUNE_FIELDS_RECOMMENDED),
-                $filter              = null,
-                $format              = "csv",
+                $cohort_type         = "click",
+                $cohort_interval     = "year_day",
+                $aggregation_type    = "cumulative",
+                $fields              = $advertiser_report->fields(AdvertiserReportCohortValue::TUNE_FIELDS_RECOMMENDED),
+                $group               = "site_id,publisher_id",
+                $filter              = "(publisher_id > 0)",
                 $response_timezone   = "America/Los_Angeles"
             );
 
@@ -178,76 +220,31 @@ class ExampleAdvertiserReportPostbacks
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
-            $job_id = AdvertiserReportPostbacks::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportCohortValue::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
-            echo "==================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Postbacks CSV         " . PHP_EOL;
-            echo "==================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo " Fetching Advertiser Report Cohort Value CSV                   " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
 
             $response = $advertiser_report->fetch(
                 $job_id,
                 $verbose = true
             );
 
-            $report_url = AdvertiserReportPostbacks::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportCohortValue::parseResponseReportUrl($response);
             echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
-            echo "======================================================" . PHP_EOL;
-            echo " Read Advertiser Report Postbacks CSV                 " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+            echo " Read Advertiser Report Cohort Value CSV                       " . PHP_EOL;
+            echo "========================================================" . PHP_EOL;
+
             $csv_report_reader = new ReportReaderCSV(
                 $report_url
             );
 
             $csv_report_reader->read();
             $csv_report_reader->prettyPrint($limit = 5);
-
-            echo "======================================================" . PHP_EOL;
-            echo " Export Advertiser Report Postbacks JSON              " . PHP_EOL;
-            echo "======================================================" . PHP_EOL;
-            $response = $advertiser_report->export(
-                $start_date,
-                $end_date,
-                $fields              = $advertiser_report->fields(AdvertiserReportPostbacks::TUNE_FIELDS_RECOMMENDED),
-                $filter              = null,
-                $format              = "json",
-                $response_timezone   = "America/Los_Angeles"
-            );
-
-            echo " TuneManagementResponse:" . PHP_EOL;
-            echo print_r($response, true) . PHP_EOL;
-
-            if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
-                throw new \Exception(
-                    sprintf("Failed: %d: %s", $response->getHttpCode(), print_r($response, true))
-                );
-            }
-
-            $job_id = AdvertiserReportPostbacks::parseResponseReportJobId($response);
-            echo " JSON Job ID: {$job_id}" . PHP_EOL;
-
-            echo "========================================================" . PHP_EOL;
-            echo " Fetching Advertiser Report Postbacks JSON              " . PHP_EOL;
-            echo "========================================================" . PHP_EOL;
-
-            $response = $advertiser_report->fetch(
-                $job_id,
-                $verbose = true
-            );
-
-            $report_url = AdvertiserReportPostbacks::parseResponseReportUrl($response);
-            echo " JSON Report URL: {$report_url}" . PHP_EOL;
-
-            echo "========================================================" . PHP_EOL;
-            echo " Read Advertiser Report Postbacks JSON                  " . PHP_EOL;
-            echo "========================================================" . PHP_EOL;
-
-            $json_report_reader = new ReportReaderJSON(
-                $report_url
-            );
-            $json_report_reader->read();
-            $json_report_reader->prettyPrint($limit = 5);
 
             echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
             echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
@@ -260,4 +257,4 @@ class ExampleAdvertiserReportPostbacks
     }
 }
 
-ExampleAdvertiserReportPostbacks::run();
+ExampleAdvertiserReportCohortValue::run();

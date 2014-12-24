@@ -1,6 +1,6 @@
 <?php
 /**
- * TestAdvertiserReportClicks.php, TUNE Reporting SDK PHPUnit Test
+ * TestAdvertiserReportLogClicks.php, TUNE Reporting SDK PHPUnit Test
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -30,18 +30,18 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-21 09:06:23 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
-use TuneReporting\Api\AdvertiserReportClicks;
+use TuneReporting\Api\AdvertiserReportLogClicks;
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\SdkConfig;
 
-class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
+class TestAdvertiserReportLogClicks extends \PHPUnit_Framework_TestCase
 {
     /**
      * @ignore
@@ -63,7 +63,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $sdk_config = SdkConfig::getInstance($tune_reporting_test_config_file);
         $this->assertNotNull($sdk_config);
 
-        $this->advertiser_report = new AdvertiserReportClicks();
+        $this->advertiser_report = new AdvertiserReportLogClicks();
         $this->assertNotNull($this->advertiser_report);
     }
 
@@ -75,7 +75,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $sdk_config = $this->advertiser_report->getSdkConfig();
         $this->assertNotNull($sdk_config);
 
-        $api_key = $sdk_config->api_key();
+        $api_key = $sdk_config->getApiKey();
         $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
         $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
         $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
@@ -97,7 +97,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsEndpoint()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_ENDPOINT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -107,7 +107,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefault()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT);
+        $fields = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_DEFAULT);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -117,7 +117,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsRecommended()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED);
+        $fields = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -127,7 +127,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
      */
     public function testFieldsDefaultMinimal()
     {
-        $fields = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT | AdvertiserReportClicks::TUNE_FIELDS_MINIMAL);
+        $fields = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_DEFAULT | AdvertiserReportLogClicks::TUNE_FIELDS_MINIMAL);
         $this->assertNotNull($fields);
         $this->assertNotEmpty($fields);
     }
@@ -188,7 +188,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_DEFAULT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_DEFAULT),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -212,7 +212,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_ENDPOINT),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_ENDPOINT),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -236,7 +236,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $response = $this->advertiser_report->find(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $limit               = 5,
             $page                = null,
@@ -278,7 +278,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $response = $this->advertiser_report->export(
             $start_date,
             $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+            $fields              = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
             $filter              = null,
             $format              = "csv",
             $response_timezone   = "America/Los_Angeles"
@@ -287,7 +287,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response);
         $this->assertEquals(200, $response->getHttpCode());
 
-        $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
+        $job_id = AdvertiserReportLogClicks::parseResponseReportJobId($response);
         $this->assertNotNull($job_id);
         $this->assertTrue(!empty($job_id));
     }
@@ -304,7 +304,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
             $response = $this->advertiser_report->export(
                 $start_date,
                 $end_date,
-                $fields              = $this->advertiser_report->fields(AdvertiserReportClicks::TUNE_FIELDS_RECOMMENDED),
+                $fields              = $this->advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
                 $filter              = null,
                 $format              = "csv",
                 $response_timezone   = "America/Los_Angeles"
@@ -313,7 +313,7 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($response);
             $this->assertEquals(200, $response->getHttpCode());
 
-            $job_id = AdvertiserReportClicks::parseResponseReportJobId($response);
+            $job_id = AdvertiserReportLogClicks::parseResponseReportJobId($response);
             $this->assertNotNull($job_id);
             $this->assertTrue(!empty($job_id));
 
@@ -322,10 +322,10 @@ class TestAdvertiserReportClicks extends \PHPUnit_Framework_TestCase
                 $verbose = false
             );
 
-            $report_url = AdvertiserReportClicks::parseResponseReportUrl($response);
+            $report_url = AdvertiserReportLogClicks::parseResponseReportUrl($response);
             $this->assertNotNull($report_url);
             $this->assertTrue(!empty($report_url));
-        } catch ( Exception $ex ) {
+        } catch (Exception $ex ) {
             $this->fail($ex->getMessage());
         }
     }

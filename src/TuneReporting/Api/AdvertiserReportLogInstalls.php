@@ -1,6 +1,5 @@
 <?php
 /**
- * EventItem.php
  *
  * Copyright (c) 2014 TUNE, Inc.
  * All rights reserved.
@@ -31,30 +30,30 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-18 04:47:37 $
+ * @version   $Date: 2014-12-24 10:43:56 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
 namespace TuneReporting\Api;
 
-use TuneReporting\Base\Endpoints\AdvertiserReportLogsBase;
+use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
 
 /**
- * TUNE Reporting API controller 'advertiser/stats/event/items'
+ * TUNE Reporting API controller 'advertiser/stats/installs'
  *
- * @example ExampleAdvertiserReportEventItems.php
+ * @example ExampleAdvertiserReportLogInstalls.php
  */
-class AdvertiserReportEventItems extends AdvertiserReportLogsBase
+class AdvertiserReportLogInstalls extends AdvertiserReportLogBase
 {
     /**
      * Constructor.
      */
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         parent::__construct(
-            "advertiser/stats/event/items",
-            $filter_debug_mode = false,
+            "advertiser/stats/installs",
+            $filter_debug_mode = true,
             $filter_test_profile_id = true
         );
 
@@ -62,30 +61,27 @@ class AdvertiserReportEventItems extends AdvertiserReportLogsBase
          * Fields recommended in suggested order.
          */
         $this->fields_recommended = array(
-            "id"
+             "id"
             ,"created"
+            ,"status"
             ,"site_id"
             ,"site.name"
-            ,"campaign_id"
-            ,"campaign.name"
-            ,"site_event_id"
-            ,"site_event.name"
-            ,"site_event_item_id"
-            ,"site_event_item.name"
-            ,"quantity"
-            ,"value_usd"
-            ,"country_id"
-            ,"country.name"
-            ,"region_id"
-            ,"region.name"
-            ,"agency_id"
-            ,"agency.name"
-            ,"advertiser_sub_site_id"
-            ,"advertiser_sub_site.name"
+            ,"publisher_id"
+            ,"publisher.name"
+            ,"advertiser_ref_id"
             ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.name"
-            ,"currency_code"
-            ,"value"
+            ,"advertiser_sub_campaign.ref"
+            ,"publisher_sub_campaign_id"
+            ,"publisher_sub_campaign.ref"
+            ,"user_id"
+            ,"device_id"
+            ,"os_id"
+            ,"google_aid"
+            ,"ios_ifa"
+            ,"ios_ifv"
+            ,"windows_aid"
+            ,"referral_url"
+            ,"is_view_through"
         );
     }
 }
