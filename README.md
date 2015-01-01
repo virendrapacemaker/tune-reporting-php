@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-30 08:50:38 $</h4>
-<h4>Version: 0.9.26</h4>
+<h4>Update:  $Date: 2014-12-31 15:52:00 $</h4>
+<h4>Version: 0.9.27</h4>
 ===
 
 <a id="TOP"></a>

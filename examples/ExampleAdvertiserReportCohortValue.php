@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2014-12-31 15:52:00 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -42,6 +42,8 @@ use TuneReporting\Api\Export;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
+
+global $argc, $argv;
 
 /**
  * Class ExampleAdvertiserReportCohortValue
@@ -66,17 +68,16 @@ class ExampleAdvertiserReportCohortValue
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public static function run()
+    public static function run($api_key)
     {
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
-        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-
-        $api_key = $sdk_config->getApiKey();
-
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("SDK Configuration 'api_key' is not defined.");
+            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
+
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $sdk_config->setApiKey($api_key);
 
         $default_date_timezone = ini_get('date.timezone');
         if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
@@ -257,4 +258,12 @@ class ExampleAdvertiserReportCohortValue
     }
 }
 
-ExampleAdvertiserReportCohortValue::run();
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+$api_key = $argv[1];
+ExampleAdvertiserReportCohortValue::run($api_key);

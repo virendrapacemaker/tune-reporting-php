@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2014-12-31 15:52:00 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -39,6 +39,8 @@ require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
 use TuneReporting\Base\Service\TuneManagementClient;
 use TuneReporting\Helpers\SdkConfig;
+
+global $argc, $argv;
 
 /**
  * Class ExampleTuneManagementClient
@@ -63,16 +65,16 @@ class ExampleTuneManagementClient
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public static function run()
+    public static function run($api_key)
     {
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
-        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-        $api_key = $sdk_config->getApiKey();
-
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
+
+        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+        $sdk_config->setApiKey($api_key);
 
         try {
             echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
@@ -105,4 +107,12 @@ class ExampleTuneManagementClient
     }
 }
 
-ExampleTuneManagementClient::run();
+/**
+ * Example request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+$api_key = $argv[1];
+ExampleTuneManagementClient::run($api_key);
