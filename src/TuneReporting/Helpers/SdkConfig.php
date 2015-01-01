@@ -31,7 +31,7 @@
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2014-12-31 15:52:00 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -72,7 +72,8 @@ class SdkConfig
         }
 
         try {
-            $this->tune_reporting_config = parse_ini_file($this->tune_reporting_config_file, 'TANGOCARD');
+            $this->tune_reporting_config
+                = parse_ini_file($this->tune_reporting_config_file, 'TUNE_REPORTING');
         } catch (Exception $e) {
             throw new TuneSdkException("Error reading tune_reporting_sdk.config", 0, $e);
         }
@@ -142,6 +143,24 @@ class SdkConfig
         }
 
         return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"];
+    }
+
+    /**
+     * Set TUNE MobileAppTracking API Key from SDK Configuration File.
+     *
+     * @return string
+     */
+    public function setApiKey($api_key)
+    {
+        if (!array_key_exists(
+            "tune_reporting_api_key_string",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
+            return false;
+        }
+
+        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"]
+            = $api_key;
     }
 
     /**

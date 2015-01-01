@@ -26,11 +26,13 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2014 Tune (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-18 04:47:37 $
+# version   $Date: 2014-12-31 15:52:00 $
 # link      https://developers.mobileapptracking.com/tune-reporting-sdks
 #
 
 .PHONY: all clean dist analysis tests examples docs-doxygen docs-phpdoc tests-install
+
+export API_KEY=$(api_key)
 
 COMPOSER = $(shell which composer)
 ifeq ($(strip $(COMPOSER)),)
@@ -58,11 +60,12 @@ analysis:
 	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./src
 
 examples:
-	php ./examples/TuneReportingExamples.php
+	php ./examples/TuneReportingExamples.php $(api_key)
 
 # if these fail, you may need to install the helper library - run "make
 # tests-install"
 tests:
+	@printenv | grep API_KEY
 	@PATH=vendor/bin:$(PATH) phpunit --strict --stop-on-failure --colors --configuration ./tests/phpunit.xml
 
 docs-doxygen:

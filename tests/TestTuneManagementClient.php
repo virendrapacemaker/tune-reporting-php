@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2014-12-31 15:52:00 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -55,11 +55,8 @@ class TestTuneManagementClient extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $tune_reporting_test_config_file = dirname(__FILE__) . "/tune_reporting_sdk.test.config";
-        $this->assertTrue(file_exists($tune_reporting_test_config_file), "Test config file does not exist: '{$tune_reporting_test_config_file}'");
-        $sdk_config = SdkConfig::getInstance($tune_reporting_test_config_file);
-        $this->assertNotNull($sdk_config);
-        $api_key = $sdk_config->getApiKey();
+        $api_key = getenv('API_KEY');
+        $this->assertNotNull($api_key);
 
         $this->api_key = $api_key;
     }

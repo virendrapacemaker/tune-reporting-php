@@ -31,7 +31,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2014-12-31 15:52:00 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -42,6 +42,8 @@ require_once dirname(__FILE__) . "/TuneReportingExamplesAutoloader.php";
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
 use TuneReporting\Helpers\SdkConfig;
+
+global $argc, $argv;
 
 /**
  *
@@ -63,17 +65,14 @@ class TuneReportingExamples
      *
      * Example of running successful requests to TUNE MobileAppTracking Management API
      * through TUNE PHP SDK.
+     *
+     * @param string $api_key MobileAppTracking API Key
      */
-    public static function run()
+    public static function run($api_key)
     {
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
-        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-
-        $api_key = $sdk_config->getApiKey();
-
         // api_key
         if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("SDK Configuration 'api_key' is not defined.");
+            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
         echo "\n============================================\n";
@@ -85,15 +84,15 @@ class TuneReportingExamples
         try {
             ExampleTuneManagementClient::run($api_key);
 
-            ExampleAdvertiserReportActuals::run();
-            ExampleAdvertiserReportCohortValue::run();
-            ExampleAdvertiserReportCohortRetention::run();
+            ExampleAdvertiserReportActuals::run($api_key);
+            ExampleAdvertiserReportCohortValue::run($api_key);
+            ExampleAdvertiserReportCohortRetention::run($api_key);
 
-            ExampleAdvertiserReportLogClicks::run();
-            ExampleAdvertiserReportLogEventItems::run();
-            ExampleAdvertiserReportLogEvents::run();
-            ExampleAdvertiserReportLogInstalls::run();
-            ExampleAdvertiserReportLogPostbacks::run();
+            ExampleAdvertiserReportLogClicks::run($api_key);
+            ExampleAdvertiserReportLogEventItems::run($api_key);
+            ExampleAdvertiserReportLogEvents::run($api_key);
+            ExampleAdvertiserReportLogInstalls::run($api_key);
+            ExampleAdvertiserReportLogPostbacks::run($api_key);
         } catch (\TuneReporting\Helpers\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";
         } catch (\TuneReporting\Helpers\TuneSdkException $ex) {
@@ -118,4 +117,12 @@ class TuneReportingExamples
     }
 }
 
-TuneReportingExamples::run();
+/**
+ * Examples request API_KEY
+ */
+if (count($argv) == 1) {
+    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    exit;
+}
+$api_key = $argv[1];
+TuneReportingExamples::run($api_key);
