@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2014-12-31 15:52:00 $</h4>
-<h4>Version: 0.9.27</h4>
+<h4>Update:  $Date: 2015-01-03 08:14:06 $</h4>
+<h4>Version: 0.9.28</h4>
 ===
 
 <a id="TOP"></a>
@@ -239,7 +239,7 @@ directory and then include the library file:
 <a id="sdk_install_config" name="sdk_install_config"></a>
 #### Configuration
 
-In the root folder, the TUNE Reporting SDK configuration is set within file ```./tune_reporting_sdk.config```.
+In the root folder, the TUNE Reporting SDK configuration is set within file ```./config/tune_reporting_sdk.config```.
 
 With generated API_KEY from TUNE MobileAppTracking Platform account, replace `API_KEY`.
 
@@ -401,10 +401,12 @@ The key contents of SDK is **src**, which contains the library; followed by the 
 
 File **Makefile** provides shortcuts for executing examples and tests.
 
-```
+.
 ├── AUTHORS.md
 ├── CHANGES.md
 ├── composer.json
+├── config
+│   └── tune_reporting_sdk.config
 ├── docs
 ├── examples
 ├── LICENSE.md
@@ -412,8 +414,7 @@ File **Makefile** provides shortcuts for executing examples and tests.
 ├── README
 ├── README.md
 ├── src
-├── tests
-└── tune_reporting_sdk.config
+└── tests
 ```
 
 <a id="sdk_sources_lib" name="sdk_sources_lib"></a>
@@ -426,18 +427,19 @@ Library folder **src** contains the key functionality related to **Advertiser Re
 Client classes that connect with the **TUNE Management API Service** are defined within folder **/src/TuneReporting/Base/Service/**.
 
 Helper class for both the Library and Examples are defined within folder **/src/TuneReporting/Helpers/**.
+
 ```
 src/
 ├── TuneReporting
 │   ├── Api
 │   │   ├── AdvertiserReportActuals.php
-│   │   ├── AdvertiserReportLogClicks.php
+│   │   ├── AdvertiserReportCohortRetention.php
 │   │   ├── AdvertiserReportCohortValue.php
+│   │   ├── AdvertiserReportLogClicks.php
 │   │   ├── AdvertiserReportLogEventItems.php
 │   │   ├── AdvertiserReportLogEvents.php
 │   │   ├── AdvertiserReportLogInstalls.php
 │   │   ├── AdvertiserReportLogPostbacks.php
-│   │   ├── AdvertiserReportCohortRetention.php
 │   │   └── Export.php
 │   ├── Base
 │   │   ├── Endpoints
@@ -445,7 +447,8 @@ src/
 │   │   │   ├── AdvertiserReportBase.php
 │   │   │   ├── AdvertiserReportCohortBase.php
 │   │   │   ├── AdvertiserReportLogBase.php
-│   │   │   └── EndpointBase.php
+│   │   │   ├── EndpointBase.php
+│   │   │   └── ReportExportWorker.php
 │   │   └── Service
 │   │       ├── Constants.php
 │   │       ├── QueryStringBuilder.php
@@ -454,10 +457,10 @@ src/
 │   │       ├── TuneManagementRequest.php
 │   │       └── TuneManagementResponse.php
 │   ├── Helpers
-│   │   ├── ReportExportWorker.php
 │   │   ├── ReportReaderBase.php
 │   │   ├── ReportReaderCSV.php
 │   │   ├── ReportReaderJSON.php
+│   │   ├── SdkConfig.php
 │   │   ├── String.php
 │   │   ├── TuneSdkException.php
 │   │   ├── TuneServiceException.php
@@ -471,7 +474,7 @@ src/
 
 Run the following script to view execution of all examples:
 ```bash
-    $ make examples
+    $ make examples api_key=[API_KEY]
 ```
 
 Each Advertiser Report class defined in **/src/TuneReporting/Api/** has an example:
@@ -479,13 +482,13 @@ Each Advertiser Report class defined in **/src/TuneReporting/Api/** has an examp
 ```
 examples/
 ├── ExampleAdvertiserReportActuals.php
+├── ExampleAdvertiserReportCohortRetention.php
+├── ExampleAdvertiserReportCohortValue.php
 ├── ExampleAdvertiserReportLogClicks.php
-├── ExampleAdvertiserReportLogEventItems.php
+├── ExampleAdvertiserReportLogEventItem.php
 ├── ExampleAdvertiserReportLogEvents.php
 ├── ExampleAdvertiserReportLogInstalls.php
 ├── ExampleAdvertiserReportLogPostbacks.php
-├── ExampleAdvertiserReportCohortRetention.php
-├── ExampleAdvertiserReportCohortValue.php
 ├── ExampleTuneManagementClient.php
 ├── TuneReportingExamplesAutoloader.php
 └── TuneReportingExamples.php
@@ -497,7 +500,7 @@ examples/
 
 Run the following script to view execution of all unittests:
 ```bash
-    $ make tests
+    $ make tests api_key=[API_KEY]
 ```
 
 Each Advertiser Report class defined in **/src/TuneReporting/Api/** has a test:
@@ -507,13 +510,13 @@ tests/
 ├── bootstrap.php
 ├── phpunit.xml
 ├── TestAdvertiserReportActuals.php
+├── TestAdvertiserReportCohortRetention.php
+├── TestAdvertiserReportCohortValue.php
 ├── TestAdvertiserReportLogClicks.php
 ├── TestAdvertiserReportLogEventItems.php
 ├── TestAdvertiserReportLogEvents.php
 ├── TestAdvertiserReportLogInstalls.php
 ├── TestAdvertiserReportLogPostbacks.php
-├── TestAdvertiserReportCohortRetention.php
-├── TestAdvertiserReportCohortValue.php
 └── TestTuneManagementClient.php
 ```
 

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-31 15:52:00 $
+ * @version   $Date: 2015-01-03 08:14:06 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -74,7 +74,7 @@ class ExampleAdvertiserReportLogPostbacks
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
         $sdk_config->setApiKey($api_key);
 
@@ -158,6 +158,9 @@ class ExampleAdvertiserReportLogPostbacks
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
+
             echo "==========================================================" . PHP_EOL;
             echo " Export Advertiser Report Postbacks CSV                   " . PHP_EOL;
             echo "==========================================================" . PHP_EOL;
@@ -178,6 +181,9 @@ class ExampleAdvertiserReportLogPostbacks
 
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
+
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
 
             $job_id = AdvertiserReportLogPostbacks::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;
@@ -218,6 +224,9 @@ class ExampleAdvertiserReportLogPostbacks
 
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
+
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
 
             if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
                 throw new \Exception(

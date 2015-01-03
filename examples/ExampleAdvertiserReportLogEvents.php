@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2014 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-31 15:52:00 $
+ * @version   $Date: 2015-01-03 08:14:06 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -74,7 +74,7 @@ class ExampleAdvertiserReportLogEvents
             throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
         }
 
-        $tune_reporting_config_file = dirname(__FILE__) . "/../tune_reporting_sdk.config";
+        $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
         $sdk_config->setApiKey($api_key);
 
@@ -133,6 +133,9 @@ class ExampleAdvertiserReportLogEvents
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
+
             echo " Count:" . $response->getData() . PHP_EOL;
 
             echo "======================================================" . PHP_EOL;
@@ -158,6 +161,9 @@ class ExampleAdvertiserReportLogEvents
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
 
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
+
             echo "=======================================================" . PHP_EOL;
             echo " Export Advertiser Report Events CSV                   " . PHP_EOL;
             echo "=======================================================" . PHP_EOL;
@@ -178,6 +184,9 @@ class ExampleAdvertiserReportLogEvents
 
             echo " TuneManagementResponse:" . PHP_EOL;
             echo print_r($response, true) . PHP_EOL;
+
+            echo " JSON:" . PHP_EOL;
+            echo print_r($response->toJson(), true) . PHP_EOL;
 
             $job_id = AdvertiserReportLogEvents::parseResponseReportJobId($response);
             echo " CSV Job ID: {$job_id}" . PHP_EOL;

@@ -133,3 +133,10 @@ Version 0.9.27
 
 Beta public release on December 31, 2014
 * TUNE Reporting SDK set API_KEY.
+
+Version 0.9.28
+--------------
+
+Beta public release on January 03, 2015
+* Provide toJson() within response.
+* Created 'config' directory to hold TUNE Reporting SDK configuration.

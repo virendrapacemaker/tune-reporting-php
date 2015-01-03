@@ -149,6 +149,16 @@ class TuneManagementResponse
     }
 
     /**
+     * Returns the JSON representation of a value.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->response_json);
+    }
+
+    /**
      * Get property of request URL used to generate this response.
      *
      * @return string
