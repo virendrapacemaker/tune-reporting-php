@@ -2,7 +2,7 @@
 /**
  * ExampleTuneManagementClient.php, TUNE Reporting SDK PHP Example
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,9 +28,9 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-03 08:14:06 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -60,21 +60,42 @@ class ExampleTuneManagementClient
     /**
      * Execute example.
      *
-     * @param string $api_key MobileAppTracking API Key
+     * @param string $auth_key  MobileAppTracking API Key or Session Token.
+     * @param string $auth_type TUNE Reporting Authentication Type.
      *
      * @throws InvalidArgumentException
+     * @throws RuntimeException
      * @throws Exception
      */
-    public static function run($api_key)
-    {
-        // api_key
-        if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
+    public static function run(
+        $auth_key = null,
+        $auth_type = null
+    ) {
+        $tune_reporting_config_file
+            = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
+
+        if (!file_exists($tune_reporting_config_file)) {
+            throw new \InvalidArgumentException(
+                "TUNE Reporting Config '$tune_reporting_config_file' does not exist."
+            );
         }
 
-        $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
+        // Get instance of TUNE Reporting SDK configuration.
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-        $sdk_config->setApiKey($api_key);
+
+        // Override Authentication setting of TUNE Reporting SDK configuration.
+        if (is_string($auth_key) && !empty($auth_key)) {
+            if (is_null($auth_type) || ("api_key" == $auth_type)) {
+                $auth_type = "api_key";
+                $sdk_config->setApiKey($auth_key);
+            } elseif ("session_token" == $auth_type) {
+                $sdk_config->setSessionToken($auth_key);
+            } else {
+                throw new \InvalidArgumentException(
+                    "Parameter 'auth_type' is invalid authentication type: '$auth_type'."
+                );
+            }
+        }
 
         try {
             echo "\033[34m" . "============================================" . "\033[0m" . PHP_EOL;
@@ -84,7 +105,8 @@ class ExampleTuneManagementClient
             $client = new TuneManagementClient(
                 $controller = 'account/users',
                 $action = 'find.json',
-                $api_key,
+                $auth_key,
+                $auth_type,
                 $query_string_dict = array(
                     "fields" => "first_name,last_name,email",
                     "limit" => 5
@@ -116,8 +138,8 @@ class ExampleTuneManagementClient
  * Example request API_KEY
  */
 if (count($argv) == 1) {
-    echo sprintf("%s [api_key]", $argv[0]) . PHP_EOL;
+    echo sprintf("%s [auth_key]", $argv[0]) . PHP_EOL;
     exit;
 }
-$api_key = $argv[1];
-ExampleTuneManagementClient::run($api_key);
+$auth_key = $argv[1];
+ExampleTuneManagementClient::run($auth_key);

@@ -2,7 +2,7 @@
 /**
  * SdkConfig.php
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,10 +28,10 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-31 15:52:00 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -129,38 +129,63 @@ class SdkConfig
     } // getInstance
 
     /**
-     * Get TUNE MobileAppTracking API Key from SDK Configuration File.
+     * Get TUNE Reporting Authentication Key.
      *
      * @return string
      */
-    public function getApiKey()
+    public function getAuthKey()
     {
         if (!array_key_exists(
-            "tune_reporting_api_key_string",
+            "tune_reporting_auth_key_string",
             $this->tune_reporting_config["TUNE_REPORTING"]
         )) {
             return false;
         }
 
-        return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"];
+        return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_key_string"];
     }
 
     /**
-     * Set TUNE MobileAppTracking API Key from SDK Configuration File.
+     * Get TUNE Reporting Authentication Type.
+     *
+     * @return string
+     */
+    public function getAuthType()
+    {
+        if (!array_key_exists(
+            "tune_reporting_auth_type_string",
+            $this->tune_reporting_config["TUNE_REPORTING"]
+        )) {
+            return false;
+        }
+
+        return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_type_string"];
+    }
+
+    /**
+     * Set TUNE Reporting API Key.
      *
      * @return string
      */
     public function setApiKey($api_key)
     {
-        if (!array_key_exists(
-            "tune_reporting_api_key_string",
-            $this->tune_reporting_config["TUNE_REPORTING"]
-        )) {
-            return false;
-        }
-
-        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_api_key_string"]
+        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_key_string"]
             = $api_key;
+        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_type_string"]
+            = 'api_key';
+    }
+
+    /**
+     * Set TUNE Reporting Session Token.
+     *
+     * @return string
+     */
+    public function setSessionToken($session_token)
+    {
+        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_key_string"]
+            = $session_token;
+        $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_type_string"]
+            = 'session_token';
     }
 
     /**

@@ -1,4 +1,4 @@
-Copyright (c) 2014 Tune, Inc
+Copyright (c) 2015 TUNE, Inc.
 All rights reserved.
 
 MIT License

@@ -2,7 +2,7 @@
 /**
  * EndpointBase.php, Abstract class for defining TUNE Management API actions.
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,10 +28,10 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -68,10 +68,16 @@ class EndpointBase
     protected $controller = null;
 
     /**
-     * MobileAppTracking API Key
+     * TUNE Reporting authentication key.
      * @var string
      */
-    protected $api_key = null;
+    protected $auth_key = null;
+
+    /**
+     * TUNE Reporting authentication type.
+     * @var string
+     */
+    protected $auth_type = null;
 
     /**
      * TUNE Reporting API Endpoint's fields
@@ -158,11 +164,10 @@ class EndpointBase
      * Constructor
      *
      * @param string $controller        TUNE Reporting API Endpoint
-     * @param string $api_key           MobileAppTracking API Key
-     * @param bool   $validate_fields   Validate fields used by actions' parameters.
      */
     public function __construct(
-        $controller
+        $controller,
+        $use_config = true
     ) {
         if (!isCurlInstalled()) {
             throw new \Exception(
@@ -174,11 +179,13 @@ class EndpointBase
             );
         }
 
-        $this->sdk_config = SdkConfig::getInstance();
-        if (is_null($this->sdk_config)) {
-            throw new TuneSdkException(
-                "SdkConfig is not defined."
-            );
+        if ($use_config) {
+            $this->sdk_config = SdkConfig::getInstance();
+            if (is_null($this->sdk_config)) {
+                throw new TuneSdkException(
+                    "SdkConfig is not defined."
+                );
+            }
         }
 
         // controller
@@ -188,19 +195,34 @@ class EndpointBase
             );
         }
 
-        // api key
-        $api_key = $this->sdk_config->getApiKey();
-        if (!is_string($api_key) || empty($api_key) || ('API_KEY' == $api_key)) {
-            throw new \InvalidArgumentException(
-                "Parameter 'api_key' is not defined: '{$api_key}'"
-            );
+        if ($use_config) {
+            // Get TUNE Reporting authentication key.
+            $auth_key = $this->sdk_config->getAuthKey();
+            if (!is_string($auth_key) || empty($auth_key) || ('UNDEFINED' == $auth_key)) {
+                throw new \InvalidArgumentException(
+                    "Parameter 'auth_key' is not defined: '{$auth_key}'"
+                );
+            }
+
+            // Get TUNE Reporting authentication type.
+            $auth_type = $this->sdk_config->getAuthType();
+            if (!is_string($auth_type) || empty($auth_type)) {
+                throw new \InvalidArgumentException(
+                    "Parameter 'auth_type' is not defined: '{$auth_type}'"
+                );
+            }
+
+            // validate_fields
+            $validate_fields = $this->sdk_config->getValidateFields();
+        } else {
+            $auth_key = null;
+            $auth_type = null;
+            $validate_fields = false;
         }
 
-        // validate_fields
-        $validate_fields = $this->sdk_config->getValidateFields();
-
         $this->controller = $controller;
-        $this->api_key = $api_key;
+        $this->auth_key = $auth_key;
+        $this->auth_type = $auth_type;
         $this->validate_fields = $validate_fields;
     }
 
@@ -229,9 +251,9 @@ class EndpointBase
      *
      * @return string
      */
-    public function getApiKey()
+    public function getAuthKey()
     {
-        return $this->api_key;
+        return $this->auth_key;
     }
 
     /**
@@ -258,7 +280,8 @@ class EndpointBase
         $client = new TuneManagementClient(
             $this->controller,
             $action,
-            $this->api_key,
+            $this->auth_key,
+            $this->auth_type,
             $query_string_dict
         );
 
@@ -407,7 +430,8 @@ class EndpointBase
         $client = new TuneManagementClient(
             "apidoc",
             "get_controllers",
-            $this->api_key,
+            $this->auth_key,
+            $this->auth_type,
             $query_string_dict
         );
 
@@ -733,7 +757,7 @@ class EndpointBase
      */
     public function toString()
     {
-        return sprintf("Endpoint '%s', API Key: '%s", $this->controller, $this->api_key);
+        return sprintf("Endpoint '%s', API Key: '%s", $this->controller, $this->auth_key);
     }
 
     /**
@@ -779,8 +803,8 @@ class EndpointBase
      *
      * @param string    $export_controller      Controller for report export status.
      * @param string    $export_action          Action for report export status.
-     * @param string    $job_id                     Job Identifier of report on queue.
-     * @param bool      $verbose                    For debugging purposes only.
+     * @param string    $job_id                 Job Identifier of report on queue.
+     * @param bool      $verbose                For debugging purposes only.
      *
      * @return object @see TuneManagementResponse
      * @throws InvalidArgumentException
@@ -805,8 +829,8 @@ class EndpointBase
         if (!is_string($job_id) || empty($job_id)) {
             throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
         }
-        if (!is_string($this->api_key) || empty($this->api_key)) {
-            throw new TuneSdkException("Parameter 'api_key' is not defined.");
+        if (!is_string($this->auth_key) || empty($this->auth_key)) {
+            throw new TuneSdkException("Parameter 'auth_key' is not defined.");
         }
 
         $status_sleep = $this->sdk_config->getStatusSleep();
@@ -815,7 +839,8 @@ class EndpointBase
         $export_worker = new ReportExportWorker(
             $export_controller,
             $export_action,
-            $this->api_key,
+            $this->auth_key,
+            $this->auth_type,
             $job_id,
             $verbose,
             $status_sleep,

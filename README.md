@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-03 08:14:06 $</h4>
-<h4>Version: 0.9.28</h4>
+<h4>Update:  $Date: 2015-01-05 14:24:08 $</h4>
+<h4>Version: 0.9.29</h4>
 ===
 
 <a id="TOP"></a>
@@ -237,22 +237,67 @@ directory and then include the library file:
 ```
 
 <a id="sdk_install_config" name="sdk_install_config"></a>
-#### Configuration
+#### TUNE Reporting SDK Configuration
 
-In the root folder, the TUNE Reporting SDK configuration is set within file ```./config/tune_reporting_sdk.config```.
+##### SDK Configuration file
 
-With generated API_KEY from TUNE MobileAppTracking Platform account, replace `API_KEY`.
+The TUNE Reporting SDK configuration is set within file ```./config/tune_reporting_sdk.config```.
+
+With generated API_KEY from TUNE MobileAppTracking Platform account, replace `UNDEFINED`.
 
 ```
 [TUNE_REPORTING]
-; Tune MobileAppTracking Platform generated API Key.
-tune_reporting_api_key_string=API_KEY
-; Validate use Tune Management API fields used within action parameters.
+; TUNE MobileAppTracking Platform generated API Key. Replace UNDEFINED.
+tune_reporting_auth_key_string=UNDEFINED
+; TUNE Reporting Authentication Type: api_key OR session_token.
+tune_reporting_auth_type_string=api_key
+; Validate use TUNE Management API fields used within action parameters.
 tune_reporting_verify_fields_boolean=false
-; Tune reporting export status sleep (seconds).
+; TUNE reporting export status sleep (seconds).
 tune_reporting_export_status_sleep_seconds=10
-; Tune reporting export fetch timeout (seconds).
+; TUNE reporting export fetch timeout (seconds).
 tune_reporting_export_status_timeout_seconds=240
+```
+
+##### SDK Configuration class
+
+The TUNE Reporting SDK reads configuration through class ```SdkConfig``` with the
+provided path to SDK configuration file.
+
+```php
+    $tune_reporting_config_file
+        = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
+
+    if (!file_exists($tune_reporting_config_file)) {
+        throw new \InvalidArgumentException(
+            "TUNE Reporting Config '$tune_reporting_config_file' does not exist."
+        );
+    }
+
+    // Get instance of TUNE Reporting SDK configuration.
+    $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+```
+
+By default, configuration is assumed using ```api_key``` authentication type.
+
+To override 'api_key' authentication type, then use ```SdkConfig::setApiKey()```:
+
+```php
+    $sdk_config->setApiKey($api_key);
+```
+
+To override authentication type using ```session_token```, then use ```SdkConfig::setSessionToken()```:
+
+```php
+    $sdk_config->setSessionToken($session_token);
+```
+
+If you wish to generate your own session_token, class ```SessionAuthentication``` is provided:
+
+```php
+    $session_authenticate = new SessionAuthenticate();
+    $response = $session_authenticate->api_key($api_key);
+    $session_token = $response->getData();
 ```
 
 and you're good to go!

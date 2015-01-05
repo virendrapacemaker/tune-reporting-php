@@ -1,11 +1,11 @@
 {
     "name": "MobileAppTracking/tune-reporting-php",
-    "description": "Tune Reporting API SDK for PHP",
+    "description": "TUNE Reporting SDK for PHP",
     "type": "library",
     "minimum-stability": "dev",
     "authors": [
         {
-            "name": "Tune Engineering",
+            "name": "TUNE Engineering",
             "email": "matsdk@tune.com"
         }
     ],

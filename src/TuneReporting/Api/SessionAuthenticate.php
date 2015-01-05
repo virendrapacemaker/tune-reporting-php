@@ -1,5 +1,6 @@
 <?php
 /**
+ * SessionAuthenticate.php
  *
  * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
@@ -37,56 +38,59 @@
 
 namespace TuneReporting\Api;
 
-use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
+use TuneReporting\Base\Endpoints\EndpointBase;
+
+use TuneReporting\Helpers\TuneSdkException;
+use TuneReporting\Helpers\TuneServiceException;
 
 /**
- * TUNE Reporting API controller 'advertiser/stats/events'
- *
- * @example ExampleAdvertiserReportLogEvents.php
+ * Provides status of report export request, and upon completion provides
+ * download url.
  */
-class AdvertiserReportLogEvents extends AdvertiserReportLogBase
+class SessionAuthenticate extends EndpointBase
 {
     /**
-     * Constructor.
+     * Constructor
+     *
+     * @param string $api_key MobileAppTracking API Key
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct(
-            "advertiser/stats/events",
-            $filter_debug_mode = true,
-            $filter_test_profile_id = true
+            "session/authenticate",
+            false
         );
+    }
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-            "id"
-            ,"stat_install_id"
-            ,"created"
-            ,"status"
-            ,"site_id"
-            ,"site.name"
-            ,"site_event_id"
-            ,"site_event.name"
-            ,"site_event.type"
-            ,"publisher_id"
-            ,"publisher.name"
-            ,"advertiser_ref_id"
-            ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.ref"
-            ,"publisher_sub_campaign_id"
-            ,"publisher_sub_campaign.ref"
-            ,"user_id"
-            ,"device_id"
-            ,"os_id"
-            ,"google_aid"
-            ,"ios_ifa"
-            ,"ios_ifv"
-            ,"windows_aid"
-            ,"referral_url"
-            ,"is_view_through"
-            ,"is_reengagement"
+    /**
+     * No recommended fields assigned to this endpoint.
+     *
+     * @return null
+     */
+    public function getFieldsRecommended()
+    {
+        return null;
+    }
+
+    /**
+     * Generate session token is returned to provide access to service.
+     *
+     * @param string $api_keys  Generate 'session token' for this api_keys.
+     *
+     * @return object
+     * @throws InvalidArgumentException
+     */
+    public function api_key(
+        $api_keys
+    ) {
+        if (!is_string($api_keys) || empty($api_keys)) {
+            throw new \InvalidArgumentException("Parameter 'api_keys' is not defined.");
+        }
+
+        return parent::call(
+            $action = "api_key",
+            $query_string_dict = array (
+                'api_keys' => $api_keys
+            )
         );
     }
 }

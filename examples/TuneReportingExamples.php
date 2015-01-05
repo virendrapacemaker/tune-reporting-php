@@ -3,7 +3,7 @@
  * TuneReportingExamples.php
  * Examples using SDK which accesses service of TUNE Reporting API.
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,9 +29,9 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-31 15:52:00 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -39,6 +39,7 @@
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 require_once dirname(__FILE__) . "/TuneReportingExamplesAutoloader.php";
 
+use TuneReporting\Api\SessionAuthenticate;
 use TuneReporting\Helpers\TuneSdkException;
 use TuneReporting\Helpers\TuneServiceException;
 use TuneReporting\Helpers\SdkConfig;
@@ -82,17 +83,43 @@ class TuneReportingExamples
         echo "\n";
 
         try {
-            ExampleTuneManagementClient::run($api_key);
+            echo " api_key:" . $api_key . PHP_EOL;
+            $session_authenticate = new SessionAuthenticate();
+            $response = $session_authenticate->api_key($api_key);
 
-            ExampleAdvertiserReportActuals::run($api_key);
-            ExampleAdvertiserReportCohortValue::run($api_key);
-            ExampleAdvertiserReportCohortRetention::run($api_key);
+            echo " TuneManagementResponse:" . PHP_EOL;
+            echo print_r($response, true) . PHP_EOL;
+            $session_token = $response->getData();
 
-            ExampleAdvertiserReportLogClicks::run($api_key);
-            ExampleAdvertiserReportLogEventItems::run($api_key);
-            ExampleAdvertiserReportLogEvents::run($api_key);
-            ExampleAdvertiserReportLogInstalls::run($api_key);
-            ExampleAdvertiserReportLogPostbacks::run($api_key);
+            echo " session_token:" . $session_token . PHP_EOL;
+
+            ExampleTuneManagementClient::run($api_key, 'api_key');
+            ExampleTuneManagementClient::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportActuals::run($api_key, 'api_key');
+            ExampleAdvertiserReportActuals::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportCohortValue::run($api_key, 'api_key');
+            ExampleAdvertiserReportCohortValue::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportCohortRetention::run($api_key, 'api_key');
+            ExampleAdvertiserReportCohortRetention::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportLogClicks::run($api_key, 'api_key');
+            ExampleAdvertiserReportLogClicks::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportLogEventItems::run($api_key, 'api_key');
+            ExampleAdvertiserReportLogEventItems::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportLogEvents::run($api_key, 'api_key');
+            ExampleAdvertiserReportLogEvents::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportLogInstalls::run($api_key, 'api_key');
+            ExampleAdvertiserReportLogInstalls::run($session_token, 'session_token');
+
+            ExampleAdvertiserReportLogPostbacks::run($api_key, 'api_key');
+            ExampleAdvertiserReportLogPostbacks::run($session_token, 'session_token');
+
         } catch (\TuneReporting\Helpers\TuneServiceException $ex) {
             echo 'TuneServiceException: ' . $ex->getMessage() . "\n";
         } catch (\TuneReporting\Helpers\TuneSdkException $ex) {

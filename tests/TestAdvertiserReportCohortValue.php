@@ -2,7 +2,7 @@
 /**
  * TestAdvertiserReportCohortValue.php, TUNE Reporting SDK PHPUnit Test
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,9 +28,9 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-03 08:14:06 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -38,6 +38,7 @@
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
 use TuneReporting\Api\AdvertiserReportCohortValue;
+use TuneReporting\Api\SessionAuthenticate;
 use TuneReporting\Helpers\SdkConfig;
 
 class TestAdvertiserReportCohortValue extends \PHPUnit_Framework_TestCase
@@ -46,6 +47,16 @@ class TestAdvertiserReportCohortValue extends \PHPUnit_Framework_TestCase
      * @ignore
      */
     protected $advertiser_report = null;
+
+    /**
+     * @ignore
+     */
+    protected $api_key = null;
+
+    /**
+     * @ignore
+     */
+    protected $session_token = null;
 
     /**
      * Get API Key from environment.
@@ -63,7 +74,15 @@ class TestAdvertiserReportCohortValue extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($tune_reporting_config_file), "SDK config file does not exist: '{$tune_reporting_config_file}'");
         $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
         $this->assertNotNull($sdk_config);
+        $this->api_key = $api_key;
         $sdk_config->setApiKey($api_key);
+
+        $session_authenticate = new SessionAuthenticate();
+        $response = $session_authenticate->api_key($api_key);
+        $this->assertNotNull($response);
+        $session_token = $response->getData();
+        $this->assertNotNull($session_token);
+        $this->session_token = $session_token;
 
         $this->advertiser_report = new AdvertiserReportCohortValue();
         $this->assertNotNull($this->advertiser_report);
@@ -76,12 +95,12 @@ class TestAdvertiserReportCohortValue extends \PHPUnit_Framework_TestCase
     {
         $sdk_config = $this->advertiser_report->getSdkConfig();
         $this->assertNotNull($sdk_config);
-        $api_key = $sdk_config->getApiKey();
+        $api_key = $sdk_config->getAuthKey();
 
-        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
-        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_api_key_string'");
+        $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+        $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+        $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+        $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
     }
 
     /**
