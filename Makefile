@@ -1,6 +1,6 @@
 #   Makefile
 #
-#   Copyright (c) 2014 Tune, Inc
+#   Copyright (c) 2015 TUNE, Inc
 #   All rights reserved.
 #
 #   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,12 +21,12 @@
 #   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #   THE SOFTWARE.
 #
-# category  Tune
+# category  TUNE
 # package   tune.tests
 # author    Jeff Tanner <jefft@tune.com>
-# copyright 2014 Tune (http://www.tune.com)
+# copyright 2015 TUNE (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2014-12-31 15:52:00 $
+# version   $Date: 2015-01-05 14:24:08 $
 # link      https://developers.mobileapptracking.com/tune-reporting-sdks
 #
 
@@ -75,5 +75,5 @@ docs-doxygen:
 
 docs-phpdoc:
 	sudo rm -fR ./docs/phpdoc/*
-	phpdoc -d ./src/ -t ./docs/phpdoc --template="responsive-twig" --title "Tune Reporting API SDK for PHP" --sourcecode
+	phpdoc -d ./src/ -t ./docs/phpdoc --template="responsive-twig" --title "TUNE Reporting API SDK for PHP" --sourcecode
 	x-www-browser docs/phpdoc/index.html

@@ -2,7 +2,7 @@
 /**
  * TuneManagementClient.php, Client to TUNE Management API Service.
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,10 +28,10 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-24 10:43:56 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -85,7 +85,8 @@ class TuneManagementClient
      *
      * @param string      $controller           TUNE Reporting API endpoint name
      * @param string      $action               TUNE Reporting API endpoint's action name
-     * @param string      $api_key              TUNE MobileAppTracking API Key
+     * @param string      $auth_key             TUNE Reporting authentication key.
+     * @param string      $auth_type            TUNE Reporting authentication type.
      * @param null|array  $query_string_dict    Action's query string parameters
      * @param null|string $api_url_base         TUNE Reporting API base path
      * @param null|string $api_url_version      TUNE Reporting API version
@@ -93,7 +94,8 @@ class TuneManagementClient
     public function __construct(
         $controller,
         $action,
-        $api_key,
+        $auth_key,
+        $auth_type,
         $query_string_dict = null,
         $api_url_base = null,
         $api_url_version = null
@@ -106,11 +108,6 @@ class TuneManagementClient
         if (!is_string($action) || empty($action)) {
             throw new \InvalidArgumentException("Parameter 'action' is not defined.");
         }
-        // api_key
-        if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
-        }
-
         if (is_null($api_url_base)) {
             $api_url_base = constant("TUNE_MANAGEMENT_API_BASE_URL");
         }
@@ -123,7 +120,8 @@ class TuneManagementClient
         $this->request = new TuneManagementRequest(
             $controller,
             $action,
-            $api_key,
+            $auth_key,
+            $auth_type,
             $query_string_dict,
             $api_url_base,
             $api_url_version

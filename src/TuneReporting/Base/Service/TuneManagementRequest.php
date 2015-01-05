@@ -2,7 +2,7 @@
 /**
  * TuneManagementRequest.php
  *
- * Copyright (c) 2014 TUNE, Inc.
+ * Copyright (c) 2015 TUNE, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,10 +28,10 @@
  * @category  TUNE_Reporting
  *
  * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2014 TUNE, Inc. (http://www.tune.com)
+ * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_service
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2014-12-30 08:50:38 $
+ * @version   $Date: 2015-01-05 14:24:08 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -60,10 +60,16 @@ class TuneManagementRequest
     private $action = null;
 
     /**
-     * Property of user's API KEY provided from their TUNE MobileAppTracking account.
-     * @var string $api_key
+     * TUNE Reporting authentication key.
+     * @var string
      */
-    private $api_key = null;
+    private $auth_key = null;
+
+    /**
+     * TUNE Reporting authentication type.
+     * @var string
+     */
+    private $auth_type = null;
 
     /**
      * Query String key value dictionary
@@ -89,7 +95,8 @@ class TuneManagementRequest
      *
      * @param string $controller        TUNE Reporting API controller
      * @param string $action            TUNE Reporting API controller's action
-     * @param string $api_key           User's API Key provide by their MobileAppTracking platform account.
+     * @param string $auth_key          TUNE Reporting authentication key.
+     * @param string $auth_type         TUNE Reporting authentication type.
      * @param dict   $query_string_dict Query string elements appropriate to the requested controller's action.
      * @param string $api_url_base      TUNE Reporting API base url.
      * @param string $api_url_version   TUNE Reporting API version.
@@ -97,7 +104,8 @@ class TuneManagementRequest
     public function __construct(
         $controller,
         $action,
-        $api_key,
+        $auth_key,
+        $auth_type,
         $query_string_dict,
         $api_url_base,
         $api_url_version
@@ -111,10 +119,6 @@ class TuneManagementRequest
 
         if (!is_string($action) || empty($action)) {
             throw new \InvalidArgumentException("Parameter 'action' must be defined string.");
-        }
-
-        if (!is_string($api_key) || empty($api_key)) {
-            throw new \InvalidArgumentException("Parameter 'api_key' must be defined string.");
         }
 
         if (!is_string($api_url_base) || empty($api_url_base)) {
@@ -143,7 +147,8 @@ class TuneManagementRequest
 
         $this->controller           = $controller;
         $this->action               = $action;
-        $this->api_key              = $api_key;
+        $this->auth_key             = $auth_key;
+        $this->auth_type            = $auth_type;
         $this->query_string_dict    = $query_string_dict;
         $this->api_url_base         = $api_url_base;
         $this->api_url_version      = $api_url_version;
@@ -190,24 +195,6 @@ class TuneManagementRequest
     }
 
     /**
-     * Get api_key property
-     */
-    public function getApiKey()
-    {
-        return $this->api_key;
-    }
-
-    /**
-     * Set api_key property
-     *
-     * @param $api_key
-     */
-    public function setApiKey($api_key)
-    {
-        $this->api_key = $api_key;
-    }
-
-    /**
      * Get query_string_dict property
      */
     public function getQueryData()
@@ -234,19 +221,16 @@ class TuneManagementRequest
     {
         $qsb = new QueryStringBuilder();
 
-        // api_key
-        if (!is_string($this->api_key) || empty($this->api_key)) {
-            throw new TuneSdkException("Parameter 'api_key' is not defined.");
-        }
-
         // TUNE Reporting SDK Name
         $qsb->add('sdk', constant("TUNE_SDK_NAME"));
 
         // TUNE Reporting SDK Version
         $qsb->add('ver', constant("TUNE_SDK_VERSION"));
 
-        // Every request should contain an API Key
-        $qsb->add('api_key', $this->api_key);
+        // TUNE Reporting authentication.
+        if ($this->auth_type && $this->auth_key) {
+            $qsb->add($this->auth_type, $this->auth_key);
+        }
 
         // Build query string with provided contents in dictionary
         if ($this->query_string_dict && is_array($this->query_string_dict) && !empty($this->query_string_dict)) {
