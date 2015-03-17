@@ -2,7 +2,7 @@
    "tune_reporting_php_sdk": {
        "doxygen": {
            "oss_licenses": [
-               "GNU General Public License (GPL-2.0)"
+               "GPL-2.0"
            ],
            "url": "http://www.stack.nl/~dimitri/doxygen/manual/index.html#license",
            "versions": [
@@ -11,7 +11,7 @@
        },
        "pear": {
            "oss_licenses": [
-               "PHP License v3.01"
+               "PHP-3.01"
            ],
            "url": "http://pear.php.net/copyright.php",
            "versions": [
@@ -20,7 +20,7 @@
        },
        "php": {
            "oss_licenses": [
-               "PHP License v3.01"
+               "PHP-3.01"
            ],
            "url": "http://php.net/license/3_01.txt",
            "versions": [
@@ -38,7 +38,7 @@
        },
        "phpunit": {
            "oss_licenses": [
-               "Creative Commons Attribution 3.0 Unported License"
+               "CC BY 3.0"
            ],
            "url": "https://phpunit.de/manual/current/en/appendixes.copyright.html",
            "versions": [
@@ -47,7 +47,7 @@
        },
        "PHP_CodeSniffer": {
            "oss_licenses": [
-               "BSD 3-Clause License"
+               "BSD 3"
            ],
            "url": "http://pear.php.net/package/PHP_CodeSniffer",
            "versions": [
