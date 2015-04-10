@@ -26,12 +26,12 @@
  * PHP Version 5.3
  *
  * @category  TUNE_Reporting
- * @author    Jeff Tanner <jefft@tune.com>
+ * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
- * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
+ * @version   $Date: 2015-04-08 17:44:36 $
+ * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
@@ -44,72 +44,72 @@ use TuneReporting\Helpers\TuneSdkException;
  */
 class ReportReaderCSV extends ReportReaderBase
 {
-    /**
-     * Constructor
-     *
-     * @param string $report_url Download report URL of requested report to be exported.
-     */
-    public function __construct($report_url)
-    {
-        parent::__construct($report_url);
-    }
+  /**
+   * Constructor
+   *
+   * @param string $report_url Download report URL of requested report to be exported.
+   */
+  public function __construct($report_url)
+  {
+    parent::__construct($report_url);
+  }
 
-    /**
-     * Using provided report download URL, extract contents appropriate to the content's format.
-     *
-     * @return Boolean
-     * @throws TuneSdkException
-     */
-    public function read()
-    {
-        $success = false;
+  /**
+   * Using provided report download URL, extract contents appropriate to the content's format.
+   *
+   * @return Boolean
+   * @throws TuneSdkException
+   */
+  public function read()
+  {
+    $success = false;
 
-        try {
-            $this->retrieveRemoteFileSize();
+    try {
+      $this->retrieveRemoteFileSize();
 
-            ini_set('memory_limit', '1024M'); // or you could use 1G
+      ini_set('memory_limit', '1024M'); // or you could use 1G
 
-            $this->report_data = array();
+      $this->report_data = array();
 
-            if (($handle = fopen($this->report_url, "r")) !== false) {
-                while (($row_data = fgetcsv($handle, 1000, ",")) !== false) {
-                    $this->report_data[] = $row_data;
-                }
-                fclose($handle);
-            }
-
-            $success = true;
-        } catch (Exception $ex) {
-            throw new TuneSdkException("Failed to process request.", $ex->getCode(), $ex);
+      if (($handle = fopen($this->report_url, "r")) !== false) {
+        while (($row_data = fgetcsv($handle, 1000, ",")) !== false) {
+          $this->report_data[] = $row_data;
         }
+        fclose($handle);
+      }
 
-        return $success;
+      $success = true;
+    } catch (Exception $ex) {
+      throw new TuneSdkException("Failed to process request.", $ex->getCode(), $ex);
     }
 
-    /**
-     * Using report data pulled from remote file referenced by download URL, provide a pretty print of it's contents.
-     *
-     * @param int $limit Limit the number of rows to print.
-     *
-     * @return mixed
-     */
-    public function prettyPrint($limit = 0)
-    {
-        echo "Report REPORT_URL: " . $this->report_url . PHP_EOL;
-        echo "Report total row count: " . count($this->report_data) . PHP_EOL;
-        echo "Report data size: " . count($this->report_data_size) . PHP_EOL;
+    return $success;
+  }
 
-        if (count($this->report_data) > 0) {
-            echo "------------------" . PHP_EOL;
-            $row_index = 1;
-            foreach ($this->report_data as $row) {
-                echo "{$row_index}. " . "'" . implode("','", $row) . "'" . PHP_EOL;
-                $row_index++;
-                if (($limit > 0) && ($row_index > $limit)) {
-                    break;
-                }
-            }
-            echo "------------------" . PHP_EOL;
+  /**
+   * Using report data pulled from remote file referenced by download URL, provide a pretty print of it's contents.
+   *
+   * @param int $limit Limit the number of rows to print.
+   *
+   * @return mixed
+   */
+  public function prettyPrint($limit = 0)
+  {
+    echo "Report REPORT_URL: " . $this->report_url . PHP_EOL;
+    echo "Report total row count: " . count($this->report_data) . PHP_EOL;
+    echo "Report data size: " . count($this->report_data_size) . PHP_EOL;
+
+    if (count($this->report_data) > 0) {
+      echo "------------------" . PHP_EOL;
+      $row_index = 1;
+      foreach ($this->report_data as $row) {
+        echo "{$row_index}. " . "'" . implode("','", $row) . "'" . PHP_EOL;
+        $row_index++;
+        if (($limit > 0) && ($row_index > $limit)) {
+          break;
         }
+      }
+      echo "------------------" . PHP_EOL;
     }
+  }
 }

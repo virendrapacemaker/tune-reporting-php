@@ -5,7 +5,7 @@
         convertWarningsToExceptions="true"
         timeoutForSmallTests="10"
         timeoutForMediumTests="60"
-        timeoutForLargeTests="120"        
+        timeoutForLargeTests="120"
         stopOnFailure="false">
 
     <filter>

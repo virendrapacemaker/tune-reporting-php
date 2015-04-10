@@ -147,3 +147,8 @@ Version 0.9.29
 Beta public release on January 05, 2015
 * Provide both authentication approaches: api_key and session_token.
 * New class ```SessionAuthentication``` for generating session_token.
+
+Version 1.0.0
+--------------
+
+First production release on April 09, 2015

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-09 17:36:25 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -43,495 +43,546 @@ use TuneReporting\Helpers\SdkConfig;
 
 class TestAdvertiserReportActuals extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @ignore
-     */
-    protected $advertiser_report = null;
+  /**
+   * @ignore
+   */
+  protected $advertiser_report = null;
 
-    /**
-     * @ignore
-     */
-    protected $api_key = null;
+  /**
+   * @ignore
+   */
+  protected $api_key = null;
 
-    /**
-     * @ignore
-     */
-    protected $session_token = null;
+  /**
+   * @ignore
+   */
+  protected $session_token = null;
 
-    /**
-     * Get API Key from environment.
-     */
-    protected function setUp()
-    {
-        $default_date_timezone = ini_get('date.timezone');
-        $this->assertNotNull($default_date_timezone, "Set php.ini date.timezone.");
-        $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
-        $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
+  /**
+   * Get API Key from environment.
+   */
+  protected function setUp()
+  {
+    $default_date_timezone = ini_get('date.timezone');
+    $this->assertNotNull($default_date_timezone, "Set php.ini date.timezone.");
+    $this->assertInternalType('string', $default_date_timezone, "Set php.ini date.timezone.");
+    $this->assertNotEmpty($default_date_timezone, "Set php.ini date.timezone.");
 
-        $api_key = getenv('API_KEY');
-        $this->assertNotNull($api_key);
-        $this->api_key = $api_key;
+    $api_key = getenv('API_KEY');
+    $this->assertNotNull($api_key);
+    $this->api_key = $api_key;
 
-        $session_authenticate = new SessionAuthenticate();
-        $response = $session_authenticate->api_key($api_key);
-        $this->assertNotNull($response);
-        $session_token = $response->getData();
-        $this->assertNotNull($session_token);
-        $this->session_token = $session_token;
+    $session_authenticate = new SessionAuthenticate();
+    $response = $session_authenticate->api_key($api_key);
+    $this->assertNotNull($response);
+    $session_token = $response->getData();
+    $this->assertNotNull($session_token);
+    $this->session_token = $session_token;
 
-        $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
-        $this->assertTrue(file_exists($tune_reporting_config_file), "SDK config file does not exist: '{$tune_reporting_config_file}'");
-        $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-        $this->assertNotNull($sdk_config);
-        $sdk_config->setApiKey($api_key);
+    $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
+    $this->assertTrue(file_exists($tune_reporting_config_file), "SDK config file does not exist: '{$tune_reporting_config_file}'");
+    $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+    $this->assertNotNull($sdk_config);
+    $sdk_config->setApiKey($api_key);
 
-        $this->advertiser_report = new AdvertiserReportActuals();
-        $this->assertNotNull($this->advertiser_report);
+    $this->advertiser_report = new AdvertiserReportActuals();
+    $this->assertNotNull($this->advertiser_report);
+  }
+
+  /**
+   * Test getSdkConfig
+   */
+  public function testSdkConfig()
+  {
+    $sdk_config = $this->advertiser_report->getSdkConfig();
+    $this->assertNotNull($sdk_config);
+    $auth_key = $sdk_config->getAuthKey();
+    $auth_type = $sdk_config->getAuthType();
+
+    $this->assertNotNull($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertInternalType('string', $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotEmpty($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotEquals("API_KEY", $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertEquals("api_key", $auth_type, "In tune_reporting_sdk.config, set 'tune_reporting_auth_type_string'");
+  }
+
+  /**
+   * Test fields
+   */
+  public function testFields()
+  {
+    $fields = $this->advertiser_report->getFields();
+    $this->assertNotNull($fields);
+    $this->assertNotEmpty($fields);
+  }
+
+  /**
+   * Test fields
+   */
+  public function testFieldsEndpoint()
+  {
+    $fields = $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_ENDPOINT);
+    $this->assertNotNull($fields);
+    $this->assertNotEmpty($fields);
+  }
+
+  /**
+   * Test fields
+   */
+  public function testFieldsDefault()
+  {
+    $fields = $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT);
+    $this->assertNotNull($fields);
+    $this->assertNotEmpty($fields);
+  }
+
+  /**
+   * Test fields
+   */
+  public function testFieldsRecommended()
+  {
+    $fields = $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED);
+    $this->assertNotNull($fields);
+    $this->assertNotEmpty($fields);
+  }
+
+  /**
+   * Test fields
+   */
+  public function testFieldsDefaultMinimal()
+  {
+    $fields = $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT | AdvertiserReportActuals::TUNE_FIELDS_MINIMAL);
+    $this->assertNotNull($fields);
+    $this->assertNotEmpty($fields);
+  }
+
+  /**
+   * Test count
+   */
+  public function testCount()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"          => $start_date,
+      "end_date"            => $end_date,
+      "group"               => "site_id,publisher_id",
+      "filter"              => "(publisher_id > 0)",
+      "response_timezone"   => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->count(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+
+  /**
+   * Test find
+   */
+  public function testFind()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => null,
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+  /**
+   * Test find
+   */
+  public function testFindSelected()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $fields        = "site_id"
+      . ",site.name"
+      . ",publisher_id"
+      . ",publisher.name"
+      . ",ad_impressions"
+      . ",ad_impressions_unique"
+      . ",ad_clicks"
+      . ",ad_clicks_unique"
+      . ",paid_installs"
+      . ",paid_installs_assists"
+      . ",non_installs_assists"
+      . ",paid_events"
+      . ",paid_events_assists"
+      . ",non_events_assists"
+      . ",paid_opens"
+      . ",paid_opens_assists"
+      . ",non_opens_assists";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $fields,
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+  /**
+   * Test find
+   */
+  public function testFindDefault()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT),
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+  /**
+   * Test find
+   */
+  public function testFindEndpoint()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_ENDPOINT),
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+  /**
+   * Test find
+   */
+  public function testFindRecommended()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
+
+    public function testExport()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => null,
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "timestamp"         => "datehour",
+      "format"            => "csv",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->export(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+
+    $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
+    $this->assertNotNull($job_id);
+    $this->assertTrue(!empty($job_id));
+  }
+
+  public function testExportRecommended()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "timestamp"         => "datehour",
+      "format"            => "csv",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->export(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+
+    $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
+    $this->assertNotNull($job_id);
+    $this->assertTrue(!empty($job_id));
+  }
+
+  public function testExportSelected()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
+    $fields        = "site_id"
+      . ",site.name"
+      . ",publisher_id"
+      . ",publisher.name"
+      . ",ad_impressions"
+      . ",ad_impressions_unique"
+      . ",ad_clicks"
+      . ",ad_clicks_unique"
+      . ",paid_installs"
+      . ",paid_installs_assists"
+      . ",non_installs_assists"
+      . ",paid_events"
+      . ",paid_events_assists"
+      . ",non_events_assists"
+      . ",paid_opens"
+      . ",paid_opens_assists"
+      . ",non_opens_assists";
+
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => $fields,
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "timestamp"         => "datehour",
+      "format"            => "csv",
+      "response_timezone" => "America/Los_Angeles"
+    );
+
+    $response = $this->advertiser_report->export(
+      $map_params
+    );
+
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+
+    $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
+    $this->assertNotNull($job_id);
+    $this->assertTrue(!empty($job_id));
+  }
+
+  /**
+   * @large
+   */
+  public function testFetch() {
+    try {
+      $week_ago     = date('Y-m-d', strtotime("-8 days"));
+      $yesterday    = date('Y-m-d', strtotime("-1 days"));
+      $start_date   = "{$week_ago} 00:00:00";
+      $end_date     = "{$yesterday} 23:59:59";
+
+      $map_params = array(
+        "start_date"        => $start_date,
+        "end_date"          => $end_date,
+        "fields"            => $this->advertiser_report->getFields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
+        "group"             => "site_id,publisher_id",
+        "filter"            => "(publisher_id > 0)",
+        "timestamp"         => "datehour",
+        "format"            => "csv",
+        "response_timezone" => "America/Los_Angeles"
+      );
+
+      $response = $this->advertiser_report->export(
+        $map_params
+      );
+
+      $this->assertNotNull($response);
+      $this->assertEquals(200, $response->getHttpCode());
+
+      $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
+      $this->assertNotNull($job_id);
+      $this->assertTrue(!empty($job_id));
+
+      $response = $this->advertiser_report->fetch(
+        $job_id,
+        $verbose = false
+      );
+
+      $report_url = AdvertiserReportActuals::parseResponseReportUrl($response);
+      $this->assertNotNull($report_url);
+      $this->assertTrue(!empty($report_url));
+    } catch (Exception $ex ) {
+      $this->fail($ex->getMessage());
     }
+  }
 
-    /**
-     * Test getSdkConfig
-     */
-    public function testSdkConfig()
-    {
-        $sdk_config = $this->advertiser_report->getSdkConfig();
-        $this->assertNotNull($sdk_config);
-        $auth_key = $sdk_config->getAuthKey();
-        $auth_type = $sdk_config->getAuthType();
+  /**
+   * Test session token
+   */
+  public function testSessionToken()
+  {
+    $sdk_config = SdkConfig::getInstance();
+    $this->assertNotNull($sdk_config);
+    $sdk_config->setSessionToken($this->session_token);
 
-        $this->assertNotNull($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertInternalType('string', $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertNotEmpty($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertNotEquals("API_KEY", $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertEquals("api_key", $auth_type, "In tune_reporting_sdk.config, set 'tune_reporting_auth_type_string'");
-    }
+    $auth_key = $sdk_config->getAuthKey();
+    $auth_type = $sdk_config->getAuthType();
 
-    /**
-     * Test fields
-     */
-    public function testFields()
-    {
-        $fields = $this->advertiser_report->fields();
-        $this->assertNotNull($fields);
-        $this->assertNotEmpty($fields);
-    }
-
-    /**
-     * Test fields
-     */
-    public function testFieldsEndpoint()
-    {
-        $fields = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_ENDPOINT);
-        $this->assertNotNull($fields);
-        $this->assertNotEmpty($fields);
-    }
-
-    /**
-     * Test fields
-     */
-    public function testFieldsDefault()
-    {
-        $fields = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT);
-        $this->assertNotNull($fields);
-        $this->assertNotEmpty($fields);
-    }
-
-    /**
-     * Test fields
-     */
-    public function testFieldsRecommended()
-    {
-        $fields = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED);
-        $this->assertNotNull($fields);
-        $this->assertNotEmpty($fields);
-    }
-
-    /**
-     * Test fields
-     */
-    public function testFieldsDefaultMinimal()
-    {
-        $fields = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT | AdvertiserReportActuals::TUNE_FIELDS_MINIMAL);
-        $this->assertNotNull($fields);
-        $this->assertNotEmpty($fields);
-    }
-
-    /**
-     * Test count
-     */
-    public function testCount()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->count(
-            $start_date,
-            $end_date,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
+    $this->assertNotNull($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertInternalType('string', $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotEmpty($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotEquals("API_KEY", $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertEquals("session_token", $auth_type, "In tune_reporting_sdk.config, set 'tune_reporting_auth_type_string'");
+  }
 
 
-    /**
-     * Test find
-     */
-    public function testFind()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
+  /**
+   * Test count
+   */
+  public function testCountSessionToken()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
 
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = null,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
+    $map_params = array(
+      "start_date"          => $start_date,
+      "end_date"            => $end_date,
+      "group"               => "site_id,publisher_id",
+      "filter"              => "(publisher_id > 0)",
+      "response_timezone"   => "America/Los_Angeles"
+    );
 
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
+    $response = $this->advertiser_report->count(
+      $map_params
+    );
 
-    /**
-     * Test find
-     */
-    public function testFindSelected()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = "site_id"
-            . ",site.name"
-            . ",publisher_id"
-            . ",publisher.name"
-            . ",ad_impressions"
-            . ",ad_impressions_unique"
-            . ",ad_clicks"
-            . ",ad_clicks_unique"
-            . ",paid_installs"
-            . ",paid_installs_assists"
-            . ",non_installs_assists"
-            . ",paid_events"
-            . ",paid_events_assists"
-            . ",non_events_assists"
-            . ",paid_opens"
-            . ",paid_opens_assists"
-            . ",non_opens_assists",
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
-
-    /**
-     * Test find
-     */
-    public function testFindDefault()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_DEFAULT),
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
-
-    /**
-     * Test find
-     */
-    public function testFindEndpoint()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_ENDPOINT),
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
-
-    /**
-     * Test find
-     */
-    public function testFindRecommended()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
-
-        public function testExport()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->export(
-            $start_date,
-            $end_date,
-            $fields              = null,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $timestamp           = "datehour",
-            $format              = "csv",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-
-        $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
-        $this->assertNotNull($job_id);
-        $this->assertTrue(!empty($job_id));
-    }
-
-    public function testExportRecommended()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->export(
-            $start_date,
-            $end_date,
-            $fields              = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $timestamp           = "datehour",
-            $format              = "csv",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-
-        $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
-        $this->assertNotNull($job_id);
-        $this->assertTrue(!empty($job_id));
-    }
-
-    public function testExportSelected()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->export(
-            $start_date,
-            $end_date,
-            $fields              = "site_id"
-            . ",site.name"
-            . ",publisher_id"
-            . ",publisher.name"
-            . ",ad_impressions"
-            . ",ad_impressions_unique"
-            . ",ad_clicks"
-            . ",ad_clicks_unique"
-            . ",paid_installs"
-            . ",paid_installs_assists"
-            . ",non_installs_assists"
-            . ",paid_events"
-            . ",paid_events_assists"
-            . ",non_events_assists"
-            . ",paid_opens"
-            . ",paid_opens_assists"
-            . ",non_opens_assists",
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $timestamp           = "datehour",
-            $format              = "csv",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-
-        $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
-        $this->assertNotNull($job_id);
-        $this->assertTrue(!empty($job_id));
-    }
-
-    /**
-     * @large
-     */
-    public function testFetch() {
-        try {
-            $week_ago       = date('Y-m-d', strtotime("-8 days"));
-            $yesterday      = date('Y-m-d', strtotime("-1 days"));
-            $start_date     = "{$week_ago} 00:00:00";
-            $end_date       = "{$yesterday} 23:59:59";
-
-            $response = $this->advertiser_report->export(
-                $start_date,
-                $end_date,
-                $fields              = $this->advertiser_report->fields(AdvertiserReportActuals::TUNE_FIELDS_RECOMMENDED),
-                $group               = "site_id,publisher_id",
-                $filter              = "(publisher_id > 0)",
-                $timestamp           = "datehour",
-                $format              = "csv",
-                $response_timezone   = "America/Los_Angeles"
-            );
-
-            $this->assertNotNull($response);
-            $this->assertEquals(200, $response->getHttpCode());
-
-            $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
-            $this->assertNotNull($job_id);
-            $this->assertTrue(!empty($job_id));
-
-            $response = $this->advertiser_report->fetch(
-                $job_id,
-                $verbose = false
-            );
-
-            $report_url = AdvertiserReportActuals::parseResponseReportUrl($response);
-            $this->assertNotNull($report_url);
-            $this->assertTrue(!empty($report_url));
-        } catch (Exception $ex ) {
-            $this->fail($ex->getMessage());
-        }
-    }
-
-    /**
-     * Test session token
-     */
-    public function testSessionToken()
-    {
-        $sdk_config = SdkConfig::getInstance();
-        $this->assertNotNull($sdk_config);
-        $sdk_config->setSessionToken($this->session_token);
-
-        $auth_key = $sdk_config->getAuthKey();
-        $auth_type = $sdk_config->getAuthType();
-
-        $this->assertNotNull($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertInternalType('string', $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertNotEmpty($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertNotEquals("API_KEY", $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-        $this->assertEquals("session_token", $auth_type, "In tune_reporting_sdk.config, set 'tune_reporting_auth_type_string'");
-    }
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
 
 
-    /**
-     * Test count
-     */
-    public function testCountSessionToken()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
+  /**
+   * Test find
+   */
+  public function testFindSessionToken()
+  {
+    $week_ago     = date('Y-m-d', strtotime("-8 days"));
+    $yesterday    = date('Y-m-d', strtotime("-1 days"));
+    $start_date   = "{$week_ago} 00:00:00";
+    $end_date     = "{$yesterday} 23:59:59";
 
-        $response = $this->advertiser_report->count(
-            $start_date,
-            $end_date,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $response_timezone   = "America/Los_Angeles"
-        );
+    $map_params = array(
+      "start_date"        => $start_date,
+      "end_date"          => $end_date,
+      "fields"            => null,
+      "group"             => "site_id,publisher_id",
+      "filter"            => "(publisher_id > 0)",
+      "limit"             => 5,
+      "page"              => null,
+      "sort"              => array("publisher_id" => "DESC"),
+      "timestamp"         => "datehour",
+      "response_timezone" => "America/Los_Angeles"
+    );
 
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
+    $response = $this->advertiser_report->find(
+      $map_params
+    );
 
-
-    /**
-     * Test find
-     */
-    public function testFindSessionToken()
-    {
-        $week_ago       = date('Y-m-d', strtotime("-8 days"));
-        $yesterday      = date('Y-m-d', strtotime("-1 days"));
-        $start_date     = "{$week_ago} 00:00:00";
-        $end_date       = "{$yesterday} 23:59:59";
-
-        $response = $this->advertiser_report->find(
-            $start_date,
-            $end_date,
-            $fields              = null,
-            $group               = "site_id,publisher_id",
-            $filter              = "(publisher_id > 0)",
-            $limit               = 5,
-            $page                = null,
-            $sort                = array("installs" => "DESC"),
-            $timestamp           = "datehour",
-            $response_timezone   = "America/Los_Angeles"
-        );
-
-        $this->assertNotNull($response);
-        $this->assertEquals(200, $response->getHttpCode());
-    }
+    $this->assertNotNull($response);
+    $this->assertEquals(200, $response->getHttpCode());
+  }
 }

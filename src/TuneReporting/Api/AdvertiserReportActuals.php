@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -47,38 +47,38 @@ use TuneReporting\Base\Endpoints\AdvertiserReportActualsBase;
  */
 class AdvertiserReportActuals extends AdvertiserReportActualsBase
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            "advertiser/stats",
-            $filter_debug_mode = true,
-            $filter_test_profile_id = true
-        );
+  /**
+   * Constructor
+   */
+  public function __construct()
+  {
+    parent::__construct(
+      "advertiser/stats",
+      $filter_debug_mode = true,
+      $filter_test_profile_id = true
+    );
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-             "site_id"
-            ,"site.name"
-            ,"publisher_id"
-            ,"publisher.name"
-            ,"ad_impressions"
-            ,"ad_impressions_unique"
-            ,"ad_clicks"
-            ,"ad_clicks_unique"
-            ,"paid_installs"
-            ,"paid_installs_assists"
-            ,"non_installs_assists"
-            ,"paid_events"
-            ,"paid_events_assists"
-            ,"non_events_assists"
-            ,"paid_opens"
-            ,"paid_opens_assists"
-            ,"non_opens_assists"
-        );
-    }
+    /*
+     * Fields recommended in suggested order.
+     */
+    $this->fields_recommended = array(
+       "site_id"
+      ,"site.name"
+      ,"publisher_id"
+      ,"publisher.name"
+      ,"ad_impressions"
+      ,"ad_impressions_unique"
+      ,"ad_clicks"
+      ,"ad_clicks_unique"
+      ,"paid_installs"
+      ,"paid_installs_assists"
+      ,"non_installs_assists"
+      ,"paid_events"
+      ,"paid_events_assists"
+      ,"non_events_assists"
+      ,"paid_opens"
+      ,"paid_opens_assists"
+      ,"non_opens_assists"
+    );
+  }
 }

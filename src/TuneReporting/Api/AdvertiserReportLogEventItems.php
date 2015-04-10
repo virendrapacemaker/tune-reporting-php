@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -47,45 +47,45 @@ use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
  */
 class AdvertiserReportLogEventItems extends AdvertiserReportLogBase
 {
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            "advertiser/stats/event/items",
-            $filter_debug_mode = false,
-            $filter_test_profile_id = true
-        );
+  /**
+   * Constructor.
+   */
+  public function __construct()
+  {
+    parent::__construct(
+      "advertiser/stats/event/items",
+      $filter_debug_mode = false,
+      $filter_test_profile_id = true
+    );
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-            "id"
-            ,"created"
-            ,"site_id"
-            ,"site.name"
-            ,"campaign_id"
-            ,"campaign.name"
-            ,"site_event_id"
-            ,"site_event.name"
-            ,"site_event_item_id"
-            ,"site_event_item.name"
-            ,"quantity"
-            ,"value_usd"
-            ,"country_id"
-            ,"country.name"
-            ,"region_id"
-            ,"region.name"
-            ,"agency_id"
-            ,"agency.name"
-            ,"advertiser_sub_site_id"
-            ,"advertiser_sub_site.name"
-            ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.name"
-            ,"currency_code"
-            ,"value"
-        );
-    }
+    /*
+     * Fields recommended in suggested order.
+     */
+    $this->fields_recommended = array(
+      "id"
+      ,"created"
+      ,"site_id"
+      ,"site.name"
+      ,"campaign_id"
+      ,"campaign.name"
+      ,"site_event_id"
+      ,"site_event.name"
+      ,"site_event_item_id"
+      ,"site_event_item.name"
+      ,"quantity"
+      ,"value_usd"
+      ,"country_id"
+      ,"country.name"
+      ,"region_id"
+      ,"region.name"
+      ,"agency_id"
+      ,"agency.name"
+      ,"advertiser_sub_site_id"
+      ,"advertiser_sub_site.name"
+      ,"advertiser_sub_campaign_id"
+      ,"advertiser_sub_campaign.name"
+      ,"currency_code"
+      ,"value"
+    );
+  }
 }

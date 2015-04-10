@@ -29,7 +29,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -37,4 +37,4 @@
 namespace TuneReporting;
 
 define("TUNE_SDK_NAME", "tune-reporting-php");
-define("TUNE_SDK_VERSION", "0.9.29");
+define("TUNE_SDK_VERSION", "1.0.0");
