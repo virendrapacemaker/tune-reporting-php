@@ -30,7 +30,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com))
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -46,32 +46,32 @@ use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
  */
 class AdvertiserReportLogClicks extends AdvertiserReportLogBase
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            "advertiser/stats/clicks",
-            $filter_debug_mode = true,
-            $filter_test_profile_id = true
-        );
+  /**
+   * Constructor
+   */
+  public function __construct()
+  {
+    parent::__construct(
+      "advertiser/stats/clicks",
+      $filter_debug_mode = true,
+      $filter_test_profile_id = true
+    );
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-            "id"
-            ,"created"
-            ,"site_id"
-            ,"site.name"
-            ,"publisher_id"
-            ,"publisher.name"
-            ,"is_unique"
-            ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.ref"
-            ,"publisher_sub_campaign_id"
-            ,"publisher_sub_campaign.ref"
-        );
-    }
+    /*
+     * Fields recommended in suggested order.
+     */
+    $this->fields_recommended = array(
+      "id"
+      ,"created"
+      ,"site_id"
+      ,"site.name"
+      ,"publisher_id"
+      ,"publisher.name"
+      ,"is_unique"
+      ,"advertiser_sub_campaign_id"
+      ,"advertiser_sub_campaign.ref"
+      ,"publisher_sub_campaign_id"
+      ,"publisher_sub_campaign.ref"
+    );
+  }
 }

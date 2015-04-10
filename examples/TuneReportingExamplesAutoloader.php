@@ -34,10 +34,10 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_examples_autoloader
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-10 11:10:41 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
- * Autoloader for TUNE MobileAppTracking Management API files.
+ * Autoloader for TUNE MobileAppTracking Reporting API files.
  *
  */
 
@@ -47,43 +47,43 @@
  */
 class TuneReportingExamplesAutoloader
 {
-    /**
-     * Constructor
-     *
-     * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
-     * though it can use private/protected methods as well, if registered from inside the class.
-     *
-     */
-    public function __construct()
-    {
-        spl_autoload_register(array($this, 'autoloadTuneExamples'));
+  /**
+   * Constructor
+   *
+   * When using spl_autoload_register() with class methods, it might seem that it can use only public methods,
+   * though it can use private/protected methods as well, if registered from inside the class.
+   *
+   */
+  public function __construct()
+  {
+    spl_autoload_register(array($this, 'autoloadTuneExamples'));
+  }
+
+  /**
+   * This function will handle the autoloading of the TUNE namespaced
+   * classes.
+   *
+   * @param string $className The name of the class (with prepended namespace) to load.
+   * @access private
+   */
+  private function autoloadTuneExamples($className)
+  {
+    // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
+    if (!class_exists($className)) {
+      // The namespaces map 1-to-1 with the filepaths, so we can just so a
+      // straight conversion.
+      $dirname = dirname(__FILE__);
+      $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
+
+      // echo "file {$file}\n";
+      if (!file_exists($file)) {
+        return false;
+      }
+
+      // do the actual require now that we've converted it into a file path
+      include_once $file;
     }
-
-    /**
-     * This function will handle the autoloading of the TUNE namespaced
-     * classes.
-     *
-     * @param string $className The name of the class (with prepended namespace) to load.
-     * @access private
-     */
-    private function autoloadTuneExamples($className)
-    {
-        // echo 'Trying to load class ', $className, ' via ', __METHOD__, "()\n";
-        if (!class_exists($className)) {
-            // The namespaces map 1-to-1 with the filepaths, so we can just so a
-            // straight conversion.
-            $dirname = dirname(__FILE__);
-            $file = $dirname . '/' . str_replace('\\', '/', $className) . '.php';
-
-            // echo "file {$file}\n";
-            if (!file_exists($file)) {
-                return false;
-            }
-
-            // do the actual require now that we've converted it into a file path
-            include_once $file;
-        }
-    }
+  }
 }
 
 $autoloader = new TuneReportingExamplesAutoloader();

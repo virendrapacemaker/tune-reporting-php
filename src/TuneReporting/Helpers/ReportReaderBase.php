@@ -25,12 +25,12 @@
  * PHP Version 5.3
  *
  * @category  TUNE_Reporting
- * @author    Jeff Tanner <jefft@tune.com>
+ * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
- * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
+ * @version   $Date: 2015-04-08 17:44:36 $
+ * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
@@ -41,122 +41,122 @@ namespace TuneReporting\Helpers;
  */
 abstract class ReportReaderBase
 {
-    /**
-     * Download url of report ready for export.
-     * @var null|string $report_url
-     */
-    protected $report_url = null;
+  /**
+   * Download url of report ready for export.
+   * @var null|string $report_url
+   */
+  protected $report_url = null;
 
-    /**
-     * Extracted data from report contents.
-     * @var null|array $report_data
-     */
-    protected $report_data = null;
+  /**
+   * Extracted data from report contents.
+   * @var null|array $report_data
+   */
+  protected $report_data = null;
 
-    /**
-     * Size of extracted data of raw report.
-     * @var null|integer $report_data_size
-     */
-    protected $report_data_size = null;
+  /**
+   * Size of extracted data of raw report.
+   * @var null|integer $report_data_size
+   */
+  protected $report_data_size = null;
 
-    /**
-     * Constructor
-     *
-     * @param string $report_url Download report URL of requested report to be exported.
-     */
-    public function __construct($report_url)
-    {
-        // report_url
-        if (!is_string($report_url) || empty($report_url)) {
-            throw new \InvalidArgumentException("Parameter 'report_url' is not defined.");
-        }
-
-        $this->report_url = $report_url;
+  /**
+   * Constructor
+   *
+   * @param string $report_url Download report URL of requested report to be exported.
+   */
+  public function __construct($report_url)
+  {
+    // report_url
+    if (!is_string($report_url) || empty($report_url)) {
+      throw new \InvalidArgumentException("Parameter 'report_url' is not defined.");
     }
 
-    /**
-     * Using provided report download URL, extract contents appropriate to the content's format.
-     *
-     * @return mixed
-     */
-    abstract public function read();
+    $this->report_url = $report_url;
+  }
 
-    /**
-     * Using report data pulled from remote file referenced by download URL, provide a pretty print of it's contents.
-     *
-     * @param int $limit Limit the number of rows to print.
-     *
-     * @return mixed
-     */
-    abstract public function prettyPrint($limit = 0);
+  /**
+   * Using provided report download URL, extract contents appropriate to the content's format.
+   *
+   * @return mixed
+   */
+  abstract public function read();
+
+  /**
+   * Using report data pulled from remote file referenced by download URL, provide a pretty print of it's contents.
+   *
+   * @param int $limit Limit the number of rows to print.
+   *
+   * @return mixed
+   */
+  abstract public function prettyPrint($limit = 0);
 
 
-    /**
-     * Report URL provided by export status upon completion.
-     *
-     * @return string
-     */
-    public function getReportUrl()
-    {
-        return $this->report_url;
+  /**
+   * Report URL provided by export status upon completion.
+   *
+   * @return string
+   */
+  public function getReportUrl()
+  {
+    return $this->report_url;
+  }
+
+  /**
+   * Property providing the contents of exported report.
+   *
+   * @return array
+   */
+  public function getReportData()
+  {
+    return $this->report_data;
+  }
+
+  /**
+   * Property providing the number of rows within contents of exported report.
+   *
+   * @return int Number of rows
+   */
+  public function getReportDataCount()
+  {
+    return count($this->report_data);
+  }
+
+  /**
+   * Property providing the number of rows within contents of exported report.
+   *
+   * @return int Size of exported report data
+   */
+  public function getReportDataSize()
+  {
+    return $this->report_data_size;
+  }
+
+  /**
+   * Reads entire report referenced by exported download URL into a string
+   *
+   * @return string The function returns the read data or false on failure.
+   */
+  public function retrieveRemoteFile()
+  {
+    $this->report_data = file_get_contents($this->report_url);
+  }
+
+  /**
+   * Determines size of report referenced by exported download URL.
+   *
+   * @return bool|integer Size of report
+   */
+  public function retrieveRemoteFileSize()
+  {
+    static $regex = '/^Content-Length: *+\K\d++$/im';
+    if (!$fp = @fopen($this->report_url, 'rb')) {
+      $this->report_data_size = -1;
+    } elseif (isset($http_response_header)
+      && preg_match($regex, implode("\n", $http_response_header), $matches)
+    ) {
+      $this->report_data_size = (int)$matches[0];
+    } else {
+      $this->report_data_size = strlen(stream_get_contents($fp));
     }
-
-    /**
-     * Property providing the contents of exported report.
-     *
-     * @return array
-     */
-    public function getReportData()
-    {
-        return $this->report_data;
-    }
-
-    /**
-     * Property providing the number of rows within contents of exported report.
-     *
-     * @return int Number of rows
-     */
-    public function getReportDataCount()
-    {
-        return count($this->report_data);
-    }
-
-    /**
-     * Property providing the number of rows within contents of exported report.
-     *
-     * @return int Size of exported report data
-     */
-    public function getReportDataSize()
-    {
-        return $this->report_data_size;
-    }
-
-    /**
-     * Reads entire report referenced by exported download URL into a string
-     *
-     * @return string The function returns the read data or false on failure.
-     */
-    public function retrieveRemoteFile()
-    {
-        $this->report_data = file_get_contents($this->report_url);
-    }
-
-    /**
-     * Determines size of report referenced by exported download URL.
-     *
-     * @return bool|integer Size of report
-     */
-    public function retrieveRemoteFileSize()
-    {
-        static $regex = '/^Content-Length: *+\K\d++$/im';
-        if (!$fp = @fopen($this->report_url, 'rb')) {
-            $this->report_data_size = -1;
-        } elseif (isset($http_response_header)
-            && preg_match($regex, implode("\n", $http_response_header), $matches)
-        ) {
-            $this->report_data_size = (int)$matches[0];
-        } else {
-            $this->report_data_size = strlen(stream_get_contents($fp));
-        }
-    }
+  }
 }

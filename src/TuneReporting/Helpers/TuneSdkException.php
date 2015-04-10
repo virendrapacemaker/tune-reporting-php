@@ -26,12 +26,12 @@
  * PHP Version 5.3
  *
  * @category  TUNE_Reporting
- * @author    Jeff Tanner <jefft@tune.com>
+ * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
- * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
+ * @version   $Date: 2015-04-08 17:44:36 $
+ * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
@@ -43,24 +43,24 @@ namespace TuneReporting\Helpers;
  */
 class TuneSdkException extends \Exception
 {
-    /**
-     * Redefine the exception so message isn't optional
-     *
-     * @param string $message
-     * @param int    $code
-     */
-    public function __construct($message, $code = 0)
-    {
-        parent::__construct($message, $code);
-    }
+  /**
+   * Redefine the exception so message isn't optional
+   *
+   * @param string $message
+   * @param int  $code
+   */
+  public function __construct($message, $code = 0)
+  {
+    parent::__construct($message, $code);
+  }
 
-    /**
-     * Custom string representation of object
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
+  /**
+   * Custom string representation of object
+   *
+   * @return string
+   */
+  public function __toString()
+  {
+    return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+  }
 }

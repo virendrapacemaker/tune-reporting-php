@@ -30,7 +30,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -46,38 +46,38 @@ use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
  */
 class AdvertiserReportLogPostbacks extends AdvertiserReportLogBase
 {
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            "advertiser/stats/postbacks",
-            $filter_debug_mode = false,
-            $filter_test_profile_id = true
-        );
+  /**
+   * Constructor.
+   */
+  public function __construct()
+  {
+    parent::__construct(
+      "advertiser/stats/postbacks",
+      $filter_debug_mode = false,
+      $filter_test_profile_id = true
+    );
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-             "id"
-            ,"stat_install_id"
-            ,"stat_event_id"
-            ,"stat_open_id"
-            ,"created"
-            ,"status"
-            ,"site_id"
-            ,"site.name"
-            ,"site_event_id"
-            ,"site_event.name"
-            ,"site_event.type"
-            ,"publisher_id"
-            ,"publisher.name"
-            ,"attributed_publisher_id"
-            ,"attributed_publisher.name"
-            ,"url"
-            ,"http_result"
-        );
-    }
+    /*
+     * Fields recommended in suggested order.
+     */
+    $this->fields_recommended = array(
+       "id"
+      ,"stat_install_id"
+      ,"stat_event_id"
+      ,"stat_open_id"
+      ,"created"
+      ,"status"
+      ,"site_id"
+      ,"site.name"
+      ,"site_event_id"
+      ,"site_event.name"
+      ,"site_event.type"
+      ,"publisher_id"
+      ,"publisher.name"
+      ,"attributed_publisher_id"
+      ,"attributed_publisher.name"
+      ,"url"
+      ,"http_result"
+    );
+  }
 }

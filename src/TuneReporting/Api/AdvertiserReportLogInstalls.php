@@ -30,7 +30,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-01-05 14:24:08 $
+ * @version   $Date: 2015-04-08 17:44:36 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -46,42 +46,42 @@ use TuneReporting\Base\Endpoints\AdvertiserReportLogBase;
  */
 class AdvertiserReportLogInstalls extends AdvertiserReportLogBase
 {
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            "advertiser/stats/installs",
-            $filter_debug_mode = true,
-            $filter_test_profile_id = true
-        );
+  /**
+   * Constructor.
+   */
+  public function __construct()
+  {
+    parent::__construct(
+      "advertiser/stats/installs",
+      $filter_debug_mode = true,
+      $filter_test_profile_id = true
+    );
 
-        /*
-         * Fields recommended in suggested order.
-         */
-        $this->fields_recommended = array(
-             "id"
-            ,"created"
-            ,"status"
-            ,"site_id"
-            ,"site.name"
-            ,"publisher_id"
-            ,"publisher.name"
-            ,"advertiser_ref_id"
-            ,"advertiser_sub_campaign_id"
-            ,"advertiser_sub_campaign.ref"
-            ,"publisher_sub_campaign_id"
-            ,"publisher_sub_campaign.ref"
-            ,"user_id"
-            ,"device_id"
-            ,"os_id"
-            ,"google_aid"
-            ,"ios_ifa"
-            ,"ios_ifv"
-            ,"windows_aid"
-            ,"referral_url"
-            ,"is_view_through"
-        );
-    }
+    /*
+     * Fields recommended in suggested order.
+     */
+    $this->fields_recommended = array(
+       "id"
+      ,"created"
+      ,"status"
+      ,"site_id"
+      ,"site.name"
+      ,"publisher_id"
+      ,"publisher.name"
+      ,"advertiser_ref_id"
+      ,"advertiser_sub_campaign_id"
+      ,"advertiser_sub_campaign.ref"
+      ,"publisher_sub_campaign_id"
+      ,"publisher_sub_campaign.ref"
+      ,"user_id"
+      ,"device_id"
+      ,"os_id"
+      ,"google_aid"
+      ,"ios_ifa"
+      ,"ios_ifv"
+      ,"windows_aid"
+      ,"referral_url"
+      ,"is_view_through"
+    );
+  }
 }

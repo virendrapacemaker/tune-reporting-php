@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-01-05 14:24:08 $</h4>
-<h4>Version: 0.9.29</h4>
+<h4>Update:  $Date: 2015-04-09 17:36:25 $</h4>
+<h4>Version: 1.0.0</h4>
 ===
 
 <a id="TOP"></a>
@@ -485,7 +485,8 @@ src/
 │   │   ├── AdvertiserReportLogEvents.php
 │   │   ├── AdvertiserReportLogInstalls.php
 │   │   ├── AdvertiserReportLogPostbacks.php
-│   │   └── Export.php
+│   │   ├── Export.php
+│   │   └── SessionAuthenticate.php
 │   ├── Base
 │   │   ├── Endpoints
 │   │   │   ├── AdvertiserReportActualsBase.php
@@ -650,11 +651,16 @@ Finds all existing records matching provided filter criteria and returns total c
 <!-- PHP -->
 ```php
     $advertiser_report = new AdvertiserReportLogClicks();
+      
+    $map_params = array(
+        "start_date"          => $start_date,
+        "end_date"            => $end_date,
+        "filter"              => null,
+        "response_timezone"   => "America/Los_Angeles"
+    );
+    
     $response = $advertiser_report->count(
-        $start_date,
-        $end_date,
-        $filter              = null,
-        $response_timezone   = "America/Los_Angeles"
+        map_params
     );
 
     if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
@@ -680,15 +686,20 @@ Gathers all existing records that match filter criteria and returns an array of 
 <!-- PHP -->
 ```php
     $advertiser_report = new AdvertiserReportLogClicks();
+    
+    $map_params = array(
+        "start_date"          => $start_date,
+        "end_date"            => $end_date,
+        "fields"              => $advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
+        "filter"              => null,
+        "limit"               => 5,
+        "page"                => null,
+        "sort"                => array("created" => "DESC"),
+        "response_timezone"   => "America/Los_Angeles"
+    );
+      
     $response = $advertiser_report->find(
-        $start_date,
-        $end_date,
-        $fields              = $advertiser_report->fields(AdvertiserReportLogClicks::TUNE_FIELDS_RECOMMENDED),
-        $filter              = null,
-        $limit               = 5,
-        $page                = null,
-        $sort                = array("created" => "DESC"),
-        $response_timezone   = "America/Los_Angeles"
+        map_params
     );
 
     if (($response->getHttpCode() != 200) || ($response->getErrors() != null)) {
