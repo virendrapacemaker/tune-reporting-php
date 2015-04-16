@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_helpers
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-09 17:36:25 $
+ * @version   $Date: 2015-04-16 15:41:32 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -146,6 +146,16 @@ class SdkConfig
   }
 
   /**
+   * Set TUNE Reporting Authentication Key.
+   *
+   * @return void
+   */
+  public function setAuthKey($auth_key)
+  {
+    $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_key_string"] = $auth_key;
+  }
+
+  /**
    * Get TUNE Reporting Authentication Type.
    *
    * @return string
@@ -160,6 +170,16 @@ class SdkConfig
     }
 
     return $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_type_string"];
+  }
+
+  /**
+   * Set TUNE Reporting Authentication Type.
+   *
+   * @return void
+   */
+  public function setAuthType($auth_type)
+  {
+    $this->tune_reporting_config["TUNE_REPORTING"]["tune_reporting_auth_type_string"] = $auth_type;
   }
 
   /**

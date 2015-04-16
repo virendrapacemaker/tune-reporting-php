@@ -31,7 +31,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-10 11:10:41 $
+ * @version   $Date: 2015-04-16 15:41:32 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -93,31 +93,14 @@ class TuneReportingExamples
 
       echo " session_token:" . $session_token . PHP_EOL;
 
-      ExampleTuneServiceClient::run($api_key, 'api_key');
       ExampleTuneServiceClient::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportActuals::run($api_key, 'api_key');
       ExampleAdvertiserReportActuals::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportCohortValue::run($api_key, 'api_key');
       ExampleAdvertiserReportCohortValue::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportCohortRetention::run($api_key, 'api_key');
       ExampleAdvertiserReportCohortRetention::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportLogClicks::run($api_key, 'api_key');
       ExampleAdvertiserReportLogClicks::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportLogEventItems::run($api_key, 'api_key');
       ExampleAdvertiserReportLogEventItems::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportLogEvents::run($api_key, 'api_key');
       ExampleAdvertiserReportLogEvents::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportLogInstalls::run($api_key, 'api_key');
       ExampleAdvertiserReportLogInstalls::run($session_token, 'session_token');
-
-      ExampleAdvertiserReportLogPostbacks::run($api_key, 'api_key');
       ExampleAdvertiserReportLogPostbacks::run($session_token, 'session_token');
 
     } catch (\TuneReporting\Helpers\TuneServiceException $ex) {
