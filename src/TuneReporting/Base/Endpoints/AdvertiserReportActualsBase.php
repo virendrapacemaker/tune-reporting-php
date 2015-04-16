@@ -30,7 +30,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_base_endpoints
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-09 17:36:25 $
+ * @version   $Date: 2015-04-16 15:41:32 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -38,6 +38,7 @@
 namespace TuneReporting\Base\Endpoints;
 
 use TuneReporting\Base\Endpoints\AdvertiserReportBase;
+use TuneReporting\Base\Service\TuneServiceClient;
 
 /**
  * Base class intended for gathering from Advertiser reporting actuals.

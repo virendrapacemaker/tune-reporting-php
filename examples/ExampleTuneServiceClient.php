@@ -30,7 +30,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-09 17:36:25 $
+ * @version   $Date: 2015-04-16 15:41:32 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -84,19 +84,8 @@ class ExampleTuneServiceClient
     $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
 
     // Override Authentication setting of TUNE Reporting SDK configuration.
-    if (is_string($auth_key) && !empty($auth_key)) {
-      if (("api_key" == $auth_type)) {
-        $sdk_config->setApiKey($auth_key);
-      } elseif ("session_token" == $auth_type) {
-        $sdk_config->setSessionToken($auth_key);
-      } else {
-        throw new \InvalidArgumentException(
-          "Parameter 'auth_type' is invalid authentication type: '$auth_type'."
-        );
-      }
-    }
-
-    $sdk_config->setValidateFields(true);
+    $sdk_config->setAuthKey($auth_key);
+    $sdk_config->setAuthType($auth_type);
 
     try {
       echo PHP_EOL;
