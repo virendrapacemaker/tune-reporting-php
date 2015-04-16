@@ -280,10 +280,6 @@ This code documentation generation requires installation of [Doxygen](http://www
     $ make docs-doxygen
 ```
 
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_Doxygen.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_Doxygen-400x235.png" alt="TUNE-Reporting PHP Doxygen Generated" width="400" height="235">
-</a>
-
 <a id="sdk_gendoc_phpdoc" name="sdk_gen_doc_phpdoc"></a>
 #### phpDocumentor
 
@@ -294,10 +290,6 @@ This code documentation generation requires installation of [phpDocumentatior](h
 <pre lang="bash">
     $ make docs-phpdoc
 </pre>
-
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_phpDoc.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/TuneReporting_PHP_phpDoc-400x239.png" alt="TUNE-Reporting PHP phpDocumentor Generated" width="400" height="239">
-</a>
 
 <p>
 <a href="#TOP">
@@ -310,9 +302,6 @@ This code documentation generation requires installation of [phpDocumentatior](h
 ### Advertiser Reporting Overview
 
 The utility focus of the SDKs is upon the <a href="/advertiser-reporting-endpoints/">Advertiser Reporting endpoints</a>. Even though the the breadth of the Management API goes beyond just reports, it is these endpoints that our customers primarily access. The second goal of the SDKs is to assure that our customers' developers are using best practices in gathering reports in the most optimal way.
-
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_advertiser_reporting_classes.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_advertiser_reporting_classes.png" alt="TUNE Advertiser Reporting Classes" width="500" height="350" /></a>
 
 The endpoints interfaced by TUNE API SDKs provide access in gathering four types of reports:
 
@@ -361,29 +350,6 @@ Advertiser Reporting class that perform Retention Reports are:
 </ul>
 </dd>
 </dl>
-
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_management_service_reporting_endpoints.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/tune_management_service_reporting_endpoints.png" alt="Management API Advertiser Reports covered by TUNE Reporting SDKs." width="592" height="292" /></a>
-
-<p>
-<a href="#TOP">
-<img alt="Return to Top" src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/b_top.gif" border="0">
-</a>
-</p>
-
-<a id="sdk_exporting_reports" name="sdk_exporting_reports"></a>
-### Exporting Advertiser Reports
-Currently, there are two different ways of handling advertiser report exports. Both approaches require (A) an action to request that a report be exported and (B) another action to request the report status (if ready to be exported), and if ready, then provide a URL to download the completed report.
-
-Logs and Actuals reports all request an export using action <code>find_export_queue.json</code>, which returns a <code>job_id</code>. You then pass the <code>job_id</code> onto another endpoint <code>Export::download.json</code>, which performs the status checking and report URL retrieval.
-
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-report-exports1.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-report-exports1-600x569.png" alt="Exporting logs and actuals reports." width="600" height="569" /></a>
-
-Cohort and AdvertiserReportCohortRetention reports all request an export using action <code>export.json</code>, which also returns a <code>job_id</code>. You then pass the <code>job_id</code> onto another action <code>status.json</code>, which performs the status checking and report URL retrieval.
-
-<a href="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-insight-report-exports.png">
-<img src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/management-api-insight-report-exports-600x459.png" alt="Export cohort and retention reports." width="600" height="459" /></a>
 
 <!-- Licenses -->
 
