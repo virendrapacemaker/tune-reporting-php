@@ -224,7 +224,7 @@ class ExampleAdvertiserReportActuals
       echo print_r($response->toJson(), true) . PHP_EOL;
 
       echo "==========================================================" . PHP_EOL;
-      echo " Advertiser Report Actuals CSV                            " . PHP_EOL;
+      echo " Export Advertiser Report Actuals CSV                     " . PHP_EOL;
       echo "==========================================================" . PHP_EOL;
 
       $map_params = array(
@@ -256,6 +256,20 @@ class ExampleAdvertiserReportActuals
 
       $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
       echo " CSV Job ID: {$job_id}" . PHP_EOL;
+      
+      echo "==================================================" . PHP_EOL;
+      echo " Status Advertiser Report Actuals CSV             " . PHP_EOL;
+      echo "==================================================" . PHP_EOL;
+
+      $response = $advertiser_report->status(
+        $job_id
+      );
+
+      echo " TuneServiceResponse:" . PHP_EOL;
+      echo $response->toString() . PHP_EOL;
+
+      echo " JSON:" . PHP_EOL;
+      echo print_r($response->toJson(), true) . PHP_EOL;
 
       echo "==================================================" . PHP_EOL;
       echo " Fetching Advertiser Report Actuals CSV           " . PHP_EOL;
@@ -270,7 +284,7 @@ class ExampleAdvertiserReportActuals
       echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
       echo "======================================================" . PHP_EOL;
-      echo " Read Advertiser Report Actuals CSV           " . PHP_EOL;
+      echo " Read Advertiser Report Actuals CSV                   " . PHP_EOL;
       echo "======================================================" . PHP_EOL;
 
       $csv_report_reader = new ReportReaderCSV(
