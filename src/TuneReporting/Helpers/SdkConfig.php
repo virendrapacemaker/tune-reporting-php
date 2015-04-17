@@ -147,6 +147,7 @@ class SdkConfig
 
   /**
    * Set TUNE Reporting Authentication Key.
+   * @param string $auth_key
    *
    * @return void
    */
@@ -174,6 +175,7 @@ class SdkConfig
 
   /**
    * Set TUNE Reporting Authentication Type.
+   * @param string $auth_type
    *
    * @return void
    */

@@ -49,16 +49,6 @@ class TestAdvertiserReportLogEvents extends \PHPUnit_Framework_TestCase
   protected $advertiser_report = null;
 
   /**
-   * @ignore
-   */
-  protected $api_key = null;
-
-  /**
-   * @ignore
-   */
-  protected $session_token = null;
-
-  /**
    * Get API Key from environment.
    */
   protected function setUp()
@@ -70,19 +60,19 @@ class TestAdvertiserReportLogEvents extends \PHPUnit_Framework_TestCase
 
     $api_key = getenv('API_KEY');
     $this->assertNotNull($api_key);
-    $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
-    $this->assertTrue(file_exists($tune_reporting_config_file), "SDK config file does not exist: '{$tune_reporting_config_file}'");
-    $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
-    $this->assertNotNull($sdk_config);
-    $this->api_key = $api_key;
-    $sdk_config->setApiKey($api_key);
 
     $session_authenticate = new SessionAuthenticate();
     $response = $session_authenticate->api_key($api_key);
     $this->assertNotNull($response);
     $session_token = $response->getData();
     $this->assertNotNull($session_token);
-    $this->session_token = $session_token;
+
+    $tune_reporting_config_file = dirname(__FILE__) . "/../config/tune_reporting_sdk.config";
+    $this->assertTrue(file_exists($tune_reporting_config_file), "SDK config file does not exist: '{$tune_reporting_config_file}'");
+    $sdk_config = SdkConfig::getInstance($tune_reporting_config_file);
+    $this->assertNotNull($sdk_config);
+    $sdk_config->setAuthKey($session_token);
+    $sdk_config->setAuthType("session_token");
 
     $this->advertiser_report = new AdvertiserReportLogEvents();
     $this->assertNotNull($this->advertiser_report);
@@ -95,12 +85,13 @@ class TestAdvertiserReportLogEvents extends \PHPUnit_Framework_TestCase
   {
     $sdk_config = $this->advertiser_report->getSdkConfig();
     $this->assertNotNull($sdk_config);
-    $api_key = $sdk_config->getAuthKey();
+    $auth_key = $sdk_config->getAuthKey();
+    $auth_type = $sdk_config->getAuthType();
 
-    $this->assertNotNull($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-    $this->assertInternalType('string', $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-    $this->assertNotEmpty($api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
-    $this->assertNotEquals("API_KEY", $api_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotNull($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertInternalType('string', $auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertNotEmpty($auth_key, "In tune_reporting_sdk.config, set 'tune_reporting_auth_key_string'");
+    $this->assertEquals("session_token", $auth_type, "In tune_reporting_sdk.config, set 'tune_reporting_auth_type_string'");
   }
 
   /**
