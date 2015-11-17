@@ -8,6 +8,7 @@
 # Code build files
 Vendors
 composer.phar
+bash/
 
 # Code documentation
 docs/doxygen/
