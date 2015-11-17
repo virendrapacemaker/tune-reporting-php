@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "TUNE Reporting SDK for PHP"
-PROJECT_NUMBER         = 1.0.1
+PROJECT_NUMBER         = 1.0.3
 PROJECT_BRIEF          = "PHP helper library for TUNE Reporting services."
 PROJECT_LOGO           = ./docs/mobileapptracking-logo.png
 OUTPUT_DIRECTORY       = ./docs/doxygen
