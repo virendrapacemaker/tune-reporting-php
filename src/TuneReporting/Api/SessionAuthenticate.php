@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-08 17:44:36 $
+ * @version   $Date: 2015-11-17 09:18:01 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -49,48 +49,49 @@ use TuneReporting\Helpers\TuneServiceException;
  */
 class SessionAuthenticate extends EndpointBase
 {
-  /**
-   * Constructor
-   *
-   * @param string $api_key MobileAppTracking API Key
-   */
-  public function __construct() {
-    parent::__construct(
-      "session/authenticate",
-      false
-    );
-  }
-
-  /**
-   * No recommended fields assigned to this endpoint.
-   *
-   * @return null
-   */
-  public function getFieldsRecommended()
-  {
-    return null;
-  }
-
-  /**
-   * Generate session token is returned to provide access to service.
-   *
-   * @param string $api_keys  Generate 'session token' for this api_keys.
-   *
-   * @return object
-   * @throws InvalidArgumentException
-   */
-  public function api_key(
-    $api_keys
-  ) {
-    if (!is_string($api_keys) || empty($api_keys)) {
-      throw new \InvalidArgumentException("Parameter 'api_keys' is not defined.");
+    /**
+     * Constructor
+     *
+     * @param string $api_key MobileAppTracking API Key
+     */
+    public function __construct()
+    {
+        parent::__construct(
+            "session/authenticate",
+            false
+        );
     }
 
-    return parent::call(
-      $action = "api_key",
-      $map_query_string = array (
-        'api_keys' => $api_keys
-      )
-    );
-  }
+    /**
+     * No recommended fields assigned to this endpoint.
+     *
+     * @return null
+     */
+    public function getFieldsRecommended()
+    {
+        return null;
+    }
+
+    /**
+     * Generate session token is returned to provide access to service.
+     *
+     * @param string $api_keys  Generate 'session token' for this api_keys.
+     *
+     * @return object
+     * @throws InvalidArgumentException
+     */
+    public function api_key(
+        $api_keys
+    ) {
+        if (!is_string($api_keys) || empty($api_keys)) {
+            throw new \InvalidArgumentException("Parameter 'api_keys' is not defined.");
+        }
+
+        return parent::call(
+            $action = "api_key",
+            $map_query_string = array (
+                'api_keys' => $api_keys
+            )
+        );
+    }
 }

@@ -25,14 +25,14 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE_Reporting
+ * @category    TUNE_Reporting
  *
- * @author    Jeff Tanner <jefft@tune.com>
- * @copyright 2015 TUNE, Inc. (http://www.tune.com)
- * @package   tune_reporting_helpers
- * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-08 17:44:36 $
- * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
+ * @author      Jeff Tanner <jefft@tune.com>
+ * @copyright   2015 TUNE, Inc. (http://www.tune.com)
+ * @package     tune_reporting_base_service
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version     $Date: 2015-11-17 09:18:01 $
+ * @link        https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
@@ -45,7 +45,7 @@
  */
 function addQuotes($str)
 {
-  return sprintf("'%s'", $str);
+    return sprintf("'%s'", $str);
 }
 
 /**
@@ -57,7 +57,7 @@ function addQuotes($str)
  */
 function implodeQuotes($glue, $array)
 {
-  return implode($glue, array_map('addQuotes', $array));
+    return implode($glue, array_map('addQuotes', $array));
 }
 
 /**
@@ -70,7 +70,7 @@ function implodeQuotes($glue, $array)
  */
 function startsWith($haystack, $needle)
 {
-  return $needle === "" || strpos($haystack, $needle) === 0;
+    return $needle === "" || strpos($haystack, $needle) === 0;
 }
 
 /**
@@ -83,7 +83,7 @@ function startsWith($haystack, $needle)
  */
 function starts($haystack, $needle)
 {
-  return substr($haystack, 0, strlen($haystack) - strlen($needle));
+    return substr($haystack, 0, strlen($haystack) - strlen($needle));
 }
 
 /**
@@ -95,7 +95,7 @@ function starts($haystack, $needle)
  */
 function starts_field($haystack)
 {
-  return substr($haystack, 0, strpos($haystack, "."));
+    return substr($haystack, 0, strpos($haystack, "."));
 }
 
 /**
@@ -108,7 +108,7 @@ function starts_field($haystack)
  */
 function endsWith($haystack, $needle)
 {
-  return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+    return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 }
 
 
@@ -121,17 +121,17 @@ function endsWith($haystack, $needle)
  */
 function isParenthesesBalanced($str)
 {
-  $count = 0;
-  $length = strlen($str);
-  for ($i = 0; $i < $length; $i++) {
-    if ($str[$i] == '(') {
-      $count += 1;
-    } elseif ($str[$i] == ')') {
-      $count -= 1;
+    $count = 0;
+    $length = strlen($str);
+    for ($i = 0; $i < $length; $i++) {
+        if ($str[$i] == '(') {
+            $count += 1;
+        } elseif ($str[$i] == ')') {
+            $count -= 1;
+        }
+        if ($count == -1) {
+            return false;
+        }
     }
-    if ($count == -1) {
-      return false;
-    }
-  }
-  return $count == 0;
+    return $count == 0;
 }

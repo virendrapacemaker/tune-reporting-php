@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-08 17:44:36 $
+ * @version   $Date: 2015-11-17 09:18:01 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -49,122 +49,123 @@ use TuneReporting\Helpers\TuneServiceException;
  */
 class SessionAuthenticate extends EndpointBase
 {
-  /**
-   * Constructor
-   *
-   * @param string $api_key MobileAppTracking API Key
-   */
-  public function __construct() {
-    parent::__construct(
-      "export"
-    );
-  }
-
-  /**
-   * No recommended fields assigned to this endpoint.
-   *
-   * @return null
-   */
-  public function getFieldsRecommended()
-  {
-    return null;
-  }
-
-  /**
-   * Action 'download' for polling export queue for status information on request report to be exported.
-   *
-   * @param string $job_id Job identifier assigned for report export.
-   *
-   * @return object
-   * @throws InvalidArgumentException
-   */
-  public function download(
-    $job_id
-  ) {
-    if (!is_string($job_id) || empty($job_id)) {
-      throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
+    /**
+     * Constructor
+     *
+     * @param string $api_key MobileAppTracking API Key
+     */
+    public function __construct()
+    {
+        parent::__construct(
+            "export"
+        );
     }
 
-    return parent::call(
-      $action = "download",
-      $map_query_string = array (
-        'job_id' => $job_id
-      )
-    );
-  }
-
-  /**
-   * Helper function for fetching report upon completion.
-   *
-   * @param string $job_id    Job identifier assigned for report export.
-   * @param bool   $verbose     For debug purposes to monitor job export completion status.
-   * @param int  $sleep     Polling delay for checking job completion status.
-   *
-   * @return null
-   */
-  public function fetch(
-    $job_id,
-    $verbose = false,
-    $sleep = null
-  ) {
-    if (!is_string($job_id) || empty($job_id)) {
-      throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
+    /**
+     * No recommended fields assigned to this endpoint.
+     *
+     * @return null
+     */
+    public function getFieldsRecommended()
+    {
+        return null;
     }
 
-    return parent::fetchRecords(
-      $export_controller = "export",
-      $export_action = "download",
-      $job_id,
-      $verbose,
-      $sleep
-    );
-  }
+    /**
+     * Action 'download' for polling export queue for status information on request report to be exported.
+     *
+     * @param string $job_id Job identifier assigned for report export.
+     *
+     * @return object
+     * @throws InvalidArgumentException
+     */
+    public function download(
+        $job_id
+    ) {
+        if (!is_string($job_id) || empty($job_id)) {
+            throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
+        }
 
-  /**
-   * Helper function for parsing export status response to gather report url.
-   *
-   * @param $response
-   *
-   * @return mixed
-   * @throws InvalidArgumentException
-   * @throws TuneServiceException
-   */
-  public static function parseResponseReportUrl(
-    $response
-  ) {
-    if (is_null($response)) {
-      throw new \InvalidArgumentException("Parameter 'response' is not defined.");
+        return parent::call(
+            $action = "download",
+            $map_query_string = array (
+                'job_id' => $job_id
+            )
+        );
     }
 
-    $data = $response->getData();
-    if (is_null($data)) {
-      throw new TuneServiceException(
-        "Report request failed to get export data: " . print_r($response, true) . PHP_EOL
-      );
-    }
-    if (!array_key_exists("data", $data)) {
-      throw new TuneSdkException(
-        "Export data does not contain report 'data' for download: " . print_r($data, true) . PHP_EOL
-      );
-    }
-    if (!array_key_exists("data", $data)) {
-      throw new TuneServiceException(
-        "Export response does not contain 'data': " . print_r($data, true) . PHP_EOL
-      );
-    }
-    if (is_null($data["data"])) {
-      throw new TuneServiceException(
-        "Export data response does not contain 'data: " . print_r($data, true) . PHP_EOL
-      );
-    }
-    if (!array_key_exists("url", $data["data"])) {
-      throw new TuneServiceException(
-        "Export response 'data' does not contain 'url': " . print_r($data, true) . PHP_EOL
-      );
+    /**
+     * Helper function for fetching report upon completion.
+     *
+     * @param string $job_id    Job identifier assigned for report export.
+     * @param bool   $verbose     For debug purposes to monitor job export completion status.
+     * @param int  $sleep     Polling delay for checking job completion status.
+     *
+     * @return null
+     */
+    public function fetch(
+        $job_id,
+        $verbose = false,
+        $sleep = null
+    ) {
+        if (!is_string($job_id) || empty($job_id)) {
+            throw new \InvalidArgumentException("Parameter 'job_id' is not defined.");
+        }
+
+        return parent::fetchRecords(
+            $export_controller = "export",
+            $export_action = "download",
+            $job_id,
+            $verbose,
+            $sleep
+        );
     }
 
-    $report_url = $data["data"]["url"];
+    /**
+     * Helper function for parsing export status response to gather report url.
+     *
+     * @param $response
+     *
+     * @return mixed
+     * @throws InvalidArgumentException
+     * @throws TuneServiceException
+     */
+    public static function parseResponseReportUrl(
+        $response
+    ) {
+        if (is_null($response)) {
+            throw new \InvalidArgumentException("Parameter 'response' is not defined.");
+        }
 
-    return $report_url;
-  }
+        $data = $response->getData();
+        if (is_null($data)) {
+            throw new TuneServiceException(
+                "Report request failed to get export data: " . print_r($response, true) . PHP_EOL
+            );
+        }
+        if (!array_key_exists("data", $data)) {
+            throw new TuneSdkException(
+                "Export data does not contain report 'data' for download: " . print_r($data, true) . PHP_EOL
+            );
+        }
+        if (!array_key_exists("data", $data)) {
+            throw new TuneServiceException(
+                "Export response does not contain 'data': " . print_r($data, true) . PHP_EOL
+            );
+        }
+        if (is_null($data["data"])) {
+            throw new TuneServiceException(
+                "Export data response does not contain 'data: " . print_r($data, true) . PHP_EOL
+            );
+        }
+        if (!array_key_exists("url", $data["data"])) {
+            throw new TuneServiceException(
+                "Export response 'data' does not contain 'url': " . print_r($data, true) . PHP_EOL
+            );
+        }
+
+        $report_url = $data["data"]["url"];
+
+        return $report_url;
+    }
 }
