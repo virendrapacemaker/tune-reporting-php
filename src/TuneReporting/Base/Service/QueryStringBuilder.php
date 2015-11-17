@@ -29,13 +29,14 @@
  *
  * PHP Version 5.3
  *
- * @category  TUNE_Reporting
- * @author  Jeff Tanner <jefft@tune.com>
- * @copyright 2015 TUNE, Inc. (http://www.tune.com)
- * @package   tune_reporting_base_service
- * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-08 17:44:36 $
- * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
+ * @category    TUNE_Reporting
+ *
+ * @author      Jeff Tanner <jefft@tune.com>
+ * @copyright   2015 TUNE, Inc. (http://www.tune.com)
+ * @package     tune_reporting_base_service
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version     $Date: 2015-11-17 09:18:01 $
+ * @link        https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
 
@@ -46,153 +47,153 @@ namespace TuneReporting\Base\Service;
  */
 class QueryStringBuilder
 {
-  /**
-   * Property for holding query string under construction.
-   *
-   * @var string
-   */
-  private $query_string = "";
+    /**
+     * Property for holding query string under construction.
+     *
+     * @var string
+     */
+    private $query_string = "";
 
-  /**
-   * Constructor
-   *
-   * @param string $name
-   * @param mixed $value
-   */
-  public function __construct(
-    $name = null,
-    $value = null
-  ) {
-    if (is_string($name) && !empty($name)) {
-      $this->add($name, $value);
-    }
-  }
-
-  /**
-   * Add element to query string.
-   *
-   * @param string $name
-   * @param mixed $value
-   */
-  public function add($name, $value)
-  {
-    if (is_null($value)) {
-      return;
+    /**
+     * Constructor
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __construct(
+        $name = null,
+        $value = null
+    ) {
+        if (is_string($name) && !empty($name)) {
+            $this->add($name, $value);
+        }
     }
 
-    if (!$name || !is_string($name)) {
-      throw new \InvalidArgumentException("Parameter 'name' must be defined string.");
-    }
-
-    $name = trim($name);
-
-    if (empty($name)) {
-      throw new \InvalidArgumentException("Parameter 'name' must be defined string.");
-    }
-
-    if (is_string($value)) {
-      $value = trim($value);
-      if (empty($value)) {
-        return;
-      }
-    }
-
-    try {
-      if ($name == "fields") {
-        $fields_value = preg_replace('/\s+/', '', $value);
-
-        $this->encode($name, $fields_value);
-      } elseif ($name == "sort") {
-        if (!is_array($value)) {
-          throw new \InvalidArgumentException("Parameter 'sort' value is not a dictionary: {$value}");
+    /**
+     * Add element to query string.
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function add($name, $value)
+    {
+        if (is_null($value)) {
+            return;
         }
 
-        foreach ($value as $sort_field => $sort_direction) {
-          $sort_direction = strtoupper($sort_direction);
-
-          if ($sort_direction != "ASC" && $sort_direction != "DESC") {
-            throw new \InvalidArgumentException("Invalid sort direction: {$sort_direction}.");
-          }
-
-          $sort_name = "sort[{$sort_field}]";
-          $sort_value = $sort_direction;
-
-          $this->encode($sort_name, $sort_value);
+        if (!$name || !is_string($name)) {
+            throw new \InvalidArgumentException("Parameter 'name' must be defined string.");
         }
-      } elseif ($name == "filter") {
-        $filter_value = preg_replace('/\s+/', ' ', $value);
 
-        $this->encode($name, $filter_value);
-      } elseif ($name == "group") {
-        $group_value = preg_replace('/\s+/', '', $value);
+        $name = trim($name);
 
-        $this->encode($name, $group_value);
-      } elseif (is_bool($value)) {
-        $bool_value = ($value == true) ? "true" : "false";
+        if (empty($name)) {
+            throw new \InvalidArgumentException("Parameter 'name' must be defined string.");
+        }
 
-        $this->encode($name, $bool_value);
-      }  elseif (is_integer($value)) {
-        $int_value = strval($value);
+        if (is_string($value)) {
+            $value = trim($value);
+            if (empty($value)) {
+                return;
+            }
+        }
 
-        $this->encode($name, $int_value);
-      }else {
-        $this->encode($name, $value);
-      }
+        try {
+            if ($name == "fields") {
+                $fields_value = preg_replace('/\s+/', '', $value);
 
-    } catch (Exception $ex) {
-      throw new \TuneReporting\Helpers\TuneSdkException(
-        "Failed to add query string parameter ({$name}, {$value})",
-        $ex->getCode(),
-        $ex
-      );
+                $this->encode($name, $fields_value);
+            } elseif ($name == "sort") {
+                if (!is_array($value)) {
+                    throw new \InvalidArgumentException("Parameter 'sort' value is not a dictionary: {$value}");
+                }
+
+                foreach ($value as $sort_field => $sort_direction) {
+                    $sort_direction = strtoupper($sort_direction);
+
+                    if ($sort_direction != "ASC" && $sort_direction != "DESC") {
+                        throw new \InvalidArgumentException("Invalid sort direction: {$sort_direction}.");
+                    }
+
+                    $sort_name = "sort[{$sort_field}]";
+                    $sort_value = $sort_direction;
+
+                    $this->encode($sort_name, $sort_value);
+                }
+            } elseif ($name == "filter") {
+                $filter_value = preg_replace('/\s+/', ' ', $value);
+
+                $this->encode($name, $filter_value);
+            } elseif ($name == "group") {
+                $group_value = preg_replace('/\s+/', '', $value);
+
+                $this->encode($name, $group_value);
+            } elseif (is_bool($value)) {
+                $bool_value = ($value == true) ? "true" : "false";
+
+                $this->encode($name, $bool_value);
+            } elseif (is_integer($value)) {
+                $int_value = strval($value);
+
+                $this->encode($name, $int_value);
+            } else {
+                $this->encode($name, $value);
+            }
+
+        } catch (Exception $ex) {
+            throw new \TuneReporting\Helpers\TuneSdkException(
+                "Failed to add query string parameter ({$name}, {$value})",
+                $ex->getCode(),
+                $ex
+            );
+        }
     }
-  }
 
-  /**
-   * URL query string element's name and value
-   *
-   * @param string $name
-   * @param mixed $value
-   */
-  private function encode($name, $value)
-  {
-    if (!is_string($name) || empty($name)) {
-      throw new \InvalidArgumentException(
-        "Key 'name' is not valid: '{$name}'"
-      );
+    /**
+     * URL query string element's name and value
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    private function encode($name, $value)
+    {
+        if (!is_string($name) || empty($name)) {
+            throw new \InvalidArgumentException(
+                "Key 'name' is not valid: '{$name}'"
+            );
+        }
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException(
+                "Value for Key '{$name}' is not valid: '" . print_r($value, true) . "' : " . gettype($value)
+            );
+        }
+
+        if (is_string($this->query_string) && !empty($this->query_string)) {
+            $this->query_string .= "&";
+        }
+
+        $this->query_string .= urlencode($name);
+        $this->query_string .= "=";
+        $this->query_string .= urlencode($value);
     }
-    if (!is_string($value)) {
-      throw new \InvalidArgumentException(
-        "Value for Key '{$name}' is not valid: '" . print_r($value, true) . "' : " . gettype($value)
-      );
+
+    /**
+     * Return built query string
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->query_string;
     }
 
-    if (is_string($this->query_string) && !empty($this->query_string)) {
-      $this->query_string .= "&";
+    /**
+     * Custom string representation of object
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->getQuery();
     }
-
-    $this->query_string .= urlencode($name);
-    $this->query_string .= "=";
-    $this->query_string .= urlencode($value);
-  }
-
-  /**
-   * Return built query string
-   *
-   * @return string
-   */
-  public function getQuery()
-  {
-    return $this->query_string;
-  }
-
-  /**
-   * Custom string representation of object
-   *
-   * @return string
-   */
-  public function toString()
-  {
-    return $this->getQuery();
-  }
 }
