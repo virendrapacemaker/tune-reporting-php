@@ -1,7 +1,7 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-04-16 15:41:32 $</h4>
+<h4>Update:  $Date: 2015-11-17 08:38:37 $</h4>
 <h4>Version: 1.0.1</h4>
 ===
 
@@ -37,6 +37,13 @@
         </ul>
     </li>
 
+    <li><a href="#sdk_code_samples">SDK Code Samples</a>
+        <ul>
+            <li><a href="#sdk_code_samples_examples">Examples</a></li>
+            <li><a href="#sdk_code_samples_unittests">Unittests</a></li>
+        </ul>
+    </li>
+    
     <li><a href="#sdk_gendoc">SDK Generated Documentation</a>
         <ul>
             <li><a href="#sdk_gendoc_doxygen">Doxygen</a></li>
@@ -124,10 +131,10 @@ This section detail what is required to use this SDK and how to install it for u
 
 These are the basic requirements to use this SDK:
 
-    * PHP >= 5.2.3
-    * PHP Curl extension -- Connect to TUNE Management API Service.
-    * PHP JSON extension -- TUNE Mangement API response is JSON.
-    * PHPUnit -- Execute SDK tests.
+* PHP >= 5.2.3
+* PHP Curl extension -- Connect to TUNE Management API Service.
+* PHP JSON extension -- TUNE Management API response is JSON.
+* PHPUnit -- Execute SDK tests.
 
 <a id="sdk_install_prereq_ini" name="sdk_install_prereq_ini"></a>
 ##### Prepare `php.ini`
@@ -262,6 +269,27 @@ and you're good to go!
 <img alt="Return to Top" src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/b_top.gif" border="0">
 </a>
 </p>
+
+<!-- SDK Code Samples -->
+
+<a id="sdk_code_samples" name="sdk_code_samples"></a>
+### SDK Code Samples
+
+<a id="sdk_code_samples_examples" name="sdk_code_samples_examples"></a>
+#### Examples
+
+Run the following script to view execution of all examples:
+```
+    $ make examples api_key=[API_KEY]
+```
+
+<a id="sdk_code_samples_unittests" name="sdk_code_samples_unittests"></a>
+#### Unittests
+
+Run the following script to view execution of all unittests:
+```
+    $ make tests api_key=[API_KEY]
+```
 
 <!-- Generated Documentation -->
 

@@ -30,7 +30,7 @@
  * @author    Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-16 15:41:32 $
+ * @version   $Date: 2015-11-17 08:38:37 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -256,7 +256,7 @@ class ExampleAdvertiserReportActuals
 
       $job_id = AdvertiserReportActuals::parseResponseReportJobId($response);
       echo " CSV Job ID: {$job_id}" . PHP_EOL;
-      
+
       echo "==================================================" . PHP_EOL;
       echo " Status Advertiser Report Actuals CSV             " . PHP_EOL;
       echo "==================================================" . PHP_EOL;
