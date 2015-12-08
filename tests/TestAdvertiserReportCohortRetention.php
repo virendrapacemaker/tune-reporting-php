@@ -30,7 +30,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-11-17 08:38:37 $
+ * @version   $Date: 2015-12-08 21:41:07 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -159,6 +159,7 @@ class TestAdvertiserReportCohortRetention extends \PHPUnit_Framework_TestCase
       "end_date"            => $end_date,
       "cohort_type"         => "install",
       "cohort_interval"     => "year_day",
+      "retention_measure"   => "rolling_opens",
       "aggregation_type"    => "cumulative",
       "group"               => "site_id,install_publisher_id",
       "filter"              => "(install_publisher_id > 0)",
@@ -188,6 +189,7 @@ class TestAdvertiserReportCohortRetention extends \PHPUnit_Framework_TestCase
       "end_date"              => $end_date,
       "cohort_type"           => "install",
       "cohort_interval"       => "year_day",
+      "retention_measure"     => "rolling_opens",
       "aggregation_type"      => "cumulative",
       "fields"                => $this->advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
       "group"                 => "site_id,install_publisher_id",
@@ -218,6 +220,7 @@ class TestAdvertiserReportCohortRetention extends \PHPUnit_Framework_TestCase
       "end_date"              => $end_date,
       "cohort_type"           => "install",
       "cohort_interval"       => "year_day",
+      "retention_measure"     => "rolling_opens",
       "aggregation_type"      => "cumulative",
       "fields"                => $this->advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
       "group"                 => "site_id,install_publisher_id",
@@ -253,6 +256,7 @@ class TestAdvertiserReportCohortRetention extends \PHPUnit_Framework_TestCase
         "end_date"              => $end_date,
         "cohort_type"           => "install",
         "cohort_interval"       => "year_day",
+        "retention_measure"     => "rolling_opens",
         "aggregation_type"      => "cumulative",
         "fields"                => $this->advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
         "group"                 => "site_id,install_publisher_id",

@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-11-17 09:18:01 $
+ * @version   $Date: 2015-12-08 21:41:07 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -56,6 +56,17 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         );
 
     /**
+     * @var array Available choices for Retention measures.
+     */
+    private static $retention_measures
+        = array(
+            "rolling_opens",
+            "classic_opens",
+            "classic_events",
+            "classic_purchases"
+        );
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -70,12 +81,20 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
          * Fields recommended in suggested order.
          */
         $this->fields_recommended = array(
-            "site_id"
-           ,"site.name"
-           ,"install_publisher_id"
-           ,"install_publisher.name"
-           ,"installs"
-           ,"rolling_opens"
+            "installs",
+            "classic_purchases",
+            "install_publisher_id",
+            "install_publisher.name",
+            "region_id",
+            "region.name",
+            "site_id",
+            "site.name",
+            "campaign_id",
+            "campaign.name",
+            "country_id",
+            "country.name",
+            "publisher_sub_publisher_id",
+            "publisher_sub_publisher.name"
         );
     }
 
@@ -110,6 +129,8 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
 
         $map_query_string = self::validateCohortType($map_params, $map_query_string);
         $map_query_string = self::validateCohortInterval($map_params, $map_query_string);
+
+        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
 
         if (array_key_exists('aggregation_type', $map_params)) {
             $map_query_string = self::validateAggregationType($map_params, $map_query_string);
@@ -167,6 +188,8 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         $map_query_string = self::validateCohortType($map_params, $map_query_string);
         $map_query_string = self::validateCohortInterval($map_params, $map_query_string);
 
+        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
+
         if (array_key_exists('aggregation_type', $map_params)) {
             $map_query_string = self::validateAggregationType($map_params, $map_query_string);
         }
@@ -219,6 +242,8 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
      * <dt>cohort_type</dt><dd>Cohort types: click, install</dd>
      * <dt>cohort_interval</dt><dd>Cohort intervals:
      *                        year_day, year_week, year_month, year</dd>
+     * <dt>retention_measure</dt><dd>Retention measure:
+     *                        year_day, year_week, year_month, year</dd>
      * <dt>aggregation_type</dt> <dd>Aggregation types:
      *                        cumulative, incremental.</dd>
      * <dt>fields</dt><dd>Present results using this endpoint's fields.</dd>
@@ -245,6 +270,8 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
 
         $map_query_string = self::validateCohortType($map_params, $map_query_string);
         $map_query_string = self::validateCohortInterval($map_params, $map_query_string);
+
+        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
 
         if (array_key_exists('aggregation_type', $map_params)) {
             $map_query_string = self::validateAggregationType($map_params, $map_query_string);
@@ -302,9 +329,9 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         );
     }
 
-
     /**
-     * @param $cohort_type
+     * @param $map_params
+     * @param $map_query_string
      *
      * @throws InvalidArgumentException
      */
@@ -330,6 +357,46 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         }
 
         $map_query_string['cohort_type'] = $cohort_type;
+        return $map_query_string;
+    }
+
+    /**
+     * @param $map_params
+     * @param $map_query_string
+     *
+     * @throws InvalidArgumentException
+     */
+    protected static function validateRetentionMeasure($map_params, $map_query_string)
+    {
+        if (!array_key_exists('retention_measure', $map_params)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'retention_measure' is not defined.");
+        }
+
+        $retention_measure = $map_params['retention_measure'];
+
+        if (is_null($retention_measure)
+            || !is_string($retention_measure)
+            || empty($retention_measure)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'retention_measure' is not defined.");
+        }
+
+        if (!in_array($retention_measure, self::$retention_measures)
+        ) {
+            throw new \InvalidArgumentException("Parameter 'retention_measure' is invalid: '{$retention_measure}'.");
+        }
+
+        if (array_key_exists('fields', $map_query_string)) {
+            $fields = $map_query_string['fields'];
+            if ($fields && is_string($fields) && !empty($fields)) {
+                $fields = "{$fields},{$retention_measure}";
+            }
+        } else {
+            $fields = "{$retention_measure}";
+        }
+
+        $map_query_string['fields'] = $fields;
         return $map_query_string;
     }
 }

@@ -30,7 +30,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-04-16 15:41:32 $
+ * @version   $Date: 2015-12-08 21:41:07 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -38,7 +38,6 @@
 require_once dirname(__FILE__) . "/../src/TuneReporting.php";
 
 use TuneReporting\Api\AdvertiserReportCohortValues;
-use TuneReporting\Api\Export;
 use TuneReporting\Helpers\ReportReaderCSV;
 use TuneReporting\Helpers\ReportReaderJSON;
 use TuneReporting\Helpers\SdkConfig;
@@ -93,7 +92,7 @@ class ExampleAdvertiserReportCohortValues
     $default_date_timezone = ini_get('date.timezone');
     if (is_string($default_date_timezone) && !empty($default_date_timezone)) {
       echo "========================================================" . PHP_EOL;
-      echo " Default timezone used: '{$default_date_timezone}'.   " . PHP_EOL;
+      echo " Default timezone used: '{$default_date_timezone}'.     " . PHP_EOL;
       echo "========================================================" . PHP_EOL;
     } else {
       throw new \RuntimeException(
@@ -116,7 +115,7 @@ class ExampleAdvertiserReportCohortValues
       $advertiser_report = new AdvertiserReportCohortValues();
 
       echo "========================================================" . PHP_EOL;
-      echo " Fields of Advertiser Report Cohort Value: Default.   " . PHP_EOL;
+      echo " Fields of Advertiser Report Cohort Value: Default.     " . PHP_EOL;
       echo "========================================================" . PHP_EOL;
       $response = $advertiser_report->getFields(AdvertiserReportCohortValues::TUNE_FIELDS_DEFAULT);
       echo print_r($response, true) . PHP_EOL;
@@ -262,7 +261,7 @@ class ExampleAdvertiserReportCohortValues
       echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
       echo "========================================================" . PHP_EOL;
-      echo " Fetching Advertiser Report Cohort Value CSV           " . PHP_EOL;
+      echo " Fetching Advertiser Report Cohort Value CSV            " . PHP_EOL;
       echo "========================================================" . PHP_EOL;
 
       $response = $advertiser_report->fetch(
@@ -274,7 +273,7 @@ class ExampleAdvertiserReportCohortValues
       echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
       echo "========================================================" . PHP_EOL;
-      echo " Read Advertiser Report Cohort Value CSV             " . PHP_EOL;
+      echo " Read Advertiser Report Cohort Value CSV                " . PHP_EOL;
       echo "========================================================" . PHP_EOL;
 
       $csv_report_reader = new ReportReaderCSV(
@@ -285,7 +284,7 @@ class ExampleAdvertiserReportCohortValues
       $csv_report_reader->prettyPrint($limit = 5);
 
       echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
-      echo "\033[32m" . " End Example        " . "\033[0m" . PHP_EOL;
+      echo "\033[32m" . " End Example              " . "\033[0m" . PHP_EOL;
       echo "\033[32m" . "==========================" . "\033[0m" . PHP_EOL;
       echo PHP_EOL;
 

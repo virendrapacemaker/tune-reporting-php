@@ -3,7 +3,7 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-12-08 18:07:31 $</h4>
+<h4>Update:  $Date: 2015-12-08 21:41:07 $</h4>
 <h4>Version: 1.0.4</h4>
 ===
 
@@ -315,7 +315,7 @@ The following will generate <a href="http://en.wikipedia.org/wiki/Doxygen" title
 This code documentation generation requires installation of [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html).
 
 ```bash
-    $ make docs-doxygen
+    make docs-doxygen
 ```
 
 <a id="sdk_gendoc_phpdoc" name="sdk_gen_doc_phpdoc"></a>
@@ -326,7 +326,7 @@ The following will generate <a href="http://en.wikipedia.org/wiki/PhpDocumentor"
 This code documentation generation requires installation of [phpDocumentatior](http://www.phpdoc.org/).
 
 ```bash
-    $ make docs-phpdoc
+    make docs-phpdoc
 ```
 
 <p>
