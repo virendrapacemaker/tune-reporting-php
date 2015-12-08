@@ -1,7 +1,9 @@
+[![Build Status](https://sea1-jenkins01.sea1.office.priv/view/TUNE%20Reporting%20SDKs/job/TUNE%20Reporting%20SDK%20for%20PHP%20Tests/badge/icon)](https://sea1-jenkins01.sea1.office.priv/view/TUNE%20Reporting%20SDKs/job/TUNE%20Reporting%20SDK%20for%20PHP%20Tests/)
+
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-12-08 17:45:36 $</h4>
+<h4>Update:  $Date: 2015-12-08 18:07:31 $</h4>
 <h4>Version: 1.0.4</h4>
 ===
 
