@@ -1,8 +1,8 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-11-17 09:37:51 $</h4>
-<h4>Version: 1.0.3</h4>
+<h4>Update:  $Date: 2015-12-08 17:45:36 $</h4>
+<h4>Version: 1.0.4</h4>
 ===
 
 <a id="TOP"></a>
@@ -88,8 +88,6 @@ Supported programming languages for TUNE Reporting SDKs are:
     <li><b>Python</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-python" target="_blank">tune-reporting-python</a></li>
     <li><b>Java</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-java" target="_blank">tune-reporting-java</a></li>
     <li><b>Node.js</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-node" target="_blank">tune-reporting-node</a></li>
-    <li><b>Go</b>: Coming soon</li>
-    <li><b>C#</b>: Coming soon</li>
 </ul>
 
 <a id="sdk_overview_mobile" name="sdk_overview_mobile"></a>
@@ -297,6 +295,7 @@ Run the following script to view execution of all unittests:
 ### SDK Generated Documentation
 
 SDK code is well commented and to see full documentation of its source using the provided Makefile commands that initiate code documentation generators.
+
 <a id="sdk_gendoc_doxygen" name="sdk_gen_doc_doxygen"></a>
 #### Doxygen
 
@@ -315,9 +314,9 @@ The following will generate <a href="http://en.wikipedia.org/wiki/PhpDocumentor"
 
 This code documentation generation requires installation of [phpDocumentatior](http://www.phpdoc.org/).
 
-<pre lang="bash">
+```bash
     $ make docs-phpdoc
-</pre>
+```
 
 <p>
 <a href="#TOP">
@@ -365,7 +364,7 @@ The Cohort report analyzes user behavior back to click date time (Cohort by Clic
 
 Advertiser Reporting class that perform Cohort Reports is:
 <ul>
-    <li><code>AdvertiserReportCohortValue</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
+    <li><code>AdvertiserReportCohortValues</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
 </ul>
 </dd>
 <dt>Retention Report</dt>
@@ -389,4 +388,8 @@ Advertiser Reporting class that perform Retention Reports are:
 <a id="sdk_issues" name="sdk_issues"></a>
 ### Reporting Issues
 
-Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-reporting-php/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).
+Report issues using the *Github Issue Tracker*:
+[https://github.com/MobileAppTracking/tune-reporting-php/issues](https://github.com/MobileAppTracking/tune-reporting-php/issues)
+
+or *Email*:
+[sdk@tune.com](mailto:sdk@tune.com)

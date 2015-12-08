@@ -95,7 +95,7 @@ class TuneReportingExamples
 
       ExampleTuneServiceClient::run($session_token, 'session_token');
       ExampleAdvertiserReportActuals::run($session_token, 'session_token');
-      ExampleAdvertiserReportCohortValue::run($session_token, 'session_token');
+      ExampleAdvertiserReportCohortValues::run($session_token, 'session_token');
       ExampleAdvertiserReportCohortRetention::run($session_token, 'session_token');
       ExampleAdvertiserReportLogClicks::run($session_token, 'session_token');
       ExampleAdvertiserReportLogEventItems::run($session_token, 'session_token');

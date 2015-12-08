@@ -56,7 +56,7 @@ tests-install:
 	sudo pear upgrade PHP_CodeSniffer
 	sudo pear upgrade phpdoc/phpDocumentor
 
-analysis:
+phpcs:
 	phpcs --error-severity=1 --warning-severity=1 --tab-width=4 --standard=PSR2 ./src
 
 examples:
