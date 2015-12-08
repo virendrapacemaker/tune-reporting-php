@@ -277,16 +277,25 @@ and you're good to go!
 #### Examples
 
 Run the following script to view execution of all examples:
-```
-    $ make examples api_key=[API_KEY]
+
+```bash
+    make examples api_key=[API_KEY]
 ```
 
 <a id="sdk_code_samples_unittests" name="sdk_code_samples_unittests"></a>
 #### Unittests
 
 Run the following script to view execution of all unittests:
-```
-    $ make tests api_key=[API_KEY]
+
+```bash
+    rm -f composer.phar
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
+    phpunit --version
+    cd tests
+    export API_KEY=demoadv
+    phpunit --strict --stop-on-failure --configuration phpunit.xml
+    cd ..
 ```
 
 <!-- Generated Documentation -->

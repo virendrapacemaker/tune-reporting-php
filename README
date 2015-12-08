@@ -108,8 +108,9 @@ SDK Examples
 -------------
 
 Run the following script to view execution of all examples:
+
 ```
-    $ make examples api_key=[API_KEY]
+    make examples api_key=[API_KEY]
 ```
 
 -------------
@@ -117,13 +118,21 @@ SDK Unittests
 -------------
 
 Run the following script to view execution of all unittests:
-```
-    $ make tests api_key=[API_KEY]
+
+```bash
+    rm -f composer.phar
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
+    phpunit --version
+    cd tests
+    export API_KEY=demoadv
+    phpunit --strict --stop-on-failure --configuration phpunit.xml
+    cd ..
 ```
 
-----------------------------
+===========================
 SDK Generated Documentation
-----------------------------
+===========================
 
 SDK code is well commented and to see full documentation of its source using the provided Makefile commands that initiate code documentation generators.
 
@@ -139,7 +148,7 @@ This code documentation generation requires installation of Doxygen:
 http://www.stack.nl/~dimitri/doxygen/index.html.
 
 ```
-    $ make docs-doxygen
+    make docs-doxygen
 ```
 
 ----------------------------------
@@ -153,14 +162,8 @@ This code documentation generation requires installation of phpDocumentatior:
 http://www.phpdoc.org/
 
 ```
-    $ make docs-phpdoc
+    make docs-phpdoc
 ```
-
-<p>
-<a href="#TOP">
-<img alt="Return to Top" src="https://raw.githubusercontent.com/MobileAppTracking/tune-reporting-php/master/docs/images/b_top.gif" border="0">
-</a>
-</p>
 
 =============
 License
