@@ -30,7 +30,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-12-08 21:41:07 $
+ * @version   $Date: 2015-12-09 00:53:16 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -136,7 +136,7 @@ class ExampleAdvertiserReportCohortRetention
         "cohort_type"         => "install",
         "cohort_interval"     => "year_day",
         "retention_measure"   => "rolling_opens",
-        "group"               => "install_publisher_id",
+        "group"               => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"              => "(install_publisher_id > 0)",
         "response_timezone"   => "America/Los_Angeles"
       );
@@ -170,7 +170,7 @@ class ExampleAdvertiserReportCohortRetention
         "cohort_interval"       => "year_day",
         "retention_measure"     => "rolling_opens",
         "fields"                => $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
-        "group"                 => "install_publisher_id",
+        "group"                 => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"                => "(install_publisher_id > 0)",
         "limit"                 => 5,
         "page"                  => null,
@@ -202,7 +202,7 @@ class ExampleAdvertiserReportCohortRetention
         "cohort_interval"       => "year_day",
         "retention_measure"     => "rolling_opens",
         "fields"                => $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
-        "group"                 => "install_publisher_id",
+        "group"                 => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"                => "(install_publisher_id > 0)",
         "response_timezone"     => "America/Los_Angeles"
       );
