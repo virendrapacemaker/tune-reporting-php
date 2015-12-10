@@ -3,7 +3,7 @@
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-12-10 02:44:09 $</h4>
+<h4>Update:  $Date: 2015-12-10 16:28:08 $</h4>
 <h4>Version: 1.0.4</h4>
 ===
 
@@ -296,7 +296,7 @@ Run the following script to view execution of all unittests:
     phpunit --version
     cd tests
     export API_KEY=demoadv
-    phpunit --strict --stop-on-failure --configuration phpunit.xml --testsuite tune-reporting-php
+    phpunit --strict --stop-on-failure --configuration phpunit.xml --testsuite tune-reporting-php --tap
     cd ..
 ```
 

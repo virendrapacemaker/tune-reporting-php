@@ -152,3 +152,10 @@ Version 1.0.0
 --------------
 
 First production release on April 09, 2015
+
+
+Version 1.0.4
+--------------
+
+Modification of TUNE Reporting endpoint /advertiser/stats/retention.
+AdvertiserReportCohortRetention has new parameter retention_measure.
