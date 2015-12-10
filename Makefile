@@ -26,7 +26,7 @@
 # author    Jeff Tanner <jefft@tune.com>
 # copyright 2015 TUNE (http://www.tune.com)
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# version   $Date: 2015-01-05 14:24:08 $
+# version   $Date: 2015-12-10 02:44:09 $
 # link      https://developers.mobileapptracking.com/tune-reporting-sdks
 #
 
@@ -66,7 +66,7 @@ examples:
 # tests-install"
 tests:
 	@printenv | grep API_KEY
-	@PATH=vendor/bin:$(PATH) phpunit --strict --stop-on-failure --colors --configuration ./tests/phpunit.xml
+	@PATH=vendor/bin:$(PATH) phpunit --strict --stop-on-failure --colors --configuration ./tests/phpunit.xml --testsuite tune-reporting-php
 
 docs-doxygen:
 	sudo rm -fR ./docs/doxygen/*

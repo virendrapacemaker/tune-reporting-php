@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-12-08 21:41:07 $
+ * @version   $Date: 2015-12-10 02:44:09 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -188,8 +188,6 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         $map_query_string = self::validateCohortType($map_params, $map_query_string);
         $map_query_string = self::validateCohortInterval($map_params, $map_query_string);
 
-        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
-
         if (array_key_exists('aggregation_type', $map_params)) {
             $map_query_string = self::validateAggregationType($map_params, $map_query_string);
         }
@@ -199,6 +197,8 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         if (array_key_exists('fields', $map_params) && !is_null($map_params['fields'])) {
             $map_query_string = $this->validateFields($map_params, $map_query_string);
         }
+
+        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
 
         if (array_key_exists('filter', $map_params) && !is_null($map_params['filter'])) {
             $map_query_string = $this->validateFilter($map_params, $map_query_string);
@@ -271,8 +271,6 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         $map_query_string = self::validateCohortType($map_params, $map_query_string);
         $map_query_string = self::validateCohortInterval($map_params, $map_query_string);
 
-        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
-
         if (array_key_exists('aggregation_type', $map_params)) {
             $map_query_string = self::validateAggregationType($map_params, $map_query_string);
         }
@@ -282,9 +280,12 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
         if (!array_key_exists('fields', $map_params) || is_null($map_params['fields'])) {
             $map_params['fields'] = $this->getFields(self::TUNE_FIELDS_DEFAULT);
         }
+
         if (array_key_exists('fields', $map_params)) {
             $map_query_string = $this->validateFields($map_params, $map_query_string);
         }
+
+        $map_query_string = self::validateRetentionMeasure($map_params, $map_query_string);
 
         if (array_key_exists('filter', $map_params) && !is_null($map_params['filter'])) {
             $map_query_string = $this->validateFilter($map_params, $map_query_string);
