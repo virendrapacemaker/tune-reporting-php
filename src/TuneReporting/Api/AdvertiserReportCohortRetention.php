@@ -82,7 +82,6 @@ class AdvertiserReportCohortRetention extends AdvertiserReportCohortBase
          */
         $this->fields_recommended = array(
             "installs",
-            "classic_purchases",
             "install_publisher_id",
             "install_publisher.name",
             "region_id",
