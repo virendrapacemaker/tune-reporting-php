@@ -3,9 +3,9 @@
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
-        timeoutForSmallTests="10"
-        timeoutForMediumTests="60"
-        timeoutForLargeTests="120"
+        timeoutForSmallTests="240"
+        timeoutForMediumTests="240"
+        timeoutForLargeTests="240"
         stopOnFailure="false">
 
     <filter>
@@ -14,7 +14,7 @@
     </filter>
 
     <testsuites>
-        <testsuite name="lib">
+        <testsuite name="tune-reporting-php">
             <file>TestTuneManagementClient.php</file>
             <file>TestAdvertiserReportLogClicks.php</file>
             <file>TestAdvertiserReportLogEventItems.php</file>

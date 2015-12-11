@@ -1,8 +1,10 @@
+[![Build Status](https://sea1-jenkins01.sea1.office.priv/view/TUNE%20Reporting%20SDKs/job/TUNE%20Reporting%20SDK%20for%20PHP%20Tests/badge/icon)](https://sea1-jenkins01.sea1.office.priv/view/TUNE%20Reporting%20SDKs/job/TUNE%20Reporting%20SDK%20for%20PHP%20Tests/)
+
 <h2>tune-reporting-php</h2>
 <h2>TUNE Reporting SDK for PHP 5.3</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update:  $Date: 2015-11-17 09:37:51 $</h4>
-<h4>Version: 1.0.3</h4>
+<h4>Update:  $Date: 2015-12-10 16:28:08 $</h4>
+<h4>Version: 1.0.4</h4>
 ===
 
 <a id="TOP"></a>
@@ -88,8 +90,6 @@ Supported programming languages for TUNE Reporting SDKs are:
     <li><b>Python</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-python" target="_blank">tune-reporting-python</a></li>
     <li><b>Java</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-java" target="_blank">tune-reporting-java</a></li>
     <li><b>Node.js</b>: <a href="https://github.com/MobileAppTracking/tune-reporting-node" target="_blank">tune-reporting-node</a></li>
-    <li><b>Go</b>: Coming soon</li>
-    <li><b>C#</b>: Coming soon</li>
 </ul>
 
 <a id="sdk_overview_mobile" name="sdk_overview_mobile"></a>
@@ -279,16 +279,25 @@ and you're good to go!
 #### Examples
 
 Run the following script to view execution of all examples:
-```
-    $ make examples api_key=[API_KEY]
+
+```bash
+    make examples api_key=[API_KEY]
 ```
 
 <a id="sdk_code_samples_unittests" name="sdk_code_samples_unittests"></a>
 #### Unittests
 
 Run the following script to view execution of all unittests:
-```
-    $ make tests api_key=[API_KEY]
+
+```bash
+    rm -f composer.phar
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
+    phpunit --version
+    cd tests
+    export API_KEY=demoadv
+    phpunit --strict --stop-on-failure --configuration phpunit.xml --testsuite tune-reporting-php --tap
+    cd ..
 ```
 
 <!-- Generated Documentation -->
@@ -297,6 +306,7 @@ Run the following script to view execution of all unittests:
 ### SDK Generated Documentation
 
 SDK code is well commented and to see full documentation of its source using the provided Makefile commands that initiate code documentation generators.
+
 <a id="sdk_gendoc_doxygen" name="sdk_gen_doc_doxygen"></a>
 #### Doxygen
 
@@ -305,7 +315,7 @@ The following will generate <a href="http://en.wikipedia.org/wiki/Doxygen" title
 This code documentation generation requires installation of [Doxygen](http://www.stack.nl/~dimitri/doxygen/index.html).
 
 ```bash
-    $ make docs-doxygen
+    make docs-doxygen
 ```
 
 <a id="sdk_gendoc_phpdoc" name="sdk_gen_doc_phpdoc"></a>
@@ -315,9 +325,9 @@ The following will generate <a href="http://en.wikipedia.org/wiki/PhpDocumentor"
 
 This code documentation generation requires installation of [phpDocumentatior](http://www.phpdoc.org/).
 
-<pre lang="bash">
-    $ make docs-phpdoc
-</pre>
+```bash
+    make docs-phpdoc
+```
 
 <p>
 <a href="#TOP">
@@ -365,7 +375,7 @@ The Cohort report analyzes user behavior back to click date time (Cohort by Clic
 
 Advertiser Reporting class that perform Cohort Reports is:
 <ul>
-    <li><code>AdvertiserReportCohortValue</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
+    <li><code>AdvertiserReportCohortValues</code>: <a href="http://developers.mobileapptracking.com/management-api/explorer/root/endpoint/#/advertiser__stats__ltv">/advertiser/stats/ltv</a></li>
 </ul>
 </dd>
 <dt>Retention Report</dt>
@@ -389,4 +399,8 @@ Advertiser Reporting class that perform Retention Reports are:
 <a id="sdk_issues" name="sdk_issues"></a>
 ### Reporting Issues
 
-Report issues using the [Github Issue Tracker](https://github.com/MobileAppTracking/tune-reporting-php/issues) or Email [sdk@tune.com](mailto:sdk@tune.com).
+Report issues using the *Github Issue Tracker*:
+[https://github.com/MobileAppTracking/tune-reporting-php/issues](https://github.com/MobileAppTracking/tune-reporting-php/issues)
+
+or *Email*:
+[sdk@tune.com](mailto:sdk@tune.com)

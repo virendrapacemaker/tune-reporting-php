@@ -31,7 +31,7 @@
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @package   tune_reporting_api
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-11-17 09:18:01 $
+ * @version   $Date: 2015-12-08 21:41:07 $
  * @link      https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -47,28 +47,36 @@ use TuneReporting\Helpers\TuneServiceException;
  * Provides status of report export request, and upon completion provides
  * download url.
  */
-class SessionAuthenticate extends EndpointBase
+class Export extends EndpointBase
 {
     /**
      * Constructor
      *
      * @param string $api_key MobileAppTracking API Key
      */
-    public function __construct()
-    {
+    public function __construct(
+        $api_key
+    ) {
+        // api key
+        if (!is_string($api_key) || empty($api_key)) {
+            throw new \InvalidArgumentException("Parameter 'api_key' is not defined.");
+        }
+
         parent::__construct(
-            "export"
+            "export",
+            $api_key,
+            $validate_fields = false
         );
     }
 
     /**
-     * No recommended fields assigned to this endpoint.
+     * Recommended fields for this endpoint.
      *
-     * @return null
+     * @return array
      */
     public function getFieldsRecommended()
     {
-        return null;
+        return array();
     }
 
     /**
@@ -88,7 +96,7 @@ class SessionAuthenticate extends EndpointBase
 
         return parent::call(
             $action = "download",
-            $map_query_string = array (
+            $query_string_dict = array (
                 'job_id' => $job_id
             )
         );
@@ -97,9 +105,9 @@ class SessionAuthenticate extends EndpointBase
     /**
      * Helper function for fetching report upon completion.
      *
-     * @param string $job_id    Job identifier assigned for report export.
-     * @param bool   $verbose     For debug purposes to monitor job export completion status.
-     * @param int  $sleep     Polling delay for checking job completion status.
+     * @param string $job_id        Job identifier assigned for report export.
+     * @param bool   $verbose       For debug purposes to monitor job export completion status.
+     * @param int    $sleep         Polling delay for checking job completion status.
      *
      * @return null
      */

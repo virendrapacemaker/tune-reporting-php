@@ -30,7 +30,7 @@
  * @author  Jeff Tanner <jefft@tune.com>
  * @copyright 2015 TUNE, Inc. (http://www.tune.com)
  * @license   http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version   $Date: 2015-11-17 08:38:37 $
+ * @version   $Date: 2015-12-09 00:53:16 $
  * @link    https://developers.mobileapptracking.com/tune-reporting-sdks @endlink
  *
  */
@@ -102,9 +102,9 @@ class ExampleAdvertiserReportCohortRetention
       );
     }
 
-    echo "\033[34m" . "=======================================================" . "\033[0m" . PHP_EOL;
-    echo "\033[34m" . " Begin TUNE Advertiser Report Cohort Retention " . "\033[0m" . PHP_EOL;
-    echo "\033[34m" . "=======================================================" . "\033[0m" . PHP_EOL;
+    echo "\033[34m" . "=================================================" . "\033[0m" . PHP_EOL;
+    echo "\033[34m" . " Begin TUNE Advertiser Report Cohort Retention   " . "\033[0m" . PHP_EOL;
+    echo "\033[34m" . "=================================================" . "\033[0m" . PHP_EOL;
 
     try {
       $week_ago     = date('Y-m-d', strtotime("-8 days"));
@@ -114,20 +114,20 @@ class ExampleAdvertiserReportCohortRetention
 
       $advertiser_report = new AdvertiserReportCohortRetention();
 
-      echo "==============================================================" . PHP_EOL;
-      echo " Fields of Advertiser Report Cohort Retention Default   " . PHP_EOL;
-      echo "==============================================================" . PHP_EOL;
+      echo "===========================================================" . PHP_EOL;
+      echo " Fields of Advertiser Report Cohort Retention Default      " . PHP_EOL;
+      echo "===========================================================" . PHP_EOL;
       $response = $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_DEFAULT);
       echo print_r($response, true) . PHP_EOL;
 
-      echo "==================================================================" . PHP_EOL;
-      echo " Fields of Advertiser Report Cohort Retention Recommended " . PHP_EOL;
-      echo "==================================================================" . PHP_EOL;
+      echo "===========================================================" . PHP_EOL;
+      echo " Fields of Advertiser Report Cohort Retention Recommended  " . PHP_EOL;
+      echo "===========================================================" . PHP_EOL;
       $response = $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED);
       echo print_r($response, true) . PHP_EOL;
 
       echo "===========================================================" . PHP_EOL;
-      echo " Count Advertiser Report Cohort Retention records. " . PHP_EOL;
+      echo " Count Advertiser Report Cohort Retention records.         " . PHP_EOL;
       echo "===========================================================" . PHP_EOL;
 
       $map_params = array (
@@ -135,7 +135,8 @@ class ExampleAdvertiserReportCohortRetention
         "end_date"            => $end_date,
         "cohort_type"         => "install",
         "cohort_interval"     => "year_day",
-        "group"               => "install_publisher_id",
+        "retention_measure"   => "rolling_opens",
+        "group"               => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"              => "(install_publisher_id > 0)",
         "response_timezone"   => "America/Los_Angeles"
       );
@@ -159,7 +160,7 @@ class ExampleAdvertiserReportCohortRetention
       echo " Count:" . $response->getData() . PHP_EOL;
 
       echo "===========================================================" . PHP_EOL;
-      echo " Find Advertiser Report Cohort Retention records.  " . PHP_EOL;
+      echo " Find Advertiser Report Cohort Retention records.          " . PHP_EOL;
       echo "===========================================================" . PHP_EOL;
 
       $map_params = array (
@@ -167,8 +168,9 @@ class ExampleAdvertiserReportCohortRetention
         "end_date"              => $end_date,
         "cohort_type"           => "install",
         "cohort_interval"       => "year_day",
+        "retention_measure"     => "rolling_opens",
         "fields"                => $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
-        "group"                 => "install_publisher_id",
+        "group"                 => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"                => "(install_publisher_id > 0)",
         "limit"                 => 5,
         "page"                  => null,
@@ -190,7 +192,7 @@ class ExampleAdvertiserReportCohortRetention
       echo $response->toString() . PHP_EOL;
 
       echo "===========================================================" . PHP_EOL;
-      echo " Export Advertiser Report Cohort Retention CSV     " . PHP_EOL;
+      echo " Export Advertiser Report Cohort Retention CSV             " . PHP_EOL;
       echo "===========================================================" . PHP_EOL;
 
       $map_params = array (
@@ -198,8 +200,9 @@ class ExampleAdvertiserReportCohortRetention
         "end_date"              => $end_date,
         "cohort_type"           => "install",
         "cohort_interval"       => "year_day",
+        "retention_measure"     => "rolling_opens",
         "fields"                => $advertiser_report->getFields(AdvertiserReportCohortRetention::TUNE_FIELDS_RECOMMENDED),
-        "group"                 => "install_publisher_id",
+        "group"                 => "install_publisher_id,region_id,site_id,campaign_id,publisher_sub_publisher_id",
         "filter"                => "(install_publisher_id > 0)",
         "response_timezone"     => "America/Los_Angeles"
       );
@@ -224,7 +227,7 @@ class ExampleAdvertiserReportCohortRetention
       echo " CSV Job ID: {$job_id}" . PHP_EOL;
 
       echo "===========================================================" . PHP_EOL;
-      echo " Fetching Advertiser Report Cohort Retention CSV   " . PHP_EOL;
+      echo " Fetching Advertiser Report Cohort Retention CSV           " . PHP_EOL;
       echo "===========================================================" . PHP_EOL;
 
       $response = $advertiser_report->fetch(
@@ -236,7 +239,7 @@ class ExampleAdvertiserReportCohortRetention
       echo " CSV Report URL: {$report_url}" . PHP_EOL;
 
       echo "===========================================================" . PHP_EOL;
-      echo " Read Advertiser Report Cohort Retention CSV       " . PHP_EOL;
+      echo " Read Advertiser Report Cohort Retention CSV               " . PHP_EOL;
       echo "===========================================================" . PHP_EOL;
 
       $csv_report_reader = new ReportReaderCSV(
